@@ -36,9 +36,9 @@
     .table-hover tbody tr:hover { background-color: #f0f9ff; }
     /* Back to top button */
     #backToTop{
-    position: fixed; bottom: 24px; right: 24px; display: none;
-    border: 0; width: 44px; height: 44px; border-radius: 50%;
-    background: var(--brand); color: #fff; box-shadow: 0 10px 24px rgba(2,6,23,.18);
+      position: fixed; bottom: 24px; right: 24px; display: none;
+      border: 0; width: 44px; height: 44px; border-radius: 50%;
+      background: var(--brand); color: #fff; box-shadow: 0 10px 24px rgba(2,6,23,.18);
     }
     #backToTop:hover{ background:#0b6ba6; }
 
@@ -51,27 +51,38 @@
     .social a{ color:var(--ink); }
     .social a:hover{ color:var(--brand); }
 
+    /* Language toggle button */
+    .lang-toggle{
+      position: fixed; top: 10px; left: 10px; z-index: 2000;
+      background:#fff; color: var(--brand); border:1px solid var(--brand);
+      padding: 4px 10px; border-radius: 8px; font-weight: 600; cursor: pointer;
+    }
+    .lang-toggle:hover{ background: var(--brand); color: #fff; }
+
     /* Respect reduced motion preferences */
     @media (prefers-reduced-motion: reduce){
-    .research-card:hover{ transform:none; box-shadow:0 6px 16px rgba(0,0,0,0.05); }
-    html{ scroll-behavior: auto; }
+      .research-card:hover{ transform:none; box-shadow:0 6px 16px rgba(0,0,0,0.05); }
+      html{ scroll-behavior: auto; }
     }
   </style>
 </head>
 <body>
+  <!-- Language toggle (defaults to English; click to switch to 中文) -->
+  <button id="langToggle" class="lang-toggle" aria-label="Switch language">中文</button>
+
   <nav id="navbar" class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#home">Maohua Nie</a>
+      <a class="navbar-brand" href="#home" data-zh="聂茂华">Maohua Nie</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="#research">Research</a></li>
-          <li class="nav-item"><a class="nav-link" href="#publications">Publications</a></li>
-          <li class="nav-item"><a class="nav-link" href="#teaching">Teaching</a></li>
-          <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
-          <li class="nav-item"><a class="nav-link" href="#peerreview">Review</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about" data-zh="简介">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#research" data-zh="研究方向">Research</a></li>
+          <li class="nav-item"><a class="nav-link" href="#publications" data-zh="发表成果">Publications</a></li>
+          <li class="nav-item"><a class="nav-link" href="#teaching" data-zh="教学">Teaching</a></li>
+          <li class="nav-item"><a class="nav-link" href="#education" data-zh="教育经历">Education</a></li>
+          <li class="nav-item"><a class="nav-link" href="#peerreview" data-zh="审稿服务">Review</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact" data-zh="联系">Contact</a></li>
         </ul>
       </div>
     </div>
@@ -79,9 +90,9 @@
 
   <header id="home" class="hero">
     <div class="container py-5 text-center">
-      <h1>Maohua Nie</h1>
-      <h2>PhD Student · Economic Psychology Group · University of Basel</h2>
-      <p class="small text-light">Decision Making · Behavioral Science · Cognitive Modeling</p>
+      <h1 data-zh="聂茂华">Maohua Nie</h1>
+      <h2 data-zh="PhD Student · 经济心理学组 · 巴塞尔大学">PhD Student · Economic Psychology Group · University of Basel</h2>
+      <p class="small text-light" data-zh="决策 · 行为科学 · 认知建模">Decision Making · Behavioral Science · Cognitive Modeling</p>
     </div>
   </header>
 
@@ -94,26 +105,30 @@
           </div>
           <div class="col-md-8">
             <div class="about-card">
-              <h2>About Me</h2>
-              <p class="lead mb-2">I study human decision making, focusing broadly on how people evaluate, compare, and choose between different types of options.</p>
-              <p class="mb-2">My research draws on theories and methods from <strong>behavioral economics</strong>, <strong>cognitive psychology</strong>, and <strong>computational modeling</strong> to understand how judgments and choices emerge from underlying cognitive processes.</p>
-              <p class="mb-0">I am currently a PhD student in the <strong>Economic Psychology Group</strong> at the University of Basel, supervised by Prof. Jörg Rieskamp.</p>
+              <h2 data-zh="关于我">About Me</h2>
+              <p class="lead mb-2"
+                 data-zh="我研究人类决策，关注人们如何评估、比较，并在不同类型的选项之间做出选择。">I study human decision making, focusing broadly on how people evaluate, compare, and choose between different types of options.</p>
+              <p class="mb-2"
+                 data-zh="我的研究结合<strong>行为经济学</strong>、<strong>认知心理学</strong>与<strong>计算建模</strong>的理论与方法，以理解决策与判断如何由潜在的认知过程产生。">My research draws on theories and methods from <strong>behavioral economics</strong>, <strong>cognitive psychology</strong>, and <strong>computational modeling</strong> to understand how judgments and choices emerge from underlying cognitive processes.</p>
+              <p class="mb-0"
+                 data-zh="我目前在巴塞尔大学<strong>经济心理学组</strong>攻读博士，导师为 Jörg Rieskamp 教授。">I am currently a PhD student in the <strong>Economic Psychology Group</strong> at the University of Basel, supervised by Prof. Jörg Rieskamp.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-        <section id="research">
+    <section id="research">
       <div class="container">
-        <h2 class="text-center mb-5">Research Interests</h2>
+        <h2 class="text-center mb-5" data-zh="研究兴趣">Research Interests</h2>
 
         <div class="research-card">
           <div class="d-flex align-items-start mb-3">
             <div class="icon-circle"><i class="fa-solid fa-scale-balanced"></i></div>
             <div>
-              <h5 class="mb-1">Decision Making under Risk and Uncertainty</h5>
-              <p class="mb-0">Exploring how factors such as gain and loss domains, choice complexity, ambiguity, and difference between decision from description or/and experience shape people’s preferences and choices.</p>
+              <h5 class="mb-1" data-zh="风险与不确定性下的决策">Decision Making under Risk and Uncertainty</h5>
+              <p class="mb-0"
+                 data-zh="探讨收益与损失域、选择复杂性、模糊性，以及基于描述与/或经验的决策差异等因素如何影响人们的偏好与选择。">Exploring how factors such as gain and loss domains, choice complexity, ambiguity, and difference between decision from description or/and experience shape people’s preferences and choices.</p>
             </div>
           </div>
         </div>
@@ -122,8 +137,9 @@
           <div class="d-flex align-items-start mb-3">
             <div class="icon-circle"><i class="fa-solid fa-eye"></i></div>
             <div>
-              <h5 class="mb-1">Process-Level Analysis of Decisions</h5>
-              <p class="mb-0">Investigating not only choice outcomes but also response times and eye-tracking data to better understand how decisions evolve over time and reflect underlying cognitive mechanisms.</p>
+              <h5 class="mb-1" data-zh="决策的过程层面分析">Process-Level Analysis of Decisions</h5>
+              <p class="mb-0"
+                 data-zh="不仅关注选择结果，也分析反应时与眼动数据，以更好地理解决策如何随时间演化并反映潜在的认知机制。">Investigating not only choice outcomes but also response times and eye-tracking data to better understand how decisions evolve over time and reflect underlying cognitive mechanisms.</p>
             </div>
           </div>
         </div>
@@ -132,8 +148,9 @@
           <div class="d-flex align-items-start mb-3">
             <div class="icon-circle"><i class="fa-solid fa-brain"></i></div>
             <div>
-              <h5 class="mb-1">Quantitative and Computational Approaches</h5>
-              <p class="mb-0">Using both frequentist statistical tests and Bayesian cognitive modeling, especially drift diffusion models (DDM) that integrate multiple data sources (choice, response time, and eye tracking). My work emphasizes model fitting, parameter estimation, and posterior predictive validation.</p>
+              <h5 class="mb-1" data-zh="定量与计算模型">Quantitative and Computational Approaches</h5>
+              <p class="mb-0"
+                 data-zh="使用经典统计检验与贝叶斯认知建模，尤其是整合选择、反应时与眼动数据的漂移扩散模型（DDM）。我的工作强调模型拟合、参数估计与后验预测验证。">Using both frequentist statistical tests and Bayesian cognitive modeling, especially drift diffusion models (DDM) that integrate multiple data sources (choice, response time, and eye tracking). My work emphasizes model fitting, parameter estimation, and posterior predictive validation.</p>
             </div>
           </div>
         </div>
@@ -142,47 +159,48 @@
           <div class="d-flex align-items-start mb-3">
             <div class="icon-circle"><i class="fa-solid fa-chart-line"></i></div>
             <div>
-              <h5 class="mb-1">Applications in Real-World Risky Behavior</h5>
-              <p class="mb-0">Broad interest in understanding how principles of risky decision making apply to real-world contexts, such as gambling tendencies, financial investments, and stock market behavior.</p>
+              <h5 class="mb-1" data-zh="真实世界的风险行为">Applications in Real-World Risky Behavior</h5>
+              <p class="mb-0"
+                 data-zh="广泛关注风险决策原理如何应用于现实情境，如博彩倾向、个人投资与股票市场行为。">Broad interest in understanding how principles of risky decision making apply to real-world contexts, such as gambling tendencies, financial investments, and stock market behavior.</p>
             </div>
           </div>
         </div>
 
-        <h3 class="mt-5 mb-3 text-center">Previous Research Projects</h3>
+        <h3 class="mt-5 mb-3 text-center" data-zh="以往研究项目">Previous Research Projects</h3>
         <div class="table-responsive">
           <table class="table table-hover align-middle">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Time</th>
-                <th>Location</th>
-                <th>Supervisor</th>
+                <th data-zh="题目">Title</th>
+                <th data-zh="时间">Time</th>
+                <th data-zh="单位">Location</th>
+                <th data-zh="导师">Supervisor</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>The Impact of Complexity on Risky Choices: An Evidence Accumulation Account</td>
-                <td>2023–Present</td>
-                <td>University of Basel</td>
-                <td>Prof. Jörg Rieskamp</td>
+                <td data-zh="复杂性对风险选择的影响：证据积累视角">The Impact of Complexity on Risky Choices: An Evidence Accumulation Account</td>
+                <td data-zh="2023–至今">2023–Present</td>
+                <td data-zh="巴塞尔大学">University of Basel</td>
+                <td data-zh="Jörg Rieskamp 教授">Prof. Jörg Rieskamp</td>
               </tr>
               <tr>
-                <td>The Impact of Loss Aversion on Suspense and Willingness to Further Engagement</td>
-                <td>Summer 2022</td>
-                <td>University of Edinburgh</td>
-                <td>Neil Bramley</td>
+                <td data-zh="损失厌恶对悬念体验与进一步参与意愿的影响">The Impact of Loss Aversion on Suspense and Willingness to Further Engagement</td>
+                <td data-zh="2022 年夏">Summer 2022</td>
+                <td data-zh="爱丁堡大学">University of Edinburgh</td>
+                <td data-zh="Neil Bramley">Neil Bramley</td>
               </tr>
               <tr>
-                <td>The Influence of Confidence and Importance on Curiosity</td>
-                <td>Summer 2021</td>
-                <td>University of Freiburg</td>
-                <td>Prof. Andrea Kiesel</td>
+                <td data-zh="信心与重要性对好奇心的影响">The Influence of Confidence and Importance on Curiosity</td>
+                <td data-zh="2021 年夏">Summer 2021</td>
+                <td data-zh="弗赖堡大学">University of Freiburg</td>
+                <td data-zh="Andrea Kiesel 教授">Prof. Andrea Kiesel</td>
               </tr>
               <tr>
-                <td>Effects of Mental Effort and Boredom on Task Choice</td>
-                <td>Winter 2020</td>
-                <td>University of Freiburg</td>
-                <td>Dr. Markus Spitzer</td>
+                <td data-zh="心理努力与无聊对任务选择的作用">Effects of Mental Effort and Boredom on Task Choice</td>
+                <td data-zh="2020 年冬">Winter 2020</td>
+                <td data-zh="弗赖堡大学">University of Freiburg</td>
+                <td data-zh="Markus Spitzer 博士">Dr. Markus Spitzer</td>
               </tr>
             </tbody>
           </table>
@@ -193,9 +211,10 @@
     <!-- Publications -->
     <section id="publications" class="bg-light">
       <div class="container">
-        <h2>Publications</h2>
+        <h2 data-zh="发表成果">Publications</h2>
         <div class="pub-item">
-          <p class="mb-1">
+          <p class="mb-1"
+             data-zh="Spitzer, M. W. H.; Janz, J.; <span class='highlight-name'>Nie, M.</span>; Kiesel, A. (2024). On the interplay of curiosity, confidence, and importance in knowing information. <em>Psychological Research</em>, 88(1), 101–115。">
             Spitzer, M. W. H.; Janz, J.; <span class="highlight-name">Nie, M.</span>; Kiesel, A. (2024). On the interplay of curiosity, confidence, and importance in knowing information. <em>Psychological Research</em>, 88(1), 101–115. <a href="https://doi.org/10.1007/s00426-023-01841-9" target="_blank" rel="noopener">https://doi.org/10.1007/s00426-023-01841-9</a>
           </p>
         </div>
@@ -206,25 +225,25 @@
     <!-- Teaching -->
     <section id="teaching">
       <div class="container">
-        <h2>Teaching</h2>
+        <h2 data-zh="教学">Teaching</h2>
         <div class="row g-3">
           <div class="col-md-6">
             <div class="teach-card h-100">
-              <h5 class="mb-2">FS 2024 – SS 2025</h5>
-              <p class="small-muted mb-2">University of Basel · Department of Psychology</p>
+              <h5 class="mb-2" data-zh="2024 春季学期 – 2025 夏季学期">FS 2024 – SS 2025</h5>
+              <p class="small-muted mb-2" data-zh="巴塞尔大学 · 心理学系">University of Basel · Department of Psychology</p>
               <ul class="mb-0">
-                <li>Project Seminar</li>
-                <li>Supervision of two student groups</li>
+                <li data-zh="项目研讨课">Project Seminar</li>
+                <li data-zh="指导两组学生">Supervision of two student groups</li>
               </ul>
             </div>
           </div>
           <div class="col-md-6">
             <div class="teach-card h-100">
-              <h5 class="mb-2">FS 2023 – SS 2024</h5>
-              <p class="small-muted mb-2">University of Basel · Department of Psychology</p>
+              <h5 class="mb-2" data-zh="2023 春季学期 – 2024 夏季学期">FS 2023 – SS 2024</h5>
+              <p class="small-muted mb-2" data-zh="巴塞尔大学 · 心理学系">University of Basel · Department of Psychology</p>
               <ul class="mb-0">
-                <li>Project Seminar</li>
-                <li>Supervision of two student groups</li>
+                <li data-zh="项目研讨课">Project Seminar</li>
+                <li data-zh="指导两组学生">Supervision of two student groups</li>
               </ul>
             </div>
           </div>
@@ -235,71 +254,74 @@
     <!-- Education -->
     <section id="education" class="bg-light">
       <div class="container">
-        <h2>Education</h2>
+        <h2 data-zh="教育">Education</h2>
         <div class="table-responsive">
           <table class="table table-hover align-middle">
             <thead>
               <tr>
-                <th>Institution</th>
-                <th>Location</th>
-                <th>Time</th>
-                <th>Degree</th>
-                <th>Additional Details</th>
+                <th data-zh="院校">Institution</th>
+                <th data-zh="地点">Location</th>
+                <th data-zh="时间">Time</th>
+                <th data-zh="学位">Degree</th>
+                <th data-zh="补充信息">Additional Details</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>University of Basel</td>
-                <td>Basel, Switzerland</td>
-                <td>2023–Present</td>
-                <td>PhD, Economic Psychology</td>
-                <td>Supervisor: Prof. Jörg Rieskamp</td>
+                <td data-zh="巴塞尔大学">University of Basel</td>
+                <td data-zh="瑞士 巴塞尔">Basel, Switzerland</td>
+                <td data-zh="2023–至今">2023–Present</td>
+                <td data-zh="博士，经济心理学">PhD, Economic Psychology</td>
+                <td data-zh="导师：Jörg Rieskamp 教授">Supervisor: Prof. Jörg Rieskamp</td>
               </tr>
               <tr>
-                <td>University of Edinburgh</td>
-                <td>Edinburgh, United Kingdom</td>
-                <td>2021–2022</td>
-                <td>MSc, Psychological Research (Merit)</td>
-                <td>—</td>
+                <td data-zh="爱丁堡大学">University of Edinburgh</td>
+                <td data-zh="英国 爱丁堡">Edinburgh, United Kingdom</td>
+                <td data-zh="2021–2022">2021–2022</td>
+                <td data-zh="硕士，心理学研究（Merit）">MSc, Psychological Research (Merit)</td>
+                <td data-zh="—">—</td>
               </tr>
               <tr>
-                <td>University of Freiburg</td>
-                <td>Freiburg, Germany</td>
-                <td>2018–2021</td>
-                <td>B.Sc., Psychology (2.1)</td>
-                <td>—</td>
+                <td data-zh="弗赖堡大学">University of Freiburg</td>
+                <td data-zh="德国 弗赖堡">Freiburg, Germany</td>
+                <td data-zh="2018–2021">2018–2021</td>
+                <td data-zh="学士，心理学（2.1）">B.Sc., Psychology (2.1)</td>
+                <td data-zh="—">—</td>
               </tr>
               <tr>
-                <td>Beijing Foreign Studies University</td>
-                <td>Beijing, China</td>
-                <td>2014–2018</td>
-                <td>B.A., German Literature</td>
-                <td>—</td>
+                <td data-zh="北京外国语大学">Beijing Foreign Studies University</td>
+                <td data-zh="中国 北京">Beijing, China</td>
+                <td data-zh="2014–2018">2014–2018</td>
+                <td data-zh="学士，德国语言文学">B.A., German Literature</td>
+                <td data-zh="—">—</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </section>
+
     <!-- Peer Review Services -->
     <section id="peerreview" class="bg-light">
-    <div class="container">
-        <h2>Peer Review Services</h2>
+      <div class="container">
+        <h2 data-zh="学术审稿服务">Peer Review Services</h2>
         <ul class="list-unstyled">
-        <li>• Journal of Experimental Psychology: General — Reviewer (2025)</li>
+          <li data-zh="• 《实验心理学杂志：综合版》— 审稿人（2025）">• Journal of Experimental Psychology: General — Reviewer (2025)</li>
         </ul>
-    </div>
+      </div>
     </section>
 
     <!-- Contact -->
     <section id="contact">
       <div class="container">
         <div class="text-center">
-          <h2>Contact</h2>
-          <p class="lead">Feel free to get in touch for research inquiries or collaboration.</p>
+          <h2 data-zh="联系">Contact</h2>
+          <p class="lead" data-zh="欢迎就研究或合作事宜与我联系。">Feel free to get in touch for research inquiries or collaboration.</p>
           <p class="mb-2">Email: <a href="mailto:maohua.nie@unibas.ch">maohua.nie@unibas.ch</a></p>
-            <p class="mb-2">ORCID ID: <a href="https://orcid.org/0009-0005-8695-6664" target="_blank" rel="noopener">0009-0005-8695-6664</a></p>
-
+          <p class="mb-2">
+            <span data-zh="ORCID 号：">ORCID ID: </span>
+            <a href="https://orcid.org/0009-0005-8695-6664" target="_blank" rel="noopener">0009-0005-8695-6664</a>
+          </p>
         </div>
       </div>
     </section>
@@ -308,7 +330,7 @@
   <!-- Footer -->
   <footer class="py-3 text-center">
     <div class="container">
-      <small>&copy; <span id="year"></span> Maohua Nie · All rights reserved</small>
+      <small data-zh="&copy; <span id='year'></span> Maohua Nie · 保留所有权利">&copy; <span id="year"></span> Maohua Nie · All rights reserved</small>
     </div>
   </footer>
 
@@ -343,6 +365,43 @@
       });
     }, opts);
     sections.forEach(s => io.observe(s));
+
+    // --- Language toggle (non-destructive: English stays as original text) ---
+    const htmlEl = document.documentElement;
+    const langToggle = document.getElementById('langToggle');
+
+    function applyLang(lang){
+      // swap innerHTML for elements that have data-zh
+      document.querySelectorAll('[data-zh]').forEach(el=>{
+        if(lang==='zh'){
+          el.setAttribute('data-en-original', el.innerHTML); // store once (idempotent)
+          el.innerHTML = el.getAttribute('data-zh');
+        }else{
+          const orig = el.getAttribute('data-en-original');
+          if(orig !== null) el.innerHTML = orig; // restore exact original English
+        }
+      });
+      htmlEl.setAttribute('lang', lang==='zh' ? 'zh-CN' : 'en');
+      langToggle.textContent = lang==='zh' ? 'EN' : '中文';
+      langToggle.setAttribute('aria-label', lang==='zh' ? 'Switch to English' : '切换为中文');
+      localStorage.setItem('site_lang', lang);
+    }
+
+    function initLang(){
+      const saved = localStorage.getItem('site_lang');
+      if(saved){ applyLang(saved); }
+      else{
+        const prefersZH = (navigator.language || navigator.userLanguage || 'en').toLowerCase().startsWith('zh');
+        applyLang(prefersZH ? 'zh' : 'en');
+      }
+    }
+
+    langToggle.addEventListener('click', ()=>{
+      const current = localStorage.getItem('site_lang') || ((navigator.language||'en').toLowerCase().startsWith('zh') ? 'zh' : 'en');
+      applyLang(current==='zh' ? 'en' : 'zh');
+    });
+
+    initLang();
   </script>
 </body>
 </html>
