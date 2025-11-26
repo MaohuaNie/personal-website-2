@@ -18,51 +18,254 @@
       --paper: #f9fafb;
       --accent: #0ea5e9;
     }
+
     html { scroll-behavior: smooth; }
-    body { font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans"; color: var(--ink); }
-    .navbar { background: rgba(0, 29, 61, 0.75); backdrop-filter: blur(10px); }
+    body {
+      font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    .navbar {
+      background: rgba(0, 29, 61, 0.85);
+      backdrop-filter: blur(10px);
+    }
     .navbar-brand { font-weight: 700; }
-    header.hero { min-height: 70vh; display: grid; place-items: center; background: linear-gradient(135deg, rgba(0,75,122,.85), rgba(14,165,233,.55)), url('banner.jpg') center/cover no-repeat; color: #fff; text-align: center; }
-    .hero h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; }
-    .hero h2 { font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 500; opacity: .95; }
+
+    header.hero {
+      min-height: 70vh;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(135deg, rgba(0,75,122,.85), rgba(14,165,233,.55)),
+        url('banner.jpg') center/cover no-repeat;
+      color: #fff;
+      text-align: center;
+    }
+    .hero .container {
+      max-width: 720px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+    }
+    .hero h2 {
+      font-size: clamp(1.1rem, 2.6vw, 1.4rem);
+      font-weight: 500;
+      opacity: .95;
+    }
+
     section { padding: 4.5rem 0; }
     section h2 { font-weight: 700; margin-bottom: 1rem; }
-    .profile-picture { width: 240px; height: 240px; object-fit: cover; border-radius: 50%; border: 5px solid #fff; box-shadow: 0 8px 28px rgba(0,0,0,.15); }
-    .about-card { background: #fff; border-radius: 18px; padding: 1.75rem; box-shadow: 0 10px 24px rgba(2,6,23,0.06); }
-    .research-card { background: #fff; border-radius: 16px; padding: 2rem; box-shadow: 0 6px 16px rgba(0,0,0,0.05); margin-bottom: 2rem; transition: all 0.2s ease-in-out; }
-    .research-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-    .icon-circle { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--brand); color: white; margin-right: 10px; }
-    .table thead th { background: var(--brand) !important; color: #fff; border-color: var(--brand); }
-    .table-hover tbody tr:hover { background-color: #f0f9ff; }
-    /* Back to top button */
-    #backToTop{
-      position: fixed; bottom: 24px; right: 24px; display: none;
-      border: 0; width: 44px; height: 44px; border-radius: 50%;
-      background: var(--brand); color: #fff; box-shadow: 0 10px 24px rgba(2,6,23,.18);
+
+    .profile-picture {
+      width: 240px;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 5px solid #fff;
+      box-shadow: 0 8px 28px rgba(0,0,0,.15);
     }
-    #backToTop:hover{ background:#0b6ba6; }
+
+    .about-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 1.75rem;
+      box-shadow: 0 10px 24px rgba(2,6,23,0.06);
+    }
+
+    .research-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+      transition: all 0.2s ease-in-out;
+    }
+    .research-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    .icon-circle {
+      width: 42px;
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--brand);
+      color: white;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+
+    .table thead th {
+      background: var(--brand) !important;
+      color: #fff;
+      border-color: var(--brand);
+      white-space: nowrap;
+    }
+    .table-hover tbody tr:hover { background-color: #f0f9ff; }
+
+    /* Back to top button */
+    #backToTop {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: none;
+      border: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--brand);
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(2,6,23,.18);
+      z-index: 1500;
+    }
+    #backToTop:hover { background:#0b6ba6; }
 
     /* Teaching + publications helpers */
-    .teach-card{ border-radius:16px; border:1px solid #eef2f7; padding:1.25rem; background:#fff; box-shadow:0 10px 24px rgba(2,6,23,.06); }
-    .pub-item{ border-bottom:1px solid #eef2f7; padding:.8rem 0; }
-    .pub-item:last-child{ border-bottom:0; }
-    .highlight-name{ font-weight:700; text-decoration:underline; text-underline-offset:2px; }
-    .small-muted{ color:var(--muted); font-size:.95rem; }
+    .teach-card {
+      border-radius:16px;
+      border:1px solid #eef2f7;
+      padding:1.25rem;
+      background:#fff;
+      box-shadow:0 10px 24px rgba(2,6,23,.06);
+    }
+    .pub-item {
+      border-bottom:1px solid #eef2f7;
+      padding:.8rem 0;
+    }
+    .pub-item:last-child { border-bottom:0; }
+
+    .highlight-name {
+      font-weight:700;
+      text-decoration:underline;
+      text-underline-offset:2px;
+    }
+    .small-muted {
+      color:var(--muted);
+      font-size:.95rem;
+    }
     .social a{ color:var(--ink); }
     .social a:hover{ color:var(--brand); }
 
     /* Language toggle button */
     .lang-toggle{
-      position: fixed; top: 10px; left: 10px; z-index: 2000;
-      background:#fff; color: var(--brand); border:1px solid var(--brand);
-      padding: 4px 10px; border-radius: 8px; font-weight: 600; cursor: pointer;
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 2000;
+      background:#fff;
+      color: var(--brand);
+      border:1px solid var(--brand);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.85rem;
     }
     .lang-toggle:hover{ background: var(--brand); color: #fff; }
 
     /* Respect reduced motion preferences */
     @media (prefers-reduced-motion: reduce){
-      .research-card:hover{ transform:none; box-shadow:0 6px 16px rgba(0,0,0,0.05); }
+      .research-card:hover{
+        transform:none;
+        box-shadow:0 6px 16px rgba(0,0,0,0.05);
+      }
       html{ scroll-behavior: auto; }
+    }
+
+    /* ===== Mobile & tablet tweaks ===== */
+
+    @media (max-width: 991.98px) {
+      /* Collapse nav links more comfortably */
+      .navbar .nav-link {
+        padding: 0.4rem 0;
+      }
+    }
+
+    @media (max-width: 767.98px) {
+      section {
+        padding: 3rem 0;
+      }
+
+      header.hero {
+        min-height: 60vh;
+      }
+      .hero .container {
+        padding-top: 4.5rem;
+        padding-bottom: 3rem;
+      }
+      .hero h1 {
+        font-size: 2.1rem;
+      }
+      .hero h2 {
+        font-size: 1.05rem;
+      }
+      .hero p.small {
+        font-size: 0.9rem;
+      }
+
+      .profile-picture {
+        width: 170px;
+        height: 170px;
+        margin-bottom: 1rem;
+      }
+
+      .about-card {
+        padding: 1.25rem 1.3rem;
+      }
+      .about-card p {
+        font-size: 0.95rem;
+      }
+
+      .research-card {
+        padding: 1.3rem 1.4rem;
+        margin-bottom: 1.4rem;
+      }
+      .research-card p {
+        font-size: 0.95rem;
+      }
+
+      .teach-card {
+        padding: 1.1rem 1.2rem;
+      }
+
+      .table {
+        font-size: 0.9rem;
+      }
+
+      /* Move language toggle a bit lower so it doesn’t collide with the navbar toggler */
+      .lang-toggle {
+        top: 70px;
+        left: 12px;
+        padding: 3px 8px;
+        font-size: 0.8rem;
+      }
+
+      /* Back to top a bit higher on very small screens */
+      #backToTop {
+        bottom: 18px;
+        right: 18px;
+      }
+    }
+
+    @media (max-width: 575.98px) {
+      /* Slightly tighter layout on very small phones */
+      body {
+        font-size: 0.95rem;
+      }
+
+      section h2 {
+        font-size: 1.4rem;
+      }
+
+      .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
     }
   </style>
 </head>
@@ -73,7 +276,9 @@
   <nav id="navbar" class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="#home" data-zh="聂茂华">Maohua Nie</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item"><a class="nav-link" href="#about" data-zh="简介">About</a></li>
@@ -371,14 +576,13 @@
     const langToggle = document.getElementById('langToggle');
 
     function applyLang(lang){
-      // swap innerHTML for elements that have data-zh
       document.querySelectorAll('[data-zh]').forEach(el=>{
         if(lang==='zh'){
-          el.setAttribute('data-en-original', el.innerHTML); // store once (idempotent)
+          el.setAttribute('data-en-original', el.innerHTML);
           el.innerHTML = el.getAttribute('data-zh');
         }else{
           const orig = el.getAttribute('data-en-original');
-          if(orig !== null) el.innerHTML = orig; // restore exact original English
+          if(orig !== null) el.innerHTML = orig;
         }
       });
       htmlEl.setAttribute('lang', lang==='zh' ? 'zh-CN' : 'en');
@@ -389,8 +593,9 @@
 
     function initLang(){
       const saved = localStorage.getItem('site_lang');
-      if(saved){ applyLang(saved); }
-      else{
+      if(saved){
+        applyLang(saved);
+      }else{
         const prefersZH = (navigator.language || navigator.userLanguage || 'en').toLowerCase().startsWith('zh');
         applyLang(prefersZH ? 'zh' : 'en');
       }
