@@ -8,19 +8,24 @@
   <link rel="icon" href="/favicon.svg" />
 
     <style>
-    /* ===== Layout ===== */
-    .digest-layout{
-        display:grid;
-        grid-template-columns:320px 1fr;
-        height:100vh;
-        background:#ffffff;
+    html, body {
+    height: 100%;
+    overflow: hidden; /* ⬅️ this removes the outer scrollbar */
     }
 
-    .digest-sidebar{
-        border-right:1px solid #e5e7eb;
-        background:#fafafa;
-        padding:18px 16px 20px;
-        overflow-y:auto;
+    /* ===== Layout ===== */
+    .digest-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    height: 100vh;
+    overflow: hidden; /* ⬅️ important */
+    background: #ffffff;
+    }
+
+    .digest-sidebar {
+    height: 100vh;
+    overflow-y: auto;   /* ⬅️ sidebar scrolls */
+    overflow-x: hidden;
     }
 
     /* ===== Sidebar header ===== */
@@ -147,10 +152,21 @@
     }
 
     /* ===== Content pane ===== */
-    .digest-content{
-        height:100vh;
-        overflow:hidden;
-        background:#ffffff;
+    .digest-content {
+    height: 100vh;
+    overflow: hidden; /* iframe handles scrolling */
+    }
+    .digest-sidebar::-webkit-scrollbar {
+    width: 8px;
+    }
+
+    .digest-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.15);
+    border-radius: 6px;
+    }
+
+    .digest-sidebar::-webkit-scrollbar-track {
+    background: transparent;
     }
 
     #digest-frame{
