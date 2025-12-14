@@ -6,82 +6,165 @@
   <meta name="description" content="Archive of automated research digests" />
   <link rel="stylesheet" href="/assets/site.css" />
   <link rel="icon" href="/favicon.svg" />
+
   <style>
-    .digest-card {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      padding: 20px;
-      margin: 16px 0;
-      text-decoration: none;
-      color: inherit;
-      display: block;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    .digest-layout{
+      display:grid;
+      grid-template-columns:320px 1fr;
+      height:100vh;
+      background:#ffffff;
+    }
+    .digest-sidebar{
+      border-right:1px solid #e5e7eb;
+      background:#fafafa;
+      padding:18px 16px;
+      overflow-y:auto;
+    }
+    .digest-sidebar h1{
+      font-size:20px;
+      margin:6px 0 10px;
+    }
+    .digest-sidebar p{
+      margin:0 0 14px;
+      color:#6b7280;
+      font-size:13px;
+      line-height:1.4;
+    }
+    .digest-nav{
+      list-style:none;
+      padding:0;
+      margin:0;
+    }
+    .digest-nav li{
+      margin:10px 0;
+    }
+    .digest-link{
+      display:block;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid #e5e7eb;
+      background:#fff;
+      text-decoration:none;
+      color:#111827;
+      transition:transform .12s ease, box-shadow .12s ease;
+    }
+    .digest-link:hover{
+      transform:translateY(-1px);
+      box-shadow:0 6px 18px rgba(0,0,0,0.06);
+    }
+    .digest-link.active{
+      border-color:#111827;
+    }
+    .digest-title{
+      font-size:14px;
+      margin:0 0 4px;
+      font-weight:600;
+    }
+    .digest-meta{
+      font-size:12px;
+      color:#6b7280;
+    }
+    .digest-content{
+      height:100vh;
+      overflow:hidden;
+      background:#ffffff;
+    }
+    #digest-frame{
+      width:100%;
+      height:100%;
+      border:none;
+    }
+    .top-actions{
+      margin-bottom:10px;
+    }
+    .top-actions a{
+      text-decoration:none;
+      color:#111827;
+      font-size:14px;
     }
 
-    .digest-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    }
-
-    .digest-meta {
-      font-size: 14px;
-      color: #6b7280;
-      margin-top: 4px;
+    @media (max-width: 900px){
+      .digest-layout{ grid-template-columns:1fr; }
+      .digest-sidebar{ height:auto; border-right:none; border-bottom:1px solid #e5e7eb; }
+      .digest-content{ height:calc(100vh - 240px); }
     }
   </style>
 </head>
 
 <body>
-  <main class="container">
-    <a href="/" class="back-link">← Home</a>
+  <div class="digest-layout">
+    <aside class="digest-sidebar">
+      <div class="top-actions">
+        <a href="/">← Home</a>
+      </div>
 
-    <h1>Research Digest</h1>
-    <p>
-      Bi-weekly automated summaries of recent research in decision making,
-      computational modeling, and behavioral economics.
-    </p>
+      <h1>Research Digest</h1>
+      <p>Bi-monthly automated digests (1st & 15th). Click an entry to view it.</p>
 
-    <div id="digest-list">
-      <p>Loading digests…</p>
-    </div>
-  </main>
+      <ul id="digest-nav" class="digest-nav">
+        <li>Loading…</li>
+      </ul>
+    </aside>
+
+    <main class="digest-content">
+      <iframe id="digest-frame" title="Digest Viewer"></iframe>
+    </main>
+  </div>
 
   <script>
+    function setActive(linkEl) {
+      document.querySelectorAll(".digest-link").forEach(a => a.classList.remove("active"));
+      linkEl.classList.add("active");
+    }
+
     fetch("digests.json")
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Failed to load digests.json");
-        }
-        return response.json();
+      .then(r => {
+        if (!r.ok) throw new Error("Failed to load digests.json");
+        return r.json();
       })
       .then(digests => {
-        const container = document.getElementById("digest-list");
-        container.innerHTML = "";
+        const nav = document.getElementById("digest-nav");
+        const frame = document.getElementById("digest-frame");
+        nav.innerHTML = "";
 
-        if (digests.length === 0) {
-          container.innerHTML = "<p>No digests available yet.</p>";
+        if (!digests || digests.length === 0) {
+          nav.innerHTML = "<li>No digests yet.</li>";
           return;
         }
 
-        digests.forEach(d => {
+        // newest first (your digests.json is appended; we reverse for display)
+        const ordered = digests.slice().reverse();
+
+        ordered.forEach((d, i) => {
+          const li = document.createElement("li");
           const a = document.createElement("a");
-          a.className = "digest-card";
-          a.href = d.file;
+          a.className = "digest-link";
+          a.href = "#";
 
           a.innerHTML = `
-            <h2>${d.title}</h2>
-            <div class="digest-meta">
-              ${d.papers} papers
-            </div>
+            <div class="digest-title">${d.title}</div>
+            <div class="digest-meta">${d.papers} papers</div>
           `;
 
-          container.appendChild(a);
+          a.addEventListener("click", (e) => {
+            e.preventDefault();
+            frame.src = d.file;
+            setActive(a);
+          });
+
+          li.appendChild(a);
+          nav.appendChild(li);
+
+          // load newest by default
+          if (i === 0) {
+            frame.src = d.file;
+            setActive(a);
+          }
         });
       })
       .catch(err => {
-        document.getElementById("digest-list").innerHTML =
-          "<p style='color:#b91c1c;'>Failed to load digest index.</p>";
+        document.getElementById("digest-nav").innerHTML =
+          "<li style='color:#b91c1c;'>Failed to load digest index.</li>";
         console.error(err);
       });
   </script>
