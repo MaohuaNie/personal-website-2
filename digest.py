@@ -210,7 +210,7 @@ def gpt_relevance_and_summary(title, abstract):
         Abstract: {abstract}
         """
     resp = client.chat.completions.create(
-        model="gpt-5-nano",
+        model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}]
     )
     content = resp.choices[0].message.content
@@ -294,19 +294,30 @@ def log(msg):
 # MAIN LOGIC (ONLY abstract line changed)
 # =========================================================
 
-def find_recent_relevant_papers(days=14):
+def find_recent_relevant_papers():
     today = datetime.today().date()
-    start_day = today - timedelta(days=days)
+
+    if today.day == 15:
+        start_day = today.replace(day=1)
+        end_day = today
+    elif today.day == 1:
+        last_month_end = today - timedelta(days=1)
+        start_day = last_month_end.replace(day=16)
+        end_day = last_month_end
+    else:
+        raise RuntimeError(
+            "This script is intended to run only on the 1st or 15th."
+        )
+
+    log(f"Starting digest for period ({start_day} → {end_day})")
 
     all_results = []
-
-    log(f"Starting digest for last {days} days ({start_day} → {today})")
 
     for j_idx, j in enumerate(JOURNALS, start=1):
         log(f"[{j_idx}/{len(JOURNALS)}] Fetching {j['name']} ({j['issn']})")
 
         try:
-            items = fetch_range_for_journal(j["issn"], start_day, today)
+            items = fetch_range_for_journal(j["issn"], start_day, end_day)
         except Exception as e:
             log(f"  ✗ Fetch failed: {e}")
             continue
@@ -316,7 +327,7 @@ def find_recent_relevant_papers(days=14):
         valid_items = [
             it for it in items
             if parse_pub_datetime(it)
-            and start_day <= parse_pub_datetime(it) <= today
+            and start_day <= parse_pub_datetime(it) <= end_day
         ]
 
         log(f"  → {len(valid_items)} items in date range")
@@ -325,16 +336,12 @@ def find_recent_relevant_papers(days=14):
             log("  → Skipping (no valid items)")
             continue
 
-        texts = []
-        abstracts = []
-        sources = []
+        texts, abstracts, sources = [], [], []
 
         for it in valid_items:
             abs_text, source = get_abstract_with_fallback(it)
             title = it.get("title", [""])[0] if it.get("title") else ""
-            texts.append(
-                sanitize_for_embedding(f"{title}\n\n{abs_text or ''}")
-            )
+            texts.append(sanitize_for_embedding(f"{title}\n\n{abs_text or ''}"))
             abstracts.append(sanitize_for_embedding(abs_text or ""))
             sources.append(source)
 
@@ -346,16 +353,15 @@ def find_recent_relevant_papers(days=14):
             continue
 
         sims = [cosine_sim(e, topic_emb) for e in embeds]
-
         ranked_idx = np.argsort(sims)[::-1][:TOP_K_PER_JOURNAL]
+
         log(f"  → Running GPT relevance on top {len(ranked_idx)} papers")
 
         kept = 0
-        for rank, idx in enumerate(ranked_idx, start=1):
+        for idx in ranked_idx:
             title = valid_items[idx].get("title", [""])[0] if valid_items[idx].get("title") else ""
-            relevant, reason, summary = gpt_relevance_and_summary(
-                title,
-                abstracts[idx]
+            relevant, _, summary = gpt_relevance_and_summary(
+                title, abstracts[idx]
             )
 
             if relevant:
@@ -376,9 +382,13 @@ def find_recent_relevant_papers(days=14):
 
     log(f"Finished. Total relevant papers: {len(all_results)}")
 
-    return sorted(all_results, key=lambda x: x["relevance_score"], reverse=True)
+    return (
+        sorted(all_results, key=lambda x: x["relevance_score"], reverse=True),
+        start_day,
+        end_day,
+    )
 
-def format_email_body_html(results):
+def format_email_body_html(results, start_day, end_day):
     today = datetime.today().date()
     start_day = today - timedelta(days=LOOKBACK_DAYS)
 
@@ -441,7 +451,7 @@ def format_email_body_html(results):
               Bi-weekly Research Digest
             </h1>
             <p style="margin:8px 0 0;font-size:14px;color:#4b5563;">
-              <b>Date range:</b> {start_day} → {today}<br>
+              <b>Date range:</b> {start_day} → {end_day}<br>
               <b>Total relevant papers:</b> {len(results)}
             </p>
           </div>
@@ -584,42 +594,45 @@ def save_digest_html(html):
     return filename, today
 
 
-def update_digest_index(date_str, filename, results):
+def update_digest_index(date_str, filename, results, start_day, end_day):
     entry = {
         "date": date_str,
-        "title": f"Research Digest · {date_str}",
+        "title": f"Research Digest · {start_day} → {end_day}",
         "papers": len(results),
         "file": filename
     }
 
+    index = []
+
     if DIGEST_INDEX.exists():
-        with open(DIGEST_INDEX, "r", encoding="utf-8") as f:
-            index = json.load(f)
-    else:
-        index = []
+        try:
+            with open(DIGEST_INDEX, "r", encoding="utf-8") as f:
+                index = json.load(f)
+        except json.JSONDecodeError:
+            # File exists but is empty or corrupted
+            print("Warning: digests.json was empty or invalid. Reinitializing.")
 
     # Avoid duplicate entries
     if any(d["date"] == date_str for d in index):
         print("Digest already exists in index — skipping index update.")
         return
 
-    index.sort(key=lambda d: d["date"], reverse=True)
+    index.append(entry)
 
     with open(DIGEST_INDEX, "w", encoding="utf-8") as f:
         json.dump(index, f, indent=2)
 
-
 def main():
-    results = find_recent_relevant_papers(LOOKBACK_DAYS)
+    results, start_day, end_day = find_recent_relevant_papers()
 
     if not results:
         print("No relevant papers found — aborting.")
         return
 
-    html = format_email_body_html(results)
+    html = format_email_body_html(results, start_day, end_day)
 
     filename, date_str = save_digest_html(html)
-    update_digest_index(date_str, filename, results)
+    update_digest_index(date_str, filename, results, start_day, end_day)
 
     print(f"Saved digest: research-digest/{filename}")
 
