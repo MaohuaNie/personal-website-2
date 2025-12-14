@@ -296,20 +296,31 @@ def log(msg):
 
 def find_recent_relevant_papers():
     today = datetime.today().date()
+    run_mode = os.getenv("DIGEST_RUN_MODE", "scheduled")
 
+    # Decide date window
     if today.day == 15:
+        # 1st → 15th of current month
         start_day = today.replace(day=1)
         end_day = today
+
     elif today.day == 1:
+        # 16th → end of previous month
         last_month_end = today - timedelta(days=1)
         start_day = last_month_end.replace(day=16)
         end_day = last_month_end
-    else:
-        raise RuntimeError(
-            "This script is intended to run only on the 1st or 15th."
-        )
 
-    log(f"Starting digest for period ({start_day} → {end_day})")
+    elif run_mode == "manual":
+        # Manual / test run: last 14 days
+        start_day = today - timedelta(days=14)
+        end_day = today
+
+    else:
+        log("Not 1st or 15th — skipping digest generation.")
+        return [], None, None
+
+    log(f"Run mode: {run_mode}")
+    log(f"Digest window: {start_day} → {end_day}")
 
     all_results = []
 
@@ -336,12 +347,16 @@ def find_recent_relevant_papers():
             log("  → Skipping (no valid items)")
             continue
 
-        texts, abstracts, sources = [], [], []
+        texts = []
+        abstracts = []
+        sources = []
 
         for it in valid_items:
             abs_text, source = get_abstract_with_fallback(it)
             title = it.get("title", [""])[0] if it.get("title") else ""
-            texts.append(sanitize_for_embedding(f"{title}\n\n{abs_text or ''}"))
+            texts.append(
+                sanitize_for_embedding(f"{title}\n\n{abs_text or ''}")
+            )
             abstracts.append(sanitize_for_embedding(abs_text or ""))
             sources.append(source)
 
@@ -359,9 +374,10 @@ def find_recent_relevant_papers():
 
         kept = 0
         for idx in ranked_idx:
-            title = valid_items[idx].get("title", [""])[0] if valid_items[idx].get("title") else ""
-            relevant, _, summary = gpt_relevance_and_summary(
-                title, abstracts[idx]
+            title = valid_items[idx].get("title", [""])[0]
+            relevant, reason, summary = gpt_relevance_and_summary(
+                title,
+                abstracts[idx]
             )
 
             if relevant:
@@ -382,15 +398,9 @@ def find_recent_relevant_papers():
 
     log(f"Finished. Total relevant papers: {len(all_results)}")
 
-    return (
-        sorted(all_results, key=lambda x: x["relevance_score"], reverse=True),
-        start_day,
-        end_day,
-    )
+    return sorted(all_results, key=lambda x: x["relevance_score"], reverse=True), start_day, end_day
 
 def format_email_body_html(results, start_day, end_day):
-    today = datetime.today().date()
-    start_day = today - timedelta(days=LOOKBACK_DAYS)
 
     # Summary counts by journal (keep original order of appearance)
     journal_counts = {}
@@ -626,7 +636,7 @@ def main():
     results, start_day, end_day = find_recent_relevant_papers()
 
     if not results:
-        print("No relevant papers found — aborting.")
+        print("No digest generated (outside scheduled window).")
         return
 
     html = format_email_body_html(results, start_day, end_day)
