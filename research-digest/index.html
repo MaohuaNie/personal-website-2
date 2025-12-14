@@ -47,6 +47,7 @@
       text-decoration:none;
       color:#111827;
       transition:transform .12s ease, box-shadow .12s ease;
+      cursor:pointer;
     }
     .digest-link:hover{
       transform:translateY(-1px);
@@ -99,7 +100,7 @@
       </div>
 
       <h1>Research Digest</h1>
-      <p>Bi-monthly automated digests (1st & 15th). Click an entry to view it.</p>
+      <p>Bi-monthly automated digests (1st &amp; 15th). Click an entry to view it.</p>
 
       <ul id="digest-nav" class="digest-nav">
         <li>Loading…</li>
@@ -113,8 +114,29 @@
 
   <script>
     function setActive(linkEl) {
-      document.querySelectorAll(".digest-link").forEach(a => a.classList.remove("active"));
+      document.querySelectorAll(".digest-link")
+        .forEach(a => a.classList.remove("active"));
       linkEl.classList.add("active");
+    }
+
+    function formatDigestTitle(dateStr) {
+      const d = new Date(dateStr + "T00:00:00");
+      const year = d.getFullYear();
+      const month = d.toLocaleString("en-US", { month: "short" });
+      const day = d.getDate();
+
+      if (day === 15) {
+        return `Research Digest · ${month} 1–15, ${year}`;
+      }
+
+      if (day === 1) {
+        const prev = new Date(d);
+        prev.setDate(0); // last day of previous month
+        const prevMonth = prev.toLocaleString("en-US", { month: "short" });
+        return `Research Digest · ${prevMonth} 16–${prev.getDate()}, ${prev.getFullYear()}`;
+      }
+
+      return `Research Digest · ${dateStr}`;
     }
 
     fetch("digests.json")
@@ -132,17 +154,18 @@
           return;
         }
 
-        // newest first (your digests.json is appended; we reverse for display)
-        const ordered = digests.slice().reverse();
+        // Always sort newest → oldest by date
+        const ordered = digests
+          .slice()
+          .sort((a, b) => new Date(b.date) - new Date(a.date));
 
         ordered.forEach((d, i) => {
           const li = document.createElement("li");
           const a = document.createElement("a");
           a.className = "digest-link";
-          a.href = "#";
 
           a.innerHTML = `
-            <div class="digest-title">${d.title}</div>
+            <div class="digest-title">${formatDigestTitle(d.date)}</div>
             <div class="digest-meta">${d.papers} papers</div>
           `;
 
@@ -155,7 +178,7 @@
           li.appendChild(a);
           nav.appendChild(li);
 
-          // load newest by default
+          // Load newest digest by default
           if (i === 0) {
             frame.src = d.file;
             setActive(a);
