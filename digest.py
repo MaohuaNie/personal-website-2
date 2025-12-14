@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from openai import OpenAI
 import re
-from email_utils import send_email  # sends HTML email
+
 
 
 JOURNALS = [
@@ -15,37 +15,37 @@ JOURNALS = [
     {"name": "JEP: General", "issn": "0096-3445"},
     {"name": "Judgment and Decision Making", "issn": "1930-2975"},
     {"name": "OBHDP", "issn": "0749-5978"},  # Organizational Behavior and Human Decision Processes
-    {"name": "Journal of Risk and Uncertainty", "issn": "0895-5646"},
-    {"name": "Journal of Behavioral Decision Making", "issn": "0894-3257"},
-    {"name": "Cognitive Science", "issn": "0364-0213"},
-    {"name": "Memory & Cognition", "issn": "0090-502X"},
+    # {"name": "Journal of Risk and Uncertainty", "issn": "0895-5646"},
+    # {"name": "Journal of Behavioral Decision Making", "issn": "0894-3257"},
+    # {"name": "Cognitive Science", "issn": "0364-0213"},
+    # {"name": "Memory & Cognition", "issn": "0090-502X"},
 
-    # # ——— From Shelf 1 ———
-    {"name": "Trends in Cognitive Sciences", "issn": "1364-6613"},
-    {"name": "Cognitive Psychology", "issn": "0010-0285"},
-    {"name": "Psychological Review", "issn": "0033-295X"},
+    # # # ——— From Shelf 1 ———
+    # {"name": "Trends in Cognitive Sciences", "issn": "1364-6613"},
+    # {"name": "Cognitive Psychology", "issn": "0010-0285"},
+    # {"name": "Psychological Review", "issn": "0033-295X"},
 
-    # ——— From Shelf 2 ———
-    {"name": "Journal of Experimental Psychology: Learning, Memory, and Cognition", "issn": "0278-7393"},
+    # # ——— From Shelf 2 ———
+    # {"name": "Journal of Experimental Psychology: Learning, Memory, and Cognition", "issn": "0278-7393"},
 
-    # ——— From Shelf 3 (Duplicates removed) ———
-    {"name": "Journal of Economic Psychology", "issn": "0167-4870"},
+    # # ——— From Shelf 3 (Duplicates removed) ———
+    # {"name": "Journal of Economic Psychology", "issn": "0167-4870"},
 
-    # ——— Big Review + Methods journals ———
-    {"name": "Psychological Bulletin", "issn": "0033-2909"},
-    {"name": "Psychological Science", "issn": "0956-7976"},
-    {"name": "Psychological Methods", "issn": "1082-989X"},
-    {"name": "Journal of Mathematical Psychology", "issn": "0022-2496"},
-    {"name": "Current Directions in Psychological Science", "issn": "0963-7214"},
-    {"name": "Perspectives on Psychological Science", "issn": "1745-6916"},
-    {"name": "Behavior Research Methods", "issn": "1554-351X"},
-    {"name": "Psychonomic Bulletin & Review", "issn": "1069-9384"},
+    # # ——— Big Review + Methods journals ———
+    # {"name": "Psychological Bulletin", "issn": "0033-2909"},
+    # {"name": "Psychological Science", "issn": "0956-7976"},
+    # {"name": "Psychological Methods", "issn": "1082-989X"},
+    # {"name": "Journal of Mathematical Psychology", "issn": "0022-2496"},
+    # {"name": "Current Directions in Psychological Science", "issn": "0963-7214"},
+    # {"name": "Perspectives on Psychological Science", "issn": "1745-6916"},
+    # {"name": "Behavior Research Methods", "issn": "1554-351X"},
+    # {"name": "Psychonomic Bulletin & Review", "issn": "1069-9384"},
 
-    # ——— High-impact applied / interdisciplinary ———
-    {"name": "Nature Human Behaviour", "issn": "2397-3374"},
-    {"name": "American Economic Review", "issn": "0002-8282"},
-    {"name": "Management Science", "issn": "0025-1909"},
-    {"name": "The Quarterly Journal of Economics", "issn": "0033-5533"},
+    # # ——— High-impact applied / interdisciplinary ———
+    # {"name": "Nature Human Behaviour", "issn": "2397-3374"},
+    # {"name": "American Economic Review", "issn": "0002-8282"},
+    # {"name": "Management Science", "issn": "0025-1909"},
+    # {"name": "The Quarterly Journal of Economics", "issn": "0033-5533"},
 ]
 
 LOOKBACK_DAYS = 14
@@ -580,15 +580,26 @@ def save_digest_html(html):
 
     return filename
 
+# def main():
+#     results = find_recent_relevant_papers(LOOKBACK_DAYS)
+
+#     html = format_email_body_html(results)
+
+
+
+#     # 2. Save for website
+#     save_digest_html(html)
+
+
 def main():
     results = find_recent_relevant_papers(LOOKBACK_DAYS)
-
     html = format_email_body_html(results)
 
+    # TEMP: write to file for testing
+    with open("test-digest.html", "w", encoding="utf-8") as f:
+        f.write(html)
 
-
-    # 2. Save for website
-    save_digest_html(html)
+    print("Saved test-digest.html")
 
 if __name__ == "__main__":
     main()
