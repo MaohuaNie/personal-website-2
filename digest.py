@@ -433,18 +433,7 @@ def format_email_body_html(results, start_day, end_day):
         padding:20px;
         color:#1f2937;
     ">
-    <a href="/" style="
-    display:inline-block;
-    padding:6px 12px;
-    border-radius:10px;
-    background:#f3f4f6;
-    border:1px solid #e5e7eb;
-    color:#1f2937;
-    font-size:14px;
-    text-decoration:none;
-    ">
-    ← Home
-    </a>
+    
       <div style="
           max-width:900px;
           margin:0 auto;
