@@ -1,53 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <title>Research Digest | Maohua Nie</title>
-  <meta name="description" content="Archive of research digests">
-  <link rel="icon" href="/favicon.svg">
+  <meta name="description" content="Archive of automated research digests" />
+  <link rel="stylesheet" href="/assets/site.css" />
+  <link rel="icon" href="/favicon.svg" />
   <style>
-    body {
-      font-family: Montserrat, system-ui, -apple-system, sans-serif;
-      background: #f9fafb;
-      padding: 40px;
-      color: #1f2a37;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-    }
-    .digest {
-      background: #fff;
-      padding: 20px;
+    .digest-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
       border-radius: 16px;
-      margin: 20px 0;
+      padding: 20px;
+      margin: 16px 0;
       text-decoration: none;
       color: inherit;
       display: block;
-      box-shadow: 0 6px 18px rgba(0,0,0,.06);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
-    .digest:hover {
+
+    .digest-card:hover {
       transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
     }
-    .meta {
-      color: #6b7280;
+
+    .digest-meta {
       font-size: 14px;
+      color: #6b7280;
+      margin-top: 4px;
     }
   </style>
 </head>
+
 <body>
   <main class="container">
+    <a href="/" class="back-link">← Home</a>
+
     <h1>Research Digest</h1>
     <p>
-      Bi-weekly automated summaries of recent research in decision making.
+      Bi-weekly automated summaries of recent research in decision making,
+      computational modeling, and behavioral economics.
     </p>
 
-    <!-- Manually add entries for now -->
-    <a class="digest" href="test-digest.html">
-      <h2>Research Digest · 01–15 Dec 2025</h2>
-      <p class="meta">23 papers · Decision Making under Risk</p>
-    </a>
-
+    <div id="digest-list">
+      <p>Loading digests…</p>
+    </div>
   </main>
+
+  <script>
+    fetch("digests.json")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Failed to load digests.json");
+        }
+        return response.json();
+      })
+      .then(digests => {
+        const container = document.getElementById("digest-list");
+        container.innerHTML = "";
+
+        if (digests.length === 0) {
+          container.innerHTML = "<p>No digests available yet.</p>";
+          return;
+        }
+
+        digests.forEach(d => {
+          const a = document.createElement("a");
+          a.className = "digest-card";
+          a.href = d.file;
+
+          a.innerHTML = `
+            <h2>${d.title}</h2>
+            <div class="digest-meta">
+              ${d.papers} papers
+            </div>
+          `;
+
+          container.appendChild(a);
+        });
+      })
+      .catch(err => {
+        document.getElementById("digest-list").innerHTML =
+          "<p style='color:#b91c1c;'>Failed to load digest index.</p>";
+        console.error(err);
+      });
+  </script>
 </body>
 </html>

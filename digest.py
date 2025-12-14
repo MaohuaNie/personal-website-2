@@ -3,10 +3,15 @@ import json
 import requests
 import numpy as np
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
 from openai import OpenAI
 import re
+from pathlib import Path
 
+ROOT = Path(__file__).parent
+DIGEST_DIR = ROOT / "research-digest"
+DIGEST_DIR.mkdir(exist_ok=True)
+
+DIGEST_INDEX = DIGEST_DIR / "digests.json"
 
 
 JOURNALS = [
@@ -78,14 +83,14 @@ financial decision making, gambling behavior, investment decisions,
 random utility models
 """
 
-EMAIL_SUBJECT = "Bi-weekly Research Digest: Decision Making"
 
 
-load_dotenv()
+
+
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
-    raise RuntimeError("Missing OPENAI_API_KEY in .env")
+    raise RuntimeError("Missing OPENAI_API_KEY environment variable")
 
 client = OpenAI(api_key=OPENAI_API_KEY)
 
@@ -569,37 +574,57 @@ def format_email_body_html(results):
 # =========================================================
 
 def save_digest_html(html):
-    os.makedirs("research-digest", exist_ok=True)
-
     today = datetime.today().date().isoformat()
     filename = f"{today}.html"
-    path = os.path.join("research-digest", filename)
+    path = DIGEST_DIR / filename
 
     with open(path, "w", encoding="utf-8") as f:
         f.write(html)
 
-    return filename
-
-# def main():
-#     results = find_recent_relevant_papers(LOOKBACK_DAYS)
-
-#     html = format_email_body_html(results)
+    return filename, today
 
 
+def update_digest_index(date_str, filename, results):
+    entry = {
+        "date": date_str,
+        "title": f"Research Digest · {date_str}",
+        "papers": len(results),
+        "file": filename
+    }
 
-#     # 2. Save for website
-#     save_digest_html(html)
+    if DIGEST_INDEX.exists():
+        with open(DIGEST_INDEX, "r", encoding="utf-8") as f:
+            index = json.load(f)
+    else:
+        index = []
+
+    # Avoid duplicate entries
+    if any(d["date"] == date_str for d in index):
+        print("Digest already exists in index — skipping index update.")
+        return
+
+    index.sort(key=lambda d: d["date"], reverse=True)
+
+    with open(DIGEST_INDEX, "w", encoding="utf-8") as f:
+        json.dump(index, f, indent=2)
 
 
 def main():
     results = find_recent_relevant_papers(LOOKBACK_DAYS)
+
+    if not results:
+        print("No relevant papers found — aborting.")
+        return
+
     html = format_email_body_html(results)
 
-    # TEMP: write to file for testing
-    with open("test-digest.html", "w", encoding="utf-8") as f:
-        f.write(html)
+    filename, date_str = save_digest_html(html)
+    update_digest_index(date_str, filename, results)
 
-    print("Saved test-digest.html")
+    print(f"Saved digest: research-digest/{filename}")
+
+
+
 
 if __name__ == "__main__":
     main()
