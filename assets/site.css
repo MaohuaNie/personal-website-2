@@ -1,0 +1,21 @@
+:root {
+  --brand: #004b7a;
+  --ink: #1f2a37;
+  --muted: #6b7280;
+  --paper: #f9fafb;
+  --accent: #0ea5e9;
+}
+
+body {
+  font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+a {
+  color: var(--accent);
+}
+
+a:hover {
+  color: #0b6ba6;
+}
