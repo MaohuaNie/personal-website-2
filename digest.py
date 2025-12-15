@@ -542,7 +542,9 @@ def format_email_body_html(results, start_day, end_day):
                 <div><b>Relevance Score:</b> {score}</div>
                 <div style="margin-top:10px;">
                   <b>DOI:</b>
-                  {"<a href='" + esc(doi_url) + "' style='color:#2563eb;text-decoration:none;'>" + esc(doi_url) + "</a>" if doi_url else "Not available."}
+                  {"<a href='" + esc(doi_url) + "' target='_blank' rel='noopener noreferrer' "
+                    "style='color:#2563eb;text-decoration:none;'>" + esc(doi_url) + "</a>"
+                    if doi_url else "Not available."}
                   
                 </div>
 
