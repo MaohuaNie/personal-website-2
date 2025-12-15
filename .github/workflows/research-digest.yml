@@ -30,6 +30,7 @@ jobs:
       - name: Run digest generator
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ELSEVIER_API_KEY: ${{ secrets.ELSEVIER_API_KEY }}
           DIGEST_RUN_MODE: ${{ github.event_name == 'workflow_dispatch' && 'manual' || 'scheduled' }}
         run: |
           python digest.py
