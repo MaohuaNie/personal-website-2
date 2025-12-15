@@ -210,7 +210,7 @@ def gpt_relevance_and_summary(title, abstract):
         Abstract: {abstract}
         """
     resp = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-5-nano",
         messages=[{"role": "user", "content": prompt}]
     )
     content = resp.choices[0].message.content
@@ -453,16 +453,6 @@ def format_email_body_html(results, start_day, end_day):
               <b>Date range:</b> {start_day} → {end_day}<br>
               <b>Total relevant papers:</b> {len(results)}
             </p>
-          </div>
-          <div style="
-              padding:10px 12px;
-              background:#f3f4f6;
-              border:1px solid #e5e7eb;
-              border-radius:12px;
-              font-size:12px;
-              color:#374151;
-          ">
-            Topic: Decision Making
           </div>
         </div>
 
