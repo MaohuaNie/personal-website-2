@@ -210,11 +210,12 @@
       const month = d.toLocaleString("en-US", { month: "short" });
       const day = d.getDate();
 
-      if (day === 15) return `${month} 1–15`;
+      if (day === 15) return `Early ${month}`;
       if (day === 1) {
         const prev = new Date(d);
         prev.setDate(0);
-        return `${prev.toLocaleString("en-US",{month:"short"})} 16–${prev.getDate()}`;
+        const prevMonth = prev.toLocaleString("en-US", { month: "short" });
+        return `Late ${prevMonth}`;
       }
       return dateStr;
     }
