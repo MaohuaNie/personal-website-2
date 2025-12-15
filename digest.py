@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from openai import OpenAI
 import re
 from pathlib import Path
+from urllib.parse import quote
 
 ROOT = Path(__file__).parent
 DIGEST_DIR = ROOT / "research-digest"
@@ -115,7 +116,9 @@ def fetch_elsevier_metadata(doi):
     if doi in ELSEVIER_CACHE:
         return ELSEVIER_CACHE[doi]
     
-    url = f"https://api.elsevier.com/content/abstract/doi/{doi}?view=FULL"
+
+    encoded_doi = quote(doi, safe="")
+    url = f"https://api.elsevier.com/content/abstract/doi/{encoded_doi}?view=FULL"
     headers = {
         "X-ELS-APIKey": ELSEVIER_API_KEY,
         "Accept": "application/json",
@@ -137,22 +140,39 @@ def fetch_elsevier_metadata(doi):
             .get("bibrecord", {})
             .get("head", {})
     )
-
     abstracts = head.get("abstracts")
 
     if isinstance(abstracts, str):
-        abstract = abstracts.strip()
+        abstract = abstracts
 
     elif isinstance(abstracts, dict):
         a = abstracts.get("abstract")
+
         if isinstance(a, str):
-            abstract = a.strip()
+            abstract = a
+
         elif isinstance(a, dict):
+            # Case 1: direct para
             para = a.get("ce:para")
             if isinstance(para, list):
-                abstract = " ".join(p.strip() for p in para)
+                abstract = " ".join(para)
             elif isinstance(para, str):
-                abstract = para.strip()
+                abstract = para
+
+            # Case 2: sectioned abstract (VERY common in Cognition)
+            sections = a.get("ce:sections", {}).get("ce:section")
+            if sections:
+                if isinstance(sections, dict):
+                    sections = [sections]
+                paras = []
+                for sec in sections:
+                    p = sec.get("ce:para")
+                    if isinstance(p, list):
+                        paras.extend(p)
+                    elif isinstance(p, str):
+                        paras.append(p)
+                if paras:
+                    abstract = " ".join(p.strip() for p in paras)
 
     # ---- extract authors ----
     authors = []
@@ -366,27 +386,24 @@ def get_abstract_with_fallback(it, issn):
     title = it.get("title", [""])[0]
     doi = it.get("DOI")
 
+    # 1) Elsevier FIRST
     if doi and issn in ELSEVIER_ISSNS:
         meta = fetch_elsevier_metadata(doi)
         if meta and meta.get("abstract"):
-            log(f"Abstract source: Elsevier (primary) — {title[:60]}")
+            log(f"Abstract source: Elsevier — {title[:60]}")
             return meta["abstract"], "elsevier", meta
 
+    # 2) Crossref
     crossref_abs = clean_abstract_text(it.get("abstract", ""))
     if crossref_abs:
         log(f"Abstract source: Crossref — {title[:60]}")
         return crossref_abs, "crossref", None
 
+    # 3) Semantic Scholar
     ss_abs = clean_abstract_text(fetch_semantic_scholar_abstract(title))
     if ss_abs:
         log(f"Abstract source: Semantic Scholar — {title[:60]}")
         return ss_abs, "semantic_scholar", None
-
-    if doi and issn in ELSEVIER_ISSNS:
-        meta = fetch_elsevier_metadata(doi)
-        if meta and meta.get("abstract"):
-            log(f"Abstract source: Elsevier (fallback) — {title[:60]}")
-            return meta["abstract"], "elsevier", meta
 
     log(f"No abstract found — {title[:60]}")
     return "", "none", None
