@@ -15,42 +15,42 @@ DIGEST_INDEX = DIGEST_DIR / "digests.json"
 ELSEVIER_CACHE = {}
 
 JOURNALS = [
-    # ——— Your original list ———
+
     {"name": "Cognition", "issn": "0010-0277"},
-    {"name": "JEP: General", "issn": "0096-3445"},
-    {"name": "Judgment and Decision Making", "issn": "1930-2975"},
+    # {"name": "JEP: General", "issn": "0096-3445"},
+    # {"name": "Judgment and Decision Making", "issn": "1930-2975"},
     {"name": "OBHDP", "issn": "0749-5978"},  # Organizational Behavior and Human Decision Processes
-    {"name": "Journal of Risk and Uncertainty", "issn": "0895-5646"},
-    {"name": "Journal of Behavioral Decision Making", "issn": "0894-3257"},
-    {"name": "Cognitive Science", "issn": "0364-0213"},
-    {"name": "Memory & Cognition", "issn": "0090-502X"},
+    # {"name": "Journal of Risk and Uncertainty", "issn": "0895-5646"},
+    # {"name": "Journal of Behavioral Decision Making", "issn": "0894-3257"},
+    # {"name": "Cognitive Science", "issn": "0364-0213"},
+    # {"name": "Memory & Cognition", "issn": "0090-502X"},
 
-    # # ——— From Shelf 1 ———
-    {"name": "Trends in Cognitive Sciences", "issn": "1364-6613"},
+
+    # {"name": "Trends in Cognitive Sciences", "issn": "1364-6613"},
     {"name": "Cognitive Psychology", "issn": "0010-0285"},
-    {"name": "Psychological Review", "issn": "0033-295X"},
+    # {"name": "Psychological Review", "issn": "0033-295X"},
 
-    # ——— From Shelf 2 ———
-    {"name": "Journal of Experimental Psychology: Learning, Memory, and Cognition", "issn": "0278-7393"},
 
-    # ——— From Shelf 3 (Duplicates removed) ———
+    # {"name": "Journal of Experimental Psychology: Learning, Memory, and Cognition", "issn": "0278-7393"},
+
+
     {"name": "Journal of Economic Psychology", "issn": "0167-4870"},
 
-    # ——— Big Review + Methods journals ———
-    {"name": "Psychological Bulletin", "issn": "0033-2909"},
-    {"name": "Psychological Science", "issn": "0956-7976"},
-    {"name": "Psychological Methods", "issn": "1082-989X"},
+    # # ——— Big Review + Methods journals ———
+    # {"name": "Psychological Bulletin", "issn": "0033-2909"},
+    # {"name": "Psychological Science", "issn": "0956-7976"},
+    # {"name": "Psychological Methods", "issn": "1082-989X"},
     {"name": "Journal of Mathematical Psychology", "issn": "0022-2496"},
-    {"name": "Current Directions in Psychological Science", "issn": "0963-7214"},
-    {"name": "Perspectives on Psychological Science", "issn": "1745-6916"},
-    {"name": "Behavior Research Methods", "issn": "1554-351X"},
-    {"name": "Psychonomic Bulletin & Review", "issn": "1069-9384"},
+    # {"name": "Current Directions in Psychological Science", "issn": "0963-7214"},
+    # {"name": "Perspectives on Psychological Science", "issn": "1745-6916"},
+    # {"name": "Behavior Research Methods", "issn": "1554-351X"},
+    # {"name": "Psychonomic Bulletin & Review", "issn": "1069-9384"},
 
-    # ——— High-impact applied / interdisciplinary ———
-    {"name": "Nature Human Behaviour", "issn": "2397-3374"},
-    {"name": "American Economic Review", "issn": "0002-8282"},
+    # # ——— High-impact applied / interdisciplinary ———
+    # {"name": "Nature Human Behaviour", "issn": "2397-3374"},
+    # {"name": "American Economic Review", "issn": "0002-8282"},
     {"name": "Management Science", "issn": "0025-1909"},
-    {"name": "The Quarterly Journal of Economics", "issn": "0033-5533"},
+    # {"name": "The Quarterly Journal of Economics", "issn": "0033-5533"},
 ]
 
 ELSEVIER_ISSNS = {
@@ -115,7 +115,7 @@ def fetch_elsevier_metadata(doi):
     if doi in ELSEVIER_CACHE:
         return ELSEVIER_CACHE[doi]
     
-    url = f"https://api.elsevier.com/content/abstract/doi/{doi}"
+    url = f"https://api.elsevier.com/content/abstract/doi/{doi}?view=FULL"
     headers = {
         "X-ELS-APIKey": ELSEVIER_API_KEY,
         "Accept": "application/json",
@@ -363,25 +363,32 @@ def fetch_semantic_scholar_abstract(title):
     return ""
 
 def get_abstract_with_fallback(it, issn):
-    # 1) Crossref abstract
-    abstract = clean_abstract_text(it.get("abstract", ""))
-    if abstract:
-        return abstract, "crossref", None
-
     title = it.get("title", [""])[0]
     doi = it.get("DOI")
 
-    # 2) Semantic Scholar
-    ss_abstract = fetch_semantic_scholar_abstract(title)
-    if ss_abstract:
-        return clean_abstract_text(ss_abstract), "semantic_scholar", None
-
-    # 3) Elsevier (only if journal is Elsevier-owned)
     if doi and issn in ELSEVIER_ISSNS:
         meta = fetch_elsevier_metadata(doi)
         if meta and meta.get("abstract"):
+            log(f"Abstract source: Elsevier (primary) — {title[:60]}")
             return meta["abstract"], "elsevier", meta
 
+    crossref_abs = clean_abstract_text(it.get("abstract", ""))
+    if crossref_abs:
+        log(f"Abstract source: Crossref — {title[:60]}")
+        return crossref_abs, "crossref", None
+
+    ss_abs = clean_abstract_text(fetch_semantic_scholar_abstract(title))
+    if ss_abs:
+        log(f"Abstract source: Semantic Scholar — {title[:60]}")
+        return ss_abs, "semantic_scholar", None
+
+    if doi and issn in ELSEVIER_ISSNS:
+        meta = fetch_elsevier_metadata(doi)
+        if meta and meta.get("abstract"):
+            log(f"Abstract source: Elsevier (fallback) — {title[:60]}")
+            return meta["abstract"], "elsevier", meta
+
+    log(f"No abstract found — {title[:60]}")
     return "", "none", None
 
 
