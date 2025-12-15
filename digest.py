@@ -122,14 +122,17 @@ def fetch_elsevier_metadata(doi):
     headers = {
         "X-ELS-APIKey": ELSEVIER_API_KEY,
         "Accept": "application/json",
+        "User-Agent": "research-digest/1.0 (mailto:your.email@unibas.ch)"
     }
 
     try:
         r = requests.get(url, headers=headers, timeout=20)
         if r.status_code != 200:
+            log(f"Elsevier failed ({r.status_code}) for DOI {doi}")
             return None
         data = r.json()
-    except:
+    except Exception as e:
+        log(f"Elsevier request exception for DOI {doi}: {e}")
         return None
 
     # ---- extract abstract (schema-safe) ----
