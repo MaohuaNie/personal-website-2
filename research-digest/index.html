@@ -140,6 +140,29 @@
       font-weight: 600;
     }
 
+    .digest-description {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #4b5563;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    .digest-description p {
+      margin: 0 0 8px;
+    }
+
+    .digest-description p:last-child {
+      margin-bottom: 0;
+    }
+
+    .digest-disclaimer {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
     /* ===== Content ===== */
     .digest-content {
       height: 100vh;
@@ -184,6 +207,21 @@
           <h1>Research Digest</h1>
           <p>Bi-monthly research digests (1st &amp; 15th)</p>
         </div>
+        <div class="digest-description">
+        <p>
+          This page presents a bi-monthly, automatically generated research digest
+          covering recent publications in decision making, psychology, and related fields.
+          Papers are collected from selected journals, ranked using semantic similarity,
+          and summarized using large language models.
+        </p>
+
+        <p class="digest-disclaimer">
+          All articles and abstracts remain the property of their respective authors
+          and publishers. Summaries and relevance scores are generated automatically
+          using the OpenAI API and may be imperfect. Please consult the original papers
+          for authoritative information.
+        </p>
+      </div>
       </div>
 
       <div class="digest-divider"></div>
