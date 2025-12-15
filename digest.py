@@ -12,7 +12,7 @@ DIGEST_DIR = ROOT / "research-digest"
 DIGEST_DIR.mkdir(exist_ok=True)
 
 DIGEST_INDEX = DIGEST_DIR / "digests.json"
-
+ELSEVIER_CACHE = {}
 
 JOURNALS = [
     # ——— Your original list ———
@@ -52,6 +52,154 @@ JOURNALS = [
     {"name": "Management Science", "issn": "0025-1909"},
     {"name": "The Quarterly Journal of Economics", "issn": "0033-5533"},
 ]
+
+ELSEVIER_ISSNS = {
+    "0010-0277",  # Cognition
+    "0749-5978",  # OBHDP
+    "0010-0285",  # Cognitive Psychology
+    "0167-4870",  # Journal of Economic Psychology
+    "0022-2496",  # Journal of Mathematical Psychology
+}
+
+ELSEVIER_API_KEY = os.getenv("ELSEVIER_API_KEY")
+if not ELSEVIER_API_KEY:
+    raise RuntimeError("Missing ELSEVIER_API_KEY environment variable")
+
+
+def clean_abstract_text(text):
+    """
+    Remove JATS/XML tags and normalize whitespace.
+    """
+    if not text:
+        return ""
+
+    # Remove XML/JATS tags like <jats:p>, <jats:title>, etc.
+    text = re.sub(r"<[^>]+>", " ", text)
+
+    # Collapse whitespace
+    text = re.sub(r"\s+", " ", text)
+
+    return text.strip()
+
+def cosine_sim(a, b):
+    return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
+
+def embed_text_batch(texts):
+    # Ensure we never send invalid payloads
+    if not texts:
+        return []
+
+    # Ensure every element is a string (no None)
+    clean_texts = []
+    for t in texts:
+        if t is None:
+            t = ""
+        if not isinstance(t, str):
+            t = str(t)
+        clean_texts.append(t)
+
+    # OPTIONAL safety: avoid sending purely empty inputs
+    # (Embeddings can accept empty strings sometimes, but it's safer to drop them)
+    # If you drop items, you must keep alignment with other arrays — so here we do NOT drop.
+    resp = client.embeddings.create(
+        model="text-embedding-3-small",
+        input=clean_texts
+    )
+    return [np.array(x.embedding) for x in resp.data]
+
+def fetch_elsevier_metadata(doi):
+    """
+    Fetch abstract + authors + publication date from Elsevier (Scopus).
+    Returns dict or None.
+    """
+    if doi in ELSEVIER_CACHE:
+        return ELSEVIER_CACHE[doi]
+    
+    url = f"https://api.elsevier.com/content/abstract/doi/{doi}"
+    headers = {
+        "X-ELS-APIKey": ELSEVIER_API_KEY,
+        "Accept": "application/json",
+    }
+
+    try:
+        r = requests.get(url, headers=headers, timeout=20)
+        if r.status_code != 200:
+            return None
+        data = r.json()
+    except:
+        return None
+
+    # ---- extract abstract (schema-safe) ----
+    abstract = None
+    head = (
+        data.get("abstracts-retrieval-response", {})
+            .get("item", {})
+            .get("bibrecord", {})
+            .get("head", {})
+    )
+
+    abstracts = head.get("abstracts")
+
+    if isinstance(abstracts, str):
+        abstract = abstracts.strip()
+
+    elif isinstance(abstracts, dict):
+        a = abstracts.get("abstract")
+        if isinstance(a, str):
+            abstract = a.strip()
+        elif isinstance(a, dict):
+            para = a.get("ce:para")
+            if isinstance(para, list):
+                abstract = " ".join(p.strip() for p in para)
+            elif isinstance(para, str):
+                abstract = para.strip()
+
+    # ---- extract authors ----
+    authors = []
+    ag = head.get("author-group", None)
+
+    # author-group may be dict OR list
+    if isinstance(ag, dict):
+        ag_list = [ag]
+    elif isinstance(ag, list):
+        ag_list = ag
+    else:
+        ag_list = []
+
+    for group in ag_list:
+        auths = group.get("author", [])
+        if isinstance(auths, dict):
+            auths = [auths]
+        for a in auths:
+            authors.append({
+                "given": a.get("ce:given-name", ""),
+                "family": a.get("ce:surname", ""),
+            })
+
+
+    # ---- extract publication year ----
+    pub_year = None
+    pubdate = (
+        data.get("abstracts-retrieval-response", {})
+            .get("item", {})
+            .get("bibrecord", {})
+            .get("item-info", {})
+            .get("history", {})
+            .get("publication-date", {})
+    )
+    if isinstance(pubdate, dict):
+        pub_year = pubdate.get("year")
+    
+    result = {
+            "abstract": clean_abstract_text(abstract or ""),
+            "authors": authors,
+            "year": pub_year,
+            "source": "elsevier",
+    }
+
+    ELSEVIER_CACHE[doi] = result
+
+    return result
 
 
 TOP_K_PER_JOURNAL = 30
@@ -139,46 +287,7 @@ def parse_pub_datetime(item):
                 return None
     return None
 
-def clean_abstract_text(text):
-    """
-    Remove JATS/XML tags and normalize whitespace.
-    """
-    if not text:
-        return ""
 
-    # Remove XML/JATS tags like <jats:p>, <jats:title>, etc.
-    text = re.sub(r"<[^>]+>", " ", text)
-
-    # Collapse whitespace
-    text = re.sub(r"\s+", " ", text)
-
-    return text.strip()
-
-def cosine_sim(a, b):
-    return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
-
-def embed_text_batch(texts):
-    # Ensure we never send invalid payloads
-    if not texts:
-        return []
-
-    # Ensure every element is a string (no None)
-    clean_texts = []
-    for t in texts:
-        if t is None:
-            t = ""
-        if not isinstance(t, str):
-            t = str(t)
-        clean_texts.append(t)
-
-    # OPTIONAL safety: avoid sending purely empty inputs
-    # (Embeddings can accept empty strings sometimes, but it's safer to drop them)
-    # If you drop items, you must keep alignment with other arrays — so here we do NOT drop.
-    resp = client.embeddings.create(
-        model="text-embedding-3-small",
-        input=clean_texts
-    )
-    return [np.array(x.embedding) for x in resp.data]
 
 
 def gpt_relevance_and_summary(title, abstract):
@@ -253,17 +362,27 @@ def fetch_semantic_scholar_abstract(title):
         pass
     return ""
 
-def get_abstract_with_fallback(it):
+def get_abstract_with_fallback(it, issn):
+    # 1) Crossref abstract
     abstract = clean_abstract_text(it.get("abstract", ""))
     if abstract:
-        return abstract, "crossref"
+        return abstract, "crossref", None
 
     title = it.get("title", [""])[0]
+    doi = it.get("DOI")
+
+    # 2) Semantic Scholar
     ss_abstract = fetch_semantic_scholar_abstract(title)
     if ss_abstract:
-        return clean_abstract_text(ss_abstract), "semantic_scholar" 
+        return clean_abstract_text(ss_abstract), "semantic_scholar", None
 
-    return "", "none"
+    # 3) Elsevier (only if journal is Elsevier-owned)
+    if doi and issn in ELSEVIER_ISSNS:
+        meta = fetch_elsevier_metadata(doi)
+        if meta and meta.get("abstract"):
+            return meta["abstract"], "elsevier", meta
+
+    return "", "none", None
 
 
 
@@ -350,15 +469,18 @@ def find_recent_relevant_papers():
         texts = []
         abstracts = []
         sources = []
+        metas = []
 
         for it in valid_items:
-            abs_text, source = get_abstract_with_fallback(it)
+            abs_text, source, elsevier_meta = get_abstract_with_fallback(it, j["issn"])
             title = it.get("title", [""])[0] if it.get("title") else ""
+
             texts.append(
                 sanitize_for_embedding(f"{title}\n\n{abs_text or ''}")
             )
             abstracts.append(sanitize_for_embedding(abs_text or ""))
             sources.append(source)
+            metas.append(elsevier_meta)   # NEW
 
         log(f"  → Creating embeddings for {len(texts)} papers")
         embeds = embed_text_batch(texts)
@@ -382,15 +504,26 @@ def find_recent_relevant_papers():
 
             if relevant:
                 kept += 1
+                authors = format_authors(valid_items[idx].get("author", []))
+                published = format_pub_date(valid_items[idx])
+
+                meta = metas[idx]
+                if meta:
+                    if meta.get("authors"):
+                        authors = format_authors(meta["authors"])
+                    if meta.get("year"):
+                        published = str(meta["year"])
+
                 all_results.append({
                     "title": title,
-                    "authors": format_authors(valid_items[idx].get("author", [])),
-                    "published": format_pub_date(valid_items[idx]),
+                    "authors": authors,
+                    "published": published,
                     "journal": j["name"],
                     "relevance_score": round(sims[idx], 2),
                     "doi": valid_items[idx].get("DOI"),
                     "abstract": abstracts[idx],
                     "abstract_source": sources[idx],
+                    "metadata_source": sources[idx] if sources[idx] == "elsevier" else "crossref",
                     "summary": summary
                 })
 
@@ -531,7 +664,7 @@ def format_email_body_html(results, start_day, end_day):
                 box-shadow:0 2px 10px rgba(0,0,0,0.04);
             ">
               <h3 style="margin:0 0 10px;font-size:20px;color:#111827;">
-                {title}
+                {title} {badge}
               </h3>
 
               {"<p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>" + summary + "</p>" if summary else ""}
