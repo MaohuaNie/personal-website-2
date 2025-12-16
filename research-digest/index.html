@@ -231,22 +231,33 @@
         <div class="about-toggle" onclick="toggleAbout()">
           ℹ️ About this digest
         </div>
-        <div id="about-content" class="about-content">
-          <p>
-            This bi-weekly research digest is generated automatically from selected
-            journals in psychology, decision science, and behavioral economics.
-            Papers are retrieved using publication metadata, ranked by semantic
-            similarity to predefined research topics, and filtered using large
-            language models to assess relevance.
-          </p>
-          <p>
-            <strong>Disclaimer.</strong> All articles and abstracts remain the
-            property of their respective authors and publishers. Summaries and
-            relevance scores are generated automatically using the OpenAI API and
-            may be imperfect. Please consult the original publications for
-            authoritative information.
-          </p>
-        </div>
+      <div id="about-content" class="about-content">
+        <p>
+          This bi-weekly research digest is generated automatically from selected
+          journals in psychology, decision science, and behavioral economics.
+          Publication metadata are retrieved primarily via the
+          <strong>Crossref</strong> API, with abstracts collected using a prioritized
+          fallback strategy that includes publisher APIs (e.g., <strong>Elsevier</strong>),
+          <strong>OpenAlex</strong>, and <strong>Semantic Scholar</strong>.
+        </p>
+
+        <p>
+          Papers are ranked by semantic similarity to predefined research topics using
+          vector embeddings generated with the <strong>OpenAI API</strong>, and a
+          large language model is used to assess topical relevance and generate brief,
+          plain-language summaries. The final digest reflects a combination of
+          automated retrieval, semantic ranking, and model-based filtering.
+        </p>
+
+        <p>
+          <strong>Disclaimer.</strong> All articles, abstracts, and bibliographic
+          metadata remain the property of their respective authors and publishers.
+          Summaries and relevance scores are generated automatically and may be
+          imperfect or incomplete. This digest is intended as a research aid rather
+          than an authoritative or exhaustive source; readers should consult the
+          original publications for definitive information.
+        </p>
+      </div>
       </div>
 
       <!-- Viewer -->
