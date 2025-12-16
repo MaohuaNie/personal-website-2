@@ -1,27 +1,17 @@
 
-    <html>
+    <!DOCTYPE html>
+    <html lang="en">
     <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/assets/site.css">
+    <link rel="stylesheet" href="../assets/site.css">
     </head>
     <body style="
-        font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
         background:#f6f7fb;
         padding:20px;
         color:#1f2937;
     ">
-    <a href="/" style="
-    display:inline-block;
-    padding:6px 12px;
-    border-radius:10px;
-    background:#f3f4f6;
-    border:1px solid #e5e7eb;
-    color:#1f2937;
-    font-size:14px;
-    text-decoration:none;
-    ">
-    ← Home
-    </a>
+    <a id="top"></a>
+    
       <div style="
           max-width:900px;
           margin:0 auto;
@@ -38,19 +28,9 @@
               Bi-weekly Research Digest
             </h1>
             <p style="margin:8px 0 0;font-size:14px;color:#4b5563;">
-              <b>Date range:</b> 2025-11-30 → 2025-12-14<br>
-              <b>Total relevant papers:</b> 4
+              <b>Date range:</b> 2025-11-16 → 2025-11-30<br>
+              <b>Total relevant papers:</b> 5
             </p>
-          </div>
-          <div style="
-              padding:10px 12px;
-              background:#f3f4f6;
-              border:1px solid #e5e7eb;
-              border-radius:12px;
-              font-size:12px;
-              color:#374151;
-          ">
-            Topic: Decision Making
           </div>
         </div>
 
@@ -65,13 +45,14 @@
         </h2>
 
         <ul style="margin:10px 0 0;padding-left:18px;color:#374151;line-height:1.7;">
-    <li><b>Cognition</b>: 3</li><li><b>JEP: General</b>: 1</li></ul>
+    <li><a href='#journal-nature-human-behaviour' style='text-decoration:none;color:#2563eb;'><b>Nature Human Behaviour</b></a>: 2</li><li><a href='#journal-management-science' style='text-decoration:none;color:#2563eb;'><b>Management Science</b></a>: 3</li></ul>
+        <a id="journal-nature-human-behaviour"></a>
         <h2 style="
             margin:34px 0 10px;
             font-size:24px;
             color:#b91c1c;
         ">
-          Cognition
+        Nature Human Behaviour
         </h2>
         
             <div style="
@@ -83,18 +64,19 @@
                 box-shadow:0 2px 10px rgba(0,0,0,0.04);
             ">
               <h3 style="margin:0 0 10px;font-size:20px;color:#111827;">
-                When metrics matter: How reasoning in different metrics impacts judgments of uncertainty
+                Addressing low statistical power in computational modelling studies in psychology and neuroscience 
+                
               </h3>
 
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper explores how using different metrics to represent uncertainty affects people&#39;s judgments, linking metric framing to uncertainty in decision making.</p>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>A methodological study showing that Bayesian model selection in psychology/neuroscience often has low power to identify the true model, with fixed-effects approaches producing high false positives, underscoring the need for greater statistical rigor in process-level cognitive modelling.</p>
 
               <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Zimmerman, D., Spiller, S., Reinholtz, N., Maglio, S.</div>
-                <div><b>Published:</b> 2025-12</div>
+                <div><b>Authors:</b> Piray, P.</div>
+                <div><b>Published:</b> 2025-11</div>
                 <div><b>Relevance Score:</b> 0.46</div>
                 <div style="margin-top:10px;">
                   <b>DOI:</b>
-                  <a href='https://doi.org/10.1016/j.cognition.2025.106277' target="_blank" rel="noopener noreferrer" style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.cognition.2025.106277</a>
+                  <a href='https://doi.org/10.1038/s41562-025-02348-6' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1038/s41562-025-02348-6</a>
                   
                 </div>
 
@@ -106,7 +88,7 @@
                     border-radius:12px;
                 ">
                   <b>Abstract:</b><br>
-                  <span style="color:#374151;">Not available.</span>
+                  <span style="color:#374151;">Computational modelling is a powerful tool for uncovering hidden processes in observed data, yet it faces underappreciated challenges. Among these, determining appropriate sample sizes for computational studies remains a critical but overlooked issue, particularly for model selection analyses. Here we introduce a power analysis framework for Bayesian model selection, a method widely used to choose the best model among alternatives. Our framework reveals that while power increases with sample size, it decreases as more models are considered. Using this framework, we empirically demonstrate that psychology and human neuroscience studies often suffer from low statistical power in model selection. A total of 41 of 52 studies reviewed had less than 80% probability of correctly identifying the true model. The field also heavily relies on fixed effects model selection, which we demonstrate has serious statistical issues, including high false positive rates and pronounced sensitivity to outliers.</span>
                 </div>
               </div>
             </div>
@@ -120,18 +102,19 @@
                 box-shadow:0 2px 10px rgba(0,0,0,0.04);
             ">
               <h3 style="margin:0 0 10px;font-size:20px;color:#111827;">
-                People make suboptimal decisions about existential risks
+                A habit and working memory model as an alternative account of human reward-based learning 
+                
               </h3>
 
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper argues that people make suboptimal decisions about existential threats, highlighting biases in assessing rare but high-impact risks. It frames existential risk as a test case for decision science in high-stakes uncertainty.</p>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The study reanalyzes multiple human learning datasets and shows that reward-based learning is best explained by a fast working-memory process plus a slower habit-like process, rather than a single reinforcement-learning algorithm, highlighting cognitive mechanisms in decision making and informing model interpretation of RL in brain and behavior.</p>
 
               <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Elga, A., Zhu, J., Griffiths, T.</div>
-                <div><b>Published:</b> 2025-12</div>
-                <div><b>Relevance Score:</b> 0.46</div>
+                <div><b>Authors:</b> Collins, A.</div>
+                <div><b>Published:</b> 2025-11</div>
+                <div><b>Relevance Score:</b> 0.44</div>
                 <div style="margin-top:10px;">
                   <b>DOI:</b>
-                  <a href='https://doi.org/10.1016/j.cognition.2025.106216' target="_blank" rel="noopener noreferrer" style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.cognition.2025.106216</a>
+                  <a href='https://doi.org/10.1038/s41562-025-02340-0' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1038/s41562-025-02340-0</a>
                   
                 </div>
 
@@ -143,54 +126,18 @@
                     border-radius:12px;
                 ">
                   <b>Abstract:</b><br>
-                  <span style="color:#374151;">Not available.</span>
+                  <span style="color:#374151;">Abstract Reinforcement learning (RL) algorithms have had tremendous success accounting for reward-based learning across species, including instrumental learning in contextual bandit tasks, and they capture variance in brain signals. However, reward-based learning in humans recruits multiple processes, including memory and choice perseveration; their contributions can easily be mistakenly attributed to RL computations. Here I investigate how much of reward-based learning behaviour is supported by RL computations in a context where other processes can be factored out. Reanalysis and computational modelling of 7 datasets ( n = 594) in diverse samples show that in this instrumental context, reward-based learning is best explained by a combination of a fast working-memory-based process and a slower habit-like associative process, neither of which can be interpreted as a standard RL-like algorithm on its own. My results raise important questions for the interpretation of RL algorithms as capturing a meaningful process across brain and behaviour.</span>
                 </div>
               </div>
             </div>
             
-            <div style="
-                background:#ffffff;
-                border:1px solid #e5e7eb;
-                border-radius:14px;
-                padding:18px;
-                margin:14px 0 18px;
-                box-shadow:0 2px 10px rgba(0,0,0,0.04);
-            ">
-              <h3 style="margin:0 0 10px;font-size:20px;color:#111827;">
-                Stronger effects of motion priors on sensitivity and bias in children
-              </h3>
-
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>Developmental study showing that children rely more on motion priors, which modulates perceptual sensitivity and decision bias in motion discrimination tasks.</p>
-
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Mhajne, E., Szpiro, S.</div>
-                <div><b>Published:</b> 2025-12</div>
-                <div><b>Relevance Score:</b> 0.25</div>
-                <div style="margin-top:10px;">
-                  <b>DOI:</b>
-                  <a href='https://doi.org/10.1016/j.cognition.2025.106282' target="_blank" rel="noopener noreferrer" style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.cognition.2025.106282</a>
-                  
-                </div>
-
-                <div style="
-                    margin-top:12px;
-                    padding:12px;
-                    background:#f9fafb;
-                    border:1px solid #eef0f4;
-                    border-radius:12px;
-                ">
-                  <b>Abstract:</b><br>
-                  <span style="color:#374151;">Not available.</span>
-                </div>
-              </div>
-            </div>
-            
+        <a id="journal-management-science"></a>
         <h2 style="
             margin:34px 0 10px;
             font-size:24px;
             color:#b91c1c;
         ">
-          JEP: General
+        Management Science
         </h2>
         
             <div style="
@@ -202,18 +149,19 @@
                 box-shadow:0 2px 10px rgba(0,0,0,0.04);
             ">
               <h3 style="margin:0 0 10px;font-size:20px;color:#111827;">
-                The role of race in lineup construction.
+                Nonadditivity of Subjective Expectations over Different Time Intervals 
+                
               </h3>
 
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper investigates how race affects eyewitness lineup construction and identifications under uncertain evidence, highlighting bias in real-world decision making.</p>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>People’s 10-year stock-growth expectation is not the sum of shorter-interval expectations; shorter intervals are overweighted, producing subadditivity, and the degree of additivity correlates with investment size.</p>
 
               <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Akan, M., Starns, J., Cohen, A., Reid, A.</div>
-                <div><b>Published:</b> 2025-12</div>
-                <div><b>Relevance Score:</b> 0.21</div>
+                <div><b>Authors:</b> Haan, P., Sun, C., Sunde, U., Weizsäcker, G.</div>
+                <div><b>Published:</b> 2025-11</div>
+                <div><b>Relevance Score:</b> 0.44</div>
                 <div style="margin-top:10px;">
                   <b>DOI:</b>
-                  <a href='https://doi.org/10.1037/xge0001836' target="_blank" rel="noopener noreferrer" style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/xge0001836</a>
+                  <a href='https://doi.org/10.1287/mnsc.2023.01558' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2023.01558</a>
                   
                 </div>
 
@@ -225,12 +173,92 @@
                     border-radius:12px;
                 ">
                   <b>Abstract:</b><br>
-                  <span style="color:#374151;">Not available.</span>
+                  <span style="color:#374151;">We examine the additivity of expectations over different time intervals. For example, when asked about 10-year stock price growth, survey respondents report an expected change that is not equal to, but closer to zero than, the sum of their expectations over two shorter time intervals that cover the same 10 years. Such subadditivity, which we also find in expectations for other economic variables, is irrational, as it cannot stem from aggregating short-term expectations. Model estimates show that the pattern is consistent with a time perception where shorter time intervals have a proportionally larger weight. We also find that the respondents’ degree of additivity is correlated with making larger financial investments. This paper was accepted by Manel Baucells, behavioral economics and decision analysis. Funding: This work was supported by Deutsche Forschungsgemeinschaft (the German Science Foundation) via CRC TRR 190 [Grant 280092119]. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2023.01558 .</span>
+                </div>
+              </div>
+            </div>
+            
+            <div style="
+                background:#ffffff;
+                border:1px solid #e5e7eb;
+                border-radius:14px;
+                padding:18px;
+                margin:14px 0 18px;
+                box-shadow:0 2px 10px rgba(0,0,0,0.04);
+            ">
+              <h3 style="margin:0 0 10px;font-size:20px;color:#111827;">
+                Are Subjective Expectations Formed as in Rational Expectations Models of Active Management? 
+                
+              </h3>
+
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>Analysts&#39; subjective expectations about fund performance are compared to a rational-learning benchmark; misalignment is found and flows respond to ratings.</p>
+
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Dahlquist, M., Ibert, M., Wilke, F.</div>
+                <div><b>Published:</b> 2025-11</div>
+                <div><b>Relevance Score:</b> 0.41</div>
+                <div style="margin-top:10px;">
+                  <b>DOI:</b>
+                  <a href='https://doi.org/10.1287/mnsc.2024.04419' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2024.04419</a>
+                  
+                </div>
+
+                <div style="
+                    margin-top:12px;
+                    padding:12px;
+                    background:#f9fafb;
+                    border:1px solid #eef0f4;
+                    border-radius:12px;
+                ">
+                  <b>Abstract:</b><br>
+                  <span style="color:#374151;">We recover forward-looking expected net-of-fee abnormal returns (alphas) for active equity mutual funds from analyst ratings. In contrast to the typical equilibrium implication of zero alphas, analyst alphas are negative for most funds, but positive for the largest funds. We compare analysts’ subjective expectations with expectations from a rational expectations learning model. The model’s rational learner believes that an increase in fund size leads to a decrease in returns, but we find no evidence that analysts believe so. Consistently, counterfactual ratings based on the rational model tend to outperform analysts’ ratings out of sample. Investor fund flows respond significantly to analyst ratings. This paper was accepted by Lukas Schmid, finance. Funding: Support from the Center for Big Data in Finance [Grant DNRF167], the Danish Finance Institute, and the Swedish House of Finance is gratefully acknowledged. This work was funded by Fundação para a Ciência e a Tecnologia (UIDB/00124/2025, UID/PRR/124/2025, Nova School of Business and Economics) and LISBOA2030 (DataLab2030 - LISBOA2030-FEDER-01314200). Supplemental Material: The online appendices and data files are available at https://doi.org/10.1287/mnsc.2024.04419 .</span>
+                </div>
+              </div>
+            </div>
+            
+            <div style="
+                background:#ffffff;
+                border:1px solid #e5e7eb;
+                border-radius:14px;
+                padding:18px;
+                margin:14px 0 18px;
+                box-shadow:0 2px 10px rgba(0,0,0,0.04);
+            ">
+              <h3 style="margin:0 0 10px;font-size:20px;color:#111827;">
+                Financial Inclusion via FinTech: From Digital Payments to Platform Investments 
+                
+              </h3>
+
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>It investigates the causal impact of digital-payment–driven FinTech adoption on individuals’ participation and risk-taking in mutual funds, emphasizing cognitive barriers and individual heterogeneity, though it does not provide direct process-time measurements.</p>
+
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Hong, C., Lu, X., Pan, J.</div>
+                <div><b>Published:</b> 2025-11</div>
+                <div><b>Relevance Score:</b> 0.37</div>
+                <div style="margin-top:10px;">
+                  <b>DOI:</b>
+                  <a href='https://doi.org/10.1287/mnsc.2024.04423' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2024.04423</a>
+                  
+                </div>
+
+                <div style="
+                    margin-top:12px;
+                    padding:12px;
+                    background:#f9fafb;
+                    border:1px solid #eef0f4;
+                    border-radius:12px;
+                ">
+                  <b>Abstract:</b><br>
+                  <span style="color:#374151;">We study household finance in the age of FinTech, where digital payments are integrated with various financial services through all-in-one super apps. We hypothesize that increased FinTech adoption via digital payments can lower the nonmonetary costs (e.g., psychological barriers) associated with financial market participation. We find that higher FinTech adoption leads to greater participation and increased risk taking in mutual fund investments. Using distance from Ant as an instrument for FinTech penetration, as well as the exogenous penetration of QRPay in Shenzhen, we further provide causal evidence from digital payment to risky fund investment. Moreover, the effect of FinTech is stronger among individuals who are otherwise more constrained, those with higher risk tolerance, or those living in under-banked counties. This paper was accepted by Will Cong, finance. Funding: C. Y. Hong acknowledges financial support from the National Natural Science Foundation of China [Grant 72003125]. X. Lu acknowledges financial support from the National Natural Science Foundation of China [Grant 72473028]. J. Pan acknowledges financial support from the National Natural Science Foundation of China [Grant W2431051]. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2024.04423 .</span>
                 </div>
               </div>
             </div>
             
       </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">
+        ↑
+        </a>
+
     </body>
     </html>
     
