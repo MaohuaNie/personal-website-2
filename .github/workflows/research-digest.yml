@@ -1,3 +1,10 @@
+# NOTE:
+# This workflow is intentionally DISABLED.
+# Reason:
+# - Elsevier API requires IP-restricted access (institution network)
+# - OpenAI API is not available on SciCORE / GitHub runners
+# Digest generation is run locally and committed manually.
+
 name: Generate Research Digest
 
 on:

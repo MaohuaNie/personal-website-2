@@ -18,40 +18,40 @@ ELSEVIER_CACHE = {}
 JOURNALS = [
 
     {"name": "Cognition", "issn": "0010-0277"},
-    # {"name": "JEP: General", "issn": "0096-3445"},
-    # {"name": "Judgment and Decision Making", "issn": "1930-2975"},
+    {"name": "JEP: General", "issn": "0096-3445"},
+    {"name": "Judgment and Decision Making", "issn": "1930-2975"},
     {"name": "OBHDP", "issn": "0749-5978"},  # Organizational Behavior and Human Decision Processes
-    # {"name": "Journal of Risk and Uncertainty", "issn": "0895-5646"},
-    # {"name": "Journal of Behavioral Decision Making", "issn": "0894-3257"},
-    # {"name": "Cognitive Science", "issn": "0364-0213"},
-    # {"name": "Memory & Cognition", "issn": "0090-502X"},
+    {"name": "Journal of Risk and Uncertainty", "issn": "0895-5646"},
+    {"name": "Journal of Behavioral Decision Making", "issn": "0894-3257"},
+    {"name": "Cognitive Science", "issn": "0364-0213"},
+    {"name": "Memory & Cognition", "issn": "0090-502X"},
 
 
-    # {"name": "Trends in Cognitive Sciences", "issn": "1364-6613"},
+    {"name": "Trends in Cognitive Sciences", "issn": "1364-6613"},
     {"name": "Cognitive Psychology", "issn": "0010-0285"},
-    # {"name": "Psychological Review", "issn": "0033-295X"},
+    {"name": "Psychological Review", "issn": "0033-295X"},
 
 
-    # {"name": "Journal of Experimental Psychology: Learning, Memory, and Cognition", "issn": "0278-7393"},
+    {"name": "Journal of Experimental Psychology: Learning, Memory, and Cognition", "issn": "0278-7393"},
 
 
     {"name": "Journal of Economic Psychology", "issn": "0167-4870"},
 
     # # ——— Big Review + Methods journals ———
-    # {"name": "Psychological Bulletin", "issn": "0033-2909"},
-    # {"name": "Psychological Science", "issn": "0956-7976"},
-    # {"name": "Psychological Methods", "issn": "1082-989X"},
+    {"name": "Psychological Bulletin", "issn": "0033-2909"},
+    {"name": "Psychological Science", "issn": "0956-7976"},
+    {"name": "Psychological Methods", "issn": "1082-989X"},
     {"name": "Journal of Mathematical Psychology", "issn": "0022-2496"},
-    # {"name": "Current Directions in Psychological Science", "issn": "0963-7214"},
-    # {"name": "Perspectives on Psychological Science", "issn": "1745-6916"},
-    # {"name": "Behavior Research Methods", "issn": "1554-351X"},
-    # {"name": "Psychonomic Bulletin & Review", "issn": "1069-9384"},
+    {"name": "Current Directions in Psychological Science", "issn": "0963-7214"},
+    {"name": "Perspectives on Psychological Science", "issn": "1745-6916"},
+    {"name": "Behavior Research Methods", "issn": "1554-351X"},
+    {"name": "Psychonomic Bulletin & Review", "issn": "1069-9384"},
 
     # # ——— High-impact applied / interdisciplinary ———
-    # {"name": "Nature Human Behaviour", "issn": "2397-3374"},
-    # {"name": "American Economic Review", "issn": "0002-8282"},
+    {"name": "Nature Human Behaviour", "issn": "2397-3374"},
+    {"name": "American Economic Review", "issn": "0002-8282"},
     {"name": "Management Science", "issn": "0025-1909"},
-    # {"name": "The Quarterly Journal of Economics", "issn": "0033-5533"},
+    {"name": "The Quarterly Journal of Economics", "issn": "0033-5533"},
 ]
 
 ELSEVIER_ISSNS = {
@@ -122,7 +122,7 @@ def fetch_elsevier_metadata(doi):
     headers = {
         "X-ELS-APIKey": ELSEVIER_API_KEY,
         "Accept": "application/json",
-        "User-Agent": "research-digest/1.0 (mailto:your.email@unibas.ch)"
+        "User-Agent": "research-digest/1.0 (mailto:maohua.nie@unibas.ch)"
     }
 
     try:
@@ -316,20 +316,37 @@ def parse_pub_datetime(item):
 def gpt_relevance_and_summary(title, abstract):
     """Return relevance boolean, reason, and a 1–2 sentence summary."""
     prompt = f"""
-        You are assisting a PhD student in economic psychology who studies human decision making.
-        His research focuses on how people evaluate and choose between options, particularly under risk and uncertainty, and how these processes operate in real-world contexts such as financial decision making and gambling.
+        You are assisting a PhD student in economic psychology who studies **individual-level decision making**.
 
-        His work draws on behavioral economics, cognitive psychology, and computational modeling, with an emphasis on process-level mechanisms (e.g., response times) and formal models such as drift diffusion and evidence accumulation models.
+        His research focuses on how **people mentally represent, evaluate, and compare choice options**, particularly under **risk, uncertainty, and complexity**, and how these processes generate observable behavior such as **choices, response times, and inconsistencies**.
 
-        Evaluate whether this paper is relevant to that research agenda.
+        His work draws on behavioral economics, cognitive psychology, and computational modeling, with a strong emphasis on:
+        - cognitive mechanisms,
+        - internal noise or uncertainty in representations,
+        - process-level evidence (e.g., response times, memory, attention),
+        - and formal models of decision making (e.g., Bayesian models, drift diffusion / evidence accumulation models).
 
-        Treat a paper as RELEVANT if it substantially concerns one or more of the following:
-        - decision making under risk or uncertainty;
-        - gain–loss domain effects, loss aversion, or ambiguity;
-        - choice complexity, description–experience differences, or adaptive strategies;
-        - process-level analyses of decision making (e.g., response times, cognitive mechanisms);
-        - computational or quantitative models of choice (e.g., DDM, EAM);
-        - applications to real-world risky behavior (e.g., finance, gambling).
+        Your task is to evaluate whether the paper is relevant to **this cognitive and process-oriented research agenda**.
+
+
+
+        ### Treat a paper as RELEVANT if it substantially concerns one or more of the following:
+
+        - **Individual decision making under risk or uncertainty**, where behavior is explained in terms of cognitive representations, preferences, or noise.
+        - **Choice complexity**, cognitive load, or informational complexity, and how these affect individual choices or decision processes.
+        - **Gain–loss asymmetries**, loss aversion, ambiguity, probability weighting, or related preference phenomena at the individual level.
+        - **Process-level evidence**, such as response times, attention, memory, learning dynamics, or choice inconsistency.
+        - **Computational or formal cognitive models** of choice (e.g., Bayesian inference models, drift diffusion models, evidence accumulation, stochastic choice models with psychological interpretation).
+        - Experimental or empirical work that **tests psychological mechanisms**, even if conducted in applied domains (e.g., finance, portfolios, markets).
+
+
+
+        ### Treat a paper as NOT RELEVANT if it primarily focuses on:
+
+        - Market-level, firm-level, or population-level outcomes **without modeling individual decision processes**.
+        - Purely normative optimization, algorithmic methods, or policy design **without psychological or cognitive interpretation**.
+        - Large-scale behavioral patterns inferred from field data **without a cognitive or process-level account**.
+        - Pricing, supply chains, operations, contracts, or strategic interactions **unless individual choice under risk or uncertainty is the central object of study**.
 
         Return ONLY this JSON:
         {{
@@ -667,18 +684,6 @@ def format_email_body_html(results, start_day, end_day):
             badge = ""
             if abstract_source:
                 badge = f"""
-                <span style="
-                    display:inline-block;
-                    margin-left:8px;
-                    padding:2px 8px;
-                    font-size:12px;
-                    border-radius:999px;
-                    background:#f3f4f6;
-                    border:1px solid #e5e7eb;
-                    color:#4b5563;
-                ">
-                  abstract: {abstract_source}
-                </span>
                 """
 
             html += f"""
