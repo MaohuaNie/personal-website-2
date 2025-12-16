@@ -11,6 +11,7 @@
     html, body {
       height: 100%;
       margin: 0;
+      overflow: hidden;
     }
 
     /* ===== Layout ===== */
@@ -140,7 +141,6 @@
     .digest-content {
       height: 100vh;
       overflow: hidden;
-      background: #f6f7fb;
       display: flex;
       flex-direction: column;
     }
@@ -167,6 +167,9 @@
       color: #374151;
       display: none;
     }
+    .about-content.visible {
+      display: block;
+    }
 
     .about-content p {
       margin: 8px 0;
@@ -177,6 +180,10 @@
       flex: 1;
       width: 100%;
       border: none;
+    }
+
+    iframe {
+      background: #f6f7fb;
     }
 
     /* ===== Mobile ===== */
@@ -249,8 +256,9 @@
 
   <script>
     function toggleAbout() {
-      const el = document.getElementById("about-content");
-      el.style.display = el.style.display === "none" ? "block" : "none";
+      document
+        .getElementById("about-content")
+        .classList.toggle("visible");
     }
 
     function setActive(linkEl) {
