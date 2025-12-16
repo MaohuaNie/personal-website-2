@@ -1,206 +1,146 @@
 [
   {
-    "date": "2025-01-15",
-    "title": "Research Digest \u00b7 2025-01-01 \u2192 2025-01-15",
-    "papers": 16,
-    "file": "2025-01-15.html"
-  },
-  {
-    "date": "2025-02-15",
-    "title": "Research Digest \u00b7 2025-02-01 \u2192 2025-02-15",
-    "papers": 2,
-    "file": "2025-02-15.html"
-  },
-  {
-    "date": "2025-01-31",
-    "title": "Research Digest \u00b7 2025-01-16 \u2192 2025-01-31",
-    "papers": 1,
-    "file": "2025-01-31.html"
-  },
-  {
-    "date": "2025-02-28",
-    "title": "Research Digest \u00b7 2025-02-16 \u2192 2025-02-28",
-    "papers": 1,
-    "file": "2025-02-28.html"
-  },
-  {
-    "date": "2025-03-15",
-    "title": "Research Digest \u00b7 2025-03-01 \u2192 2025-03-15",
-    "papers": 19,
-    "file": "2025-03-15.html"
-  },
-  {
-    "date": "2025-03-31",
-    "title": "Research Digest \u00b7 2025-03-16 \u2192 2025-03-31",
-    "papers": 4,
-    "file": "2025-03-31.html"
-  },
-  {
-    "date": "2025-04-15",
-    "title": "Research Digest \u00b7 2025-04-01 \u2192 2025-04-15",
-    "papers": 29,
-    "file": "2025-04-15.html"
-  },
-  {
-    "date": "2025-05-15",
-    "title": "Research Digest \u00b7 2025-05-01 \u2192 2025-05-15",
-    "papers": 25,
-    "file": "2025-05-15.html"
-  },
-  {
-    "date": "2025-05-31",
-    "title": "Research Digest \u00b7 2025-05-16 \u2192 2025-05-31",
-    "papers": 6,
-    "file": "2025-05-31.html"
-  },
-  {
-    "date": "2025-06-15",
-    "title": "Research Digest \u00b7 2025-06-01 \u2192 2025-06-15",
-    "papers": 21,
-    "file": "2025-06-15.html"
-  },
-  {
-    "date": "2025-06-30",
-    "title": "Research Digest \u00b7 2025-06-16 \u2192 2025-06-30",
-    "papers": 5,
-    "file": "2025-06-30.html"
-  },
-  {
-    "date": "2025-07-15",
-    "title": "Research Digest \u00b7 2025-07-01 \u2192 2025-07-15",
-    "papers": 24,
-    "file": "2025-07-15.html"
-  },
-  {
-    "date": "2025-07-31",
-    "title": "Research Digest \u00b7 2025-07-16 \u2192 2025-07-31",
-    "papers": 8,
-    "file": "2025-07-31.html"
-  },
-  {
-    "date": "2025-08-15",
-    "title": "Research Digest \u00b7 2025-08-01 \u2192 2025-08-15",
-    "papers": 27,
-    "file": "2025-08-15.html"
-  },
-  {
-    "date": "2025-08-31",
-    "title": "Research Digest \u00b7 2025-08-16 \u2192 2025-08-31",
-    "papers": 9,
-    "file": "2025-08-31.html"
-  },
-  {
-    "date": "2025-09-15",
-    "title": "Research Digest \u00b7 2025-09-01 \u2192 2025-09-15",
-    "papers": 20,
-    "file": "2025-09-15.html"
-  },
-  {
-    "date": "2025-09-30",
-    "title": "Research Digest \u00b7 2025-09-16 \u2192 2025-09-30",
-    "papers": 11,
-    "file": "2025-09-30.html"
-  },
-  {
-    "date": "2025-10-15",
-    "title": "Research Digest \u00b7 2025-10-01 \u2192 2025-10-15",
-    "papers": 21,
-    "file": "2025-10-15.html"
-  },
-  {
-    "date": "2025-10-31",
-    "title": "Research Digest \u00b7 2025-10-16 \u2192 2025-10-31",
-    "papers": 11,
-    "file": "2025-10-31.html"
-  },
-  {
-    "date": "2025-11-15",
-    "title": "Research Digest \u00b7 2025-11-01 \u2192 2025-11-15",
-    "papers": 29,
-    "file": "2025-11-15.html"
-  },
-  {
-    "date": "2025-11-30",
-    "title": "Research Digest \u00b7 2025-11-16 \u2192 2025-11-30",
-    "papers": 10,
-    "file": "2025-11-30.html"
-  },
-  {
-    "date": "2025-12-15",
-    "title": "Research Digest \u00b7 2025-12-01 \u2192 2025-12-15",
-    "papers": 29,
-    "file": "2025-12-15.html"
-  },
-  {
     "date": "2025-01-01",
-    "title": "Research Digest \u00b7 2024-12-16 \u2192 2024-12-31",
+    "title": "Research Digest · 2024-12-16 → 2024-12-31",
     "papers": 2,
     "file": "2025-01-01.html"
   },
   {
+    "date": "2025-01-15",
+    "title": "Research Digest · 2025-01-01 → 2025-01-15",
+    "papers": 16,
+    "file": "2025-01-15.html"
+  },
+  {
     "date": "2025-02-01",
-    "title": "Research Digest \u00b7 2025-01-16 \u2192 2025-01-31",
+    "title": "Research Digest · 2025-01-16 → 2025-01-31",
     "papers": 1,
     "file": "2025-02-01.html"
   },
   {
+    "date": "2025-02-15",
+    "title": "Research Digest · 2025-02-01 → 2025-02-15",
+    "papers": 2,
+    "file": "2025-02-15.html"
+  },
+  {
     "date": "2025-03-01",
-    "title": "Research Digest \u00b7 2025-02-16 \u2192 2025-02-28",
+    "title": "Research Digest · 2025-02-16 → 2025-02-28",
     "papers": 2,
     "file": "2025-03-01.html"
   },
   {
+    "date": "2025-03-15",
+    "title": "Research Digest · 2025-03-01 → 2025-03-15",
+    "papers": 19,
+    "file": "2025-03-15.html"
+  },
+  {
     "date": "2025-04-01",
-    "title": "Research Digest \u00b7 2025-03-16 \u2192 2025-03-31",
+    "title": "Research Digest · 2025-03-16 → 2025-03-31",
     "papers": 4,
     "file": "2025-04-01.html"
   },
   {
+    "date": "2025-04-15",
+    "title": "Research Digest · 2025-04-01 → 2025-04-15",
+    "papers": 29,
+    "file": "2025-04-15.html"
+  },
+  {
     "date": "2025-05-01",
-    "title": "Research Digest \u00b7 2025-04-16 \u2192 2025-04-30",
+    "title": "Research Digest · 2025-04-16 → 2025-04-30",
     "papers": 2,
     "file": "2025-05-01.html"
   },
   {
+    "date": "2025-05-15",
+    "title": "Research Digest · 2025-05-01 → 2025-05-15",
+    "papers": 25,
+    "file": "2025-05-15.html"
+  },
+  {
     "date": "2025-06-01",
-    "title": "Research Digest \u00b7 2025-05-16 \u2192 2025-05-31",
+    "title": "Research Digest · 2025-05-16 → 2025-05-31",
     "papers": 8,
     "file": "2025-06-01.html"
   },
   {
+    "date": "2025-06-15",
+    "title": "Research Digest · 2025-06-01 → 2025-06-15",
+    "papers": 21,
+    "file": "2025-06-15.html"
+  },
+  {
     "date": "2025-07-01",
-    "title": "Research Digest \u00b7 2025-06-16 \u2192 2025-06-30",
+    "title": "Research Digest · 2025-06-16 → 2025-06-30",
     "papers": 6,
     "file": "2025-07-01.html"
   },
   {
+    "date": "2025-07-15",
+    "title": "Research Digest · 2025-07-01 → 2025-07-15",
+    "papers": 24,
+    "file": "2025-07-15.html"
+  },
+  {
     "date": "2025-08-01",
-    "title": "Research Digest \u00b7 2025-07-16 \u2192 2025-07-31",
+    "title": "Research Digest · 2025-07-16 → 2025-07-31",
     "papers": 9,
     "file": "2025-08-01.html"
   },
   {
+    "date": "2025-08-15",
+    "title": "Research Digest · 2025-08-01 → 2025-08-15",
+    "papers": 27,
+    "file": "2025-08-15.html"
+  },
+  {
     "date": "2025-09-01",
-    "title": "Research Digest \u00b7 2025-08-16 \u2192 2025-08-31",
+    "title": "Research Digest · 2025-08-16 → 2025-08-31",
     "papers": 8,
     "file": "2025-09-01.html"
   },
   {
+    "date": "2025-09-15",
+    "title": "Research Digest · 2025-09-01 → 2025-09-15",
+    "papers": 20,
+    "file": "2025-09-15.html"
+  },
+  {
     "date": "2025-10-01",
-    "title": "Research Digest \u00b7 2025-09-16 \u2192 2025-09-30",
+    "title": "Research Digest · 2025-09-16 → 2025-09-30",
     "papers": 9,
     "file": "2025-10-01.html"
   },
   {
+    "date": "2025-10-15",
+    "title": "Research Digest · 2025-10-01 → 2025-10-15",
+    "papers": 21,
+    "file": "2025-10-15.html"
+  },
+  {
     "date": "2025-11-01",
-    "title": "Research Digest \u00b7 2025-10-16 \u2192 2025-10-31",
+    "title": "Research Digest · 2025-10-16 → 2025-10-31",
     "papers": 10,
     "file": "2025-11-01.html"
   },
   {
+    "date": "2025-11-15",
+    "title": "Research Digest · 2025-11-01 → 2025-11-15",
+    "papers": 29,
+    "file": "2025-11-15.html"
+  },
+  {
     "date": "2025-12-01",
-    "title": "Research Digest \u00b7 2025-11-16 \u2192 2025-11-30",
+    "title": "Research Digest · 2025-11-16 → 2025-11-30",
     "papers": 3,
     "file": "2025-12-01.html"
+  },
+  {
+    "date": "2025-12-15",
+    "title": "Research Digest · 2025-12-01 → 2025-12-15",
+    "papers": 29,
+    "file": "2025-12-15.html"
   }
 ]
