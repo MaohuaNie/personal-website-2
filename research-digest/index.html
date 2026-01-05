@@ -291,6 +291,16 @@
       return dateStr;
     }
 
+    function getDigestGroupYear(d) {
+      // Prefer grouping by the coverage END date in the title:
+      // e.g., "Research Digest · 2025-12-16 → 2025-12-31"
+      const m = (d.title || "").match(/→\s*(\d{4}-\d{2}-\d{2})/);
+      if (m) return new Date(m[1] + "T00:00:00").getFullYear();
+
+      // Fallback to the record date
+      return new Date(d.date + "T00:00:00").getFullYear();
+    }
+
     fetch("digests.json")
       .then(r => r.json())
       .then(digests => {
@@ -305,7 +315,7 @@
         let lastYear = null;
 
         ordered.forEach((d, i) => {
-          const year = new Date(d.date + "T00:00:00").getFullYear();
+          const year = getDigestGroupYear(d);
 
           if (year !== lastYear) {
             const y = document.createElement("li");
