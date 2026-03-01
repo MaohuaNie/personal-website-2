@@ -632,8 +632,9 @@ def update_digest_index(date_str, filename, results, start_day, end_day):
         json.dump(index, f, indent=2)
 
 # =========================================================
-# MAIN
+# MAIN & CATCH-UP LOGIC
 # =========================================================
+
 def get_report_date(end_day):
     """
     Returns the date used for the filename.
@@ -643,37 +644,95 @@ def get_report_date(end_day):
     if end_day.day == 15:
         return end_day
     else:
-        # It is the end of the month, so set filename to the 1st of the next month
+        # End of the month, set filename to the 1st of the next month
         return end_day + timedelta(days=1)
-    
+
+def get_last_generated_report_date():
+    """Reads digests.json to find the most recently generated report date."""
+    if DIGEST_INDEX.exists():
+        try:
+            with open(DIGEST_INDEX, "r", encoding="utf-8") as f:
+                index = json.load(f)
+                if index:
+                    # ISO format dates sort alphabetically correctly
+                    latest_str = max([entry["date"] for entry in index])
+                    return datetime.strptime(latest_str, "%Y-%m-%d").date()
+        except (json.JSONDecodeError, ValueError):
+            pass
+    return None
+
+def get_interval_from_report_date(r_date):
+    """Reconstructs the start_day and end_day from a given report date."""
+    if r_date.day == 15:
+        return r_date.replace(day=1), r_date
+    elif r_date.day == 1:
+        end_day = r_date - timedelta(days=1)
+        start_day = end_day.replace(day=16)
+        return start_day, end_day
+    else:
+        raise ValueError(f"Unexpected report date: {r_date}")
+
+def get_next_report_date(r_date):
+    """Calculates the chronologically next report date."""
+    if r_date.day == 15:
+        # Move to the 1st of the next month
+        next_month = r_date.replace(day=28) + timedelta(days=5)
+        return next_month.replace(day=1)
+    elif r_date.day == 1:
+        # Move to the 15th of the current month
+        return r_date.replace(day=15)
+    else:
+        raise ValueError(f"Unexpected report date: {r_date}")
+
 def main():
     today = datetime.today().date()
     
-    # 1. Detect the correct past interval based on today's date
-    start_day, end_day = get_latest_interval(today)
+    # 1. Determine what the CURRENT latest valid interval should be
+    target_start, target_end = get_latest_interval(today)
+    target_report_date = get_report_date(target_end)
     
-    # 2. Calculate the "Official" Report Date for the filename
-    # (e.g. if interval ends Jan 31, this becomes Feb 01)
-    report_date = get_report_date(end_day)
+    # 2. Find where we left off in the JSON
+    last_generated_date = get_last_generated_report_date()
     
-    print(f"Execution Date: {today}")
-    print(f"Detected Digest Interval: {start_day} → {end_day}")
-    print(f"Target Filename Date: {report_date}")
+    intervals_to_run = []
     
-    results = find_relevant_papers(start_day, end_day)
+    if not last_generated_date:
+        # Fallback: if no JSON is found, just run the current target interval
+        intervals_to_run.append((target_start, target_end, target_report_date))
+    else:
+        # Step forward half a month at a time until we reach the target
+        current_report_date = get_next_report_date(last_generated_date)
+        while current_report_date <= target_report_date:
+            s_day, e_day = get_interval_from_report_date(current_report_date)
+            intervals_to_run.append((s_day, e_day, current_report_date))
+            current_report_date = get_next_report_date(current_report_date)
 
-    if not results:
-        print("No relevant papers found for this interval.")
+    # 3. Execution
+    if not intervals_to_run:
+        print("✅ Everything is up to date! No missing digests to generate.")
         return
 
-    html = format_email_body_html(results, start_day, end_day)
-    
-    # 3. Use 'report_date' here instead of 'today' so the filename is consistent
-    filename, date_str = save_digest_html(html, report_date)
-    
-    update_digest_index(date_str, filename, results, start_day, end_day)
+    for start_day, end_day, report_date in intervals_to_run:
+        print(f"\n==============================================")
+        print(f"Generating digest for interval: {start_day} → {end_day}")
+        print(f"Target Filename Date: {report_date}")
+        print(f"==============================================")
+        
+        results = find_relevant_papers(start_day, end_day)
 
-    print(f"Success! Saved digest to: research-digest/{filename}")
+        # Note: Even if 0 papers are found, we still save the empty digest. 
+        # If we didn't, it wouldn't be logged in the JSON, and the script 
+        # would keep trying to generate this exact empty interval on every run.
+        if not results:
+            print(f"No relevant papers found for {start_day} → {end_day}. Creating an empty digest.")
+
+        html = format_email_body_html(results, start_day, end_day)
+        filename, date_str = save_digest_html(html, report_date)
+        
+        update_digest_index(date_str, filename, results, start_day, end_day)
+        print(f"Success! Saved digest to: {DIGEST_DIR.name}/{filename}")
+
+    print("\n🎉 All missing digests have been generated and the index is up to date!")
 
 if __name__ == "__main__":
     main()
