@@ -9,7 +9,7 @@ from pathlib import Path
 from urllib.parse import quote
 
 # =========================================================
-# CONFIG & CONSTANTS
+# CONFIG & CONSTANTS    
 # =========================================================
 
 ROOT = Path(__file__).parent
