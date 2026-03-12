@@ -2,8 +2,8 @@ name: Update Research Digest
 
 on:
   schedule:
-    # Runs at 00:00 on the 2nd and 16th of every month
-    - cron: '0 0 2,16 * *'
+    # Runs at 00:00 on the 3rd and 17th of every month
+    - cron: '0 0 3,17 * *'
   workflow_dispatch: # Allows manual triggering from the Actions tab
 
 jobs:
