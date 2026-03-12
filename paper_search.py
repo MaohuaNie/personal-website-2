@@ -587,6 +587,11 @@ def format_email_body_html(results, start_day, end_day):
               <b>Total relevant papers:</b> {len(results)}
             </p>
           </div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <button id="filter-btn" onclick="toggleTopPicks()" style="background:#ffffff; border:1px solid #e5e7eb; padding:8px 16px; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; color:#374151; transition:all 0.2s;">
+              ⭐ Show Top Picks (4★+)
+            </button>
+          </div>
         </div>
         <h2 style="margin:26px 0 10px;font-size:18px;border-bottom:1px solid #e5e7eb;padding-bottom:8px;color:#111827;">Summary by Journal</h2>
         <ul style="margin:10px 0 0;padding-left:18px;color:#374151;line-height:1.7;">
@@ -602,7 +607,7 @@ def format_email_body_html(results, start_day, end_day):
 
     for journal in journal_counts.keys():
         anchor = journal_anchor(journal)
-        html += f"""<a id="{anchor}"></a><h2 style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">{esc(journal)}</h2>"""
+        html += f"""<a id="{anchor}"></a><h2 class="journal-header" data-journal="{journal}" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">{esc(journal)}</h2>"""
         
         for idx, r in enumerate(results):
             if r.get("journal") != journal: continue
@@ -618,7 +623,7 @@ def format_email_body_html(results, start_day, end_day):
             paper_id = f"paper-{re.sub(r'[^a-z0-9]', '-', (doi or title).lower())}"
 
             html += f"""
-            <div id="{paper_id}" class="paper-item" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+            <div id="{paper_id}" class="paper-item" data-journal="{journal}" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
               <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
                 <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">{title}</h3>
                 <div class="star-rating" data-paper-id="{paper_id}">
@@ -646,6 +651,8 @@ def format_email_body_html(results, start_day, end_day):
       </div>
       <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
       <script>
+        let isFilterActive = false;
+
         // Only show admin controls and allow editing if running locally (file://)
         if (window.location.protocol === 'file:') {
           document.getElementById('admin-ui').style.display = 'block';
@@ -660,7 +667,48 @@ def format_email_body_html(results, start_day, end_day):
           document.head.appendChild(style);
         }
 
+        function toggleTopPicks() {
+          isFilterActive = !isFilterActive;
+          const btn = document.getElementById('filter-btn');
+          const papers = document.querySelectorAll('.paper-item');
+          const headers = document.querySelectorAll('.journal-header');
+
+          if (isFilterActive) {
+            btn.style.background = '#1e3a8a';
+            btn.style.color = '#ffffff';
+            btn.innerHTML = '✨ Showing Top Picks (4★+)';
+
+            headers.forEach(header => {
+              const journal = header.getAttribute('data-journal');
+              const journalPapers = document.querySelectorAll(`.paper-item[data-journal="${journal}"]`);
+              let hasTopPick = false;
+
+              journalPapers.forEach(paper => {
+                const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+                if (parseInt(rating) >= 4) {
+                  paper.style.display = 'block';
+                  hasTopPick = true;
+                } else {
+                  paper.style.display = 'none';
+                }
+              });
+
+              header.style.display = hasTopPick ? 'block' : 'none';
+            });
+          } else {
+            btn.style.background = '#ffffff';
+            btn.style.color = '#374151';
+            btn.innerHTML = '⭐ Show Top Picks (4★+)';
+            
+            papers.forEach(p => p.style.display = 'block');
+            headers.forEach(h => h.style.display = 'block');
+          }
+        }
+
         function savePage() {
+          // Reset filter before saving so all papers are visible in the source
+          if (isFilterActive) toggleTopPicks();
+
           // Remove the Save button and admin UI from the saved HTML
           const adminUI = document.getElementById('admin-ui');
           adminUI.style.display = 'none';
