@@ -218,13 +218,6 @@
 
       <div class="digest-divider"></div>
 
-      <!-- Search Box -->
-      <div style="margin-bottom: 20px;">
-        <input type="text" id="digest-search" placeholder="Search digests..." 
-               style="width: 100%; padding: 10px 14px; border-radius: 12px; border: 1px solid #e5e7eb; font-size: 14px; outline: none; transition: border-color 0.2s;"
-               onfocus="this.style.borderColor='#1e3a8a'" onblur="this.style.borderColor='#e5e7eb'">
-      </div>
-
       <ul id="digest-nav" class="digest-nav">
         <li>Loading…</li>
       </ul>
@@ -299,74 +292,59 @@
     }
 
     function getDigestGroupYear(d) {
+      // Prefer grouping by the coverage END date in the title:
+      // e.g., "Research Digest · 2025-12-16 → 2025-12-31"
       const m = (d.title || "").match(/→\s*(\d{4}-\d{2}-\d{2})/);
       if (m) return new Date(m[1] + "T00:00:00").getFullYear();
+
+      // Fallback to the record date
       return new Date(d.date + "T00:00:00").getFullYear();
-    }
-
-    let allDigests = [];
-
-    function renderNav(digests, filter = "") {
-      const nav = document.getElementById("digest-nav");
-      nav.innerHTML = "";
-      
-      const filtered = digests.filter(d => {
-        const title = formatDigestTitle(d.date).toLowerCase();
-        const year = getDigestGroupYear(d).toString();
-        const fullTitle = (d.title || "").toLowerCase();
-        return title.includes(filter.toLowerCase()) || 
-               year.includes(filter.toLowerCase()) ||
-               fullTitle.includes(filter.toLowerCase());
-      });
-
-      let lastYear = null;
-      filtered.forEach((d, i) => {
-        const year = getDigestGroupYear(d);
-        if (year !== lastYear) {
-          const y = document.createElement("li");
-          y.className = "digest-year";
-          y.textContent = year;
-          nav.appendChild(y);
-          lastYear = year;
-        }
-
-        const li = document.createElement("li");
-        const a = document.createElement("a");
-        a.className = "digest-link";
-        a.innerHTML = `<div class="digest-title">${formatDigestTitle(d.date)}</div>`;
-        a.onclick = e => {
-          e.preventDefault();
-          document.getElementById("digest-frame").src = d.file;
-          setActive(a);
-        };
-        li.appendChild(a);
-        nav.appendChild(li);
-      });
-      
-      if (filtered.length === 0) {
-        nav.innerHTML = '<li style="padding: 14px; color: #6b7280; font-size: 14px;">No digests found.</li>';
-      }
     }
 
     fetch("digests.json")
       .then(r => r.json())
       .then(digests => {
-        allDigests = digests.sort((a, b) => new Date(b.date) - new Date(a.date));
-        renderNav(allDigests);
-        
-        if (allDigests.length > 0) {
-          document.getElementById("digest-frame").src = allDigests[0].file;
-          // Set active after a small delay to ensure the link is in the DOM
-          setTimeout(() => {
-            const first = document.querySelector(".digest-link");
-            if (first) setActive(first);
-          }, 50);
-        }
-      });
+        const nav = document.getElementById("digest-nav");
+        const frame = document.getElementById("digest-frame");
+        nav.innerHTML = "";
 
-    document.getElementById("digest-search").addEventListener("input", (e) => {
-      renderNav(allDigests, e.target.value);
-    });
+        const ordered = digests
+          .slice()
+          .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        let lastYear = null;
+
+        ordered.forEach((d, i) => {
+          const year = getDigestGroupYear(d);
+
+          if (year !== lastYear) {
+            const y = document.createElement("li");
+            y.className = "digest-year";
+            y.textContent = year;
+            nav.appendChild(y);
+            lastYear = year;
+          }
+
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.className = "digest-link";
+          a.innerHTML = `<div class="digest-title">${formatDigestTitle(d.date)}</div>`;
+
+          a.onclick = e => {
+            e.preventDefault();
+            frame.src = d.file;
+            setActive(a);
+          };
+
+          li.appendChild(a);
+          nav.appendChild(li);
+
+          if (i === 0) {
+            frame.src = d.file;
+            setActive(a);
+          }
+        });
+      });
   </script>
 </body>
 </html>

@@ -532,52 +532,9 @@ def format_email_body_html(results, start_day, end_day):
     html = f"""
     <!DOCTYPE html>
     <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <link rel="stylesheet" href="../assets/site.css">
-      <style>
-        .star-rating {{
-          display: inline-flex;
-          flex-direction: row-reverse;
-          gap: 4px;
-        }}
-        .star-rating input {{ display: none; }}
-        .star-rating label {{
-          font-size: 24px;
-          color: #e5e7eb;
-          cursor: pointer;
-          transition: color 0.1s;
-        }}
-        .star-rating input:checked ~ label,
-        .star-rating label:hover,
-        .star-rating label:hover ~ label {{
-          color: #fbbf24;
-        }}
-        .admin-controls {{
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          z-index: 1000;
-          display: none; /* Only show locally */
-        }}
-        .save-btn {{
-          background: #1e3a8a;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 8px;
-          cursor: pointer;
-          font-weight: 600;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }}
-        @media print {{ .admin-controls, .star-rating {{ display: none !important; }} }}
-      </style>
-    </head>
+    <head><meta charset="utf-8"><link rel="stylesheet" href="../assets/site.css"></head>
     <body style="background:#f6f7fb;padding:20px;color:#1f2937;">
-      <div class="admin-controls" id="admin-ui">
-        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
-      </div>
-      <a id="top"></a>
+    <a id="top"></a>
       <div style="max-width:900px;margin:0 auto;background:#ffffff;border-radius:14px;padding:26px;box-shadow:0 6px 18px rgba(0,0,0,0.08);border:1px solid #eef0f4;">
         <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;">
           <div>
@@ -604,7 +561,7 @@ def format_email_body_html(results, start_day, end_day):
         anchor = journal_anchor(journal)
         html += f"""<a id="{anchor}"></a><h2 style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">{esc(journal)}</h2>"""
         
-        for idx, r in enumerate(results):
+        for r in results:
             if r.get("journal") != journal: continue
             
             title = esc(r.get("title", "Untitled"))
@@ -612,23 +569,12 @@ def format_email_body_html(results, start_day, end_day):
             authors = esc(r.get("authors", "Unknown"))
             published = esc(r.get("published", "n.d."))
             score = esc(r.get("relevance_score", ""))
-            doi = r.get('doi', '')
-            doi_url = f"https://doi.org/{doi}" if doi else ""
+            doi_url = f"https://doi.org/{r.get('doi')}" if r.get("doi") else ""
             abstract_html = esc(r.get("abstract")) if r.get("abstract") else "Not available."
-            paper_id = f"paper-{re.sub(r'[^a-z0-9]', '-', (doi or title).lower())}"
 
             html += f"""
-            <div id="{paper_id}" class="paper-item" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">{title}</h3>
-                <div class="star-rating" data-paper-id="{paper_id}">
-                  <input type="radio" id="star5-{paper_id}" name="rating-{paper_id}" value="5"><label for="star5-{paper_id}">★</label>
-                  <input type="radio" id="star4-{paper_id}" name="rating-{paper_id}" value="4"><label for="star4-{paper_id}">★</label>
-                  <input type="radio" id="star3-{paper_id}" name="rating-{paper_id}" value="3"><label for="star3-{paper_id}">★</label>
-                  <input type="radio" id="star2-{paper_id}" name="rating-{paper_id}" value="2"><label for="star2-{paper_id}">★</label>
-                  <input type="radio" id="star1-{paper_id}" name="rating-{paper_id}" value="1"><label for="star1-{paper_id}">★</label>
-                </div>
-              </div>
+            <div style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <h3 style="margin:0 0 10px;font-size:20px;color:#111827;">{title}</h3>
               {"<p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>" + summary + "</p>" if summary else ""}
               <div style="font-size:13px;color:#4b5563;line-height:1.7;">
                 <div><b>Authors:</b> {authors}</div>
@@ -642,44 +588,7 @@ def format_email_body_html(results, start_day, end_day):
             </div>
             """
 
-    html += """
-      </div>
-      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
-      <script>
-        // Only show admin controls if running locally (file://)
-        if (window.location.protocol === 'file:') {
-          document.getElementById('admin-ui').style.display = 'block';
-        }
-
-        function savePage() {
-          // Remove the Save button and admin UI from the saved HTML
-          const adminUI = document.getElementById('admin-ui');
-          adminUI.style.display = 'none';
-          
-          // Update the checked attribute of radio buttons based on their current state
-          document.querySelectorAll('input[type="radio"]').forEach(radio => {
-            if (radio.checked) {
-              radio.setAttribute('checked', 'checked');
-            } else {
-              radio.removeAttribute('checked');
-            }
-          });
-
-          const htmlContent = document.documentElement.outerHTML;
-          const blob = new Blob([htmlContent], { type: 'text/html' });
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(blob);
-          a.download = window.location.pathname.split('/').pop() || 'digest.html';
-          a.click();
-          
-          // Show admin UI again
-          adminUI.style.display = 'block';
-        }
-      </script>
-    </body>
-    </html>
-    """
-    return html
+    html += """</div><a href="#top" class="back-to-top" aria-label="Back to top">↑</a></body></html>"""
     return html
 
 def save_digest_html(html, run_date):
