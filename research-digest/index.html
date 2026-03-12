@@ -219,10 +219,11 @@
       <div class="digest-divider"></div>
 
       <!-- Search Box -->
-      <div style="margin-bottom: 20px;">
+      <div style="margin-bottom: 24px;">
         <input type="text" id="digest-search" placeholder="Search digests..." 
-               style="width: 100%; padding: 10px 14px; border-radius: 12px; border: 1px solid #e5e7eb; font-size: 14px; outline: none; transition: border-color 0.2s;"
-               onfocus="this.style.borderColor='#1e3a8a'" onblur="this.style.borderColor='#e5e7eb'">
+               style="width: 100%; box-sizing: border-box; padding: 14px; border-radius: 14px; border: 1px solid #e5e7eb; background: #ffffff; color: #111827; font-size: 14px; outline: none; transition: all 0.15s ease;"
+               onfocus="this.style.borderColor='#1e3a8a'; this.style.boxShadow='0 4px 14px rgba(0,0,0,0.06)'" 
+               onblur="this.style.borderColor='#e5e7eb'; this.style.boxShadow='none'">
       </div>
 
       <ul id="digest-nav" class="digest-nav">
