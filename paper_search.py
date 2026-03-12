@@ -646,9 +646,18 @@ def format_email_body_html(results, start_day, end_day):
       </div>
       <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
       <script>
-        // Only show admin controls if running locally (file://)
+        // Only show admin controls and allow editing if running locally (file://)
         if (window.location.protocol === 'file:') {
           document.getElementById('admin-ui').style.display = 'block';
+        } else {
+          // Disable all radio buttons if not local
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.disabled = true;
+          });
+          // Add a style to make the stars non-interactive
+          const style = document.createElement('style');
+          style.innerHTML = '.star-rating { pointer-events: none; }';
+          document.head.appendChild(style);
         }
 
         function savePage() {
