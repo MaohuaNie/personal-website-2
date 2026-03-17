@@ -1,0 +1,661 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="../assets/site.css">
+      <style>
+        .star-rating {
+          display: inline-flex;
+          flex-direction: row-reverse;
+          gap: 4px;
+        }
+        .star-rating input { display: none; }
+        .star-rating label {
+          font-size: 24px;
+          color: #e5e7eb;
+          cursor: pointer;
+          transition: color 0.1s;
+        }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+          color: #fbbf24;
+        }
+        .admin-controls {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          z-index: 1000;
+          display: none; /* Only show locally */
+        }
+        .save-btn {
+          background: #1e3a8a;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: 600;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        @media print { .admin-controls, .star-rating { display: none !important; } }
+      </style>
+    </head>
+    <body style="background:#f6f7fb;padding:20px;color:#1f2937;">
+      <div class="admin-controls" id="admin-ui">
+        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
+      </div>
+      <a id="top"></a>
+      <div style="max-width:900px;margin:0 auto;background:#ffffff;border-radius:14px;padding:26px;box-shadow:0 6px 18px rgba(0,0,0,0.08);border:1px solid #eef0f4;">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;">
+          <div>
+            <h1 style="margin:0;font-size:26px;line-height:1.2;color:#111827;">Bi-weekly Research Digest</h1>
+            <p style="margin:8px 0 0;font-size:14px;color:#4b5563;">
+              <b>Date range:</b> 2026-03-01 → 2026-03-15<br>
+              <b>Total relevant papers:</b> 22
+            </p>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <button id="filter-btn" onclick="toggleTopPicks()" style="background:#ffffff; border:1px solid #e5e7eb; padding:8px 16px; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; color:#374151; transition:all 0.2s;">
+              ⭐ Show Top Picks (4★+)
+            </button>
+          </div>
+        </div>
+        <h2 style="margin:26px 0 10px;font-size:18px;border-bottom:1px solid #e5e7eb;padding-bottom:8px;color:#111827;">Summary by Journal</h2>
+        <ul style="margin:10px 0 0;padding-left:18px;color:#374151;line-height:1.7;">
+    <li><a href='#journal-journal-of-risk-and-uncertainty' style='text-decoration:none;color:#2563eb;'><b>Journal of Risk and Uncertainty</b></a>: 2</li><li><a href='#journal-psychological-bulletin' style='text-decoration:none;color:#2563eb;'><b>Psychological Bulletin</b></a>: 1</li><li><a href='#journal-management-science' style='text-decoration:none;color:#2563eb;'><b>Management Science</b></a>: 4</li><li><a href='#journal-journal-of-economic-psychology' style='text-decoration:none;color:#2563eb;'><b>Journal of Economic Psychology</b></a>: 3</li><li><a href='#journal-cognitive-science' style='text-decoration:none;color:#2563eb;'><b>Cognitive Science</b></a>: 1</li><li><a href='#journal-journal-of-experimental-psychology-learning-memory-and-cognition' style='text-decoration:none;color:#2563eb;'><b>Journal of Experimental Psychology: Learning, Memory, and Cognition</b></a>: 1</li><li><a href='#journal-cognition' style='text-decoration:none;color:#2563eb;'><b>Cognition</b></a>: 2</li><li><a href='#journal-psychological-review' style='text-decoration:none;color:#2563eb;'><b>Psychological Review</b></a>: 2</li><li><a href='#journal-american-economic-review' style='text-decoration:none;color:#2563eb;'><b>American Economic Review</b></a>: 1</li><li><a href='#journal-journal-of-mathematical-psychology' style='text-decoration:none;color:#2563eb;'><b>Journal of Mathematical Psychology</b></a>: 1</li><li><a href='#journal-jep-general' style='text-decoration:none;color:#2563eb;'><b>JEP: General</b></a>: 2</li><li><a href='#journal-psychonomic-bulletin-review' style='text-decoration:none;color:#2563eb;'><b>Psychonomic Bulletin &amp; Review</b></a>: 1</li><li><a href='#journal-trends-in-cognitive-sciences' style='text-decoration:none;color:#2563eb;'><b>Trends in Cognitive Sciences</b></a>: 1</li></ul><a id="journal-journal-of-risk-and-uncertainty"></a><h2 class="journal-header" data-journal="Journal of Risk and Uncertainty" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Journal of Risk and Uncertainty</h2>
+            <div id="paper-10-1007-s11166-026-09482-0" class="paper-item" data-journal="Journal of Risk and Uncertainty" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Prospective reference theory: Experimental evidence and the connection to anchoring</h3>
+                <div class="star-rating" data-paper-id="paper-10-1007-s11166-026-09482-0">
+                  <input type="radio" id="star5-paper-10-1007-s11166-026-09482-0" name="rating-paper-10-1007-s11166-026-09482-0" value="5"><label for="star5-paper-10-1007-s11166-026-09482-0">★</label>
+                  <input type="radio" id="star4-paper-10-1007-s11166-026-09482-0" name="rating-paper-10-1007-s11166-026-09482-0" value="4"><label for="star4-paper-10-1007-s11166-026-09482-0">★</label>
+                  <input type="radio" id="star3-paper-10-1007-s11166-026-09482-0" name="rating-paper-10-1007-s11166-026-09482-0" value="3"><label for="star3-paper-10-1007-s11166-026-09482-0">★</label>
+                  <input type="radio" id="star2-paper-10-1007-s11166-026-09482-0" name="rating-paper-10-1007-s11166-026-09482-0" value="2"><label for="star2-paper-10-1007-s11166-026-09482-0">★</label>
+                  <input type="radio" id="star1-paper-10-1007-s11166-026-09482-0" name="rating-paper-10-1007-s11166-026-09482-0" value="1"><label for="star1-paper-10-1007-s11166-026-09482-0">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The study tests Prospective Reference Theory with experiments on risky choices, showing dominance violations align with PRT and linking anchoring to probability distortions. It discusses how PRT can account for observed behaviors and extends the model to capture inverse S-shaped probability weighting.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Jaspersen, J., König-Kersting, C., Ragin, M.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.59</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1007/s11166-026-09482-0' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1007/s11166-026-09482-0</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">When faced with a risky prospect, people often make decisions which are inconsistent with an objective assessment of probability. Viscusi’s Prospective Reference Theory (PRT, 1989) model offers a simple and intuitive framework to model such behavior. We conduct an experiment to test the validity of PRT, focusing on the unique pattern of dominance violations predicted by the model. Subjects’ dominated choices are more consistent with PRT than with other models, providing novel empirical support for PRT. In addition we also test the possible source of the probability distortions. Subjects’ tendency to anchor correlates positively with likelihood insensitivity, implying that for some subjects, their decisions under risk may be caused by heuristic processing. To further illustrate PRT’s potential, we discuss how it applies to several new choice anomalies and extend the model to capture other commonly-observed behaviors, such as choices implying an inverse S-shaped probability weighting function.</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1007-s11166-026-09478-w" class="paper-item" data-journal="Journal of Risk and Uncertainty" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Ambiguity attitudes and beliefs in strategic and non-strategic interactions</h3>
+                <div class="star-rating" data-paper-id="paper-10-1007-s11166-026-09478-w">
+                  <input type="radio" id="star5-paper-10-1007-s11166-026-09478-w" name="rating-paper-10-1007-s11166-026-09478-w" value="5"><label for="star5-paper-10-1007-s11166-026-09478-w">★</label>
+                  <input type="radio" id="star4-paper-10-1007-s11166-026-09478-w" name="rating-paper-10-1007-s11166-026-09478-w" value="4"><label for="star4-paper-10-1007-s11166-026-09478-w">★</label>
+                  <input type="radio" id="star3-paper-10-1007-s11166-026-09478-w" name="rating-paper-10-1007-s11166-026-09478-w" value="3"><label for="star3-paper-10-1007-s11166-026-09478-w">★</label>
+                  <input type="radio" id="star2-paper-10-1007-s11166-026-09478-w" name="rating-paper-10-1007-s11166-026-09478-w" value="2"><label for="star2-paper-10-1007-s11166-026-09478-w">★</label>
+                  <input type="radio" id="star1-paper-10-1007-s11166-026-09478-w" name="rating-paper-10-1007-s11166-026-09478-w" value="1"><label for="star1-paper-10-1007-s11166-026-09478-w">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper investigates how people&#39;s attitudes toward ambiguity and their beliefs influence their choices in strategic and non-strategic interactions at the individual level.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Dorobiala, Z., Melkonyan, T.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.38</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1007/s11166-026-09478-w' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1007/s11166-026-09478-w</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-psychological-bulletin"></a><h2 class="journal-header" data-journal="Psychological Bulletin" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Psychological Bulletin</h2>
+            <div id="paper-10-1037-bul0000510" class="paper-item" data-journal="Psychological Bulletin" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Effort-based decision making in psychopathology: A transdiagnostic multilevel meta-analysis and systematic review of behavioral patterns and mechanisms underlying amotivational psychopathology.</h3>
+                <div class="star-rating" data-paper-id="paper-10-1037-bul0000510">
+                  <input type="radio" id="star5-paper-10-1037-bul0000510" name="rating-paper-10-1037-bul0000510" value="5"><label for="star5-paper-10-1037-bul0000510">★</label>
+                  <input type="radio" id="star4-paper-10-1037-bul0000510" name="rating-paper-10-1037-bul0000510" value="4"><label for="star4-paper-10-1037-bul0000510">★</label>
+                  <input type="radio" id="star3-paper-10-1037-bul0000510" name="rating-paper-10-1037-bul0000510" value="3"><label for="star3-paper-10-1037-bul0000510">★</label>
+                  <input type="radio" id="star2-paper-10-1037-bul0000510" name="rating-paper-10-1037-bul0000510" value="2"><label for="star2-paper-10-1037-bul0000510">★</label>
+                  <input type="radio" id="star1-paper-10-1037-bul0000510" name="rating-paper-10-1037-bul0000510" value="1"><label for="star1-paper-10-1037-bul0000510">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>It reviews meta-analytic evidence on how people with schizophrenia, depression, and bipolar disorder allocate effort for rewards under uncertainty, highlighting disorder-specific patterns and proposed cognitive mechanisms driving these decisions.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Pillny, M., Renz, K., Hay, A., Fulford, D., Lincoln, T., Barch, D., Gold, J., Kaiser, S.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.54</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/bul0000510' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/bul0000510</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Effort-based decision making (EBDM) is fundamental to motivation. This cognitive process weighs the effort required to obtain a reward against its magnitude and the probability of obtaining it. Research suggests both transdiagnostic and disorder-specific patterns and mechanisms of EBDM in individuals with schizophrenia spectrum disorders, major depressive disorder, bipolar disorder, and those at risk for these conditions. This preregistered meta-analysis (CRD42022344605) aimed to quantify EBDM across these conditions compared to healthy controls and examine mechanisms underlying altered effort allocation. PubMed, APA PsycInfo, Embase, and Web of Science databases were systematically searched for eligible studies. We synthesized 115 effect sizes from 68 studies ( N = 3,697). Three-level random-effects meta-analyses revealed moderate deficits in EBDM across schizophrenia spectrum disorders ( g = -0.40) and bipolar disorder ( g = -0.39), a smaller impairment in major depressive disorder ( g = -0.28), and no significant reductions in at-risk samples ( g = -0.01). Altered effort allocation patterns were marked by reduced effort exertion across increasing reward and probability conditions, with schizophrenia spectrum disorders showing the most pronounced deficits. The most robust moderators were the number of probability conditions, ethnicity, gender, and the severity of positive and negative symptoms. A narrative synthesis of computational modeling studies indicated that maladaptive EBDM may reflect increased effort sensitivity, reduced reward sensitivity, and cognitive impairment, with variations across disorders. Whereas schizophrenia spectrum disorders are associated with unsystematic effort allocation and cognitive deficits, major depressive disorder and bipolar disorder show heightened effort sensitivity. Overall, findings point to both shared and disorder-specific mechanisms of EBDM, offering directions for targeted interventions. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-management-science"></a><h2 class="journal-header" data-journal="Management Science" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Management Science</h2>
+            <div id="paper-10-1287-mnsc-2024-05446" class="paper-item" data-journal="Management Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Deferred Acceptance with News Utility</h3>
+                <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2024-05446">
+                  <input type="radio" id="star5-paper-10-1287-mnsc-2024-05446" name="rating-paper-10-1287-mnsc-2024-05446" value="5"><label for="star5-paper-10-1287-mnsc-2024-05446">★</label>
+                  <input type="radio" id="star4-paper-10-1287-mnsc-2024-05446" name="rating-paper-10-1287-mnsc-2024-05446" value="4"><label for="star4-paper-10-1287-mnsc-2024-05446">★</label>
+                  <input type="radio" id="star3-paper-10-1287-mnsc-2024-05446" name="rating-paper-10-1287-mnsc-2024-05446" value="3"><label for="star3-paper-10-1287-mnsc-2024-05446">★</label>
+                  <input type="radio" id="star2-paper-10-1287-mnsc-2024-05446" name="rating-paper-10-1287-mnsc-2024-05446" value="2"><label for="star2-paper-10-1287-mnsc-2024-05446">★</label>
+                  <input type="radio" id="star1-paper-10-1287-mnsc-2024-05446" name="rating-paper-10-1287-mnsc-2024-05446" value="1"><label for="star1-paper-10-1287-mnsc-2024-05446">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper shows that news-utility and reference dependence can explain deviations from standard deferred-acceptance behavior in school-assignment tasks, with dynamic receiving reducing deviations. It links individual cognitive processes to mechanism design in risk/uncertainty-laden allocation problems.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Dreyfuss, B., Glicksohn, O., Heffetz, O., Romm, A.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.54</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1287/mnsc.2024.05446' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2024.05446</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Can models incorporating nontraditional, behavioral elements into the classical, expected-utility framework help explain seemingly dominated choice behavior of participants in centralized matching markets? Can they help in redesigning matching mechanisms to reduce such behavior? Investigating the widely used deferred-acceptance (DA) algorithm, we answer positively, both in theory and using laboratory experiments. We use an off-the-shelf news-utility model where preferences include expectations-based reference dependence (EBRD): individuals care not only about actual consumption but also about news (relative to previously held expectations) regarding consumption. Each participant in our laboratory experiments (N = 500) plays 10 simulated large-market school-assignment problems of varying competitiveness, in one of four ([Formula: see text]) different DA variants. They vary by whether individuals submit their rankings prior to the matching process (a static implementation) or make sequential decisions (a dynamic implementation), and whether they are on the proposing or receiving side: [Formula: see text]static, dynamic[Formula: see text]student proposing, student receiving[Formula: see text]. Whereas a traditional, reference-independent model predicts the same straightforward behavior across all problems and variants, a news-utility EBRD model predicts stark differences across them. Intuitively, to avert losses from bad news, EBRD individuals may downrank, or even avoid applying to, competitive positions that, when offered to them (with certainty), they will accept. Consistent with our predictions, we find that (i) across DA variants, dynamic student receiving leads to significantly fewer deviations from straightforward behavior; (ii) across problems within the other three variants, deviations increase with problem competitiveness; and (iii) in those three variants, the specific deviations predicted by EBRD are indeed those commonly observed empirically. We discuss practical implications. This paper was accepted by Itai Ashlagi, revenue management and market analytics. Funding: This work was supported by United States-Israel Binational Science Foundation [Grant 2022417], the Israel Science Foundation [Grants 1796/22 and 2968/21], the Maurice Falk Institute, and the Johnson School at Cornell University. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2024.05446 .</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1287-mnsc-2023-01739" class="paper-item" data-journal="Management Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">A Separation of Utility and Beliefs Through Betting Consistency</h3>
+                <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2023-01739">
+                  <input type="radio" id="star5-paper-10-1287-mnsc-2023-01739" name="rating-paper-10-1287-mnsc-2023-01739" value="5"><label for="star5-paper-10-1287-mnsc-2023-01739">★</label>
+                  <input type="radio" id="star4-paper-10-1287-mnsc-2023-01739" name="rating-paper-10-1287-mnsc-2023-01739" value="4"><label for="star4-paper-10-1287-mnsc-2023-01739">★</label>
+                  <input type="radio" id="star3-paper-10-1287-mnsc-2023-01739" name="rating-paper-10-1287-mnsc-2023-01739" value="3"><label for="star3-paper-10-1287-mnsc-2023-01739">★</label>
+                  <input type="radio" id="star2-paper-10-1287-mnsc-2023-01739" name="rating-paper-10-1287-mnsc-2023-01739" value="2"><label for="star2-paper-10-1287-mnsc-2023-01739">★</label>
+                  <input type="radio" id="star1-paper-10-1287-mnsc-2023-01739" name="rating-paper-10-1287-mnsc-2023-01739" value="1"><label for="star1-paper-10-1287-mnsc-2023-01739">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper introduces betting consistency as a method to separate utility and beliefs in decisions under uncertainty and discusses how this approach can recover normative models (subjective expected utility and Choquet utility) from individual elicitation.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Chateauneuf, A., Maccheroni, F., Zank, H.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.54</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1287/mnsc.2023.01739' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2023.01739</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">For standard preferences under uncertainty, minimal requirements are proposed to identify cardinal utility and subjective, potentially nonadditive, beliefs. This is achieved through an application of betting consistency. This preference principle says that outcome midpoints derived from preferences over bets on an event are also midpoints when elicited from bets on a different event. This consistency requirement provides a simplified elicitation tool, while it also serves as a robustness test for utility measurements. An analyst can use betting consistency to identify a client’s cardinal utility index independent of the client’s beliefs. This follows from our simplified foundation for the biseparable utility model, the widely adopted framework for empirical measurements of utility under various sources of uncertainty. As a theoretical tool, betting consistency can be adopted to provide simple and intuitive foundations for new and for existing decision theories. For instance, an event-dependent version of betting consistency, if it is supplemented with Savage’s sure-thing principle or a version of that principle restricted to acts that satisfy Schmeidler’s comonotonicity property, delivers subjective expected utility or Choquet expected utility, as desired. We also demonstrate how models with specific nonadditive beliefs can easily be derived through bespoke formulations of betting consistency. This paper was accepted by Manel Baucells, behavioral economics and decision analysis.</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1287-mnsc-2022-04006" class="paper-item" data-journal="Management Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Fat Tails in Human Judgment: Empirical Evidence and Implications for the Aggregation of Estimates and Forecasts</h3>
+                <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2022-04006">
+                  <input type="radio" id="star5-paper-10-1287-mnsc-2022-04006" name="rating-paper-10-1287-mnsc-2022-04006" value="5"><label for="star5-paper-10-1287-mnsc-2022-04006">★</label>
+                  <input type="radio" id="star4-paper-10-1287-mnsc-2022-04006" name="rating-paper-10-1287-mnsc-2022-04006" value="4"><label for="star4-paper-10-1287-mnsc-2022-04006">★</label>
+                  <input type="radio" id="star3-paper-10-1287-mnsc-2022-04006" name="rating-paper-10-1287-mnsc-2022-04006" value="3"><label for="star3-paper-10-1287-mnsc-2022-04006">★</label>
+                  <input type="radio" id="star2-paper-10-1287-mnsc-2022-04006" name="rating-paper-10-1287-mnsc-2022-04006" value="2"><label for="star2-paper-10-1287-mnsc-2022-04006">★</label>
+                  <input type="radio" id="star1-paper-10-1287-mnsc-2022-04006" name="rating-paper-10-1287-mnsc-2022-04006" value="1"><label for="star1-paper-10-1287-mnsc-2022-04006">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>It investigates fat tails in individual judgment errors and the implications for aggregating forecasts. It proposes Bayesian aggregation and a simple average–median heuristic as cognitive-model-based methods for combining expert estimates.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Lobo, M., Yao, D.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.46</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1287/mnsc.2022.04006' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2022.04006</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">How frequent are large disagreements in human judgment? The substantial literature relating to expert assessments of real-valued quantities and their aggregation almost universally assumes that judgment errors follow a jointly normal distribution. We investigate this question empirically using 73 data sets from four different sources that include over 169,000 estimates and forecasts. We find incontrovertible evidence for excess kurtosis: that is, of fat tails. Despite the diversity of the analyzed data, varying in how much uncertainty there is in the quantity being assessed and varying in the level of expertise and of sophistication of those making the assessments, we find surprising consistency in the frequency with which an individual judgment is in large disagreement with the consensus. Fitting a generalized normal distribution to the data, we find most estimates for the shape parameter to be between 0.9 and 1.6 (where 1 is the double-exponential distribution and 2 is the normal distribution). This has important implications, in particular for the aggregation of expert estimates and forecasts and for the construction of confidence intervals. We describe optimal Bayesian aggregation with fat tails and propose a simple average-median average heuristic that performs well for the range of empirically observed distributions. This paper was accepted by Manuel Baucells, behavioral economics and decision analysis. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2022.04006 .</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1287-mnsc-2022-04053" class="paper-item" data-journal="Management Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Memory, Retrieved Context, and Bias in Management Earnings Forecasts</h3>
+                <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2022-04053">
+                  <input type="radio" id="star5-paper-10-1287-mnsc-2022-04053" name="rating-paper-10-1287-mnsc-2022-04053" value="5"><label for="star5-paper-10-1287-mnsc-2022-04053">★</label>
+                  <input type="radio" id="star4-paper-10-1287-mnsc-2022-04053" name="rating-paper-10-1287-mnsc-2022-04053" value="4"><label for="star4-paper-10-1287-mnsc-2022-04053">★</label>
+                  <input type="radio" id="star3-paper-10-1287-mnsc-2022-04053" name="rating-paper-10-1287-mnsc-2022-04053" value="3"><label for="star3-paper-10-1287-mnsc-2022-04053">★</label>
+                  <input type="radio" id="star2-paper-10-1287-mnsc-2022-04053" name="rating-paper-10-1287-mnsc-2022-04053" value="2"><label for="star2-paper-10-1287-mnsc-2022-04053">★</label>
+                  <input type="radio" id="star1-paper-10-1287-mnsc-2022-04053" name="rating-paper-10-1287-mnsc-2022-04053" value="1"><label for="star1-paper-10-1287-mnsc-2022-04053">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The study shows that CEOs&#39; past recession memories influence post-crisis earnings forecasts, with longer and more recent memories predicting greater pessimism, and these effects fading after about three years, illustrating memory retrieval as a driver of managerial decision biases.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Koo, D., Wang, I., Wu, S.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.42</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1287/mnsc.2022.04053' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2022.04053</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">The impact of memory on economic choices can be essential, but empirical evidence of the link between them remains scarce. This study examines whether the retrieval of memories related to economic recessions affects the changes in the bias in management forecasts. Using the 2008 financial crisis as a memory trigger and focusing on annual management earnings forecasts issued for fiscal years ending between 2002 and 2018, we find that chief executive officers (CEOs) with more long-term memories of leading through past recessions and those with more intense recent memories of the financial crisis embed greater pessimism in their forecasts after the financial crisis. These findings support the retrieved-context theory in human memory as well as the availability heuristic and the recency effect in psychology. Further analyses show that it takes about three years for the increased pessimism in management forecasts to return to the pre-crisis level, mainly for CEOs with more memories of past recessions. These findings suggest that memory retrieval may delay managers’ learning after the financial crisis. Our study offers new insights into the role that memory plays in managers’ decision making. This paper was accepted by Eric So, accounting. Supplemental Material: The data files are available at https://doi.org/10.1287/mnsc.2022.04053 .</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-journal-of-economic-psychology"></a><h2 class="journal-header" data-journal="Journal of Economic Psychology" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Journal of Economic Psychology</h2>
+            <div id="paper-10-1016-j-joep-2025-102875" class="paper-item" data-journal="Journal of Economic Psychology" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Information combination and preference reversals: Eye-tracking data</h3>
+                <div class="star-rating" data-paper-id="paper-10-1016-j-joep-2025-102875">
+                  <input type="radio" id="star5-paper-10-1016-j-joep-2025-102875" name="rating-paper-10-1016-j-joep-2025-102875" value="5"><label for="star5-paper-10-1016-j-joep-2025-102875">★</label>
+                  <input type="radio" id="star4-paper-10-1016-j-joep-2025-102875" name="rating-paper-10-1016-j-joep-2025-102875" value="4"><label for="star4-paper-10-1016-j-joep-2025-102875">★</label>
+                  <input type="radio" id="star3-paper-10-1016-j-joep-2025-102875" name="rating-paper-10-1016-j-joep-2025-102875" value="3"><label for="star3-paper-10-1016-j-joep-2025-102875">★</label>
+                  <input type="radio" id="star2-paper-10-1016-j-joep-2025-102875" name="rating-paper-10-1016-j-joep-2025-102875" value="2"><label for="star2-paper-10-1016-j-joep-2025-102875">★</label>
+                  <input type="radio" id="star1-paper-10-1016-j-joep-2025-102875" name="rating-paper-10-1016-j-joep-2025-102875" value="1"><label for="star1-paper-10-1016-j-joep-2025-102875">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>Eye-tracking is used to compare how people visually process two gambles during choice versus evaluation; more across-bet comparisons occur in choice, but these patterns do not predict reversals, challenging context-based explanations of PRs.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> López-Pérez, R., Spiegelman, E.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.52</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.joep.2025.102875' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.joep.2025.102875</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">• Eye-tracking is used to study attention in classical preference reversal tasks. • We focus on fixation transitions to study how information is compared across options. • Choice induces more across-bet comparisons than evaluation. • Transition patterns do not predict reversals, challenging context-based theories. • Depth of reflection is higher in evaluation, but not robustly tied to consistency. In the classic preference reversal (PR) phenomenon, individuals often choose the safer of two gambles but assign a higher monetary evaluation to the riskier one. A key distinction between choice and evaluation tasks is that the former typically require comparative processing of the two bets, while the latter can be conducted in isolation for each bet. If this task-mode difference plays a causal role in generating PRs, then the frequency of PRs across individuals should correlate with differences in comparative cognitive processes across tasks. Assuming that sequences of visual fixations reflect cognitive comparisons, we test this hypothesis using eye-tracking during a classic PR experiment. Specifically, we compare the prevalence of across-bet transitions , eye movements between the probabilities or prizes of different bets, with within-bet transitions , movements between attributes of the same bet. As expected, participants exhibit more across-bet transitions in Choice than in Evaluation. However, variation in transition patterns does not predict behavior or PR incidence, challenging context-dependent explanations of classical PRs.</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1016-j-joep-2026-102888" class="paper-item" data-journal="Journal of Economic Psychology" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Aging and financial risk-taking: A meta-analysis</h3>
+                <div class="star-rating" data-paper-id="paper-10-1016-j-joep-2026-102888">
+                  <input type="radio" id="star5-paper-10-1016-j-joep-2026-102888" name="rating-paper-10-1016-j-joep-2026-102888" value="5"><label for="star5-paper-10-1016-j-joep-2026-102888">★</label>
+                  <input type="radio" id="star4-paper-10-1016-j-joep-2026-102888" name="rating-paper-10-1016-j-joep-2026-102888" value="4"><label for="star4-paper-10-1016-j-joep-2026-102888">★</label>
+                  <input type="radio" id="star3-paper-10-1016-j-joep-2026-102888" name="rating-paper-10-1016-j-joep-2026-102888" value="3"><label for="star3-paper-10-1016-j-joep-2026-102888">★</label>
+                  <input type="radio" id="star2-paper-10-1016-j-joep-2026-102888" name="rating-paper-10-1016-j-joep-2026-102888" value="2"><label for="star2-paper-10-1016-j-joep-2026-102888">★</label>
+                  <input type="radio" id="star1-paper-10-1016-j-joep-2026-102888" name="rating-paper-10-1016-j-joep-2026-102888" value="1"><label for="star1-paper-10-1016-j-joep-2026-102888">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper synthesizes existing studies to assess how aging alters financial risk-taking, evaluating whether older adults are more or less willing to take monetary risks and under what conditions.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Ordali, E., Rapallini, C.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.49</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.joep.2026.102888' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.joep.2026.102888</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1016-j-joep-2026-102877" class="paper-item" data-journal="Journal of Economic Psychology" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Out of sight is out of mind? Experimentally testing a gradually materializing public bad</h3>
+                <div class="star-rating" data-paper-id="paper-10-1016-j-joep-2026-102877">
+                  <input type="radio" id="star5-paper-10-1016-j-joep-2026-102877" name="rating-paper-10-1016-j-joep-2026-102877" value="5"><label for="star5-paper-10-1016-j-joep-2026-102877">★</label>
+                  <input type="radio" id="star4-paper-10-1016-j-joep-2026-102877" name="rating-paper-10-1016-j-joep-2026-102877" value="4"><label for="star4-paper-10-1016-j-joep-2026-102877">★</label>
+                  <input type="radio" id="star3-paper-10-1016-j-joep-2026-102877" name="rating-paper-10-1016-j-joep-2026-102877" value="3"><label for="star3-paper-10-1016-j-joep-2026-102877">★</label>
+                  <input type="radio" id="star2-paper-10-1016-j-joep-2026-102877" name="rating-paper-10-1016-j-joep-2026-102877" value="2"><label for="star2-paper-10-1016-j-joep-2026-102877">★</label>
+                  <input type="radio" id="star1-paper-10-1016-j-joep-2026-102877" name="rating-paper-10-1016-j-joep-2026-102877" value="1"><label for="star1-paper-10-1016-j-joep-2026-102877">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>In a public goods experiment, delaying the social damages makes participants less cooperative over time; this effect persists when private costs are held constant, and the authors attribute it to experiential exposure to harm rather than mere anticipation.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Egberts, A., Engel, C., Fairfield, J.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.39</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.joep.2026.102877' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.joep.2026.102877</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">• If harm to themselves is postponed, participants become less cautious. • If harm to others is postponed, participants become less cautious. • Participants only respond once their own payoff turns negative. • In a public bad, out of sight is out of mind. Many social ills can be modeled as a public bad. In such scenarios, private benefit is often immediate, while the public damage takes some time to materialize. In this experiment, we investigate the behavioral effects caused by such delays in the realization of collective harm. By manipulating the weight with which the damages caused by group contributions are carried over to the next round, we alter the number of periods required for the social damage to unfold fully. We keep constant the economic consequences of contributions between treatments (by introducing a multiplier for the damage) and between periods (by deducting all unrealized harm at the end of the game) to avoid multiple equilibria. In a second treatment dimension, we isolate the cognitive challenges of this experiment by replacing human group members with “computerized players” that perfectly copy each subject’s previous behavior. We find that participants’ behavior is less cooperative over time when harm is deferred into the future. Our results also suggest that the driving mechanism behind this effect is not insufficient anticipation, but the lack of having experienced the negative consequences of the public damage.</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-cognitive-science"></a><h2 class="journal-header" data-journal="Cognitive Science" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Cognitive Science</h2>
+            <div id="paper-10-1111-cogs-70193" class="paper-item" data-journal="Cognitive Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">A Metacognitive Appraisal of Quitting in Chess</h3>
+                <div class="star-rating" data-paper-id="paper-10-1111-cogs-70193">
+                  <input type="radio" id="star5-paper-10-1111-cogs-70193" name="rating-paper-10-1111-cogs-70193" value="5"><label for="star5-paper-10-1111-cogs-70193">★</label>
+                  <input type="radio" id="star4-paper-10-1111-cogs-70193" name="rating-paper-10-1111-cogs-70193" value="4"><label for="star4-paper-10-1111-cogs-70193">★</label>
+                  <input type="radio" id="star3-paper-10-1111-cogs-70193" name="rating-paper-10-1111-cogs-70193" value="3"><label for="star3-paper-10-1111-cogs-70193">★</label>
+                  <input type="radio" id="star2-paper-10-1111-cogs-70193" name="rating-paper-10-1111-cogs-70193" value="2"><label for="star2-paper-10-1111-cogs-70193">★</label>
+                  <input type="radio" id="star1-paper-10-1111-cogs-70193" name="rating-paper-10-1111-cogs-70193" value="1"><label for="star1-paper-10-1111-cogs-70193">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>It analyzes how chess players decide to quit during games, examining contextual factors and how quitting history shapes future behavior, and argues for metacognitive accounts to improve models of complex decision-making.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Purohit, H., Srivastava, N.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.47</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1111/cogs.70193' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1111/cogs.70193</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Abstract Decisions to stop or quit are often described as choices to switch to alternative activities once the current activity ceases to be rewarding. However, popular models of stopping—such as optimal foraging theory and recent metacognitive frameworks—fail to fully capture the nuanced differences in behavior between quitting and stopping. While quitting is closely related to stopping, it remains a phenomenologically distinct experience. The absence of a clear, separate definition for quitting motivates the present study. We investigate the contextual and noncontextual factors influencing quitting decisions among chess players, utilizing a large dataset of games from an online chess platform. Our analysis reveals that players tend to persevere in higher skill brackets and against stronger opponents when they are performing poorly. Additionally, a history of quitting increases the likelihood of quitting in future games, although recent quitting episodes can have protective effects. We also find that quitting influences subsequent behavior, with players often playing more games after a recent quit. We discuss these findings within the broader context of resource‐rational and metacognitive approaches. Finally, we provide a metacognitive account of quitting decisions with the aim to derive better models of complex decision‐making.</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-journal-of-experimental-psychology-learning-memory-and-cognition"></a><h2 class="journal-header" data-journal="Journal of Experimental Psychology: Learning, Memory, and Cognition" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Journal of Experimental Psychology: Learning, Memory, and Cognition</h2>
+            <div id="paper-10-1037-xlm0001580" class="paper-item" data-journal="Journal of Experimental Psychology: Learning, Memory, and Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Bayesian reasoning without numbers: Are proportions more natural than probabilities?</h3>
+                <div class="star-rating" data-paper-id="paper-10-1037-xlm0001580">
+                  <input type="radio" id="star5-paper-10-1037-xlm0001580" name="rating-paper-10-1037-xlm0001580" value="5"><label for="star5-paper-10-1037-xlm0001580">★</label>
+                  <input type="radio" id="star4-paper-10-1037-xlm0001580" name="rating-paper-10-1037-xlm0001580" value="4"><label for="star4-paper-10-1037-xlm0001580">★</label>
+                  <input type="radio" id="star3-paper-10-1037-xlm0001580" name="rating-paper-10-1037-xlm0001580" value="3"><label for="star3-paper-10-1037-xlm0001580">★</label>
+                  <input type="radio" id="star2-paper-10-1037-xlm0001580" name="rating-paper-10-1037-xlm0001580" value="2"><label for="star2-paper-10-1037-xlm0001580">★</label>
+                  <input type="radio" id="star1-paper-10-1037-xlm0001580" name="rating-paper-10-1037-xlm0001580" value="1"><label for="star1-paper-10-1037-xlm0001580">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The authors show that presenting Bayesian data as proportions can alter the way people combine prior information with new evidence, improving correct Bayesian judgments and reducing averaging errors. This implies representation and cognitive processing of uncertainty are intertwined and can be manipulated to support better decision-making.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Loibl, K., Leuders, T.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.45</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/xlm0001580' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/xlm0001580</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Bayesian reasoning requires the processing of data in probabilistic situations to revise risk estimations. Research has shown that this is difficult when data are presented as single-event probabilities; the multiplicative combination of priors and likelihoods often is disregarded, resulting in erroneous strategies such as prior neglect or averaging. Proportions (relative frequencies) are computationally equivalent to probabilities: They also require a multiplicative combination. However, proportions are connected to natural mental representations (ratio sense). More specifically, mental representations of nested proportions (e.g., 70% of 20%) allow for mental operations that correspond to multiplicative combinations. In three experimental studies, we avoided numerical calculations and focused on the conceptual understanding underlying Bayesian reasoning by administering tasks with bar chart representations without numbers. In all studies, we compared two conditions: The tasks were verbally framed either in terms of proportions or in terms of single-event probabilities. The studies revealed that the framing had no substantial effect on whether participants combined priors and likelihoods or neglected part of the information. However, the findings supported our hypothesis that the framing impacts how the information is combined. In line with our hypothesis, proportions increased the correct Bayesian judgment and reduced an incorrect averaging strategy-a strategy for combining information that was predominant with single-event probabilities. Thus, proportions appear as a natural view on combining information in Bayesian situations. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-cognition"></a><h2 class="journal-header" data-journal="Cognition" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Cognition</h2>
+            <div id="paper-10-1016-j-cognition-2025-106375" class="paper-item" data-journal="Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Chance neglect in performance judgments</h3>
+                <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2025-106375">
+                  <input type="radio" id="star5-paper-10-1016-j-cognition-2025-106375" name="rating-paper-10-1016-j-cognition-2025-106375" value="5"><label for="star5-paper-10-1016-j-cognition-2025-106375">★</label>
+                  <input type="radio" id="star4-paper-10-1016-j-cognition-2025-106375" name="rating-paper-10-1016-j-cognition-2025-106375" value="4"><label for="star4-paper-10-1016-j-cognition-2025-106375">★</label>
+                  <input type="radio" id="star3-paper-10-1016-j-cognition-2025-106375" name="rating-paper-10-1016-j-cognition-2025-106375" value="3"><label for="star3-paper-10-1016-j-cognition-2025-106375">★</label>
+                  <input type="radio" id="star2-paper-10-1016-j-cognition-2025-106375" name="rating-paper-10-1016-j-cognition-2025-106375" value="2"><label for="star2-paper-10-1016-j-cognition-2025-106375">★</label>
+                  <input type="radio" id="star1-paper-10-1016-j-cognition-2025-106375" name="rating-paper-10-1016-j-cognition-2025-106375" value="1"><label for="star1-paper-10-1016-j-cognition-2025-106375">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>People systematically ignore or undervalue chance-level success when evaluating technology performance, indicating a robust, individual-level bias in probabilistic judgment during decision making under uncertainty.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Hong, Z., Henrich, J.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.44</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.cognition.2025.106375' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.cognition.2025.106375</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Humans often struggle to incorporate chance information into performance evaluations. Across diverse samples in China and the United States (total N = 1387), we show that people systematically misperceive or ignore chance-level success rates when judging the efficacy of technological practices. Using scenarios where chance performance is objectively known (e.g., ∼50 % success rate for fetal sex prediction), we find that (1) many participants underestimate the success achievable by random guessing, (2) even when they accurately recognize chance-level information, they often fail to use it as a baseline for evaluating expert predictions, and (3) this &quot;chance neglect&quot; is especially pronounced in performance-related judgments. These findings highlight a cognitive bias that may contribute to the persistence of ineffective technologies across societies.</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1016-j-cognition-2025-106376" class="paper-item" data-journal="Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Issue importance amplifies the effect of gaze on voting decisions</h3>
+                <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2025-106376">
+                  <input type="radio" id="star5-paper-10-1016-j-cognition-2025-106376" name="rating-paper-10-1016-j-cognition-2025-106376" value="5"><label for="star5-paper-10-1016-j-cognition-2025-106376">★</label>
+                  <input type="radio" id="star4-paper-10-1016-j-cognition-2025-106376" name="rating-paper-10-1016-j-cognition-2025-106376" value="4"><label for="star4-paper-10-1016-j-cognition-2025-106376">★</label>
+                  <input type="radio" id="star3-paper-10-1016-j-cognition-2025-106376" name="rating-paper-10-1016-j-cognition-2025-106376" value="3"><label for="star3-paper-10-1016-j-cognition-2025-106376">★</label>
+                  <input type="radio" id="star2-paper-10-1016-j-cognition-2025-106376" name="rating-paper-10-1016-j-cognition-2025-106376" value="2"><label for="star2-paper-10-1016-j-cognition-2025-106376">★</label>
+                  <input type="radio" id="star1-paper-10-1016-j-cognition-2025-106376" name="rating-paper-10-1016-j-cognition-2025-106376" value="1"><label for="star1-paper-10-1016-j-cognition-2025-106376">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>In lab experiments, attention to a proposed law biases voting decisions, with stronger effects for more important issues; the study uses response times and eye-tracking and applies sequential sampling models to explain how gaze amplifies information and guides on-the-spot evaluation.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Yang, X., Riggs, E., Coronel, J., Krajbich, I.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.42</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.cognition.2025.106376' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.cognition.2025.106376</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">There are many factors that can influence a voter&#39;s decision in the ballot booth but not all of them are policy related. One non-policy factor that may influence voters is the tendency to choose options that attract attention. Here, we investigate this possibility in two proof-of-concept laboratory studies with people choosing between proposed laws. We find that people are slower to vote when their party is split over an issue, and that they tend to vote for laws that they look at more. Moreover, this gaze effect is stronger for more important issues. We also find that we can increase the probability that someone will vote for one of two laws by getting them to look at that option first. Our work harnesses the power of sequential sampling models to explain the relationship between gaze and vote choice. We find support for a goal-based model where overt attention amplifies information supporting a particular law. This model explains why gaze has a stronger effect on choice for more important issues. Our findings indicate that some voting decisions are not predetermined and instead rely on an on-the-spot evaluation. As a result, these decisions can be swayed by attentional manipulations. Thus, visual attention may serve as a unifying framework for understanding different biases that occur in the voting booth, such as ballot-order and candidate-name-familiarity effects.</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-psychological-review"></a><h2 class="journal-header" data-journal="Psychological Review" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Psychological Review</h2>
+            <div id="paper-10-1037-rev0000556" class="paper-item" data-journal="Psychological Review" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Temporal foreknowledge: Anticipation and prospective correction of timing errors by diffusion.</h3>
+                <div class="star-rating" data-paper-id="paper-10-1037-rev0000556">
+                  <input type="radio" id="star5-paper-10-1037-rev0000556" name="rating-paper-10-1037-rev0000556" value="5"><label for="star5-paper-10-1037-rev0000556">★</label>
+                  <input type="radio" id="star4-paper-10-1037-rev0000556" name="rating-paper-10-1037-rev0000556" value="4"><label for="star4-paper-10-1037-rev0000556">★</label>
+                  <input type="radio" id="star3-paper-10-1037-rev0000556" name="rating-paper-10-1037-rev0000556" value="3"><label for="star3-paper-10-1037-rev0000556">★</label>
+                  <input type="radio" id="star2-paper-10-1037-rev0000556" name="rating-paper-10-1037-rev0000556" value="2"><label for="star2-paper-10-1037-rev0000556">★</label>
+                  <input type="radio" id="star1-paper-10-1037-rev0000556" name="rating-paper-10-1037-rev0000556" value="1"><label for="star1-paper-10-1037-rev0000556">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>Plain-language: The authors present a drift-diffusion model of temporal error monitoring that anticipates timing errors and adapts behavior within the same trial, showing how timing representations influence performance and reward-rate optimization.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Balcı, F., Öztel, T.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.42</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/rev0000556' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/rev0000556</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">A recent line of research has shown that humans and rodents can monitor errors in their timing behavior in individual trials. This ability is called temporal error monitoring (TEM). Electrophysiological studies showed that TEM-related neural signals of error are present before the timing behavior is manifested. These results have crucial implications for the function and modeling of TEM as they show that timing errors are read out rather than detected retrospectively. Such real-time error monitoring allows emergent timing error signals to improve the impending timing behavior in a prospective fashion (e.g., increasing the timing threshold when &quot;earlier-than-target&quot; errors are detected), enabling within-trial error corrections. In this article, we present a drift-diffusion model of real-time TEM with prospective (within-trial) behavioral modulation/refinement elements that are sensitive to task representations. Our model predicts the read-out of timing signals before the manifestation of the timing behavior and the translation of these signals into the improvement of timing accuracy within individual trials (thus improving overall precision) without violating the psychophysical and statistical features of the timing behavior. Finally, the task representation dependency of the decision element accounts for the widely reported reward-rate maximizing timing behavior. Our model introduces a new theoretical foundation for TEM with many testable behavioral and electrophysiological predictions. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1037-rev0000552" class="paper-item" data-journal="Psychological Review" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Beliefs about perception shape perceptual inference: An ideal observer model of detection.</h3>
+                <div class="star-rating" data-paper-id="paper-10-1037-rev0000552">
+                  <input type="radio" id="star5-paper-10-1037-rev0000552" name="rating-paper-10-1037-rev0000552" value="5"><label for="star5-paper-10-1037-rev0000552">★</label>
+                  <input type="radio" id="star4-paper-10-1037-rev0000552" name="rating-paper-10-1037-rev0000552" value="4"><label for="star4-paper-10-1037-rev0000552">★</label>
+                  <input type="radio" id="star3-paper-10-1037-rev0000552" name="rating-paper-10-1037-rev0000552" value="3"><label for="star3-paper-10-1037-rev0000552">★</label>
+                  <input type="radio" id="star2-paper-10-1037-rev0000552" name="rating-paper-10-1037-rev0000552" value="2"><label for="star2-paper-10-1037-rev0000552">★</label>
+                  <input type="radio" id="star1-paper-10-1037-rev0000552" name="rating-paper-10-1037-rev0000552" value="1"><label for="star1-paper-10-1037-rev0000552">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The study investigates how priors about visibility influence presence/absence decisions in near-threshold detection with occlusion, showing opposite individual-level effects and fitting a Bayesian perceptual model to account for these inferences.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Mazor, M., Moran, R., Press, C.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.4</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/rev0000552' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/rev0000552</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">According to Bayesian, &quot;inverse optics&quot; accounts of vision, perceiving is inferring the most likely state of the world given noisy sensory data. This inference depends not only on prior beliefs about the world but also on an internal model specifying how world states translate to visual sensations. Alternative accounts explain perceptual decisions as a rule-based process, with no role for such beliefs about perception. Here, we contrast the two alternatives, focusing on decisions about perceptual absence as a critical test case. We present data from three preregistered experiments where participants performed a near-threshold detection task under different levels of partial stimulus occlusion, thereby visibly manipulating the measurement function going from external world states to internal perceptual states. We find that decisions about presence and absence are differentially sensitive to sensory evidence and occlusion. Furthermore, we observe reliably opposite individual-level effects of occlusion on decisions about absence. Our model accounts for these findings by postulating robust individual differences in the incorporation of beliefs about visibility into perceptual inferences, independent of population variability in visibility itself. We discuss implications for the varied and inferential nature of visual perception more broadly. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-american-economic-review"></a><h2 class="journal-header" data-journal="American Economic Review" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">American Economic Review</h2>
+            <div id="paper-10-1257-aer-20230309" class="paper-item" data-journal="American Economic Review" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Sequential Cursed Equilibrium</h3>
+                <div class="star-rating" data-paper-id="paper-10-1257-aer-20230309">
+                  <input type="radio" id="star5-paper-10-1257-aer-20230309" name="rating-paper-10-1257-aer-20230309" value="5"><label for="star5-paper-10-1257-aer-20230309">★</label>
+                  <input type="radio" id="star4-paper-10-1257-aer-20230309" name="rating-paper-10-1257-aer-20230309" value="4"><label for="star4-paper-10-1257-aer-20230309">★</label>
+                  <input type="radio" id="star3-paper-10-1257-aer-20230309" name="rating-paper-10-1257-aer-20230309" value="3"><label for="star3-paper-10-1257-aer-20230309">★</label>
+                  <input type="radio" id="star2-paper-10-1257-aer-20230309" name="rating-paper-10-1257-aer-20230309" value="2"><label for="star2-paper-10-1257-aer-20230309">★</label>
+                  <input type="radio" id="star1-paper-10-1257-aer-20230309" name="rating-paper-10-1257-aer-20230309" value="1"><label for="star1-paper-10-1257-aer-20230309">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>It develops a sequential game theory concept (Sequential Cursed Equilibrium) that extends cursed equilibrium to endogenous information, modeling how players neglect hypothetical information and infer from observed events in strategic decisions under uncertainty.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Cohen, S., Li, S.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.41</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1257/aer.20230309' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1257/aer.20230309</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">We propose an extensive-form solution concept, with players who neglect information from hypothetical events but make inferences from observed events. Our concept modifies cursed equilibrium (Eyster and Rabin 2005) and allows that players can be cursed about endogenous information. (JEL C73, D44, D71, D81, D83, D91)</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-journal-of-mathematical-psychology"></a><h2 class="journal-header" data-journal="Journal of Mathematical Psychology" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Journal of Mathematical Psychology</h2>
+            <div id="paper-10-1016-j-jmp-2026-102970" class="paper-item" data-journal="Journal of Mathematical Psychology" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Representing choice probabilities by ranking probabilities via entropy maximization</h3>
+                <div class="star-rating" data-paper-id="paper-10-1016-j-jmp-2026-102970">
+                  <input type="radio" id="star5-paper-10-1016-j-jmp-2026-102970" name="rating-paper-10-1016-j-jmp-2026-102970" value="5"><label for="star5-paper-10-1016-j-jmp-2026-102970">★</label>
+                  <input type="radio" id="star4-paper-10-1016-j-jmp-2026-102970" name="rating-paper-10-1016-j-jmp-2026-102970" value="4"><label for="star4-paper-10-1016-j-jmp-2026-102970">★</label>
+                  <input type="radio" id="star3-paper-10-1016-j-jmp-2026-102970" name="rating-paper-10-1016-j-jmp-2026-102970" value="3"><label for="star3-paper-10-1016-j-jmp-2026-102970">★</label>
+                  <input type="radio" id="star2-paper-10-1016-j-jmp-2026-102970" name="rating-paper-10-1016-j-jmp-2026-102970" value="2"><label for="star2-paper-10-1016-j-jmp-2026-102970">★</label>
+                  <input type="radio" id="star1-paper-10-1016-j-jmp-2026-102970" name="rating-paper-10-1016-j-jmp-2026-102970" value="1"><label for="star1-paper-10-1016-j-jmp-2026-102970">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>Proposes using entropy maximization to rank choice probabilities, offering a computational cognitive-modeling approach to how people evaluate uncertain options.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Kilani, K., Colonius, H.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.4</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.jmp.2026.102970' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.jmp.2026.102970</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-jep-general"></a><h2 class="journal-header" data-journal="JEP: General" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">JEP: General</h2>
+            <div id="paper-10-1037-xge0001876" class="paper-item" data-journal="JEP: General" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Three international studies on pure coordination games: Adaptable solutions when intuitions are presumed to vary.</h3>
+                <div class="star-rating" data-paper-id="paper-10-1037-xge0001876">
+                  <input type="radio" id="star5-paper-10-1037-xge0001876" name="rating-paper-10-1037-xge0001876" value="5"><label for="star5-paper-10-1037-xge0001876">★</label>
+                  <input type="radio" id="star4-paper-10-1037-xge0001876" name="rating-paper-10-1037-xge0001876" value="4"><label for="star4-paper-10-1037-xge0001876">★</label>
+                  <input type="radio" id="star3-paper-10-1037-xge0001876" name="rating-paper-10-1037-xge0001876" value="3"><label for="star3-paper-10-1037-xge0001876">★</label>
+                  <input type="radio" id="star2-paper-10-1037-xge0001876" name="rating-paper-10-1037-xge0001876" value="2"><label for="star2-paper-10-1037-xge0001876">★</label>
+                  <input type="radio" id="star1-paper-10-1037-xge0001876" name="rating-paper-10-1037-xge0001876" value="1"><label for="star1-paper-10-1037-xge0001876">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>Across three studies with participants from multiple countries, people coordinated above chance but often on different responses, suggesting coordination relies on adaptable, content-rich reasoning about others rather than fixed heuristics.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Perez-Zapata, D., Isoni, A., Zawidzki, T., Apperly, I.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.39</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/xge0001876' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/xge0001876</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">In pure coordination games, players aim to give the same response without communication. Cognitive science research has focused on the reasoning and common knowledge necessary as the background conditions for coordination, with less attention paid to the challenge of intuiting responses on which coordination might be possible. Most studies have examined coordination within university samples from a single country, and so the extent of the challenge of coordinating between heterogeneous groups of people may have been underestimated. We conducted three empirical studies (two preregistered) with participants from the United Kingdom, South Africa, and Chile, plus a globally distributed sample (total N = 520). Without communicating, participants were asked to coordinate on answers to simple questions such as &quot;name a city.&quot; All groups coordinated at rates far above chance but often coordinated on different responses. Study 1 showed that participants from one group could nevertheless anticipate the responses of another group, while Studies 2 and 3 showed that participants could coordinate with a partner from a different group. Crucially, between-group partners most often coordinated on new responses that were rarely considered for within-group coordination, providing the strongest evidence to date to support Schelling&#39;s claim that coordination requires distinctive reasoning, beyond primary and secondary salience. These findings provide evidence that coordination decisions are variable and flexible, resulting in accurate adaptations to achieve coordination. Where previous work has focused predominantly on the forms of reasoning that support coordination, the present findings suggest that it is equally important to examine the content of coordination solutions. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1037-xge0001888" class="paper-item" data-journal="JEP: General" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Choosing to believe: How active sampling enhances the truth effect.</h3>
+                <div class="star-rating" data-paper-id="paper-10-1037-xge0001888">
+                  <input type="radio" id="star5-paper-10-1037-xge0001888" name="rating-paper-10-1037-xge0001888" value="5"><label for="star5-paper-10-1037-xge0001888">★</label>
+                  <input type="radio" id="star4-paper-10-1037-xge0001888" name="rating-paper-10-1037-xge0001888" value="4"><label for="star4-paper-10-1037-xge0001888">★</label>
+                  <input type="radio" id="star3-paper-10-1037-xge0001888" name="rating-paper-10-1037-xge0001888" value="3"><label for="star3-paper-10-1037-xge0001888">★</label>
+                  <input type="radio" id="star2-paper-10-1037-xge0001888" name="rating-paper-10-1037-xge0001888" value="2"><label for="star2-paper-10-1037-xge0001888">★</label>
+                  <input type="radio" id="star1-paper-10-1037-xge0001888" name="rating-paper-10-1037-xge0001888" value="1"><label for="star1-paper-10-1037-xge0001888">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>Across eight preregistered experiments (n = 953), the authors show that actively selecting information to view enhances the truth effect, increasing belief in previously encountered information, with evidence favoring processing-based explanations over stimulus-based ones.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Ingendahl, M., Schulte, A., Weber, F., Vaz, A., Woitzel, J., Alves, H.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.36</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/xge0001888' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/xge0001888</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Repeated exposure to information increases the credibility of this information, a well-studied phenomenon called the truth effect. While this phenomenon has been studied extensively by passively exposing people to preselected information pieces, in real-world contexts, people often sample information actively (e.g., by clicking on a headline on social media). In the present research, we propose and demonstrate in eight preregistered experiments ( N = 953) that such active sampling of information increases the truth effect, leading to an enhanced belief in information one had initially been exposed to following one&#39;s active choice. We further test both stimulus-based explanations (i.e., people are more likely to sample information that is perceived to be more plausible) and processing-based explanations (i.e., sampling information boosts cognitive processes that also increase the truth effect), with evidence favoring the latter account. Overall, our findings imply that repeated exposure to information has a more profound influence on people&#39;s beliefs in settings where people actively choose which information they are exposed to. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-psychonomic-bulletin-review"></a><h2 class="journal-header" data-journal="Psychonomic Bulletin & Review" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Psychonomic Bulletin &amp; Review</h2>
+            <div id="paper-10-3758-s13423-025-02775-6" class="paper-item" data-journal="Psychonomic Bulletin & Review" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Visual motion sensitivity and driving performance and safety</h3>
+                <div class="star-rating" data-paper-id="paper-10-3758-s13423-025-02775-6">
+                  <input type="radio" id="star5-paper-10-3758-s13423-025-02775-6" name="rating-paper-10-3758-s13423-025-02775-6" value="5"><label for="star5-paper-10-3758-s13423-025-02775-6">★</label>
+                  <input type="radio" id="star4-paper-10-3758-s13423-025-02775-6" name="rating-paper-10-3758-s13423-025-02775-6" value="4"><label for="star4-paper-10-3758-s13423-025-02775-6">★</label>
+                  <input type="radio" id="star3-paper-10-3758-s13423-025-02775-6" name="rating-paper-10-3758-s13423-025-02775-6" value="3"><label for="star3-paper-10-3758-s13423-025-02775-6">★</label>
+                  <input type="radio" id="star2-paper-10-3758-s13423-025-02775-6" name="rating-paper-10-3758-s13423-025-02775-6" value="2"><label for="star2-paper-10-3758-s13423-025-02775-6">★</label>
+                  <input type="radio" id="star1-paper-10-3758-s13423-025-02775-6" name="rating-paper-10-3758-s13423-025-02775-6" value="1"><label for="star1-paper-10-3758-s13423-025-02775-6">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>A review showing that motion sensitivity predicts hazard detection and vehicle-control performance, implying perceptual abilities contribute to individual driving risk.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Wood, J., Black, A., Lacherez, P., McKendrick, A.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.37</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.3758/s13423-025-02775-6' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.3758/s13423-025-02775-6</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Abstract Perceiving and interpreting motion in the visual world is an important and complex visual process involved in activities such as driving, which involves the motion of both the driver’s own vehicle and that of other road users. Research has explored the association between tests of motion sensitivity and a range of indices of driving performance and safety, to better understand the role of motion sensitivity in driving and its ability to predict driving performance and safety. This review provides an overview of research that has explored associations between motion sensitivity tests and measures of driving performance and safety. Collectively, the findings suggest that motion sensitivity is important in the timely detection of hazards, as well as for visually guided vehicle control behaviours (e.g., lane-keeping). Impaired motion sensitivity has been shown to be associated with delayed hazard response times in computer-based tests, impaired driving performance assessed in closed and open road studies, as well as increased crash risk. Given the many driving performance outcomes in on-road and simulator studies related to motion sensitivity, further work should explore motion sensitivity as a risk factor for unsafe driving performance and collision involvement in older adults.</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-trends-in-cognitive-sciences"></a><h2 class="journal-header" data-journal="Trends in Cognitive Sciences" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Trends in Cognitive Sciences</h2>
+            <div id="paper-10-1016-j-tics-2025-07-007" class="paper-item" data-journal="Trends in Cognitive Sciences" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Neurocomputational mechanisms of maladaptive behaviors in loneliness</h3>
+                <div class="star-rating" data-paper-id="paper-10-1016-j-tics-2025-07-007">
+                  <input type="radio" id="star5-paper-10-1016-j-tics-2025-07-007" name="rating-paper-10-1016-j-tics-2025-07-007" value="5"><label for="star5-paper-10-1016-j-tics-2025-07-007">★</label>
+                  <input type="radio" id="star4-paper-10-1016-j-tics-2025-07-007" name="rating-paper-10-1016-j-tics-2025-07-007" value="4"><label for="star4-paper-10-1016-j-tics-2025-07-007">★</label>
+                  <input type="radio" id="star3-paper-10-1016-j-tics-2025-07-007" name="rating-paper-10-1016-j-tics-2025-07-007" value="3"><label for="star3-paper-10-1016-j-tics-2025-07-007">★</label>
+                  <input type="radio" id="star2-paper-10-1016-j-tics-2025-07-007" name="rating-paper-10-1016-j-tics-2025-07-007" value="2"><label for="star2-paper-10-1016-j-tics-2025-07-007">★</label>
+                  <input type="radio" id="star1-paper-10-1016-j-tics-2025-07-007" name="rating-paper-10-1016-j-tics-2025-07-007" value="1"><label for="star1-paper-10-1016-j-tics-2025-07-007">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>It reviews neurocomputational evidence on how loneliness arises from cognitive processes and social environments, and discusses community-based interventions to prevent maladaptive reasoning, focusing on individuals rather than market-level outcomes.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Bellucci, G., Imada, H., Fett, A., Ito, A.</div>
+                <div><b>Published:</b> 2026-03</div>
+                <div><b>Relevance Score:</b> 0.36</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.tics.2025.07.007' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.tics.2025.07.007</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">&#39;Loneliness&#39; refers to the perceived social isolation triggered by unsatisfying relationships. Most research and interventions have framed it as an individual problem rather than a broader social issue rooted in the (infra)structures of our societies. Here, we synthesize the neurocomputational evidence on the cognitive processes underpinning loneliness and the psychological and behavioral effects of the social environment and, in particular, community identification on feelings of loneliness. We propose that community-based interventions might effectively tackle loneliness by creating the preconditions that can prevent the emergence and reinforcement of the cognitive biases that foster maladaptive behavioral and reasoning patterns in lonely individuals. Finally, we discuss how future work can better design and tailor social interventions to reduce loneliness and improve mental health in general.</span>
+                </div>
+              </div>
+            </div>
+            
+      </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+      <script>
+        let isFilterActive = false;
+
+        // Only show admin controls and allow editing if running locally (file://)
+        if (window.location.protocol === 'file:') {
+          document.getElementById('admin-ui').style.display = 'block';
+        } else {
+          // Disable all radio buttons if not local
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.disabled = true;
+          });
+          // Add a style to make the stars non-interactive
+          const style = document.createElement('style');
+          style.innerHTML = '.star-rating { pointer-events: none; }';
+          document.head.appendChild(style);
+        }
+
+        function toggleTopPicks() {
+          isFilterActive = !isFilterActive;
+          const btn = document.getElementById('filter-btn');
+          const papers = document.querySelectorAll('.paper-item');
+          const headers = document.querySelectorAll('.journal-header');
+
+          if (isFilterActive) {
+            btn.style.background = '#1e3a8a';
+            btn.style.color = '#ffffff';
+            btn.innerHTML = '✨ Showing Top Picks (4★+)';
+
+            headers.forEach(header => {
+              const journal = header.getAttribute('data-journal');
+              const journalPapers = document.querySelectorAll(`.paper-item[data-journal="${journal}"]`);
+              let hasTopPick = false;
+
+              journalPapers.forEach(paper => {
+                const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+                if (parseInt(rating) >= 4) {
+                  paper.style.display = 'block';
+                  hasTopPick = true;
+                } else {
+                  paper.style.display = 'none';
+                }
+              });
+
+              header.style.display = hasTopPick ? 'block' : 'none';
+            });
+          } else {
+            btn.style.background = '#ffffff';
+            btn.style.color = '#374151';
+            btn.innerHTML = '⭐ Show Top Picks (4★+)';
+            
+            papers.forEach(p => p.style.display = 'block');
+            headers.forEach(h => h.style.display = 'block');
+          }
+        }
+
+        function savePage() {
+          // Reset filter before saving so all papers are visible in the source
+          if (isFilterActive) toggleTopPicks();
+
+          // Remove the Save button and admin UI from the saved HTML
+          const adminUI = document.getElementById('admin-ui');
+          adminUI.style.display = 'none';
+          
+          // Update the checked attribute of radio buttons based on their current state
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            if (radio.checked) {
+              radio.setAttribute('checked', 'checked');
+            } else {
+              radio.removeAttribute('checked');
+            }
+          });
+
+          const htmlContent = document.documentElement.outerHTML;
+          const blob = new Blob([htmlContent], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = window.location.pathname.split('/').pop() || 'digest.html';
+          a.click();
+          
+          // Show admin UI again
+          adminUI.style.display = 'block';
+        }
+      </script>
+    </body>
+    </html>
+    
