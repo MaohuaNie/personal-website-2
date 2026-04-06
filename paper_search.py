@@ -417,6 +417,11 @@ def gpt_relevance_and_summary(title, abstract):
             messages=[{"role": "user", "content": prompt}]
         )
         content = resp.content[0].text
+        # Strip markdown code blocks if present
+        content = content.strip()
+        if content.startswith("```"):
+            content = re.sub(r"^```(?:json)?\s*", "", content)
+            content = re.sub(r"\s*```$", "", content)
         j = json.loads(content)
         return bool(j.get("relevant", False)), j.get("reason", ""), j.get("summary", "")
     except:
