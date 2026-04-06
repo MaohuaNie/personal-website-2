@@ -4,6 +4,7 @@ import requests
 import numpy as np
 from datetime import datetime, timedelta, date
 from openai import OpenAI
+from anthropic import Anthropic
 import re
 from pathlib import Path
 from urllib.parse import quote
@@ -15,6 +16,8 @@ from urllib.parse import quote
 ROOT = Path(__file__).parent
 DIGEST_DIR = ROOT / "research-digest"
 DIGEST_DIR.mkdir(exist_ok=True)
+LOG_DIR = ROOT / "research-digest" / "logs"
+LOG_DIR.mkdir(exist_ok=True)
 
 DIGEST_INDEX = DIGEST_DIR / "digests.json"
 ELSEVIER_CACHE = {}
@@ -56,7 +59,7 @@ ELSEVIER_ISSNS = {
 }
 
 TOP_K_PER_JOURNAL = 30
-SIM_THRESHOLD = 0.35
+SIM_THRESHOLD = 0.30
 
 TOPIC_TEXT = """
 decision making under risk and uncertainty,
@@ -97,10 +100,15 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise RuntimeError("Missing OPENAI_API_KEY environment variable")
 
-client = OpenAI(api_key=OPENAI_API_KEY)
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+if not ANTHROPIC_API_KEY:
+    raise RuntimeError("Missing ANTHROPIC_API_KEY environment variable")
+
+openai_client = OpenAI(api_key=OPENAI_API_KEY)
+anthropic_client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
 # Pre-compute topic embedding
-topic_emb = client.embeddings.create(
+topic_emb = openai_client.embeddings.create(
     model="text-embedding-3-small",
     input=[TOPIC_TEXT]
 ).data[0].embedding
@@ -158,7 +166,7 @@ def embed_text_batch(texts):
     for t in texts:
         clean_texts.append(str(t) if t is not None else "")
     
-    resp = client.embeddings.create(
+    resp = openai_client.embeddings.create(
         model="text-embedding-3-small",
         input=clean_texts
     )
@@ -403,11 +411,12 @@ def gpt_relevance_and_summary(title, abstract):
         Abstract: {abstract}
         """
     try:
-        resp = client.chat.completions.create(
-            model="gpt-5-nano",
+        resp = anthropic_client.messages.create(
+            model="claude-sonnet-4-6-20250514",
+            max_tokens=300,
             messages=[{"role": "user", "content": prompt}]
         )
-        content = resp.choices[0].message.content
+        content = resp.content[0].text
         j = json.loads(content)
         return bool(j.get("relevant", False)), j.get("reason", ""), j.get("summary", "")
     except:
@@ -448,6 +457,7 @@ def find_relevant_papers(start_day, end_day):
     log(f"Searching papers for window: {start_day} → {end_day}")
 
     all_results = []
+    run_log = []
 
     for j_idx, j in enumerate(JOURNALS, start=1):
         log(f"[{j_idx}/{len(JOURNALS)}] Fetching {j['name']} ({j['issn']})")
@@ -487,13 +497,32 @@ def find_relevant_papers(start_day, end_day):
         ranked_idx = np.argsort(sims)[::-1][:TOP_K_PER_JOURNAL]
 
         for idx in ranked_idx:
+            title = valid_items[idx].get("title", [""])[0]
+            doi = valid_items[idx].get("DOI")
+            score = round(sims[idx], 2)
+
+            # Log every paper that made it to top-K, regardless of threshold
+            entry = {
+                "journal": j["name"],
+                "title": title,
+                "doi": doi,
+                "embedding_score": score,
+                "passed_threshold": score >= SIM_THRESHOLD,
+                "llm_relevant": None,
+                "llm_reason": None,
+                "final_included": False,
+            }
+
             if sims[idx] < SIM_THRESHOLD:
+                run_log.append(entry)
                 continue
 
-            title = valid_items[idx].get("title", [""])[0]
-            relevant, _, summary = gpt_relevance_and_summary(title, abstracts[idx])
+            relevant, reason, summary = gpt_relevance_and_summary(title, abstracts[idx])
+            entry["llm_relevant"] = relevant
+            entry["llm_reason"] = reason
 
             if relevant:
+                entry["final_included"] = True
                 authors = format_authors(valid_items[idx].get("author", []))
                 published = format_pub_date(valid_items[idx])
 
@@ -509,12 +538,20 @@ def find_relevant_papers(start_day, end_day):
                     "authors": authors,
                     "published": published,
                     "journal": j["name"],
-                    "relevance_score": round(sims[idx], 2),
-                    "doi": valid_items[idx].get("DOI"),
+                    "relevance_score": score,
+                    "doi": doi,
                     "abstract": abstracts[idx],
                     "abstract_source": sources[idx],
                     "summary": summary
                 })
+
+            run_log.append(entry)
+
+    # Save log
+    log_file = LOG_DIR / f"log_{start_day}_{end_day}.json"
+    with open(log_file, "w", encoding="utf-8") as f:
+        json.dump(run_log, f, indent=2, ensure_ascii=False)
+    log(f"Saved pipeline log to {log_file.name} ({len(run_log)} entries)")
 
     return sorted(all_results, key=lambda x: x["relevance_score"], reverse=True)
 
