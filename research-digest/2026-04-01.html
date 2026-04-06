@@ -1,0 +1,155 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="../assets/site.css">
+      <style>
+        .star-rating {
+          display: inline-flex;
+          flex-direction: row-reverse;
+          gap: 4px;
+        }
+        .star-rating input { display: none; }
+        .star-rating label {
+          font-size: 24px;
+          color: #e5e7eb;
+          cursor: pointer;
+          transition: color 0.1s;
+        }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+          color: #fbbf24;
+        }
+        .admin-controls {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          z-index: 1000;
+          display: none; /* Only show locally */
+        }
+        .save-btn {
+          background: #1e3a8a;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: 600;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        @media print { .admin-controls, .star-rating { display: none !important; } }
+      </style>
+    </head>
+    <body style="background:#f6f7fb;padding:20px;color:#1f2937;">
+      <div class="admin-controls" id="admin-ui">
+        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
+      </div>
+      <a id="top"></a>
+      <div style="max-width:900px;margin:0 auto;background:#ffffff;border-radius:14px;padding:26px;box-shadow:0 6px 18px rgba(0,0,0,0.08);border:1px solid #eef0f4;">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;">
+          <div>
+            <h1 style="margin:0;font-size:26px;line-height:1.2;color:#111827;">Bi-weekly Research Digest</h1>
+            <p style="margin:8px 0 0;font-size:14px;color:#4b5563;">
+              <b>Date range:</b> 2026-03-16 → 2026-03-31<br>
+              <b>Total relevant papers:</b> 0
+            </p>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <button id="filter-btn" onclick="toggleTopPicks()" style="background:#ffffff; border:1px solid #e5e7eb; padding:8px 16px; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; color:#374151; transition:all 0.2s;">
+              ⭐ Show Top Picks (4★+)
+            </button>
+          </div>
+        </div>
+        <h2 style="margin:26px 0 10px;font-size:18px;border-bottom:1px solid #e5e7eb;padding-bottom:8px;color:#111827;">Summary by Journal</h2>
+        <ul style="margin:10px 0 0;padding-left:18px;color:#374151;line-height:1.7;">
+    </ul>
+      </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+      <script>
+        let isFilterActive = false;
+
+        // Only show admin controls and allow editing if running locally (file://)
+        if (window.location.protocol === 'file:') {
+          document.getElementById('admin-ui').style.display = 'block';
+        } else {
+          // Disable all radio buttons if not local
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.disabled = true;
+          });
+          // Add a style to make the stars non-interactive
+          const style = document.createElement('style');
+          style.innerHTML = '.star-rating { pointer-events: none; }';
+          document.head.appendChild(style);
+        }
+
+        function toggleTopPicks() {
+          isFilterActive = !isFilterActive;
+          const btn = document.getElementById('filter-btn');
+          const papers = document.querySelectorAll('.paper-item');
+          const headers = document.querySelectorAll('.journal-header');
+
+          if (isFilterActive) {
+            btn.style.background = '#1e3a8a';
+            btn.style.color = '#ffffff';
+            btn.innerHTML = '✨ Showing Top Picks (4★+)';
+
+            headers.forEach(header => {
+              const journal = header.getAttribute('data-journal');
+              const journalPapers = document.querySelectorAll(`.paper-item[data-journal="${journal}"]`);
+              let hasTopPick = false;
+
+              journalPapers.forEach(paper => {
+                const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+                if (parseInt(rating) >= 4) {
+                  paper.style.display = 'block';
+                  hasTopPick = true;
+                } else {
+                  paper.style.display = 'none';
+                }
+              });
+
+              header.style.display = hasTopPick ? 'block' : 'none';
+            });
+          } else {
+            btn.style.background = '#ffffff';
+            btn.style.color = '#374151';
+            btn.innerHTML = '⭐ Show Top Picks (4★+)';
+            
+            papers.forEach(p => p.style.display = 'block');
+            headers.forEach(h => h.style.display = 'block');
+          }
+        }
+
+        function savePage() {
+          // Reset filter before saving so all papers are visible in the source
+          if (isFilterActive) toggleTopPicks();
+
+          // Remove the Save button and admin UI from the saved HTML
+          const adminUI = document.getElementById('admin-ui');
+          adminUI.style.display = 'none';
+          
+          // Update the checked attribute of radio buttons based on their current state
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            if (radio.checked) {
+              radio.setAttribute('checked', 'checked');
+            } else {
+              radio.removeAttribute('checked');
+            }
+          });
+
+          const htmlContent = document.documentElement.outerHTML;
+          const blob = new Blob([htmlContent], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = window.location.pathname.split('/').pop() || 'digest.html';
+          a.click();
+          
+          // Show admin UI again
+          adminUI.style.display = 'block';
+        }
+      </script>
+    </body>
+    </html>
+    
