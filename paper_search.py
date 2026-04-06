@@ -424,7 +424,9 @@ def gpt_relevance_and_summary(title, abstract):
             content = re.sub(r"\s*```$", "", content)
         j = json.loads(content)
         return bool(j.get("relevant", False)), j.get("reason", ""), j.get("summary", "")
-    except:
+    except Exception as e:
+        log(f"  LLM parse error for '{title[:60]}': {e}")
+        log(f"  Raw response: {content[:300] if 'content' in dir() else 'no response'}")
         return False, "Parse error", ""
 
 # =========================================================
