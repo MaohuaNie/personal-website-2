@@ -974,17 +974,6 @@ def send_digest_email(date_str, filename, results, start_day, end_day):
         "</p></body></html>"
     )
 
-    plain_body = (
-        f"Decision Science Digest\n"
-        f"{start_day} → {end_day}\n\n"
-        f"The new issue is out with {paper_count} curated paper{plural} on "
-        f"decision making, risk, behavioral economics, and cognitive modeling — "
-        f"handpicked from 25+ leading journals.\n\n"
-        f"Read this digest: {digest_url}\n\n"
-        f"---\n"
-        f"You're receiving this because you subscribed at {SITE_URL}."
-    )
-
     headers = {
         "Authorization": f"Bearer {api_token}",
         "Content-Type": "application/json",
@@ -998,6 +987,10 @@ def send_digest_email(date_str, filename, results, start_day, end_day):
     # while the "Decision Science Digest" group is the only one collecting
     # signups. To target a specific group, set it via the update endpoint
     # before scheduling.
+    # Match the exact fields MailerLite's official SDK sends (name/language_id/
+    # type/emails with subject/from_name/from/content). Extra fields like
+    # plain_text cause the API to reject the whole emails[0] entry with a
+    # vague "must be an array" error; MailerLite auto-generates plain text.
     create_payload = {
         "name": f"Decision Science Digest · {date_str}",
         "language_id": 1,
@@ -1007,7 +1000,6 @@ def send_digest_email(date_str, filename, results, start_day, end_day):
             "from_name": MAILERLITE_FROM_NAME,
             "from": MAILERLITE_FROM_EMAIL,
             "content": html_body,
-            "plain_text": plain_body,
         }],
     }
 
