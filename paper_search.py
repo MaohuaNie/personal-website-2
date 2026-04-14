@@ -1032,7 +1032,7 @@ def send_digest_email(date_str, filename, results, start_day, end_day):
     # vague "must be an array" error; MailerLite auto-generates plain text.
     create_payload = {
         "name": f"Decision Science Digest · {date_str}",
-        "language_id": 1,
+        "language_id": 4,  # English (en-US). language_id 1 is Lithuanian — MailerLite's default.
         "type": "regular",
         "emails": [{
             "subject": subject,
