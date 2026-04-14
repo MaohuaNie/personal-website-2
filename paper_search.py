@@ -20,6 +20,9 @@ LOG_DIR = ROOT / "research-digest" / "logs"
 LOG_DIR.mkdir(exist_ok=True)
 
 DIGEST_INDEX = DIGEST_DIR / "digests.json"
+FEED_PATH = DIGEST_DIR / "feed.xml"
+FEED_MAX_ITEMS = 20
+SITE_URL = "https://maohuanie.com"
 ELSEVIER_CACHE = {}
 
 JOURNALS = [
@@ -822,6 +825,103 @@ def update_digest_index(date_str, filename, results, start_day, end_day):
 
     with open(DIGEST_INDEX, "w", encoding="utf-8") as f:
         json.dump(index, f, indent=2)
+
+    # Regenerate the RSS feed so subscribers (via MailerLite etc.) get the new digest
+    update_rss_feed()
+
+
+def _rfc822(date_obj):
+    """Format a date/datetime as RFC 822 string, required by the RSS 2.0 spec."""
+    if isinstance(date_obj, str):
+        date_obj = datetime.strptime(date_obj, "%Y-%m-%d")
+    elif isinstance(date_obj, date) and not isinstance(date_obj, datetime):
+        date_obj = datetime(date_obj.year, date_obj.month, date_obj.day)
+    return date_obj.strftime("%a, %d %b %Y 00:00:00 GMT")
+
+
+def _xml_escape(text):
+    """Escape XML-unsafe characters so the feed validates."""
+    if not isinstance(text, str):
+        text = str(text)
+    return (text.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace('"', "&quot;")
+                .replace("'", "&apos;"))
+
+
+def update_rss_feed():
+    """
+    Generate /research-digest/feed.xml (RSS 2.0) from digests.json.
+
+    MailerLite (and any other RSS-to-email service) polls this feed and
+    automatically emails subscribers whenever a new <item> appears.
+    The feed keeps only the most recent FEED_MAX_ITEMS digests.
+    """
+    if not DIGEST_INDEX.exists():
+        return
+
+    try:
+        with open(DIGEST_INDEX, "r", encoding="utf-8") as f:
+            index = json.load(f)
+    except json.JSONDecodeError:
+        print("Warning: digests.json could not be read for RSS feed generation.")
+        return
+
+    if not index:
+        return
+
+    items = sorted(index, key=lambda x: x["date"], reverse=True)[:FEED_MAX_ITEMS]
+
+    channel_title = "Decision Science Digest | Maohua Nie"
+    channel_desc = (
+        "A bi-weekly curated reading list of interesting new papers on "
+        "decision making, risk, behavioral economics, and cognitive modeling "
+        "— handpicked from 25+ leading journals."
+    )
+    channel_link = f"{SITE_URL}/research-digest/"
+    feed_self = f"{SITE_URL}/research-digest/feed.xml"
+    last_build = _rfc822(datetime.utcnow())
+
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
+        '  <channel>',
+        f'    <title>{_xml_escape(channel_title)}</title>',
+        f'    <link>{_xml_escape(channel_link)}</link>',
+        f'    <description>{_xml_escape(channel_desc)}</description>',
+        '    <language>en-us</language>',
+        f'    <atom:link href="{_xml_escape(feed_self)}" rel="self" type="application/rss+xml" />',
+        f'    <lastBuildDate>{last_build}</lastBuildDate>',
+    ]
+
+    for entry in items:
+        item_url = f"{SITE_URL}/research-digest/{entry['file']}"
+        paper_count = entry.get("papers", 0)
+        plural = "" if paper_count == 1 else "s"
+        item_title = f"{entry.get('title', 'Research Digest')} ({paper_count} paper{plural})"
+        item_desc = (
+            f"This digest features {paper_count} curated new paper{plural} on "
+            f"decision making, behavioral economics, and cognitive modeling. "
+            f"Read the full digest at {item_url}"
+        )
+        lines.extend([
+            '    <item>',
+            f'      <title>{_xml_escape(item_title)}</title>',
+            f'      <link>{_xml_escape(item_url)}</link>',
+            f'      <guid isPermaLink="true">{_xml_escape(item_url)}</guid>',
+            f'      <pubDate>{_rfc822(entry["date"])}</pubDate>',
+            f'      <description>{_xml_escape(item_desc)}</description>',
+            '    </item>',
+        ])
+
+    lines.extend(['  </channel>', '</rss>'])
+
+    with open(FEED_PATH, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+
+    print(f"RSS feed updated: {FEED_PATH.name} ({len(items)} items)")
+
 
 # =========================================================
 # MAIN & CATCH-UP LOGIC
