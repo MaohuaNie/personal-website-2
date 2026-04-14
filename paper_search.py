@@ -929,14 +929,68 @@ def update_rss_feed():
     print(f"RSS feed updated: {FEED_PATH.name} ({len(items)} items)")
 
 
+def _html_to_email_body(html, digest_url, start_day, end_day, paper_count):
+    """
+    Convert a saved digest HTML file into an email-safe body.
+
+    Emails can't execute JS, load external stylesheets, or render form
+    inputs — so we strip <script>, <link rel="stylesheet">, the star
+    rating radio inputs, the admin controls, and the filter button.
+    A branded header and a "read online" link are wrapped around the
+    remaining content.
+    """
+    # Strip <script>...</script> blocks
+    html = re.sub(r"<script\b[^>]*>.*?</script>", "", html, flags=re.DOTALL | re.IGNORECASE)
+    # Strip <link rel="stylesheet" ...>
+    html = re.sub(r"<link\s+[^>]*rel=[\"']stylesheet[\"'][^>]*/?>", "", html, flags=re.IGNORECASE)
+    # Strip the admin-controls div (buttons only visible locally)
+    html = re.sub(r"<div\s+class=[\"']admin-controls[\"'][^>]*>.*?</div>", "", html, flags=re.DOTALL | re.IGNORECASE)
+    # Strip the interactive "Show Top Picks" filter button
+    html = re.sub(r"<button\s+id=[\"']filter-btn[\"'][^>]*>.*?</button>", "", html, flags=re.DOTALL | re.IGNORECASE)
+    # Strip the whole star-rating block (radio inputs don't render in email)
+    html = re.sub(r"<div\s+class=[\"']star-rating[\"'][^>]*>.*?</div>", "", html, flags=re.DOTALL | re.IGNORECASE)
+    # Strip the floating "back-to-top" link
+    html = re.sub(r"<a\s+href=[\"']#top[\"']\s+class=[\"']back-to-top[\"'][^>]*>.*?</a>", "", html, flags=re.DOTALL | re.IGNORECASE)
+
+    # Extract just the body content so we can wrap our own header around it
+    m = re.search(r"<body[^>]*>(.*?)</body>", html, flags=re.DOTALL | re.IGNORECASE)
+    body_inner = m.group(1) if m else html
+
+    header = (
+        "<div style=\"text-align:center;padding:28px 24px 18px;background:#ffffff;\">"
+        "<h1 style=\"color:#004b7a;margin:0;font-size:24px;font-weight:700;letter-spacing:-0.01em;\">"
+        "Decision Science Digest</h1>"
+        "<p style=\"color:#6b7280;margin:4px 0 0;font-size:14px;\">by Maohua Nie</p>"
+        f"<p style=\"color:#9ca3af;margin:14px 0 6px;font-size:13px;letter-spacing:0.04em;\">"
+        f"{start_day} &nbsp;→&nbsp; {end_day}</p>"
+        "</div>"
+    )
+
+    footer = (
+        "<div style=\"text-align:center;padding:20px 24px 30px;background:#ffffff;\">"
+        f"<a href=\"{digest_url}\" style=\"display:inline-block;padding:10px 22px;"
+        "background:#004b7a;color:#fff;text-decoration:none;border-radius:8px;"
+        "font-weight:600;font-size:14px;\">Open in browser →</a>"
+        "</div>"
+    )
+
+    wrapper_open = (
+        "<!DOCTYPE html><html><body style=\"margin:0;padding:0;background:#f6f7fb;"
+        "font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;\">"
+    )
+    wrapper_close = "</body></html>"
+
+    return wrapper_open + header + body_inner + footer + wrapper_close
+
+
 def send_digest_email(date_str, filename, results, start_day, end_day):
     """
     Broadcast the new digest to MailerLite subscribers.
 
     Creates a one-off campaign via MailerLite's API and sends it immediately
-    to MAILERLITE_GROUP_ID. Requires the MAILERLITE_API_TOKEN environment
-    variable — if absent (e.g., local run), the function logs a warning and
-    returns without failing the pipeline.
+    to the Decision Science Digest group. Requires MAILERLITE_API_TOKEN —
+    if absent (e.g., local run), the function logs and returns without
+    failing the pipeline.
     """
     api_token = os.getenv("MAILERLITE_API_TOKEN")
     if not api_token:
@@ -948,20 +1002,15 @@ def send_digest_email(date_str, filename, results, start_day, end_day):
     digest_url = f"{SITE_URL}/research-digest/{filename}"
     subject = f"Decision Science Digest · {start_day} → {end_day} ({paper_count} paper{plural})"
 
-    html_body = (
-        "<!DOCTYPE html>"
-        "<html><body style=\"font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',"
-        "Roboto,Arial,sans-serif;color:#1f2a37;max-width:600px;margin:0 auto;"
-        "padding:32px 24px;line-height:1.6;background:#ffffff;text-align:center;\">"
-        "<h1 style=\"color:#004b7a;margin:0;font-size:24px;font-weight:700;letter-spacing:-0.01em;\">"
-        "Decision Science Digest</h1>"
-        "<p style=\"color:#6b7280;margin:4px 0 0;font-size:14px;\">by Maohua Nie</p>"
-        f"<p style=\"color:#9ca3af;margin:18px 0 26px;font-size:13px;letter-spacing:0.04em;\">{start_day} &nbsp;→&nbsp; {end_day}</p>"
-        f"<a href=\"{digest_url}\" style=\"display:inline-block;padding:12px 28px;"
-        "background:#004b7a;color:#fff;text-decoration:none;border-radius:8px;"
-        "font-weight:600;font-size:15px;\">Read this digest →</a>"
-        "</body></html>"
-    )
+    # Load the already-saved digest HTML and adapt it for email rendering.
+    digest_path = DIGEST_DIR / filename
+    if not digest_path.exists():
+        print(f"MailerLite: digest file {digest_path} not found; skipping email.")
+        return
+    with open(digest_path, "r", encoding="utf-8") as f:
+        digest_html = f.read()
+
+    html_body = _html_to_email_body(digest_html, digest_url, start_day, end_day, paper_count)
 
     headers = {
         "Authorization": f"Bearer {api_token}",
