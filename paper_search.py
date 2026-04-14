@@ -966,11 +966,12 @@ def _html_to_email_body(html, digest_url, start_day, end_day, paper_count):
         "</div>"
     )
 
+    archive_url = f"{SITE_URL}/research-digest/"
     footer = (
         "<div style=\"text-align:center;padding:20px 24px 30px;background:#ffffff;\">"
-        f"<a href=\"{digest_url}\" style=\"display:inline-block;padding:10px 22px;"
+        f"<a href=\"{archive_url}\" style=\"display:inline-block;padding:10px 22px;"
         "background:#004b7a;color:#fff;text-decoration:none;border-radius:8px;"
-        "font-weight:600;font-size:14px;\">Open in browser →</a>"
+        "font-weight:600;font-size:14px;\">Browse the archive →</a>"
         "</div>"
     )
 
