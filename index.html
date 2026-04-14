@@ -184,6 +184,84 @@
     }
     .lang-toggle:hover{ background: var(--brand); color: #fff; }
 
+    /* ===== Hero digest card (minimal transparent) ===== */
+    .hero-digest-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1.75rem;
+      padding: 0.95rem 1.25rem 0.95rem 1.05rem;
+      max-width: 560px;
+      width: 100%;
+      border-radius: 16px;
+      color: #fff;
+      text-decoration: none;
+      text-align: left;
+
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.35);
+      transition: transform .3s ease, border-color .3s ease, background .3s ease;
+    }
+    .hero-digest-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.65);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+    }
+
+    .hero-digest-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .hero-digest-body { flex: 1; min-width: 0; }
+
+    .hero-digest-title {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.2rem;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-digest-sub {
+      font-size: 0.78rem;
+      font-weight: 400;
+      line-height: 1.45;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .hero-digest-arrow {
+      flex-shrink: 0;
+      color: #fff;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      transition: transform .3s ease, opacity .25s ease;
+    }
+    .hero-digest-card:hover .hero-digest-arrow {
+      transform: translateX(4px);
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      .hero-digest-card {
+        gap: 0.75rem;
+        padding: 0.85rem 1.05rem 0.85rem 0.9rem;
+        border-radius: 16px;
+      }
+      .hero-digest-icon { width: 38px; height: 38px; font-size: 0.95rem; border-radius: 10px; }
+      .hero-digest-title { font-size: 0.95rem; }
+      .hero-digest-sub { font-size: 0.74rem; }
+    }
+
     /* Respect reduced motion preferences */
     @media (prefers-reduced-motion: reduce){
       .research-card:hover{
@@ -313,8 +391,16 @@
   <header id="home" class="hero">
     <div class="container py-5 text-center">
       <h1 data-zh="聂茂华">Maohua Nie</h1>
-      <h2 data-zh="PhD Student · 经济心理学组 · 巴塞尔大学">PhD Student · Economic Psychology Group · University of Basel</h2>
+      <h2 data-zh="PhD Student · 经济心理学组<br>巴塞尔大学">PhD Student · Economic Psychology Group<br>University of Basel</h2>
       <p class="small text-light" data-zh="决策 · 行为科学 · 认知建模">Decision Making · Behavioral Science · Cognitive Modeling</p>
+      <a href="/research-digest/" class="hero-digest-card" data-zh='<span class="hero-digest-icon"><i class="fa-solid fa-newspaper"></i></span><span class="hero-digest-body"><div class="hero-digest-title">决策科学双周报</div><div class="hero-digest-sub">精选 25+ 顶级期刊中值得阅读的新论文，每两周更新</div></span><i class="fa-solid fa-arrow-right hero-digest-arrow"></i>'>
+        <span class="hero-digest-icon"><i class="fa-solid fa-newspaper"></i></span>
+        <span class="hero-digest-body">
+          <div class="hero-digest-title">Decision Science Digest</div>
+          <div class="hero-digest-sub">A curated reading list of interesting new papers from 25+ leading journals, updated every two weeks.</div>
+        </span>
+        <i class="fa-solid fa-arrow-right hero-digest-arrow"></i>
+      </a>
     </div>
   </header>
 
