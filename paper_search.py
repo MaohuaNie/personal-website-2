@@ -992,8 +992,15 @@ def send_digest_email(date_str, filename, results, start_day, end_day):
     }
 
     # 1. Create the campaign (draft state)
+    # NOTE: Per MailerLite's official SDK tests, the create-campaign payload
+    # uses name/language_id/type/emails. Recipients (groups) are NOT set at
+    # creation — the campaign defaults to all subscribers, which is fine
+    # while the "Decision Science Digest" group is the only one collecting
+    # signups. To target a specific group, set it via the update endpoint
+    # before scheduling.
     create_payload = {
         "name": f"Decision Science Digest · {date_str}",
+        "language_id": 1,
         "type": "regular",
         "emails": [{
             "subject": subject,
@@ -1002,7 +1009,6 @@ def send_digest_email(date_str, filename, results, start_day, end_day):
             "content": html_body,
             "plain_text": plain_body,
         }],
-        "groups": [MAILERLITE_GROUP_ID],
     }
 
     try:
