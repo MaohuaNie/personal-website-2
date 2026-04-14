@@ -881,9 +881,9 @@ def update_rss_feed():
 
     channel_title = "Decision Science Digest | Maohua Nie"
     channel_desc = (
-        "A bi-weekly curated reading list of interesting new papers on "
+        "A bi-weekly reading list of interesting new papers on "
         "decision making, risk, behavioral economics, and cognitive modeling "
-        "— handpicked from 25+ leading journals."
+        "— automatically curated from 25+ leading journals."
     )
     channel_link = f"{SITE_URL}/research-digest/"
     feed_self = f"{SITE_URL}/research-digest/feed.xml"
@@ -960,7 +960,7 @@ def send_digest_email(date_str, filename, results, start_day, end_day):
         "</div>"
         f"<p>The new issue is out with <strong>{paper_count} curated paper{plural}</strong> "
         "on decision making, risk, behavioral economics, and cognitive modeling — "
-        "handpicked from 25+ leading journals.</p>"
+        "automatically curated from 25+ leading journals.</p>"
         "<p style=\"margin:26px 0;\">"
         f"<a href=\"{digest_url}\" style=\"display:inline-block;padding:12px 24px;"
         "background:#004b7a;color:#fff;text-decoration:none;border-radius:8px;"

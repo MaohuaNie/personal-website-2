@@ -3,7 +3,7 @@
   <channel>
     <title>Decision Science Digest | Maohua Nie</title>
     <link>https://maohuanie.com/research-digest/</link>
-    <description>A bi-weekly curated reading list of interesting new papers on decision making, risk, behavioral economics, and cognitive modeling — handpicked from 25+ leading journals.</description>
+    <description>A bi-weekly reading list of interesting new papers on decision making, risk, behavioral economics, and cognitive modeling — automatically curated from 25+ leading journals.</description>
     <language>en-us</language>
     <atom:link href="https://maohuanie.com/research-digest/feed.xml" rel="self" type="application/rss+xml" />
     <lastBuildDate>Tue, 14 Apr 2026 00:00:00 GMT</lastBuildDate>
