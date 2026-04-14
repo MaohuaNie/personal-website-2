@@ -23,6 +23,12 @@ DIGEST_INDEX = DIGEST_DIR / "digests.json"
 FEED_PATH = DIGEST_DIR / "feed.xml"
 FEED_MAX_ITEMS = 20
 SITE_URL = "https://maohuanie.com"
+
+# MailerLite subscriber broadcast
+MAILERLITE_GROUP_ID = "184760257614972692"  # "Decision Science Digest" group
+MAILERLITE_FROM_EMAIL = "niemaohua@gmail.com"  # must be a verified sender in MailerLite
+MAILERLITE_FROM_NAME = "Maohua Nie"
+
 ELSEVIER_CACHE = {}
 
 JOURNALS = [
@@ -923,6 +929,113 @@ def update_rss_feed():
     print(f"RSS feed updated: {FEED_PATH.name} ({len(items)} items)")
 
 
+def send_digest_email(date_str, filename, results, start_day, end_day):
+    """
+    Broadcast the new digest to MailerLite subscribers.
+
+    Creates a one-off campaign via MailerLite's API and sends it immediately
+    to MAILERLITE_GROUP_ID. Requires the MAILERLITE_API_TOKEN environment
+    variable — if absent (e.g., local run), the function logs a warning and
+    returns without failing the pipeline.
+    """
+    api_token = os.getenv("MAILERLITE_API_TOKEN")
+    if not api_token:
+        print("MAILERLITE_API_TOKEN not set — skipping subscriber email broadcast.")
+        return
+
+    paper_count = len(results)
+    plural = "" if paper_count == 1 else "s"
+    digest_url = f"{SITE_URL}/research-digest/{filename}"
+    subject = f"Decision Science Digest · {start_day} → {end_day} ({paper_count} paper{plural})"
+
+    html_body = (
+        "<!DOCTYPE html>"
+        "<html><body style=\"font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',"
+        "Roboto,Arial,sans-serif;color:#1f2a37;max-width:600px;margin:0 auto;"
+        "padding:24px;line-height:1.6;background:#ffffff;\">"
+        "<div style=\"border-bottom:3px solid #004b7a;padding-bottom:14px;margin-bottom:22px;\">"
+        "<h1 style=\"color:#004b7a;margin:0 0 4px;font-size:22px;font-weight:700;\">"
+        "Decision Science Digest</h1>"
+        f"<p style=\"color:#6b7280;margin:0;font-size:14px;\">{start_day} → {end_day}</p>"
+        "</div>"
+        f"<p>The new issue is out with <strong>{paper_count} curated paper{plural}</strong> "
+        "on decision making, risk, behavioral economics, and cognitive modeling — "
+        "handpicked from 25+ leading journals.</p>"
+        "<p style=\"margin:26px 0;\">"
+        f"<a href=\"{digest_url}\" style=\"display:inline-block;padding:12px 24px;"
+        "background:#004b7a;color:#fff;text-decoration:none;border-radius:8px;"
+        "font-weight:600;font-size:15px;\">Read this digest →</a>"
+        "</p>"
+        "<p style=\"color:#6b7280;font-size:13px;margin-top:36px;border-top:1px solid "
+        "#e5e7eb;padding-top:16px;\">"
+        "You're receiving this because you subscribed at "
+        f"<a href=\"{SITE_URL}\" style=\"color:#004b7a;\">maohuanie.com</a>. "
+        "Unsubscribe via the link in your MailerLite account footer."
+        "</p></body></html>"
+    )
+
+    plain_body = (
+        f"Decision Science Digest\n"
+        f"{start_day} → {end_day}\n\n"
+        f"The new issue is out with {paper_count} curated paper{plural} on "
+        f"decision making, risk, behavioral economics, and cognitive modeling — "
+        f"handpicked from 25+ leading journals.\n\n"
+        f"Read this digest: {digest_url}\n\n"
+        f"---\n"
+        f"You're receiving this because you subscribed at {SITE_URL}."
+    )
+
+    headers = {
+        "Authorization": f"Bearer {api_token}",
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+    }
+
+    # 1. Create the campaign (draft state)
+    create_payload = {
+        "name": f"Decision Science Digest · {date_str}",
+        "type": "regular",
+        "emails": [{
+            "subject": subject,
+            "from_name": MAILERLITE_FROM_NAME,
+            "from": MAILERLITE_FROM_EMAIL,
+            "content": html_body,
+            "plain_text": plain_body,
+        }],
+        "groups": [MAILERLITE_GROUP_ID],
+    }
+
+    try:
+        r = requests.post(
+            "https://connect.mailerlite.com/api/campaigns",
+            headers=headers, json=create_payload, timeout=30,
+        )
+        r.raise_for_status()
+        campaign_id = r.json()["data"]["id"]
+        print(f"MailerLite campaign created: id={campaign_id}")
+    except requests.HTTPError as e:
+        body = e.response.text if e.response is not None else ""
+        print(f"MailerLite: failed to create campaign ({e}). Response: {body}")
+        return
+    except Exception as e:
+        print(f"MailerLite: unexpected error creating campaign: {e}")
+        return
+
+    # 2. Schedule for immediate delivery
+    try:
+        r2 = requests.post(
+            f"https://connect.mailerlite.com/api/campaigns/{campaign_id}/schedule",
+            headers=headers, json={"delivery": "instant"}, timeout=30,
+        )
+        r2.raise_for_status()
+        print(f"MailerLite campaign {campaign_id} scheduled for instant send.")
+    except requests.HTTPError as e:
+        body = e.response.text if e.response is not None else ""
+        print(f"MailerLite: failed to schedule campaign {campaign_id} ({e}). Response: {body}")
+    except Exception as e:
+        print(f"MailerLite: unexpected error scheduling campaign {campaign_id}: {e}")
+
+
 # =========================================================
 # MAIN & CATCH-UP LOGIC
 # =========================================================
@@ -1020,9 +1133,12 @@ def main():
 
         html = format_email_body_html(results, start_day, end_day)
         filename, date_str = save_digest_html(html, report_date)
-        
+
         update_digest_index(date_str, filename, results, start_day, end_day)
         print(f"Success! Saved digest to: {DIGEST_DIR.name}/{filename}")
+
+        # Broadcast to MailerLite subscribers (no-op if MAILERLITE_API_TOKEN is unset)
+        send_digest_email(date_str, filename, results, start_day, end_day)
 
     print("\n🎉 All missing digests have been generated and the index is up to date!")
 
