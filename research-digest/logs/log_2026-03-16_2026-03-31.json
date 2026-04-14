@@ -6,7 +6,7 @@
     "embedding_score": 0.35,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "This paper concerns perceptual adaptation in color vision and efficient coding theory, not decision making under risk, uncertainty, or cognitive evaluation of choice options.",
+    "llm_reason": "The paper concerns perceptual adaptation in color vision and efficient coding theory, not decision making under risk, uncertainty, or complexity. It does not address choice processes, cognitive models of decision making, or any of the core constructs in the student's research agenda.",
     "final_included": false
   },
   {
@@ -26,7 +26,7 @@
     "embedding_score": 0.58,
     "passed_threshold": true,
     "llm_relevant": true,
-    "llm_reason": "The paper directly investigates individual-level risk preferences and how the format of rewards (goods vs. monetary credit) affects risky choice behavior, touching on representation of options and utility under uncertainty. It uses controlled experiments to isolate cognitive/psychological factors driving deviations from normative predictions.",
+    "llm_reason": "The paper directly examines individual-level risk preferences and how the representation of choice options (goods vs. monetary credit) affects risky decision-making, which relates to mental representation, utility evaluation, and gain-loss framing under uncertainty.",
     "final_included": true
   },
   {
@@ -35,9 +35,9 @@
     "doi": "10.1007/s11166-026-09484-y",
     "embedding_score": 0.56,
     "passed_threshold": true,
-    "llm_relevant": true,
-    "llm_reason": "The paper examines individual-level risk-taking decisions under competitive pressure in a sequential setting, directly engaging with how reference points and rivalry shape choice behavior under uncertainty. It addresses heterogeneity in risk responses and counterfactual outcomes, which connects to individual decision-making processes under risk.",
-    "final_included": true
+    "llm_relevant": false,
+    "llm_reason": "While the paper involves risk-taking behavior, it primarily analyzes field data from competitive sports to study population-level and group-level outcomes (gender, experience, rivalry) without modeling individual cognitive processes or mental representations underlying decisions.",
+    "final_included": false
   },
   {
     "journal": "Journal of Risk and Uncertainty",
@@ -46,17 +46,17 @@
     "embedding_score": 0.46,
     "passed_threshold": true,
     "llm_relevant": true,
-    "llm_reason": "The paper directly addresses ambiguity aversion and seeking, which are core topics in individual decision making under uncertainty, including how people evaluate and respond to unknown probabilities—a central concern of cognitive and process-oriented research.",
+    "llm_reason": "Ambiguity aversion and seeking are core topics in individual-level decision making under uncertainty, directly addressing how people evaluate and respond to unknown probabilities — a central concern of this research agenda.",
     "final_included": true
   },
   {
     "journal": "Journal of Risk and Uncertainty",
     "title": "Learning from the storm: The impact of hurricane experience on future disaster preparedness",
     "doi": "10.1007/s11166-026-09483-z",
-    "embedding_score": 0.35,
+    "embedding_score": 0.34,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "The paper focuses on household-level field behavior and preparedness decisions using observational purchase data without modeling individual cognitive processes, attention, or decision mechanisms. It lacks process-level or formal cognitive modeling components central to the research agenda.",
+    "llm_reason": "The paper focuses on household-level behavioral outcomes in field data (consumer purchases) without modeling individual cognitive processes such as risk perception, probability weighting, or decision mechanisms. It lacks a cognitive or process-level account of how past experience shapes mental representations of risk.",
     "final_included": false
   },
   {
@@ -66,7 +66,7 @@
     "embedding_score": 0.4,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "The paper focuses on prediction error and declarative memory consolidation in a learning paradigm, not on individual decision making under risk, uncertainty, or complexity. While it involves reward and choice, the primary research question concerns memory encoding rather than decision processes.",
+    "llm_reason": "The paper focuses on prediction error and declarative memory (word-translation learning), not on decision making under risk, uncertainty, or choice processes. While it uses a reward paradigm, the central question is about memory encoding, not how individuals evaluate or compare choice options.",
     "final_included": false
   },
   {
@@ -76,7 +76,7 @@
     "embedding_score": 0.35,
     "passed_threshold": true,
     "llm_relevant": true,
-    "llm_reason": "The paper uses diffusion model decomposition to investigate decision threshold adjustment and process-level parameters (response times, accuracy) in numerical comparison tasks, directly addressing cognitive mechanisms underlying decision making. It concerns evidence accumulation models and how stimulus properties influence decision processes.",
+    "llm_reason": "The paper uses diffusion model analysis to decompose decision process parameters (e.g., decision threshold adjustment) underlying numerical comparison effects, directly addressing process-level cognitive mechanisms in a choice/comparison task under varying complexity and stimulus statistics.",
     "final_included": true
   },
   {
@@ -86,7 +86,7 @@
     "embedding_score": 0.3,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "This paper focuses on memory retrieval mechanisms and attentional processes in cognitive psychology, not on decision making under risk, uncertainty, or choice complexity. It does not address any of the core topics of the research agenda such as evaluation of choice options, risk preferences, or decision processes.",
+    "llm_reason": "This paper focuses on memory retrieval mechanisms and attentional processes in short-term and long-term memory paradigms, not on decision making under risk, uncertainty, or choice complexity. It does not address any aspect of the PhD student's research agenda on evaluation and comparison of choice options.",
     "final_included": false
   },
   {
@@ -126,7 +126,7 @@
     "embedding_score": 0.61,
     "passed_threshold": true,
     "llm_relevant": true,
-    "llm_reason": "The paper directly addresses individual-level decision making using a hierarchical Bayesian cognitive model combined with eye-tracking data, covering attention allocation, information search, and choice under complexity—all core to the research agenda.",
+    "llm_reason": "This paper directly addresses individual-level decision making with a focus on attention, information search, and process-level evidence (eye-tracking), supported by a hierarchical Bayesian cognitive model — all central to the student's research agenda.",
     "final_included": true
   },
   {
@@ -136,7 +136,7 @@
     "embedding_score": 0.44,
     "passed_threshold": true,
     "llm_relevant": true,
-    "llm_reason": "The paper presents a computational model of memory formation under cognitive constraints and reward environments, directly addressing how cognitive resources are strategically allocated—highly relevant to process-level, cognitively-oriented decision-making research. It models gain-sensitive encoding, metacognitive control, and optimal adaptation under limited resources, all central to the PhD student's agenda.",
+    "llm_reason": "The paper presents a computational model of adaptive memory encoding under cognitive constraints and reward environments, directly addressing how individuals allocate limited cognitive resources to maximize rewards—relevant to cognitive load, process-level modeling, and individual-level decision making under uncertainty.",
     "final_included": true
   },
   {
@@ -146,7 +146,7 @@
     "embedding_score": 0.39,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "This paper investigates cross-modal statistical learning and attention in perceptual sequences, which is unrelated to decision making under risk, uncertainty, or complexity. It does not address choice behavior, cognitive models of decision processes, or any of the core topics in the student's research agenda.",
+    "llm_reason": "This paper focuses on cross-modal statistical learning and attention in perceptual sequences, which is a cognitive psychology topic unrelated to decision making under risk, uncertainty, or choice evaluation processes.",
     "final_included": false
   },
   {
@@ -156,7 +156,7 @@
     "embedding_score": 0.38,
     "passed_threshold": true,
     "llm_relevant": true,
-    "llm_reason": "The paper directly examines attribute framing bias in individual judgment and decision making, with a focus on attentional mechanisms as the cognitive process driving the bias and its attenuation. This aligns closely with the research agenda on how people mentally represent and evaluate choice options and the process-level account of decision biases.",
+    "llm_reason": "The paper directly investigates attribute framing bias and attentional mechanisms in judgment and decision making, which aligns with cognitive process-oriented research on how people mentally represent and evaluate choice options. It explicitly proposes and tests attentional accounts of framing effects, a core topic in individual decision making.",
     "final_included": true
   },
   {
@@ -166,7 +166,7 @@
     "embedding_score": 0.37,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "The paper focuses on cognitive control and distractor suppression in action selection (Flanker task), which is not related to decision making under risk, uncertainty, or choice complexity. It concerns attentional/response selection mechanisms rather than the evaluation and comparison of choice options.",
+    "llm_reason": "The paper focuses on attentional control and distractor suppression in cognitive psychology (Flanker task, working memory templates), not on decision making under risk, uncertainty, or choice between options. It does not address the core topics of the PhD student's research agenda.",
     "final_included": false
   },
   {
@@ -176,7 +176,7 @@
     "embedding_score": 0.36,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "The paper focuses on perceptual categorization and similarity judgment processes, not on decision making under risk, uncertainty, or choice between options. While it uses cognitive modeling, the domain (category learning) is not related to the research agenda on risky choice, loss aversion, or decision complexity.",
+    "llm_reason": "The paper focuses on perceptual categorization and similarity judgments, not on decision making under risk, uncertainty, or choice between options. While it uses cognitive modeling and process-level analysis, the psychological domain (category learning) is distinct from the decision-making agenda.",
     "final_included": false
   },
   {
@@ -186,7 +186,7 @@
     "embedding_score": 0.32,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "The paper focuses on bilingual language control and switching costs in production and comprehension, which is a psycholinguistic topic unrelated to decision making under risk, uncertainty, or complexity.",
+    "llm_reason": "The paper focuses on bilingual language control and switching costs in production/comprehension, which is a psycholinguistic topic unrelated to decision making under risk, uncertainty, or complexity. It does not address choice processes, cognitive models of decision making, or any of the core constructs in the student's research agenda.",
     "final_included": false
   },
   {
@@ -216,7 +216,7 @@
     "embedding_score": 0.35,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "The paper focuses on social perception of sexism and attribution processes in a social justice context, not on individual decision making under risk, uncertainty, or complexity as defined by the research agenda. Although it uses a Bayesian model, it applies it to sexism attributions rather than to choice, risk, or cognitive process modeling.",
+    "llm_reason": "The paper focuses on social attributions of sexism and gender bias perception, not on individual decision making under risk, uncertainty, or complexity as defined by the research agenda. While it uses a Bayesian model, this is applied to social judgment about sexism rather than choice behavior or cognitive processes in decision making.",
     "final_included": false
   },
   {
@@ -226,7 +226,7 @@
     "embedding_score": 0.35,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "This paper is a methodological tutorial on structural equation modeling software (Blimp), not a study of individual decision-making processes, risk, or cognitive mechanisms. It concerns statistical modeling tools applicable broadly in behavioral sciences rather than the specific cognitive and process-oriented topics of the research agenda.",
+    "llm_reason": "This paper is a methodological tutorial on structural equation modeling software and estimation algorithms, not a study of individual decision-making processes, risk, or cognitive mechanisms.",
     "final_included": false
   },
   {
@@ -236,7 +236,7 @@
     "embedding_score": 0.33,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "This paper is about methodology for causal inference using directed acyclic graphs, not about individual decision-making processes, cognition, or choice behavior under risk or uncertainty.",
+    "llm_reason": "This paper is about a methodological procedure for constructing causal DAGs for causal inference, not about individual decision making, cognitive processes, or psychological mechanisms under risk or uncertainty.",
     "final_included": false
   },
   {
@@ -246,7 +246,7 @@
     "embedding_score": 0.32,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "This paper is about psychometric methodology (item parceling strategies for bifactor models) and has no connection to individual decision making, risk, uncertainty, or cognitive processes.",
+    "llm_reason": "This paper is a methodological study on item parceling strategies for bifactor structural equation models, with no connection to decision making, risk, uncertainty, or cognitive processes.",
     "final_included": false
   },
   {
@@ -256,7 +256,7 @@
     "embedding_score": 0.31,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "This paper presents a statistical methodology for comparing network structures in time-series and panel data, focused on psychometric/methodological issues rather than individual decision-making processes, risk, or cognitive mechanisms.",
+    "llm_reason": "This paper is about statistical methodology for comparing network structures in time-series and panel data, not about individual decision making, risk, uncertainty, or cognitive processes.",
     "final_included": false
   },
   {
@@ -266,7 +266,7 @@
     "embedding_score": 0.32,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "The paper focuses on long-term human-AI cognitive partnerships, mental models of partners, and collaborative cognition — not individual decision making under risk, uncertainty, or complexity as studied in economic psychology.",
+    "llm_reason": "The paper focuses on long-term human-AI thought partnerships and collaborative cognition, not individual decision making under risk, uncertainty, or complexity. It does not address choice behavior, cognitive models of decision processes, or related topics central to the research agenda.",
     "final_included": false
   },
   {
@@ -306,7 +306,7 @@
     "embedding_score": 0.36,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "The paper focuses on integrating behavioral findings into dynamical/systems models to inform social change interventions, which is a population-level or policy design application rather than individual cognitive processes.",
+    "llm_reason": "The paper focuses on integrating behavioral findings into dynamical models to inform social change interventions, which is primarily a policy/population-level modeling agenda rather than a cognitive or process-oriented account of individual decision making.",
     "final_included": false
   },
   {
@@ -316,7 +316,7 @@
     "embedding_score": 0.32,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "The paper focuses on political attitudes toward democracy and democratic backsliding at a population/survey level, not on individual cognitive processes of decision making under risk or uncertainty.",
+    "llm_reason": "The paper focuses on political attitudes toward democratic practices at a population level, not on individual cognitive processes related to decision making under risk or uncertainty in the psychological sense. While it touches on concepts like ambivalence and indifference, these are studied in a political science context rather than a cognitive or process-oriented framework.",
     "final_included": false
   },
   {
@@ -366,7 +366,7 @@
     "embedding_score": 0.49,
     "passed_threshold": true,
     "llm_relevant": true,
-    "llm_reason": "The paper examines individual-level decision making under uncertainty using a behavioral assumption (narrow framing) and validates it with a controlled experiment measuring both prices and choices. It directly engages with cognitive simplification strategies and how imperfect foresight shapes individual choice behavior.",
+    "llm_reason": "The paper models individual-level decision making under imperfect foresight using narrow framing, a cognitive simplification heuristic, and tests behavioral assumptions about how agents form beliefs and make choices in complex dynamic environments. It combines formal modeling with controlled experimental evidence on both prices and individual choices.",
     "final_included": true
   },
   {
@@ -376,7 +376,7 @@
     "embedding_score": 0.43,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "This paper focuses on computational algorithms for solving Markov decision processes more efficiently, not on individual human decision-making processes or cognitive mechanisms. It is primarily a technical contribution to operations research/machine learning without psychological interpretation.",
+    "llm_reason": "This paper focuses on computational algorithms for solving Markov decision processes more efficiently, with no psychological or cognitive modeling of individual decision makers. It is an operations research/computer science contribution without behavioral or process-level content.",
     "final_included": false
   },
   {
@@ -386,7 +386,7 @@
     "embedding_score": 0.39,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "This paper focuses on supply chain inventory optimization (newsvendor model) at the firm/retailer level, with no cognitive or psychological modeling of individual decision processes.",
+    "llm_reason": "This paper focuses on operations management and supply chain optimization (newsvendor model, inventory decisions) without modeling individual cognitive processes or psychological mechanisms. It is a normative optimization model applied to firm-level sourcing decisions.",
     "final_included": false
   },
   {
@@ -396,7 +396,7 @@
     "embedding_score": 0.38,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "The paper models dealer behavior and market liquidity at the firm/market level, focusing on moral hazard, leverage, and financial regulation rather than individual cognitive processes or decision making under risk.",
+    "llm_reason": "The paper focuses on dealer behavior, market liquidity, and financial intermediation at the market/firm level, with no cognitive or process-oriented account of individual decision making.",
     "final_included": false
   },
   {
@@ -406,7 +406,7 @@
     "embedding_score": 0.37,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "The paper focuses on market-level outcomes (transaction prices, sale times, welfare) and structural estimation of search markets, without modeling individual cognitive processes or psychological mechanisms. The 'observational learning' here refers to Bayesian updating in an economic market model, not cognitive or process-level individual decision making.",
+    "llm_reason": "The paper focuses on market-level outcomes in real estate search markets, modeling observational learning and information disclosure rules at an aggregate welfare level rather than individual cognitive processes. There is no psychological or process-level account of how individuals mentally represent or evaluate choices.",
     "final_included": false
   },
   {
@@ -416,7 +416,7 @@
     "embedding_score": 0.33,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "This paper analyzes market-level quality metrics (transaction costs, arbitrage deviations) in cryptocurrency exchanges without modeling individual cognitive processes or decision-making behavior.",
+    "llm_reason": "The paper focuses on market-level quality metrics (transaction costs, arbitrage deviations) in cryptocurrency exchanges without modeling individual cognitive processes or decision-making under risk/uncertainty.",
     "final_included": false
   },
   {
@@ -426,7 +426,7 @@
     "embedding_score": 0.32,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "The paper focuses on media outlet incentives and market-level misinformation production, not on individual cognitive processes, decision making under uncertainty, or psychological mechanisms of belief updating.",
+    "llm_reason": "The paper focuses on media outlet incentives and market-level misinformation production, not on individual cognitive processes, decision making under risk, or psychological mechanisms of belief updating.",
     "final_included": false
   },
   {
@@ -436,7 +436,7 @@
     "embedding_score": 0.31,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "This paper examines organizational-level outcomes (managerial intensity, decentralization) in response to technology adoption, without modeling individual cognitive processes or decision making under risk/uncertainty.",
+    "llm_reason": "This paper examines organizational-level outcomes (managerial hierarchy, decentralization) driven by technology adoption, with no focus on individual cognitive processes, decision making under risk, or psychological mechanisms.",
     "final_included": false
   },
   {
@@ -476,7 +476,7 @@
     "embedding_score": 0.35,
     "passed_threshold": true,
     "llm_relevant": false,
-    "llm_reason": "This paper focuses on firm/establishment-level technology adoption and productivity across countries, with no cognitive or psychological modeling of individual decision processes.",
+    "llm_reason": "This paper focuses on firm/establishment-level technology adoption and productivity across countries, with no connection to individual cognitive processes, decision making under risk, or psychological mechanisms.",
     "final_included": false
   },
   {
