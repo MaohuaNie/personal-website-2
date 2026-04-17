@@ -6,7 +6,14 @@
     <description>A bi-weekly reading list of interesting new papers on decision making, risk, behavioral economics, and cognitive modeling — automatically curated from 25+ leading journals.</description>
     <language>en-us</language>
     <atom:link href="https://maohuanie.com/research-digest/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Tue, 14 Apr 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 17 Apr 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Research Digest · 2026-04-01 → 2026-04-15 (22 papers)</title>
+      <link>https://maohuanie.com/research-digest/2026-04-15.html</link>
+      <guid isPermaLink="true">https://maohuanie.com/research-digest/2026-04-15.html</guid>
+      <pubDate>Wed, 15 Apr 2026 00:00:00 GMT</pubDate>
+      <description>This digest features 22 curated new papers on decision making, behavioral economics, and cognitive modeling. Read the full digest at https://maohuanie.com/research-digest/2026-04-15.html</description>
+    </item>
     <item>
       <title>Research Digest · 2026-03-16 → 2026-03-31 (7 papers)</title>
       <link>https://maohuanie.com/research-digest/2026-04-01.html</link>
@@ -139,13 +146,6 @@
       <guid isPermaLink="true">https://maohuanie.com/research-digest/2025-07-01.html</guid>
       <pubDate>Tue, 01 Jul 2025 00:00:00 GMT</pubDate>
       <description>This digest features 6 curated new papers on decision making, behavioral economics, and cognitive modeling. Read the full digest at https://maohuanie.com/research-digest/2025-07-01.html</description>
-    </item>
-    <item>
-      <title>Research Digest · 2025-06-01 → 2025-06-15 (21 papers)</title>
-      <link>https://maohuanie.com/research-digest/2025-06-15.html</link>
-      <guid isPermaLink="true">https://maohuanie.com/research-digest/2025-06-15.html</guid>
-      <pubDate>Sun, 15 Jun 2025 00:00:00 GMT</pubDate>
-      <description>This digest features 21 curated new papers on decision making, behavioral economics, and cognitive modeling. Read the full digest at https://maohuanie.com/research-digest/2025-06-15.html</description>
     </item>
   </channel>
 </rss>

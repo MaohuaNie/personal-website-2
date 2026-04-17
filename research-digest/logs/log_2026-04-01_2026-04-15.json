@@ -1,0 +1,1662 @@
+[
+  {
+    "journal": "Cognition",
+    "title": "The cognitive mechanisms behind wishful predictions: A diffusion model decomposition",
+    "doi": "10.1016/j.cognition.2025.106386",
+    "embedding_score": 0.5,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper uses drift-diffusion modeling to decompose the cognitive mechanisms underlying wishful thinking/desirability bias in predictions, directly examining process-level evidence accumulation and decision criteria — core topics in the student's research agenda. It addresses both biased evidence accumulation and response threshold adjustments, which are central to computational cognitive modeling of individual decision making.",
+    "final_included": true
+  },
+  {
+    "journal": "Cognition",
+    "title": "Metacognitive sensitivity predicts the quality of information search in value-based decision making",
+    "doi": "10.1016/j.cognition.2025.106410",
+    "embedding_score": 0.43,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "This paper directly addresses individual-level cognitive processes in value-based decision making, specifically examining how metacognitive sensitivity influences information search quality, which is closely related to process-level evidence and cognitive mechanisms underlying choice behavior.",
+    "final_included": true
+  },
+  {
+    "journal": "Cognition",
+    "title": "Constructive episodic simulation, self-projection, and scene construction: Investigating the mechanisms of children's episodic thinking",
+    "doi": "10.1016/j.cognition.2025.106405",
+    "embedding_score": 0.37,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper investigates cognitive mechanisms of episodic memory and future thinking in children, not decision making under risk, uncertainty, or complexity. It does not address choice behavior, risk evaluation, or any of the core topics in the PhD student's research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Cognition",
+    "title": "Say it like you mean it: Linguistic vividness and the attentional optimization hypothesis",
+    "doi": "10.1016/j.cognition.2025.106406",
+    "embedding_score": 0.32,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on psycholinguistics and language processing (phonemic surprisal, word vividness, lexical decision tasks) rather than decision making under risk, uncertainty, or complexity. While it touches on attention and cognitive processing, it does not address choice behavior, risk evaluation, or related decision-making constructs.",
+    "final_included": false
+  },
+  {
+    "journal": "Cognition",
+    "title": "Most pragmatic responses to underinformative some-statements are associated with scalar implicatures",
+    "doi": "10.1016/j.cognition.2025.106404",
+    "embedding_score": 0.32,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper investigates linguistic pragmatics and scalar implicature processing, not decision making under risk, uncertainty, or complexity. It does not address choice behavior, cognitive models of decision processes, or any of the core topics in the student's research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Cognition",
+    "title": "Study choices and inference in an acquired equivalence task",
+    "doi": "10.1016/j.cognition.2025.106401",
+    "embedding_score": 0.29,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Cognition",
+    "title": "Reading words of out order: Comparing serial and parallel accounts of the transposed word effect",
+    "doi": "10.1016/j.cognition.2025.106399",
+    "embedding_score": 0.27,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Cognition",
+    "title": "Number-action mapping in human newborns",
+    "doi": "10.1016/j.cognition.2025.106396",
+    "embedding_score": 0.26,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Cognition",
+    "title": "Identifying the boundary between dialects and languages: The role of similarity and usage",
+    "doi": "10.1016/j.cognition.2025.106388",
+    "embedding_score": 0.23,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Cognition",
+    "title": "What can a half-million saccades tell us about distractor suppression?",
+    "doi": "10.1016/j.cognition.2025.106397",
+    "embedding_score": 0.21,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Cognition",
+    "title": "Editorial Board",
+    "doi": "10.1016/s0010-0277(26)00030-2",
+    "embedding_score": 0.18,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Cognition",
+    "title": "Chain shifts and transphonologizations are driven by homophony avoidance",
+    "doi": "10.1016/j.cognition.2025.106398",
+    "embedding_score": 0.16,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Cognition",
+    "title": "Serial processing of two words becomes parallel when they combine to form a known compound word",
+    "doi": "10.1016/j.cognition.2025.106387",
+    "embedding_score": 0.08,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "JEP: General",
+    "title": "The relationship between intertemporal and attentional discounting.",
+    "doi": "10.1037/xge0001905",
+    "embedding_score": 0.48,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper directly examines process-level evidence (attention tracking) in individual decision making, linking intertemporal discounting to attentional biases—core topics in cognitive and process-oriented decision research. It also addresses framing effects and individual differences in choice behavior.",
+    "final_included": true
+  },
+  {
+    "journal": "JEP: General",
+    "title": "Systematic variation in proportion judgments: Spatial features impact adults’ strategies and decisions.",
+    "doi": "10.1037/xge0001903",
+    "embedding_score": 0.44,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on proportional/numerical reasoning and spatial perception rather than decision making under risk, uncertainty, or complexity as studied in economic psychology. While it uses mathematical models to infer strategies, the context is perceptual/cognitive proportion judgment rather than choice behavior involving risk, gains/losses, or economic trade-offs.",
+    "final_included": false
+  },
+  {
+    "journal": "JEP: General",
+    "title": "Inflow neglect: Forecasting failures after stocks run out.",
+    "doi": "10.1037/xge0001891",
+    "embedding_score": 0.4,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper investigates a cognitive reasoning error (inflow neglect) in how individuals mentally represent and forecast dynamic systems, directly addressing individual-level judgment under complexity and misperception of probabilistic/future outcomes. It uses experimental methods to study cognitive biases and information presentation effects on beliefs.",
+    "final_included": true
+  },
+  {
+    "journal": "JEP: General",
+    "title": "Lay beliefs of willpower shape individuals’ propensity to approach or avoid effortful tasks.",
+    "doi": "10.1037/xge0001885",
+    "embedding_score": 0.38,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper examines how lay beliefs about willpower influence effort-based decision making and task selection, which connects to cognitive representations of choice options and complexity under cognitive load. It addresses individual-level behavioral choices involving effort costs and self-regulation, touching on decision processes relevant to the research agenda.",
+    "final_included": true
+  },
+  {
+    "journal": "JEP: General",
+    "title": "Top-down knowledge can affect perception when the input is ambiguous.",
+    "doi": "10.1037/xge0001894",
+    "embedding_score": 0.36,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper investigates perceptual processes (memory color effects, top-down knowledge influencing visual perception) rather than decision making, risk, uncertainty, or choice behavior. It does not address any of the core topics of individual decision making under risk or cognitive models of choice.",
+    "final_included": false
+  },
+  {
+    "journal": "JEP: General",
+    "title": "To be authentic or not to be: How and why North Americans and South Koreans differ in making true-self-congruent choices.",
+    "doi": "10.1037/xge0001907",
+    "embedding_score": 0.34,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on cultural differences in authenticity-driven job choices and self-concept alignment, not on decision making under risk, uncertainty, cognitive load, or process-level mechanisms central to the PhD student's agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "JEP: General",
+    "title": "Beyond analogy: Pragmatic constraints on metaphor production and comprehension.",
+    "doi": "10.1037/xge0001919",
+    "embedding_score": 0.32,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper investigates metaphor and analogy comprehension/production in language processing, not decision making under risk, uncertainty, or complexity. It does not address choice behavior, cognitive models of decision processes, or any of the core topics of the research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "JEP: General",
+    "title": "Missing the target: Evaluating the ironic consequences of identity-targeted recruitment advertisements on Black Americans’ anticipated tokenism and organizational identity safety.",
+    "doi": "10.1037/xge0001882",
+    "embedding_score": 0.32,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on social identity, tokenism, and organizational recruitment perceptions rather than individual decision making under risk, uncertainty, or cognitive processes related to choice evaluation.",
+    "final_included": false
+  },
+  {
+    "journal": "JEP: General",
+    "title": "How intergroup context shapes children’s decision to compensate and punish unfairness.",
+    "doi": "10.1037/xge0001899",
+    "embedding_score": 0.32,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on children's social fairness decisions in intergroup contexts, which is a developmental and social psychology topic rather than individual decision making under risk, uncertainty, or cognitive complexity. It does not model cognitive processes, probability weighting, or uncertainty.",
+    "final_included": false
+  },
+  {
+    "journal": "JEP: General",
+    "title": "Biases in estimating self and others’ second language vocabulary knowledge.",
+    "doi": "10.1037/xge0001909",
+    "embedding_score": 0.31,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on metacognitive biases in estimating vocabulary knowledge in bilingual contexts, which is primarily a psycholinguistic and communication topic rather than decision making under risk, uncertainty, or complexity. It does not address choice behavior, risk/uncertainty, or the cognitive processes central to the student's research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "JEP: General",
+    "title": "Distinct temporal dynamics of speech and gesture processing: Insights from event-related potentials across L1 and L2.",
+    "doi": "10.1037/xge0001867",
+    "embedding_score": 0.29,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "JEP: General",
+    "title": "The artificial intelligence disclosure penalty: Humans persistently devalue AI-generated creative writing.",
+    "doi": "10.1037/xge0001889",
+    "embedding_score": 0.28,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "JEP: General",
+    "title": "Effort norms encourage more exertion but not less.",
+    "doi": "10.1037/xge0001904",
+    "embedding_score": 0.27,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "JEP: General",
+    "title": "Representations of geometric shapes have syntactic structure.",
+    "doi": "10.1037/xge0001890",
+    "embedding_score": 0.25,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Journal of Risk and Uncertainty",
+    "title": "The coexistence of loss aversion and regret aversion in decision making under risk",
+    "doi": "10.1007/s11166-026-09476-y",
+    "embedding_score": 0.67,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper directly investigates individual decision making under risk, examining loss aversion and regret aversion through controlled experiments with behavioral measures across feedback conditions—core topics of the research agenda.",
+    "final_included": true
+  },
+  {
+    "journal": "Journal of Behavioral Decision Making",
+    "title": "The Effect of Cognitive Load and Default Nudges on Decision‐Making: Experimental Evidence From a Behavioral Study",
+    "doi": "10.1002/bdm.70081",
+    "embedding_score": 0.49,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper directly examines how cognitive load affects decision-making accuracy and response times, and how default nudges interact with cognitive strain—core topics in process-oriented decision research. It also provides process-level evidence (response times) and addresses choice complexity and nudge effects on judgment.",
+    "final_included": true
+  },
+  {
+    "journal": "Journal of Behavioral Decision Making",
+    "title": "The Intricate Nature of Evaluability: How Attribute Framing, Magnitude, and Reference Point Moderate Calibration and Bias",
+    "doi": "10.1002/bdm.70079",
+    "embedding_score": 0.4,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper directly examines cognitive processes underlying evaluation and judgment, including framing effects, reference points, magnitude sensitivity, and dual-process mechanisms (gist vs. verbatim), all central to individual-level decision making under complexity. These topics align closely with how people mentally represent and evaluate choice options.",
+    "final_included": true
+  },
+  {
+    "journal": "Journal of Behavioral Decision Making",
+    "title": "Binary Binning: Examining the Mapping Between Continuous and Binary Review Scales",
+    "doi": "10.1002/bdm.70080",
+    "embedding_score": 0.36,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper investigates how individuals mentally represent and evaluate product quality under different information formats (scale types), touching on cognitive processes like categorization, estimation, and judgment under informational complexity.",
+    "final_included": true
+  },
+  {
+    "journal": "Journal of Behavioral Decision Making",
+    "title": "On Sharing Benefits Created by Costly Help",
+    "doi": "10.1002/bdm.70078",
+    "embedding_score": 0.33,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on social norms, fairness, and surplus sharing in helping/bargaining contexts rather than individual decision making under risk, uncertainty, or cognitive processes. While it touches on gain-loss framing, the primary focus is on interpersonal bargaining and social preferences rather than cognitive or process-level models of individual choice.",
+    "final_included": false
+  },
+  {
+    "journal": "Cognitive Science",
+    "title": "The Effect of Initial Accuracy on the Learning and Retention of Novel Words",
+    "doi": "10.1111/cogs.70201",
+    "embedding_score": 0.35,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper focuses on word learning and memory retention, not on decision making under risk, uncertainty, or complexity as studied in economic psychology.",
+    "final_included": false
+  },
+  {
+    "journal": "Cognitive Science",
+    "title": "Artifacts, Analogy, and Metaphor: Toward an Interdisciplinary Framework for Studying the Evolution of Analogy",
+    "doi": "10.1111/cogs.70203",
+    "embedding_score": 0.34,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper focuses on the evolutionary origins of analogy and metaphor in human cognition and language, with no connection to decision making under risk, uncertainty, or choice behavior.",
+    "final_included": false
+  },
+  {
+    "journal": "Cognitive Science",
+    "title": "Investigating the Bilingual Aging Lexicon: A Network Analysis of Word Associations in Chinese–English Bilinguals",
+    "doi": "10.1111/cogs.70205",
+    "embedding_score": 0.27,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Cognitive Science",
+    "title": "Issue Information",
+    "doi": "10.1111/cogs.70206",
+    "embedding_score": 0.23,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Memory & Cognition",
+    "title": "Confidence judgments, feelings of knowing and judgments of learning: Towards a common framework",
+    "doi": "10.3758/s13421-026-01874-6",
+    "embedding_score": 0.46,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper directly addresses cognitive processes underlying subjective confidence, feelings of knowing, and judgments of learning—all core metacognitive mechanisms involved in how individuals evaluate and represent their choices. The Self-Consistency Model it extends is a formal cognitive framework relevant to decision making under uncertainty.",
+    "final_included": true
+  },
+  {
+    "journal": "Memory & Cognition",
+    "title": "Subcategory vs category fluency: Items and networks in healthy young adults and simulation with a large language model",
+    "doi": "10.3758/s13421-026-01869-3",
+    "embedding_score": 0.38,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on verbal fluency tasks and semantic memory search, not decision making under risk, uncertainty, or complexity. It does not address choice behavior, cognitive models of decision processes, or any of the core constructs in the PhD student's research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Memory & Cognition",
+    "title": "Individual differences in recall of focus and alternatives",
+    "doi": "10.3758/s13421-026-01870-w",
+    "embedding_score": 0.35,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper examines individual differences in memory recall of choice options (focus vs. alternatives), which directly relates to how people mentally represent and retain information about choice sets—a core process-level concern in decision making research.",
+    "final_included": true
+  },
+  {
+    "journal": "Memory & Cognition",
+    "title": "Focusing on conflict in item-specific adaptive control: Insights from a proportion-neutral manipulation",
+    "doi": "10.3758/s13421-026-01878-2",
+    "embedding_score": 0.33,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper appears to focus on cognitive control and conflict adaptation (likely in attention/task-switching paradigms), not on decision making under risk, uncertainty, or choice evaluation processes.",
+    "final_included": false
+  },
+  {
+    "journal": "Memory & Cognition",
+    "title": "Conceptual but not perceptual encoding leads to age differences in priming",
+    "doi": "10.3758/s13421-026-01873-7",
+    "embedding_score": 0.28,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Memory & Cognition",
+    "title": "Working memory load attenuates the match effect in sentence-picture verification",
+    "doi": "10.3758/s13421-026-01884-4",
+    "embedding_score": 0.26,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Memory & Cognition",
+    "title": "Toward a more positive outlook for the collective future: The role of tangible experiences and identity",
+    "doi": "10.3758/s13421-026-01880-8",
+    "embedding_score": 0.24,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Memory & Cognition",
+    "title": "Memory encoding for new information, not autobiographical memory load, is linked with age-related differences in subjective time passage over the past decade",
+    "doi": "10.3758/s13421-026-01879-1",
+    "embedding_score": 0.24,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Memory & Cognition",
+    "title": "Influence of morphological and pseudo-morphological boundaries on activating embedded words when accessing compounds and pseudo-compounds",
+    "doi": "10.3758/s13421-026-01883-5",
+    "embedding_score": 0.19,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "Cognitive modeling of real-world behavior for understanding mental health",
+    "doi": "10.1016/j.tics.2025.07.009",
+    "embedding_score": 0.44,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on mental health applications of cognitive modeling rather than decision making under risk, uncertainty, or complexity as core phenomena. While it may use cognitive models, the primary focus is on mental health outcomes rather than the choice and evaluation processes central to the research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "Perceptual multistability: a multifaceted window into brain dysfunctions",
+    "doi": "10.1016/j.tics.2026.02.008",
+    "embedding_score": 0.44,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on perceptual multistability as a tool for understanding brain dysfunctions and clinical populations, not individual decision making under risk, uncertainty, or choice complexity. While it uses Bayesian modeling, the application is to perceptual/psychiatric processes rather than decision or choice behavior.",
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "The adaptive value of stubborn goals",
+    "doi": "10.1016/j.tics.2025.10.003",
+    "embedding_score": 0.41,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper directly addresses individual-level decision making processes, including cognitive resource optimization, sunk-cost biases, and computational architectures for goal selection—all central to cognitive and process-oriented accounts of choice behavior.",
+    "final_included": true
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "Explanation, scope, and perspective: sources of schismogenesis in consciousness science",
+    "doi": "10.1016/j.tics.2026.03.005",
+    "embedding_score": 0.38,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper addresses philosophical and theoretical debates in consciousness science, not individual decision making, risk, uncertainty, or cognitive processes related to choice behavior.",
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "Rapid decay of perceptual memory in dyslexia",
+    "doi": "10.1016/j.tics.2025.09.009",
+    "embedding_score": 0.32,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper focuses on perceptual memory decay and skill acquisition in developmental dyslexia, not individual decision making under risk, uncertainty, or complexity. It does not address choice behavior, cognitive models of decision processes, or any of the core topics of the research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "The cognitive origins of geometry",
+    "doi": "10.1016/j.tics.2026.01.005",
+    "embedding_score": 0.31,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper concerns the cognitive origins of geometric reasoning and spatial navigation, not decision making under risk, uncertainty, or complexity. It does not address choice behavior, preference formation, or any of the core topics in the research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "Primate neuroethology: a new synthesis",
+    "doi": "10.1016/j.tics.2025.09.002",
+    "embedding_score": 0.31,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "Primate neuroethology concerns animal behavior and neuroscience at a biological/evolutionary level, not individual human decision-making processes under risk, uncertainty, or complexity.",
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "Valuation illusions in insects",
+    "doi": "10.1016/j.tics.2025.11.011",
+    "embedding_score": 0.29,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "The hidden costs of human cooperation",
+    "doi": "10.1016/j.tics.2025.09.016",
+    "embedding_score": 0.28,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "How AI tools can enhance generalizability",
+    "doi": "10.1016/j.tics.2025.11.010",
+    "embedding_score": 0.26,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "The Global Neuronal Workspace as a multilevel model of conscious processing",
+    "doi": "10.1016/j.tics.2026.03.004",
+    "embedding_score": 0.26,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "Hearing and cognition across the menopause transition",
+    "doi": "10.1016/j.tics.2026.02.001",
+    "embedding_score": 0.25,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "A dysfunctional hub model of voice–reward integration in autism",
+    "doi": "10.1016/j.tics.2025.12.006",
+    "embedding_score": 0.25,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "Producing more while understanding less with large language models",
+    "doi": "10.1016/j.tics.2026.01.006",
+    "embedding_score": 0.24,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "Advisory Board and Contents",
+    "doi": "10.1016/s1364-6613(26)00058-6",
+    "embedding_score": 0.24,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "Memory editing during sleep: mechanisms, clinical applications, and technological innovations",
+    "doi": "10.1016/j.tics.2025.07.010",
+    "embedding_score": 0.23,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "Whither symbols in the era of advanced neural networks?",
+    "doi": "10.1016/j.tics.2026.02.003",
+    "embedding_score": 0.23,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "Can only meat machines be conscious?",
+    "doi": "10.1016/j.tics.2025.08.009",
+    "embedding_score": 0.15,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "No free lunch with the binding problem",
+    "doi": "10.1016/j.tics.2025.12.002",
+    "embedding_score": 0.13,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "Subscription and Copyright Information",
+    "doi": "10.1016/s1364-6613(26)00061-6",
+    "embedding_score": 0.12,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Trends in Cognitive Sciences",
+    "title": "Beyond binding: lunch can be surprisingly affordable",
+    "doi": "10.1016/j.tics.2026.01.004",
+    "embedding_score": 0.1,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Review",
+    "title": "Future-oriented mental time travel and self-reinforcement.",
+    "doi": "10.1037/rev0000624",
+    "embedding_score": 0.39,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on future-oriented mental time travel and proactive planning as a cognitive-behavioral trait, rooted in learning theory and neurophysiology, rather than on decision making under risk, uncertainty, or choice complexity. It does not address the core topics of the research agenda such as probability weighting, loss aversion, or process-level evidence in choice behavior.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Review",
+    "title": "Spiking the mind: Rethinking the role of cortical feedback in visual mental imagery.",
+    "doi": "10.1037/rev0000621",
+    "embedding_score": 0.28,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Journal of Experimental Psychology: Learning, Memory, and Cognition",
+    "title": "Switching between certainty and uncertainty: General and age-related dynamics of seeking environmental support.",
+    "doi": "10.1037/xlm0001603",
+    "embedding_score": 0.53,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper directly examines how individuals calibrate between internal and external information sources under certainty vs. uncertainty, which relates to cognitive processes underlying decision making under uncertainty, including trial-level uncertainty sensitivity and adaptive information-seeking behavior. It provides process-level evidence on how uncertainty drives environmental reliance and context differentiation.",
+    "final_included": true
+  },
+  {
+    "journal": "Journal of Experimental Psychology: Learning, Memory, and Cognition",
+    "title": "Choosing to avoid: The evaluative impact of autonomous selection of approach and avoidance behaviors.",
+    "doi": "10.1037/xlm0001507",
+    "embedding_score": 0.49,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on evaluative conditioning and attitude formation through approach-avoidance training, which is social/affective psychology rather than decision making under risk, uncertainty, or cognitive complexity. It does not model individual choice processes in the context of risky or uncertain options.",
+    "final_included": false
+  },
+  {
+    "journal": "Journal of Experimental Psychology: Learning, Memory, and Cognition",
+    "title": "Dynamic adjustment of the eye–voice span and articulation duration in the course of multi-item naming tasks: Evidence for lockout scheduling.",
+    "doi": "10.1037/xlm0001500",
+    "embedding_score": 0.36,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on cognitive control and processing strategies during perceptual-motor naming tasks (eye-voice span, articulation), not on decision making under risk, uncertainty, or choice evaluation. While it involves cognitive load and process-level measures, it does not address the evaluation or comparison of choice options.",
+    "final_included": false
+  },
+  {
+    "journal": "Journal of Experimental Psychology: Learning, Memory, and Cognition",
+    "title": "Why does experimental design moderate the effect of judgment of learning (JOL) reactivity?",
+    "doi": "10.1037/xlm0001612",
+    "embedding_score": 0.35,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on memory processes (judgment of learning, free recall, cued recall, recognition) and metacognitive monitoring, not on decision making under risk, uncertainty, or complexity. There is no connection to choice behavior, risk preferences, or cognitive models of decision making.",
+    "final_included": false
+  },
+  {
+    "journal": "Journal of Experimental Psychology: Learning, Memory, and Cognition",
+    "title": "Examining working memory precision estimates as an individual difference.",
+    "doi": "10.1037/xlm0001608",
+    "embedding_score": 0.35,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper focuses on working memory precision as a psychometric individual difference measure and its relationship to fluid intelligence, without connecting to decision making under risk, uncertainty, or choice behavior.",
+    "final_included": false
+  },
+  {
+    "journal": "Journal of Experimental Psychology: Learning, Memory, and Cognition",
+    "title": "Adaptive processing in word production: More evidence from picture-word interference studies.",
+    "doi": "10.1037/xlm0001506",
+    "embedding_score": 0.34,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper concerns adaptive lexical processing and speech production mechanisms, which are outside the scope of decision making under risk, uncertainty, or complexity. It does not address choice behavior, cognitive models of decision making, or any of the core topics in the student's research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Journal of Experimental Psychology: Learning, Memory, and Cognition",
+    "title": "Compatible effects enhance short-term action–effect binding.",
+    "doi": "10.1037/xlm0001503",
+    "embedding_score": 0.31,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on action-effect binding and memory retrieval in sensorimotor learning, not on decision making under risk, uncertainty, or complexity. It does not address choice evaluation, cognitive models of decision processes, or any of the core topics in the student's research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Journal of Experimental Psychology: Learning, Memory, and Cognition",
+    "title": "Distinctiveness and interference in free recall: A test with the production effect.",
+    "doi": "10.1037/xlm0001504",
+    "embedding_score": 0.3,
+    "passed_threshold": true,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Journal of Experimental Psychology: Learning, Memory, and Cognition",
+    "title": "Testing the fluency account for truth judgments.",
+    "doi": "10.1037/xlm0001523",
+    "embedding_score": 0.29,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Journal of Experimental Psychology: Learning, Memory, and Cognition",
+    "title": "Statistical learning of orthotactic constraints: Evidence from typing.",
+    "doi": "10.1037/xlm0001502",
+    "embedding_score": 0.28,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Journal of Experimental Psychology: Learning, Memory, and Cognition",
+    "title": "Seriality in word reading: Kinematic insights into beginning and proficient readers.",
+    "doi": "10.1037/xlm0001513",
+    "embedding_score": 0.25,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Journal of Experimental Psychology: Learning, Memory, and Cognition",
+    "title": "Registered report: Does repetition increase the credibility of AI-generated images?",
+    "doi": "10.1037/xlm0001505",
+    "embedding_score": 0.23,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Journal of Experimental Psychology: Learning, Memory, and Cognition",
+    "title": "The lexical boost in structural priming: The syntactic head matters but adjacency does not.",
+    "doi": "10.1037/xlm0001599",
+    "embedding_score": 0.21,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Science",
+    "title": "Individual Differences in Great Ape Cognition Across Time and Domains: Stability, Structure, and Predictability",
+    "doi": "10.1177/09567976261434817",
+    "embedding_score": 0.4,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on comparative cognition and evolutionary psychology in great apes, not on human decision making under risk, uncertainty, or complexity. It does not address the cognitive and process-oriented decision-making constructs central to the research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Science",
+    "title": "Conscious Detection of Spoken Words Depends on Their Valence",
+    "doi": "10.1177/09567976261434113",
+    "embedding_score": 0.33,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper investigates conscious detection and affective prioritization in auditory perception, which is a cognitive neuroscience/perception topic rather than decision making under risk, uncertainty, or choice complexity. It does not address choice behavior, risk evaluation, or decision processes.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Science",
+    "title": "The Rise, Impact, and Imbalances of Big-Team Psychology",
+    "doi": "10.1177/09567976261433459",
+    "embedding_score": 0.33,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper is a bibliometric/scientometric analysis of collaboration patterns and geographic imbalances in psychology research, not a study of individual decision-making processes, risk, or cognition.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Science",
+    "title": "Neural-Context Reinstatement of Recurring Events",
+    "doi": "10.1177/09567976261417325",
+    "embedding_score": 0.24,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Science",
+    "title": "Registered Report: Can Agentic Black Women Get Ahead? An Experiment Revisited",
+    "doi": "10.1177/09567976261436988",
+    "embedding_score": 0.22,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Methods",
+    "title": "Variable selection for explaining interindividual heterogeneity in longitudinal growth trajectories.",
+    "doi": "10.1037/met0000823",
+    "embedding_score": 0.43,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper focuses on statistical methodology for longitudinal growth modeling and variable selection, not on individual decision-making processes, cognition, or choice behavior under risk or uncertainty.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Methods",
+    "title": "A theory-construction methodology for network theories in psychology.",
+    "doi": "10.1037/met0000829",
+    "embedding_score": 0.43,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper introduces a general methodology for building probabilistic network models in psychology broadly, without focusing on individual decision-making processes, risk, uncertainty, or cognitive mechanisms central to the student's agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Methods",
+    "title": "Heteroskedasticity-robust inference in Bayesian linear regression\n\t\t\t\t\t\tvia the generalized method of moments.",
+    "doi": "10.1037/met0000835",
+    "embedding_score": 0.42,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper is a methodological contribution to statistical inference (Bayesian GMM for heteroskedastic regression) with no connection to individual decision making, cognition, or psychological processes.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Methods",
+    "title": "Handling missing values when using neighborhood selection for\n\t\t\t\t\t\tnetwork analysis.",
+    "doi": "10.1037/met0000828",
+    "embedding_score": 0.41,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper addresses statistical methodology for handling missing data in network analysis, not individual-level cognitive or decision-making processes. It has no connection to risk, uncertainty, choice complexity, or cognitive models.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Methods",
+    "title": "Modeling intraindividual variability as a predictor with intensive\n\t\t\t\t\t\tlongitudinal data.",
+    "doi": "10.1037/met0000818",
+    "embedding_score": 0.38,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper is primarily a methodological/statistical contribution about modeling intraindividual variability in longitudinal data, not about decision making under risk, uncertainty, or cognitive processes.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Methods",
+    "title": "Causal mediation analysis with one or multiple mediators: A comparative study.",
+    "doi": "10.1037/met0000799",
+    "embedding_score": 0.37,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on statistical methodology for causal mediation analysis using machine learning, applied to a neuroscience/epidemiology context (hypertension and brain morphology). It does not address individual decision making, cognitive processes in choice, or any of the core topics in the student's research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Methods",
+    "title": "Modeling cyclic patterns using a two-stage hybrid Bayesian approach.",
+    "doi": "10.1037/met0000815",
+    "embedding_score": 0.36,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper is a methodological contribution about Bayesian statistical modeling of cyclic patterns in longitudinal data, with no connection to individual decision making, risk, uncertainty, or cognitive processes.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychological Methods",
+    "title": "You cannot just count: A statistical rethinking of semantic richness in free-generation tasks and semantic norms.",
+    "doi": "10.1037/met0000820",
+    "embedding_score": 0.35,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on measuring semantic richness in memory and conceptual representation using statistical methods, not on decision making under risk, uncertainty, or complexity. It does not address choice behavior, cognitive processes in decisions, or any of the core topics in the student's research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Current Directions in Psychological Science",
+    "title": "The Integration of Explanation and Prediction in Behavioral Science",
+    "doi": "10.1177/09637214261419427",
+    "embedding_score": 0.45,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper is a meta-scientific discussion about integrating explanation and prediction in behavioral science broadly, rather than focusing on individual cognitive processes, decision making under risk, or specific psychological mechanisms.",
+    "final_included": false
+  },
+  {
+    "journal": "Current Directions in Psychological Science",
+    "title": "Facing Ambiguity: What We Do in the Space Between Stimulus and Response",
+    "doi": "10.1177/09637214261429347",
+    "embedding_score": 0.45,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper directly addresses individual-level cognitive and affective processes in responding to ambiguous (dual-valence) stimuli, including interindividual variability, gain-loss asymmetries, and the cognitive/neural mechanisms underlying ambiguity resolution — all central to decision-making under uncertainty research.",
+    "final_included": true
+  },
+  {
+    "journal": "Current Directions in Psychological Science",
+    "title": "Intellectual Humility in the Eyes of Others: Implications for Social Perception and Trust",
+    "doi": "10.1177/09637214261419421",
+    "embedding_score": 0.29,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Current Directions in Psychological Science",
+    "title": "Crossing Boundaries: A Culture-First Approach to Studying Early Learning",
+    "doi": "10.1177/09637214261417958",
+    "embedding_score": 0.29,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "Toward the cognitive modeling of dynamic decision making",
+    "doi": "10.3758/s13423-025-02814-2",
+    "embedding_score": 0.74,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper directly addresses individual-level cognitive processes in dynamic decision making under risk, using formal computational models (Decision Field Theory, true-and-error models) to investigate information sampling, planning, and strategy use—core topics in the student's research agenda.",
+    "final_included": true
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "Risky-choice framing effects persist when option descriptions are matched and complete: A replication and extension of DeKay and Dou (2024)",
+    "doi": "10.3758/s13423-025-02771-w",
+    "embedding_score": 0.56,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper directly investigates risky-choice framing effects, gain-loss asymmetries, and competing cognitive/formal theories (categorical vs. mathematical) of how people represent and evaluate choice options under risk. It engages with psychological mechanisms underlying framing effects and tests theoretical accounts of decision-making processes.",
+    "final_included": true
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "Top-down motivation both decreases and increases feature interference following a saccade",
+    "doi": "10.3758/s13423-026-02907-6",
+    "embedding_score": 0.38,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on visual attention, eye movements, and feature-binding errors in perception, which is outside the scope of decision making under risk, uncertainty, or complexity. While it involves monetary incentives and motivation, these are used as experimental tools to study perceptual/attentional mechanisms, not decision processes.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "Steering through task uncertainty: Evidence for activation modulation over dynamic binding",
+    "doi": "10.3758/s13423-026-02906-7",
+    "embedding_score": 0.37,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper addresses task uncertainty and cognitive control mechanisms (activation modulation vs. dynamic binding), which directly relates to how individuals mentally represent and process uncertain or complex task environments—core concerns of cognitive and process-oriented decision research.",
+    "final_included": true
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "Involvement of executive resources in prediction: Effects of load and hearing loss in older adults",
+    "doi": "10.3758/s13423-026-02880-0",
+    "embedding_score": 0.34,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on linguistic prediction and cognitive load in the context of language processing and hearing loss, not on decision making under risk, uncertainty, or choice behavior. While it involves cognitive load and executive resources, these are studied in relation to language comprehension rather than evaluation or comparison of choice options.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "Speaker effects in language comprehension: An integrative model of language and speaker processing",
+    "doi": "10.3758/s13423-026-02896-6",
+    "embedding_score": 0.34,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper concerns language and speaker processing in psycholinguistics, not decision making under risk, uncertainty, or complexity. It does not address choice behavior, cognitive models of decision making, or any of the core topics in the research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "A visual perceptual perspective on gaze in social robotics",
+    "doi": "10.3758/s13423-026-02902-x",
+    "embedding_score": 0.34,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on social robotics and gaze behavior in human-robot interaction, not on individual decision making under risk, uncertainty, or complexity in the economic psychology sense. While it touches on visual perception and attention, it does not address choice, risk, or cognitive models relevant to the research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "How meaningfulness and initial learning degree influence associative storage and retrieval processes: A multinomial processing tree and power function analysis",
+    "doi": "10.3758/s13423-026-02898-4",
+    "embedding_score": 0.33,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper focuses on memory encoding and retrieval processes (associative storage) rather than decision making under risk, uncertainty, or complexity. While it involves cognitive modeling (multinomial processing trees), it does not address choice behavior, risk, or the decision-related processes central to the research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "Attentional control as a double-edged sword: Distractor processing and its potential benefits in individuals from lower socioeconomic backgrounds",
+    "doi": "10.3758/s13423-026-02909-4",
+    "embedding_score": 0.3,
+    "passed_threshold": true,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "The role of (observed) gaze behaviour in identity recognition",
+    "doi": "10.3758/s13423-026-02908-5",
+    "embedding_score": 0.28,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "Simon says “stay in touch”: Reachability moderates the effect of irrelevant spatial congruence",
+    "doi": "10.3758/s13423-026-02879-7",
+    "embedding_score": 0.27,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "Emotional valence boosts partial and specific source memory",
+    "doi": "10.3758/s13423-026-02888-6",
+    "embedding_score": 0.26,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "Zero-shot pseudowords memorability via representational content analysis",
+    "doi": "10.3758/s13423-026-02875-x",
+    "embedding_score": 0.25,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "Correction: When randomisation is not good enough: Matching groups in intervention studies",
+    "doi": "10.3758/s13423-026-02910-x",
+    "embedding_score": 0.24,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "Multiple sources of conflict in the flanker task: Flanker interference can be decomposed into cumulative components",
+    "doi": "10.3758/s13423-026-02904-9",
+    "embedding_score": 0.23,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Psychonomic Bulletin & Review",
+    "title": "The shrinking soundscape: New evidence for memory distortion of auditory scenes",
+    "doi": "10.3758/s13423-026-02905-8",
+    "embedding_score": 0.16,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Nature Human Behaviour",
+    "title": "Feature selection leads to divergent neurobiological interpretations of brain-based machine learning biomarkers",
+    "doi": "10.1038/s41562-026-02447-y",
+    "embedding_score": 0.38,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on neuroimaging methodology and machine learning biomarkers for predicting behavioral phenotypes at a neuroscientific level, without modeling individual cognitive decision-making processes. It does not address risk, uncertainty, choice complexity, or the psychological mechanisms central to the student's research agenda.",
+    "final_included": false
+  },
+  {
+    "journal": "Nature Human Behaviour",
+    "title": "Individual versus group-based interventions: a systematic review and meta-analysis of physical activity, functional, psychosocial and health outcomes",
+    "doi": "10.1038/s41562-026-02429-0",
+    "embedding_score": 0.28,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Nature Human Behaviour",
+    "title": "Unlearning research microbehaviours from authoritarian backgrounds",
+    "doi": "10.1038/s41562-026-02440-5",
+    "embedding_score": 0.27,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Nature Human Behaviour",
+    "title": "Shifting from brain ageing to brain longevity",
+    "doi": "10.1038/s41562-026-02441-4",
+    "embedding_score": 0.25,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Nature Human Behaviour",
+    "title": "Social media users experience more political hostility in less economically equal and less democratic societies",
+    "doi": "10.1038/s41562-026-02432-5",
+    "embedding_score": 0.22,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Nature Human Behaviour",
+    "title": "How deceptive online networks reached millions in the US 2020 elections",
+    "doi": "10.1038/s41562-026-02435-2",
+    "embedding_score": 0.16,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Nature Human Behaviour",
+    "title": "Premature termination of unemployment benefits increased COVID-19 transmission and deaths in the USA",
+    "doi": "10.1038/s41562-026-02431-6",
+    "embedding_score": 0.15,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Nature Human Behaviour",
+    "title": "A systematic review of the global and regional estimates of the prevalence of sexual violence against children",
+    "doi": "10.1038/s41562-026-02436-1",
+    "embedding_score": 0.13,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "American Economic Review",
+    "title": "Robust Misspecified Models",
+    "doi": "10.1257/aer.20240246",
+    "embedding_score": 0.47,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on model comparison and persistence of misspecified beliefs at an abstract equilibrium level, without addressing individual cognitive processes, risk/uncertainty perception, or behavioral decision mechanisms.",
+    "final_included": false
+  },
+  {
+    "journal": "American Economic Review",
+    "title": "Real Credit Cycles",
+    "doi": "10.1257/aer.20211820",
+    "embedding_score": 0.42,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper operates at the macroeconomic/firm-level, modeling credit cycles and business cycle dynamics rather than individual cognitive processes or decision making under risk. Although 'diagnostic expectations' touch on psychological biases, the focus is on aggregate financial outcomes without modeling individual-level cognitive processes.",
+    "final_included": false
+  },
+  {
+    "journal": "American Economic Review",
+    "title": "Games on Multiplex Networks",
+    "doi": "10.1257/aer.20240763",
+    "embedding_score": 0.37,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on network-level strategic interactions and policy design in multilayer networks, not individual cognitive processes or decision making under risk/uncertainty. It is a game-theoretic/structural model without psychological interpretation.",
+    "final_included": false
+  },
+  {
+    "journal": "American Economic Review",
+    "title": "Market Power and Capital Constraints",
+    "doi": "10.1257/aer.20231202",
+    "embedding_score": 0.36,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on market-level asset pricing, capital constraints, and market power in financial markets, without modeling individual cognitive processes or decision-making psychology.",
+    "final_included": false
+  },
+  {
+    "journal": "American Economic Review",
+    "title": "A Long and a Short Leg Make for a Wobbly Equilibrium",
+    "doi": "10.1257/aer.20211548",
+    "embedding_score": 0.34,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper models market-level equilibrium dynamics in short selling and lending markets, not individual cognitive processes or decision making under risk/uncertainty. While it mentions rational short sellers, the focus is on market-level outcomes rather than psychological or process-level accounts.",
+    "final_included": false
+  },
+  {
+    "journal": "American Economic Review",
+    "title": "Similarity of Information and Collective Action",
+    "doi": "10.1257/aer.20241056",
+    "embedding_score": 0.33,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on collective action, coordination games, and information similarity at a group/strategic level, without modeling individual cognitive processes, risk perception, or decision-making under uncertainty from a psychological perspective.",
+    "final_included": false
+  },
+  {
+    "journal": "American Economic Review",
+    "title": "Abundance from Abroad: Migrant Income and Long-Run Economic Development",
+    "doi": "10.1257/aer.20241465",
+    "embedding_score": 0.28,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "American Economic Review",
+    "title": "Negative Control Falsification Tests for Instrumental Variable Designs",
+    "doi": "10.1257/aer.20240636",
+    "embedding_score": 0.24,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "American Economic Review",
+    "title": "Making Bricks from Straw: Resources and Productivity in Health Care",
+    "doi": "10.1257/aer.20241459",
+    "embedding_score": 0.2,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "American Economic Review",
+    "title": "Spillovers in State Capacity Building: Evidence from the Digitization of Land Records in Pakistan",
+    "doi": "10.1257/aer.20240880",
+    "embedding_score": 0.18,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "American Economic Review",
+    "title": "Front Matter",
+    "doi": "10.1257/aer.116.4.i",
+    "embedding_score": 0.14,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "A Meta-Analysis of Quasi-Hyperbolic Discounting",
+    "doi": "10.1287/mnsc.2023.04003",
+    "embedding_score": 0.54,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper directly concerns individual-level intertemporal decision making, specifically present bias and self-control failures modeled via quasi-hyperbolic discounting — a core topic in decision-making under complexity and temporal uncertainty. The meta-analytic synthesis of β and δ parameters speaks to how individuals evaluate and discount future rewards, which is central to cognitive and process-oriented research on choice.",
+    "final_included": true
+  },
+  {
+    "journal": "Management Science",
+    "title": "Relatively Robust Multicriteria Decisions",
+    "doi": "10.1287/mnsc.2025.00510",
+    "embedding_score": 0.5,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper addresses normative optimization for multicriteria decision problems with unknown weights, focusing on mathematical robustness and computational methods rather than psychological processes or cognitive mechanisms of individual decision makers.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "The Benefits of Delay to Online Decision Making",
+    "doi": "10.1287/mnsc.2023.00549",
+    "embedding_score": 0.47,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on algorithmic/operational optimization of online decision-making systems (e.g., order fulfillment delays), not on individual cognitive processes, psychological representations, or behavioral decision making under risk or uncertainty.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "How Causal Focus and Specificity in Risk Factor Disclosures Jointly Affect Investor Judgments",
+    "doi": "10.1287/mnsc.2023.00445",
+    "embedding_score": 0.46,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper examines how linguistic features of risk disclosures affect investor judgments through feelings of knowable uncertainty, directly addressing individual decision making under uncertainty and how information framing shapes risk perception and choice.",
+    "final_included": true
+  },
+  {
+    "journal": "Management Science",
+    "title": "Measuring the Driving Forces of Predictive Performance: Application to Credit Scoring",
+    "doi": "10.1287/mnsc.2023.02025",
+    "embedding_score": 0.45,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on machine-learning model performance decomposition for credit scoring at the model level, with no cognitive or psychological account of individual decision-making processes.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "T\n                    <scp>ail</scp>\n                    -GAN: Learning to Simulate Tail Risk Scenarios",
+    "doi": "10.1287/mnsc.2023.00936",
+    "embedding_score": 0.45,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on machine learning methods for simulating portfolio tail risk at a market/portfolio level, with no cognitive or psychological modeling of individual decision processes.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Do Option Characteristics Predict the Underlying Stock Returns in the Cross-Section?",
+    "doi": "10.1287/mnsc.2024.04720",
+    "embedding_score": 0.43,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper focuses on market-level stock return predictability using option characteristics, informed trading, and arbitrage limits—none of which involve modeling individual cognitive processes or decision-making under risk.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Balancing External vs. Internal Validity: An Application of Causal Forest in Finance",
+    "doi": "10.1287/mnsc.2023.00109",
+    "embedding_score": 0.43,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on econometric methodology (causal forest, OLS, RDD) for causal inference in finance, with no cognitive or psychological modeling of individual decision processes.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Consumer Demand with Social Influences: Evidence from an E-Commerce Platform",
+    "doi": "10.1287/mnsc.2024.04995",
+    "embedding_score": 0.41,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on market-level demand curves, auction mechanisms, and firm-level production decisions, without modeling individual cognitive processes. The social influence on willingness to pay is treated as an economic externality rather than a psychological or process-level phenomenon.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Firm-Level Litigation Risk: Measurement and Effects",
+    "doi": "10.1287/mnsc.2024.05821",
+    "embedding_score": 0.41,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper focuses on firm-level litigation risk measurement and its effects on corporate policies, which is a market/firm-level financial topic without any cognitive or psychological modeling of individual decision processes.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Accounting for Asymmetry in the Investment–\n                    <i>q</i>\n                    Relation: Redux of Financial Reporting Quality and Investment Efficiency",
+    "doi": "10.1287/mnsc.2024.08732",
+    "embedding_score": 0.41,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper focuses on firm-level investment behavior and financial reporting quality using econometric modeling of the investment–q relationship, with no cognitive or psychological process account of individual decision making.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Cross-Extrapolative Beliefs: Evidence from Equity Analysts",
+    "doi": "10.1287/mnsc.2024.04903",
+    "embedding_score": 0.41,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper studies how individuals form extrapolative beliefs across domains, which directly concerns cognitive processes of belief formation, mental representation, and judgment under uncertainty at the individual level. The focus on analysts as individual decision-makers exhibiting systematic bias (cross-extrapolation) connects to research on heuristics, biases, and non-rational belief updating.",
+    "final_included": true
+  },
+  {
+    "journal": "Management Science",
+    "title": "Adaptive Data Acquisition for Personalized Recommendations with Optimality Guarantees on Short-Form Video Platforms",
+    "doi": "10.1287/mnsc.2022.01130",
+    "embedding_score": 0.4,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper focuses on algorithmic recommendation systems and machine learning for platform optimization, not on individual cognitive processes, decision-making under risk, or psychological models of choice.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Evaluating the Effect of Soda Taxes Using a Dynamic Model of Rational Addiction",
+    "doi": "10.1287/mnsc.2021.02422",
+    "embedding_score": 0.4,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on market-level demand modeling and policy evaluation (soda taxes, obesity) using a structural economics model, without addressing individual cognitive processes, mental representations, or psychological mechanisms of decision making.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Dynamic Pricing for Two-Sided Marketplaces with Offer Expiration",
+    "doi": "10.1287/mnsc.2022.00832",
+    "embedding_score": 0.4,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on market-level dynamic pricing optimization using MDP and fluid approximations, with no cognitive or psychological modeling of individual decision processes. While vendors and clients make choices, these are treated as aggregate demand/supply inputs rather than psychologically modeled individual decisions.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "The Effects of Personal Data Management on Competition and Welfare",
+    "doi": "10.1287/mnsc.2024.08024",
+    "embedding_score": 0.4,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on firm competition, market-level pricing strategies, and welfare outcomes related to data management policies, without modeling individual cognitive processes or decision-making under risk/uncertainty. It treats consumer behavior (data erasure decisions) as a market mechanism rather than examining the psychological or cognitive processes underlying individual choices.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Do Professional Rankings Affect Analyst Behavior? Evidence From a Regression Discontinuity Design",
+    "doi": "10.1287/mnsc.2023.04249",
+    "embedding_score": 0.39,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on professional behavior and career outcomes of financial analysts at an occupational/field level, without modeling individual cognitive processes, risk preferences, or decision mechanisms. It uses field data to study strategic behavior but offers no psychological or process-level account of decision making.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Improving Transparency and Verifiability in School Admissions: Theory and Experiment",
+    "doi": "10.1287/mnsc.2023.00105",
+    "embedding_score": 0.39,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on mechanism design and institutional transparency in school admissions markets, not on individual cognitive processes, risk/uncertainty, or decision-making psychology. While it includes a lab experiment, the research question is about verifiability and transparency of matching procedures rather than how individuals mentally represent or evaluate choices.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Communication, Learning, and Bargaining Breakdown: An Empirical Analysis",
+    "doi": "10.1287/mnsc.2023.00366",
+    "embedding_score": 0.38,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on market-level bargaining outcomes and communication effects on eBay, with no cognitive or process-level modeling of individual decision making. The analysis is field-data driven without a psychological or computational account of individual mental processes.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "A Modeling Framework for Tipping in the Presence of a Social Norm",
+    "doi": "10.1287/mnsc.2021.03422",
+    "embedding_score": 0.38,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper models tipping as a market equilibrium phenomenon with firm/worker/customer interactions, focusing on aggregate outcomes and policy implications rather than individual cognitive processes, mental representations, or decision-making mechanisms.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Waiting for the Right Offer: Laboratory Evidence on How News Affects Bargaining",
+    "doi": "10.1287/mnsc.2024.07224",
+    "embedding_score": 0.38,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper examines individual-level decision making under uncertainty in a bargaining context, focusing on how buyers and sellers process and respond to sequentially revealed information — directly relevant to cognitive representation of uncertainty and information updating. The 'waiting for news' effect and asymmetric sensitivity to signals reflect process-level behavioral phenomena consistent with the research agenda.",
+    "final_included": true
+  },
+  {
+    "journal": "Management Science",
+    "title": "Boardroom Centrality and Systematic Risk of Firms",
+    "doi": "10.1287/mnsc.2020.01240",
+    "embedding_score": 0.37,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper focuses on firm-level systematic risk and corporate board social networks, with no cognitive or psychological modeling of individual decision-making processes.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Responsible Investment and Responsible Consumption",
+    "doi": "10.1287/mnsc.2023.03042",
+    "embedding_score": 0.36,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper uses a general equilibrium model to analyze market-level outcomes of household investment and consumption strategies, without modeling individual cognitive processes, decision-making under risk, or psychological mechanisms.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Estimating Effects of Long-Term Treatments",
+    "doi": "10.1287/mnsc.2023.02575",
+    "embedding_score": 0.36,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper focuses on causal inference methodology for estimating long-term treatment effects in large-scale A/B tests at the platform level, with no cognitive or psychological modeling of individual decision processes.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Health Shocks and Annuity Choices",
+    "doi": "10.1287/mnsc.2025.00682",
+    "embedding_score": 0.35,
+    "passed_threshold": true,
+    "llm_relevant": true,
+    "llm_reason": "The paper includes a laboratory experiment examining how default options reduce responsiveness to private health information, directly addressing individual-level decision making under uncertainty and choice complexity. It also touches on cognitive/behavioral mechanisms (default bias, information processing) that affect annuity choices.",
+    "final_included": true
+  },
+  {
+    "journal": "Management Science",
+    "title": "Big Data Availability and Asymmetric Voluntary Disclosures",
+    "doi": "10.1287/mnsc.2023.00816",
+    "embedding_score": 0.35,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on firm-level corporate disclosure behavior and financial markets, not individual cognitive processes or decision making under risk/uncertainty.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Trade-Offs in Leveraging External Data Capabilities: Evidence from a Field Experiment in an Online Search Market",
+    "doi": "10.1287/mnsc.2023.01834",
+    "embedding_score": 0.35,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on firm-level and market-level outcomes of data-sharing strategies in online search markets, with no cognitive or psychological modeling of individual decision processes. It does not address how individuals mentally represent or evaluate choices under risk or uncertainty.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Ultra-Fresh Fashion: Creating Demand with Freshness and Agility",
+    "doi": "10.1287/mnsc.2024.06249",
+    "embedding_score": 0.34,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on firm-level operational strategy, supply chain agility, and market outcomes (profit, consumer surplus, environmental impact) rather than individual cognitive processes in decision making. It models aggregate consumer demand without addressing psychological mechanisms such as risk, uncertainty, or cognitive processes.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Employee Performance and Mental Well-Being: The Mitigating Effects of Transformational Leadership During Crisis",
+    "doi": "10.1287/mnsc.2023.03285",
+    "embedding_score": 0.34,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on organizational-level outcomes (employee performance, well-being) as a function of leadership styles, without modeling individual cognitive processes, decision making under risk, or psychological mechanisms at the individual choice level.",
+    "final_included": false
+  },
+  {
+    "journal": "Management Science",
+    "title": "Institutional Ownership and Tail Risk Comovement in Banks",
+    "doi": "10.1287/mnsc.2023.02522",
+    "embedding_score": 0.34,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "This paper focuses on institutional ownership, bank-level tail risk, and financial market outcomes—none of which involve individual cognitive processes, decision-making under uncertainty, or psychological mechanisms. It operates at the firm and market level without modeling individual behavior.",
+    "final_included": false
+  },
+  {
+    "journal": "The Quarterly Journal of Economics",
+    "title": "Collusion with Optimal Information Disclosure",
+    "doi": "10.1093/qje/qjag020",
+    "embedding_score": 0.33,
+    "passed_threshold": true,
+    "llm_relevant": false,
+    "llm_reason": "The paper focuses on firm-level collusion, pricing algorithms, and market competition outcomes, with no modeling of individual cognitive processes or decision-making under risk/uncertainty.",
+    "final_included": false
+  },
+  {
+    "journal": "The Quarterly Journal of Economics",
+    "title": "“Compensate the Losers?” Economic Policy and the Origins of U.S. Partisan Realignment",
+    "doi": "10.1093/qje/qjag019",
+    "embedding_score": 0.23,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  },
+  {
+    "journal": "The Quarterly Journal of Economics",
+    "title": "Codification, Technology Absorption, and The Globalization of the Industrial Revolution",
+    "doi": "10.1093/qje/qjag021",
+    "embedding_score": 0.21,
+    "passed_threshold": false,
+    "llm_relevant": null,
+    "llm_reason": null,
+    "final_included": false
+  }
+]

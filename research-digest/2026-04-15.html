@@ -1,0 +1,661 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="../assets/site.css">
+      <style>
+        .star-rating {
+          display: inline-flex;
+          flex-direction: row-reverse;
+          gap: 4px;
+        }
+        .star-rating input { display: none; }
+        .star-rating label {
+          font-size: 24px;
+          color: #e5e7eb;
+          cursor: pointer;
+          transition: color 0.1s;
+        }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+          color: #fbbf24;
+        }
+        .admin-controls {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          z-index: 1000;
+          display: none; /* Only show locally */
+        }
+        .save-btn {
+          background: #1e3a8a;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: 600;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        @media print { .admin-controls, .star-rating { display: none !important; } }
+      </style>
+    </head>
+    <body style="background:#f6f7fb;padding:20px;color:#1f2937;">
+      <div class="admin-controls" id="admin-ui">
+        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
+      </div>
+      <a id="top"></a>
+      <div style="max-width:900px;margin:0 auto;background:#ffffff;border-radius:14px;padding:26px;box-shadow:0 6px 18px rgba(0,0,0,0.08);border:1px solid #eef0f4;">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;">
+          <div>
+            <h1 style="margin:0;font-size:26px;line-height:1.2;color:#111827;">Bi-weekly Research Digest</h1>
+            <p style="margin:8px 0 0;font-size:14px;color:#4b5563;">
+              <b>Date range:</b> 2026-04-01 → 2026-04-15<br>
+              <b>Total relevant papers:</b> 22
+            </p>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <button id="filter-btn" onclick="toggleTopPicks()" style="background:#ffffff; border:1px solid #e5e7eb; padding:8px 16px; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; color:#374151; transition:all 0.2s;">
+              ⭐ Show Top Picks (4★+)
+            </button>
+          </div>
+        </div>
+        <h2 style="margin:26px 0 10px;font-size:18px;border-bottom:1px solid #e5e7eb;padding-bottom:8px;color:#111827;">Summary by Journal</h2>
+        <ul style="margin:10px 0 0;padding-left:18px;color:#374151;line-height:1.7;">
+    <li><a href='#journal-psychonomic-bulletin-review' style='text-decoration:none;color:#2563eb;'><b>Psychonomic Bulletin &amp; Review</b></a>: 3</li><li><a href='#journal-journal-of-risk-and-uncertainty' style='text-decoration:none;color:#2563eb;'><b>Journal of Risk and Uncertainty</b></a>: 1</li><li><a href='#journal-management-science' style='text-decoration:none;color:#2563eb;'><b>Management Science</b></a>: 5</li><li><a href='#journal-journal-of-experimental-psychology-learning-memory-and-cognition' style='text-decoration:none;color:#2563eb;'><b>Journal of Experimental Psychology: Learning, Memory, and Cognition</b></a>: 1</li><li><a href='#journal-cognition' style='text-decoration:none;color:#2563eb;'><b>Cognition</b></a>: 2</li><li><a href='#journal-journal-of-behavioral-decision-making' style='text-decoration:none;color:#2563eb;'><b>Journal of Behavioral Decision Making</b></a>: 3</li><li><a href='#journal-jep-general' style='text-decoration:none;color:#2563eb;'><b>JEP: General</b></a>: 3</li><li><a href='#journal-memory-cognition' style='text-decoration:none;color:#2563eb;'><b>Memory &amp; Cognition</b></a>: 2</li><li><a href='#journal-current-directions-in-psychological-science' style='text-decoration:none;color:#2563eb;'><b>Current Directions in Psychological Science</b></a>: 1</li><li><a href='#journal-trends-in-cognitive-sciences' style='text-decoration:none;color:#2563eb;'><b>Trends in Cognitive Sciences</b></a>: 1</li></ul><a id="journal-psychonomic-bulletin-review"></a><h2 class="journal-header" data-journal="Psychonomic Bulletin & Review" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Psychonomic Bulletin &amp; Review</h2>
+            <div id="paper-10-3758-s13423-025-02814-2" class="paper-item" data-journal="Psychonomic Bulletin & Review" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Toward the cognitive modeling of dynamic decision making</h3>
+                <div class="star-rating" data-paper-id="paper-10-3758-s13423-025-02814-2">
+                  <input type="radio" id="star5-paper-10-3758-s13423-025-02814-2" name="rating-paper-10-3758-s13423-025-02814-2" value="5"><label for="star5-paper-10-3758-s13423-025-02814-2">★</label>
+                  <input type="radio" id="star4-paper-10-3758-s13423-025-02814-2" name="rating-paper-10-3758-s13423-025-02814-2" value="4"><label for="star4-paper-10-3758-s13423-025-02814-2">★</label>
+                  <input type="radio" id="star3-paper-10-3758-s13423-025-02814-2" name="rating-paper-10-3758-s13423-025-02814-2" value="3"><label for="star3-paper-10-3758-s13423-025-02814-2">★</label>
+                  <input type="radio" id="star2-paper-10-3758-s13423-025-02814-2" name="rating-paper-10-3758-s13423-025-02814-2" value="2"><label for="star2-paper-10-3758-s13423-025-02814-2">★</label>
+                  <input type="radio" id="star1-paper-10-3758-s13423-025-02814-2" name="rating-paper-10-3758-s13423-025-02814-2" value="1"><label for="star1-paper-10-3758-s13423-025-02814-2">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper investigates how individuals navigate multistage, interdependent risky decisions by combining true-and-error models with Decision Field Theory to identify distinct preference profiles and cognitive processes such as planning, biased information sampling, and effort-saving heuristics.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Deng, W., Kellen, D., Hotaling, J.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.74</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.3758/s13423-025-02814-2' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.3758/s13423-025-02814-2</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Abstract Although most research into risky decision making has focused on simple scenarios – where isolated choices are made independent of one another – many important decisions in life play out across sequences of interdependent events and actions. Despite the ubiquity and importance of such decision problems, we know relatively little about how people manage the complexities of dynamic, multistage decisions. Our work combines techniques from two research traditions to investigate how people handle the challenges of dynamic decision making. We use true-and-error models to estimate the distribution and stability of preference profiles, and the presence of errors. In a complementary analysis we use cognitive modeling based on the Decision Field Theory to investigate the psychological processes underlying dynamic decision making. Decision Field Theory provides a unified framework for testing competing hypotheses about how people collect information and plan for the future. Results from both sets of analyses identify distinct groups of individuals. We discuss the behavioral and cognitive factors distinguishing groups from one another, including degree of planning, strategy shifts, biased information sampling, and effort-saving information processing.</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-3758-s13423-025-02771-w" class="paper-item" data-journal="Psychonomic Bulletin & Review" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Risky-choice framing effects persist when option descriptions are matched and complete: A replication and extension of DeKay and Dou (2024)</h3>
+                <div class="star-rating" data-paper-id="paper-10-3758-s13423-025-02771-w">
+                  <input type="radio" id="star5-paper-10-3758-s13423-025-02771-w" name="rating-paper-10-3758-s13423-025-02771-w" value="5"><label for="star5-paper-10-3758-s13423-025-02771-w">★</label>
+                  <input type="radio" id="star4-paper-10-3758-s13423-025-02771-w" name="rating-paper-10-3758-s13423-025-02771-w" value="4"><label for="star4-paper-10-3758-s13423-025-02771-w">★</label>
+                  <input type="radio" id="star3-paper-10-3758-s13423-025-02771-w" name="rating-paper-10-3758-s13423-025-02771-w" value="3"><label for="star3-paper-10-3758-s13423-025-02771-w">★</label>
+                  <input type="radio" id="star2-paper-10-3758-s13423-025-02771-w" name="rating-paper-10-3758-s13423-025-02771-w" value="2"><label for="star2-paper-10-3758-s13423-025-02771-w">★</label>
+                  <input type="radio" id="star1-paper-10-3758-s13423-025-02771-w" name="rating-paper-10-3758-s13423-025-02771-w" value="1"><label for="star1-paper-10-3758-s13423-025-02771-w">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper replicates and extends findings on risky-choice framing effects, examining how complete vs. incomplete and matched vs. mismatched option descriptions influence risk preferences, and evaluates categorical versus mathematical theories of framing. Results show framing effects persist even with matched, complete descriptions, challenging some categorical theories while supporting a rescaled explicated valence account.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> DeKay, M.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.56</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.3758/s13423-025-02771-w' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.3758/s13423-025-02771-w</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Abstract People’s choices involving money, health, and other matters can often be steered toward safer or riskier options by framing the options as gains or losses. This risky-choice framing effect is well established, but its direction and magnitude depend on whether the options are described completely or incompletely and whether the descriptions are matched or mismatched (in terms of good and bad outcomes) in the gain and loss frames. In a recent experiment involving 18 combinations of option descriptions (nine in each frame), DeKay and Dou, Psychological Science , 35 (8), 918–932 (2024) found that the valence or gist of the descriptions accounted for substantial variation in risk preferences, favoring categorical theories of framing over more mathematical theories. However, a residual framing effect and a framing effect in choices between completely described options contradicted the categorical theories and previous results. The effect for completely described options was especially surprising, but it was based on data from only 97 participants. The experiment reported here replicated all these effects in a large sample ( $$N = 1,697$$ N = 1 , 697 ) well matched to US Census data and with many more participants (477) making choices between completely described options. Risky-choice framing effects do stem partly from mismatched option descriptions, but a framing effect persists even when descriptions are matched and complete. The latter results expand the effect’s relevance to situations where it was thought to be absent. Among several theory specifications, only a new rescaled version of the explicated valence account explains these effects in the replication and in DeKay and Dou’s online and student samples.</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-3758-s13423-026-02906-7" class="paper-item" data-journal="Psychonomic Bulletin & Review" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Steering through task uncertainty: Evidence for activation modulation over dynamic binding</h3>
+                <div class="star-rating" data-paper-id="paper-10-3758-s13423-026-02906-7">
+                  <input type="radio" id="star5-paper-10-3758-s13423-026-02906-7" name="rating-paper-10-3758-s13423-026-02906-7" value="5"><label for="star5-paper-10-3758-s13423-026-02906-7">★</label>
+                  <input type="radio" id="star4-paper-10-3758-s13423-026-02906-7" name="rating-paper-10-3758-s13423-026-02906-7" value="4"><label for="star4-paper-10-3758-s13423-026-02906-7">★</label>
+                  <input type="radio" id="star3-paper-10-3758-s13423-026-02906-7" name="rating-paper-10-3758-s13423-026-02906-7" value="3"><label for="star3-paper-10-3758-s13423-026-02906-7">★</label>
+                  <input type="radio" id="star2-paper-10-3758-s13423-026-02906-7" name="rating-paper-10-3758-s13423-026-02906-7" value="2"><label for="star2-paper-10-3758-s13423-026-02906-7">★</label>
+                  <input type="radio" id="star1-paper-10-3758-s13423-026-02906-7" name="rating-paper-10-3758-s13423-026-02906-7" value="1"><label for="star1-paper-10-3758-s13423-026-02906-7">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper investigates how the cognitive system manages uncertainty about which task to perform, testing whether the brain uses activation modulation or dynamic binding to steer behavior under task uncertainty. It provides process-level evidence about cognitive mechanisms underlying performance in uncertain, complex situations.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Chai, M., Braem, S.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.37</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.3758/s13423-026-02906-7' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.3758/s13423-026-02906-7</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-journal-of-risk-and-uncertainty"></a><h2 class="journal-header" data-journal="Journal of Risk and Uncertainty" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Journal of Risk and Uncertainty</h2>
+            <div id="paper-10-1007-s11166-026-09476-y" class="paper-item" data-journal="Journal of Risk and Uncertainty" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">The coexistence of loss aversion and regret aversion in decision making under risk</h3>
+                <div class="star-rating" data-paper-id="paper-10-1007-s11166-026-09476-y">
+                  <input type="radio" id="star5-paper-10-1007-s11166-026-09476-y" name="rating-paper-10-1007-s11166-026-09476-y" value="5"><label for="star5-paper-10-1007-s11166-026-09476-y">★</label>
+                  <input type="radio" id="star4-paper-10-1007-s11166-026-09476-y" name="rating-paper-10-1007-s11166-026-09476-y" value="4"><label for="star4-paper-10-1007-s11166-026-09476-y">★</label>
+                  <input type="radio" id="star3-paper-10-1007-s11166-026-09476-y" name="rating-paper-10-1007-s11166-026-09476-y" value="3"><label for="star3-paper-10-1007-s11166-026-09476-y">★</label>
+                  <input type="radio" id="star2-paper-10-1007-s11166-026-09476-y" name="rating-paper-10-1007-s11166-026-09476-y" value="2"><label for="star2-paper-10-1007-s11166-026-09476-y">★</label>
+                  <input type="radio" id="star1-paper-10-1007-s11166-026-09476-y" name="rating-paper-10-1007-s11166-026-09476-y" value="1"><label for="star1-paper-10-1007-s11166-026-09476-y">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper uses lottery experiments with varying feedback conditions to show that both prospect theory (loss aversion) and regret theory jointly explain risky choices, with loss aversion having a stronger influence than regret across conditions.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Posey, L., Kwasnica, A., Geier, C.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.67</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1007/s11166-026-09476-y' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1007/s11166-026-09476-y</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">This paper explores the concurrent roles of prospect theory and regret theory in decision making under risk through a series of carefully designed experiments. We demonstrate that both models can be important for explaining real human choices in uncertain environments. Our experimental paradigm uses pairs of binary lotteries designed to induce both loss aversion and regret, with one gamble always involving a loss and the other changing from mixed, with both a gain and a loss, to gain only. Changes in behavior around these switching points elucidate loss aversion. Three feedback treatments are employed—no feedback, partial feedback (where only the chosen gamble’s outcome is revealed), and complete feedback (where outcomes of both gambles are revealed)—to assess how different levels of information influence decision making. In the no feedback treatment, we find strong support for prospect theory. When feedback is introduced, participants’ behavior reflects both prospect theory and regret theory although loss aversion has a greater impact than regret. Our findings underscore the importance of considering such hybrid models in evaluating decision making under risk, as well as the need to account for the information available to decision makers, as behavior varies with different feedback conditions.</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-management-science"></a><h2 class="journal-header" data-journal="Management Science" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Management Science</h2>
+            <div id="paper-10-1287-mnsc-2023-04003" class="paper-item" data-journal="Management Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">A Meta-Analysis of Quasi-Hyperbolic Discounting</h3>
+                <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2023-04003">
+                  <input type="radio" id="star5-paper-10-1287-mnsc-2023-04003" name="rating-paper-10-1287-mnsc-2023-04003" value="5"><label for="star5-paper-10-1287-mnsc-2023-04003">★</label>
+                  <input type="radio" id="star4-paper-10-1287-mnsc-2023-04003" name="rating-paper-10-1287-mnsc-2023-04003" value="4"><label for="star4-paper-10-1287-mnsc-2023-04003">★</label>
+                  <input type="radio" id="star3-paper-10-1287-mnsc-2023-04003" name="rating-paper-10-1287-mnsc-2023-04003" value="3"><label for="star3-paper-10-1287-mnsc-2023-04003">★</label>
+                  <input type="radio" id="star2-paper-10-1287-mnsc-2023-04003" name="rating-paper-10-1287-mnsc-2023-04003" value="2"><label for="star2-paper-10-1287-mnsc-2023-04003">★</label>
+                  <input type="radio" id="star1-paper-10-1287-mnsc-2023-04003" name="rating-paper-10-1287-mnsc-2023-04003" value="1"><label for="star1-paper-10-1287-mnsc-2023-04003">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This meta-analysis synthesizes estimates of the two parameters of quasi-hyperbolic discounting (present bias β and exponential discount factor δ) from 86 studies, finding modest present bias for monetary rewards and stronger present bias for non-monetary rewards like real consumption and effort. The paper corrects for selective reporting and provides updated benchmark estimates for the dominant behavioral model of self-control failures.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Cheung, S., Tymula, A., Wang, X.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.54</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1287/mnsc.2023.04003' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2023.04003</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">This paper reports a meta-analysis of 86 studies of the two parameters of quasi-hyperbolic ([Formula: see text]) discounting, the dominant model of self-control failures in behavioral economics. The central tenet of the model is that decision makers have a “present bias,” [Formula: see text], for immediate rewards, on top of standard exponential discounting of the future, [Formula: see text]. After correcting for selective reporting, we obtain a meta-analytic estimate of [Formula: see text] for money of 0.938, with 95% confidence interval [0.905, 0.972]. For nonmonetary rewards, our estimate of [Formula: see text] is 0.750, with 95% confidence interval [0.643, 0.857], and there is no evidence of selective reporting. We find that present bias for real effort, although stronger than for money, is weaker than for other rewards such as real consumption. This paper was accepted by Manel Baucells, behavioral economics and decision analysis. Funding: This research was partly supported by the Australian Government through the Australian Research Council’s Centre of Excellence for Children and Families over the Life Course [Project IDs CE140100027 and CE200100025]. S. L. Cheung received financial support from the Australian Research Council [Grant DP160101794]. A. Tymula received financial support from the University of Sydney [Bridging Grant G199763]. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2023.04003 .</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1287-mnsc-2023-00445" class="paper-item" data-journal="Management Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">How Causal Focus and Specificity in Risk Factor Disclosures Jointly Affect Investor Judgments</h3>
+                <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2023-00445">
+                  <input type="radio" id="star5-paper-10-1287-mnsc-2023-00445" name="rating-paper-10-1287-mnsc-2023-00445" value="5"><label for="star5-paper-10-1287-mnsc-2023-00445">★</label>
+                  <input type="radio" id="star4-paper-10-1287-mnsc-2023-00445" name="rating-paper-10-1287-mnsc-2023-00445" value="4"><label for="star4-paper-10-1287-mnsc-2023-00445">★</label>
+                  <input type="radio" id="star3-paper-10-1287-mnsc-2023-00445" name="rating-paper-10-1287-mnsc-2023-00445" value="3"><label for="star3-paper-10-1287-mnsc-2023-00445">★</label>
+                  <input type="radio" id="star2-paper-10-1287-mnsc-2023-00445" name="rating-paper-10-1287-mnsc-2023-00445" value="2"><label for="star2-paper-10-1287-mnsc-2023-00445">★</label>
+                  <input type="radio" id="star1-paper-10-1287-mnsc-2023-00445" name="rating-paper-10-1287-mnsc-2023-00445" value="1"><label for="star1-paper-10-1287-mnsc-2023-00445">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This study uses controlled experiments to show that the causal focus and specificity of risk disclosures interact to affect investors&#39; willingness to invest, mediated by feelings of knowable uncertainty. It reveals that specificity can either increase or decrease investment willingness depending on whether disclosures emphasize risk causes or consequences.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Yoo, G., Tan, H.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.46</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1287/mnsc.2023.00445' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2023.00445</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">We examine how investors’ investment judgments are jointly affected by two important linguistic features that vary considerably across firms’ risk factor disclosures: namely, causal focus—the extent to which managers’ disclosures focus on the causes versus consequences of risk events—and specificity, which refers to specific references to names of objects and quantitative values. Results of controlled experiments show that, when the disclosure focus is on risk causes, greater specificity increases investment willingness because of enhanced feelings of knowable uncertainty in a risk event. In contrast, when the focus is on risk consequences, greater specificity reduces investment willingness because of diminished feelings of knowable uncertainty. Contrary to the Securities and Exchange Commission’s positive view of specific risk factor disclosures, our results suggest that specificity can have an opposite effects on investors’ judgments depending on the causal focus of risk factor disclosures. This paper was accepted by Ranjani Krishnan, accounting. Funding: This work was supported by Korea University Business School and the United Overseas Bank Professorship Endowment Fund. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2023.00445 .</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1287-mnsc-2024-04903" class="paper-item" data-journal="Management Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Cross-Extrapolative Beliefs: Evidence from Equity Analysts</h3>
+                <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2024-04903">
+                  <input type="radio" id="star5-paper-10-1287-mnsc-2024-04903" name="rating-paper-10-1287-mnsc-2024-04903" value="5"><label for="star5-paper-10-1287-mnsc-2024-04903">★</label>
+                  <input type="radio" id="star4-paper-10-1287-mnsc-2024-04903" name="rating-paper-10-1287-mnsc-2024-04903" value="4"><label for="star4-paper-10-1287-mnsc-2024-04903">★</label>
+                  <input type="radio" id="star3-paper-10-1287-mnsc-2024-04903" name="rating-paper-10-1287-mnsc-2024-04903" value="3"><label for="star3-paper-10-1287-mnsc-2024-04903">★</label>
+                  <input type="radio" id="star2-paper-10-1287-mnsc-2024-04903" name="rating-paper-10-1287-mnsc-2024-04903" value="2"><label for="star2-paper-10-1287-mnsc-2024-04903">★</label>
+                  <input type="radio" id="star1-paper-10-1287-mnsc-2024-04903" name="rating-paper-10-1287-mnsc-2024-04903" value="1"><label for="star1-paper-10-1287-mnsc-2024-04903">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper examines whether individuals who experience bad news in one domain become overly pessimistic in unrelated domains, finding that equity analysts generalize negative experiences across coverage firms. The study provides individual-level evidence of cross-domain extrapolative belief formation with downstream market consequences.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Renjie, R., Verwijmeren, P.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.41</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1287/mnsc.2024.04903' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2024.04903</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">We study whether individuals form extrapolative beliefs across different tasks. In line with cross-extrapolation, equity analysts who experience bad news from some of their coverage firms become overly pessimistic about other firms in their coverage. This leads to disagreement among analysts and has implications for the stock market, as we observe effects on trading volume, return volatility, and pricing. Our findings highlight the relevance of non-domain-specific belief models. This paper was accepted by Camelia Kuhnen, finance. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2024.04903 .</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1287-mnsc-2024-07224" class="paper-item" data-journal="Management Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Waiting for the Right Offer: Laboratory Evidence on How News Affects Bargaining</h3>
+                <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2024-07224">
+                  <input type="radio" id="star5-paper-10-1287-mnsc-2024-07224" name="rating-paper-10-1287-mnsc-2024-07224" value="5"><label for="star5-paper-10-1287-mnsc-2024-07224">★</label>
+                  <input type="radio" id="star4-paper-10-1287-mnsc-2024-07224" name="rating-paper-10-1287-mnsc-2024-07224" value="4"><label for="star4-paper-10-1287-mnsc-2024-07224">★</label>
+                  <input type="radio" id="star3-paper-10-1287-mnsc-2024-07224" name="rating-paper-10-1287-mnsc-2024-07224" value="3"><label for="star3-paper-10-1287-mnsc-2024-07224">★</label>
+                  <input type="radio" id="star2-paper-10-1287-mnsc-2024-07224" name="rating-paper-10-1287-mnsc-2024-07224" value="2"><label for="star2-paper-10-1287-mnsc-2024-07224">★</label>
+                  <input type="radio" id="star1-paper-10-1287-mnsc-2024-07224" name="rating-paper-10-1287-mnsc-2024-07224" value="1"><label for="star1-paper-10-1287-mnsc-2024-07224">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This laboratory study investigates how gradually revealed private information about seller quality affects trading decisions in bilateral bargaining, finding that buyers accumulate positive signals before acting while sellers wait for acceptable offers. It reveals asymmetric information processing and strategic waiting behavior under uncertainty.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Ding, T., Lehrer, S.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.38</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1287/mnsc.2024.07224' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2024.07224</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">We conduct a series of laboratory experiments to examine whether the gradual exogenous revelation of sellers’ private information influences the occurrence of trades in a bilateral bargaining setting with a static lemon condition. We find that, although information does not increase efficiency, it reduces the likelihood that buyers incur losses when trading with low-quality sellers. Anticipating that additional signals will arrive, buyers hesitate to finalize deals immediately and exhibit a “waiting for news” effect, making sizable offer adjustments only when sufficient positive signals have accumulated. In contrast, informed sellers are less sensitive to news but appear to wait for the offer that they deem acceptable. This paper was accepted by Dorothea Kübler, behavioral economics and decision analysis. Funding: T. Ding initiated this project while at the Shanghai University of Finance and Economics and thanks the National Natural Science Foundation of China [Grant 72173076] for financial support. S. F. Lehrer thanks the Social Science and Humanities Research Council of Canada for research support. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2024.07224 .</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1287-mnsc-2025-00682" class="paper-item" data-journal="Management Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Health Shocks and Annuity Choices</h3>
+                <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2025-00682">
+                  <input type="radio" id="star5-paper-10-1287-mnsc-2025-00682" name="rating-paper-10-1287-mnsc-2025-00682" value="5"><label for="star5-paper-10-1287-mnsc-2025-00682">★</label>
+                  <input type="radio" id="star4-paper-10-1287-mnsc-2025-00682" name="rating-paper-10-1287-mnsc-2025-00682" value="4"><label for="star4-paper-10-1287-mnsc-2025-00682">★</label>
+                  <input type="radio" id="star3-paper-10-1287-mnsc-2025-00682" name="rating-paper-10-1287-mnsc-2025-00682" value="3"><label for="star3-paper-10-1287-mnsc-2025-00682">★</label>
+                  <input type="radio" id="star2-paper-10-1287-mnsc-2025-00682" name="rating-paper-10-1287-mnsc-2025-00682" value="2"><label for="star2-paper-10-1287-mnsc-2025-00682">★</label>
+                  <input type="radio" id="star1-paper-10-1287-mnsc-2025-00682" name="rating-paper-10-1287-mnsc-2025-00682" value="1"><label for="star1-paper-10-1287-mnsc-2025-00682">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This study finds that a cancer diagnosis reduces annuitization rates by 5.5% despite substantially lowering the financial value of annuities, yielding a low demand elasticity. A lab experiment suggests this limited adjustment stems from default option effects that dampen responsiveness to private health information.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Hagen, J., Hodor, M., Hurwitz, A.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.35</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1287/mnsc.2025.00682' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2025.00682</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">This study examines how a first-time malignant cancer diagnosis, acting as an informational shock to perceived longevity, affects the demand for life annuities. Using a quasi-experimental design and exploiting Swedish administrative data, we show that receiving a cancer diagnosis close to retirement reduces annuitization rates by 5.5%. The diagnosis lowers the money’s worth ratio of a life annuity by 33%, representing a substantial financial loss. Combined with the modest behavioral response, this yields a low demand elasticity of 0.17 with respect to the perceived annuity value. Evidence from a complementary laboratory experiment indicates that this limited adjustment is driven by the influence of a default option that reduces responsiveness to private health information and may disadvantage individuals in poor health. This paper was accepted by Camelia Kuhnen, finance. Funding: This work was supported by The Henry Crown Institute of Business Research in Israel [Grant 08923100], the Israel Science Foundation [Grant 1637/23], the Jeremy Coller Foundation [Grant 0612017581], the Hamrin Foundation [Grant 2023-09], the Solomon Lew Center for Consumer Behavior [Grant 08923200], the Swedish Research Council for Health Working Life and Welfare [Grant 2023-00046], and the Center for Agriculture, Environment and Natural Resource [Grant 0004]. Supplemental Material: The online appendices and data files are available at https://doi.org/10.1287/mnsc.2025.00682 .</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-journal-of-experimental-psychology-learning-memory-and-cognition"></a><h2 class="journal-header" data-journal="Journal of Experimental Psychology: Learning, Memory, and Cognition" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Journal of Experimental Psychology: Learning, Memory, and Cognition</h2>
+            <div id="paper-10-1037-xlm0001603" class="paper-item" data-journal="Journal of Experimental Psychology: Learning, Memory, and Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Switching between certainty and uncertainty: General and age-related dynamics of seeking environmental support.</h3>
+                <div class="star-rating" data-paper-id="paper-10-1037-xlm0001603">
+                  <input type="radio" id="star5-paper-10-1037-xlm0001603" name="rating-paper-10-1037-xlm0001603" value="5"><label for="star5-paper-10-1037-xlm0001603">★</label>
+                  <input type="radio" id="star4-paper-10-1037-xlm0001603" name="rating-paper-10-1037-xlm0001603" value="4"><label for="star4-paper-10-1037-xlm0001603">★</label>
+                  <input type="radio" id="star3-paper-10-1037-xlm0001603" name="rating-paper-10-1037-xlm0001603" value="3"><label for="star3-paper-10-1037-xlm0001603">★</label>
+                  <input type="radio" id="star2-paper-10-1037-xlm0001603" name="rating-paper-10-1037-xlm0001603" value="2"><label for="star2-paper-10-1037-xlm0001603">★</label>
+                  <input type="radio" id="star1-paper-10-1037-xlm0001603" name="rating-paper-10-1037-xlm0001603" value="1"><label for="star1-paper-10-1037-xlm0001603">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This study introduces a switching paradigm to investigate how people decide when to consult external cues versus rely on internal representations, finding that uncertainty (not strategic bias) drives environmental reliance, with older adults showing reduced sensitivity to uncertainty and weaker context differentiation.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Hubbard, J., Grätz, D., Mayr, U.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.53</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/xlm0001603' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/xlm0001603</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Older adults tend to rely on environmental information more than necessary (Lindenberger &amp; Mayr, 2014). Yet, little is known about how our cognitive system calibrates between internal and external representations, or what drives the age differences. These may reflect either a strategic bias or a difficulty distinguishing contexts in which environmental signals are useful from those in which they are not. We introduced a new Certainty/Uncertainty Switching Paradigm, in which participants were free to consult sudden-onset peripheral cues indicating which of two S-R rules was valid on a given trial. In maximum-certainty trials, S-R rules were fully predictable, rendering cues unnecessary; in maximum-uncertainty trials, S-R rules changed randomly ( p = .5), requiring cue inspection. Across two experiments, young adults showed adaptive cue-checking with both short- and longer term adjustments, as well as modulation by trial-level uncertainty (i.e., conflict and errors), but not by broader task control demands. In Experiment 2, older adults exhibited slower adaptation, reduced sensitivity to trial-to-trial uncertainty, and weaker differentiation between certainty and uncertainty contexts. Beyond identifying uncertainty as a key driver of the internal-external control balance, our findings indicate that age-related increases in environmental reliance reflect a deficit in context differentiation, not a strategic bias. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-cognition"></a><h2 class="journal-header" data-journal="Cognition" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Cognition</h2>
+            <div id="paper-10-1016-j-cognition-2025-106386" class="paper-item" data-journal="Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">The cognitive mechanisms behind wishful predictions: A diffusion model decomposition</h3>
+                <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2025-106386">
+                  <input type="radio" id="star5-paper-10-1016-j-cognition-2025-106386" name="rating-paper-10-1016-j-cognition-2025-106386" value="5"><label for="star5-paper-10-1016-j-cognition-2025-106386">★</label>
+                  <input type="radio" id="star4-paper-10-1016-j-cognition-2025-106386" name="rating-paper-10-1016-j-cognition-2025-106386" value="4"><label for="star4-paper-10-1016-j-cognition-2025-106386">★</label>
+                  <input type="radio" id="star3-paper-10-1016-j-cognition-2025-106386" name="rating-paper-10-1016-j-cognition-2025-106386" value="3"><label for="star3-paper-10-1016-j-cognition-2025-106386">★</label>
+                  <input type="radio" id="star2-paper-10-1016-j-cognition-2025-106386" name="rating-paper-10-1016-j-cognition-2025-106386" value="2"><label for="star2-paper-10-1016-j-cognition-2025-106386">★</label>
+                  <input type="radio" id="star1-paper-10-1016-j-cognition-2025-106386" name="rating-paper-10-1016-j-cognition-2025-106386" value="1"><label for="star1-paper-10-1016-j-cognition-2025-106386">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This study applies drift-diffusion modeling to show that outcome desirability biases predictions through two mechanisms: lowering the evidence threshold required to predict a desired outcome and distorting the evidence accumulation process itself. The findings clarify the cognitive architecture of motivated reasoning and wishful thinking.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Strueder, J., Park, I., Mordkoff, J., Pleskac, T., Windschitl, P.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.5</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.cognition.2025.106386' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.cognition.2025.106386</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Wishful thinking or desirability bias refers to instances where the desire for an outcome inflates the expectation that it will occur. Although studies have demonstrated influences of outcome desirability on people&#39;s predictions, the cognitive mechanisms behind such an effect have remained unclear. Both biased criteria for evidence judgment and biased evidence search/accumulation have been suggested as possible mechanisms. In the present work, we used drift-diffusion modeling to examine on which levels of processing desirability has its impact. Participants (N = 147) made predictions about the color of a randomly selected square from 2-color grids. Crucially, certain color outcomes were made more desirable than others, and the strength of evidence was manipulated by varying the proportion of desired-color squares in the grid. We found that both manipulations-and their interaction-significantly affected predictions. More importantly, drift-diffusion model analyses showed that outcome desirability resulted in a judgment-level bias, where participants required less evidence to predict a desired outcome. Notably, we also found that desirability impacted the evidence accumulation process itself. Participants more readily construed evidence as supporting the desired outcome, indicating that desirability had a top-down influence on how prediction-relevant evidence was accumulated. The present results have implications for existing accounts of how desire impacts expectations and highlight the utility of drift diffusion modeling as a tool for assessing the mechanisms underlying motivated biases.</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1016-j-cognition-2025-106410" class="paper-item" data-journal="Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Metacognitive sensitivity predicts the quality of information search in value-based decision making</h3>
+                <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2025-106410">
+                  <input type="radio" id="star5-paper-10-1016-j-cognition-2025-106410" name="rating-paper-10-1016-j-cognition-2025-106410" value="5"><label for="star5-paper-10-1016-j-cognition-2025-106410">★</label>
+                  <input type="radio" id="star4-paper-10-1016-j-cognition-2025-106410" name="rating-paper-10-1016-j-cognition-2025-106410" value="4"><label for="star4-paper-10-1016-j-cognition-2025-106410">★</label>
+                  <input type="radio" id="star3-paper-10-1016-j-cognition-2025-106410" name="rating-paper-10-1016-j-cognition-2025-106410" value="3"><label for="star3-paper-10-1016-j-cognition-2025-106410">★</label>
+                  <input type="radio" id="star2-paper-10-1016-j-cognition-2025-106410" name="rating-paper-10-1016-j-cognition-2025-106410" value="2"><label for="star2-paper-10-1016-j-cognition-2025-106410">★</label>
+                  <input type="radio" id="star1-paper-10-1016-j-cognition-2025-106410" name="rating-paper-10-1016-j-cognition-2025-106410" value="1"><label for="star1-paper-10-1016-j-cognition-2025-106410">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper investigates how individuals&#39; metacognitive sensitivity (awareness of their own cognitive states) predicts how effectively they search for information when making value-based decisions. It connects metacognitive processes to the quality of decision-relevant information acquisition.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Hu, X., Li, Y., Chen, X., Wu, J., Shi, J., Guo, Q., Liu, Y., Yang, C., Luo, L.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.43</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.cognition.2025.106410' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.cognition.2025.106410</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-journal-of-behavioral-decision-making"></a><h2 class="journal-header" data-journal="Journal of Behavioral Decision Making" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Journal of Behavioral Decision Making</h2>
+            <div id="paper-10-1002-bdm-70081" class="paper-item" data-journal="Journal of Behavioral Decision Making" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">The Effect of Cognitive Load and Default Nudges on Decision‐Making: Experimental Evidence From a Behavioral Study</h3>
+                <div class="star-rating" data-paper-id="paper-10-1002-bdm-70081">
+                  <input type="radio" id="star5-paper-10-1002-bdm-70081" name="rating-paper-10-1002-bdm-70081" value="5"><label for="star5-paper-10-1002-bdm-70081">★</label>
+                  <input type="radio" id="star4-paper-10-1002-bdm-70081" name="rating-paper-10-1002-bdm-70081" value="4"><label for="star4-paper-10-1002-bdm-70081">★</label>
+                  <input type="radio" id="star3-paper-10-1002-bdm-70081" name="rating-paper-10-1002-bdm-70081" value="3"><label for="star3-paper-10-1002-bdm-70081">★</label>
+                  <input type="radio" id="star2-paper-10-1002-bdm-70081" name="rating-paper-10-1002-bdm-70081" value="2"><label for="star2-paper-10-1002-bdm-70081">★</label>
+                  <input type="radio" id="star1-paper-10-1002-bdm-70081" name="rating-paper-10-1002-bdm-70081" value="1"><label for="star1-paper-10-1002-bdm-70081">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This experimental study investigates how cognitive overload and default nudges influence professional skepticism in auditing decisions, finding that defaults can serve as cognitive scaffolds that improve accuracy under load when aligned with the correct response but impair it when misaligned.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Erfanian, M., Meunier, L., Gajewski, J.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.49</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1002/bdm.70081' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1002/bdm.70081</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">ABSTRACT Cognitive overload can impair professional skepticism in high‐stakes contexts such as auditing. In these settings, sustaining professional skepticism is essential. Default nudges, or pre‐selected options, may offset these effects by reducing cognitive demands. We conducted an online pilot study followed by the main experiment to examine how cognitive load and default nudges influence professional skepticism in auditing decisions. A pilot study validated a dot memory task manipulation of cognitive load and identified low and high load conditions for the main experiment. The main experiment embedded this manipulation in the Phillips&#39; audit task, used to measure professional skepticism in auditing. Results showed that cognitive load only slowed responses. However, default nudges accelerated responding and improved accuracy under load, but only when aligned with the most probable response; misaligned nudges reduced accuracy. These findings suggest that defaults act as conditional scaffolds under cognitive strain, supporting judgment and decision‐making in some contexts but introducing risks in others.</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1002-bdm-70079" class="paper-item" data-journal="Journal of Behavioral Decision Making" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">The Intricate Nature of Evaluability: How Attribute Framing, Magnitude, and Reference Point Moderate Calibration and Bias</h3>
+                <div class="star-rating" data-paper-id="paper-10-1002-bdm-70079">
+                  <input type="radio" id="star5-paper-10-1002-bdm-70079" name="rating-paper-10-1002-bdm-70079" value="5"><label for="star5-paper-10-1002-bdm-70079">★</label>
+                  <input type="radio" id="star4-paper-10-1002-bdm-70079" name="rating-paper-10-1002-bdm-70079" value="4"><label for="star4-paper-10-1002-bdm-70079">★</label>
+                  <input type="radio" id="star3-paper-10-1002-bdm-70079" name="rating-paper-10-1002-bdm-70079" value="3"><label for="star3-paper-10-1002-bdm-70079">★</label>
+                  <input type="radio" id="star2-paper-10-1002-bdm-70079" name="rating-paper-10-1002-bdm-70079" value="2"><label for="star2-paper-10-1002-bdm-70079">★</label>
+                  <input type="radio" id="star1-paper-10-1002-bdm-70079" name="rating-paper-10-1002-bdm-70079" value="1"><label for="star1-paper-10-1002-bdm-70079">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This study investigates how attribute framing (positive vs. negative), magnitude information, and reference points interact to bias and calibrate individual evaluations, finding that framing consistently biases judgments while reference points improve sensitivity to magnitude. The findings are interpreted through fuzzy-trace theory&#39;s dual-route framework distinguishing gist-based and verbatim-based processing.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Kreiner, H., Gamliel, E.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.4</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1002/bdm.70079' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1002/bdm.70079</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">ABSTRACT This research examines how evaluability is influenced by the interplay of attribute framing, magnitude information, and reference points. In two experiments, participants evaluated scenarios varying in framing valence (positive vs. negative), magnitude polarity, and the availability of a base‐rate reference point. The results indicated that framing valence systematically biased evaluations regardless of reference‐point availability and magnitude polarity. However, the availability of a reference point improved calibration, revealing higher sensitivity of evaluations to magnitude information. Experiment 2 extended these findings by manipulating reference‐point value. The results demonstrated that evaluations are highly sensitive to the relative value of magnitudes compared with the reference point, yet absolute magnitude made an additional contribution. These findings are consistent with fuzzy‐trace theory, insofar as they align with its dual‐route framework, and may be interpreted as compatible with the idea that evaluability is associated with dual cognitive routes: gist‐based processes may contribute to susceptibility to framing bias, whereas verbatim‐based processes may support magnitude sensitivity and improve calibration. Importantly, the present research did not directly test fuzzy‐trace theory against alternative accounts; therefore, it cannot determine whether fuzzy‐trace theory uniquely explains the observed findings or whether other accounts could explain them. The research highlights the intricate nature of evaluability by demonstrating that providing reference‐point information can enhance magnitude sensitivity without mitigating framing bias. Practical implications for information presentation are discussed, and future directions are outlined for promoting theoretical understanding of evaluability mechanisms.</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1002-bdm-70080" class="paper-item" data-journal="Journal of Behavioral Decision Making" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Binary Binning: Examining the Mapping Between Continuous and Binary Review Scales</h3>
+                <div class="star-rating" data-paper-id="paper-10-1002-bdm-70080">
+                  <input type="radio" id="star5-paper-10-1002-bdm-70080" name="rating-paper-10-1002-bdm-70080" value="5"><label for="star5-paper-10-1002-bdm-70080">★</label>
+                  <input type="radio" id="star4-paper-10-1002-bdm-70080" name="rating-paper-10-1002-bdm-70080" value="4"><label for="star4-paper-10-1002-bdm-70080">★</label>
+                  <input type="radio" id="star3-paper-10-1002-bdm-70080" name="rating-paper-10-1002-bdm-70080" value="3"><label for="star3-paper-10-1002-bdm-70080">★</label>
+                  <input type="radio" id="star2-paper-10-1002-bdm-70080" name="rating-paper-10-1002-bdm-70080" value="2"><label for="star2-paper-10-1002-bdm-70080">★</label>
+                  <input type="radio" id="star1-paper-10-1002-bdm-70080" name="rating-paper-10-1002-bdm-70080" value="1"><label for="star1-paper-10-1002-bdm-70080">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper examines how people evaluate products differently depending on whether ratings are presented on a 5-point or binary scale, and how they translate between these formats. It finds systematic biases in quality perception and distribution estimation depending on scale structure and labeling.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Ocean, N., Vasundhara, Paricharak, R.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.36</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1002/bdm.70080' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1002/bdm.70080</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">ABSTRACT Products and services are commonly rated on either a 5‐point scale or a binary scale. Using a pilot experiment, two between‐subjects experiments, and a survey, this paper investigates how individuals evaluate products differently depending on the scale used, how they categorize ratings on a 5‐point scale into binary bins, and how they estimate 5‐point distributions from binary scales. Individuals perceive products as higher in quality when ratings are presented on a binary scale if reviews have been assigned to positive or negative categories based on whether they are above or below the midpoint of a 5‐point scale. Individuals perceive products as being of equivalent quality across scales only when ratings of four and five are taken as positive, and the remainder as negative. However, when individuals are asked to generate a 5‐point distribution from binary ratings, they do not account for this skew unless the 5‐point scale is explicitly labeled so that the “neutral” point of the scale is defined as four rather than three. These findings extend the literature that aims to understand how people evaluate products given different forms of ratings information.</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-jep-general"></a><h2 class="journal-header" data-journal="JEP: General" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">JEP: General</h2>
+            <div id="paper-10-1037-xge0001905" class="paper-item" data-journal="JEP: General" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">The relationship between intertemporal and attentional discounting.</h3>
+                <div class="star-rating" data-paper-id="paper-10-1037-xge0001905">
+                  <input type="radio" id="star5-paper-10-1037-xge0001905" name="rating-paper-10-1037-xge0001905" value="5"><label for="star5-paper-10-1037-xge0001905">★</label>
+                  <input type="radio" id="star4-paper-10-1037-xge0001905" name="rating-paper-10-1037-xge0001905" value="4"><label for="star4-paper-10-1037-xge0001905">★</label>
+                  <input type="radio" id="star3-paper-10-1037-xge0001905" name="rating-paper-10-1037-xge0001905" value="3"><label for="star3-paper-10-1037-xge0001905">★</label>
+                  <input type="radio" id="star2-paper-10-1037-xge0001905" name="rating-paper-10-1037-xge0001905" value="2"><label for="star2-paper-10-1037-xge0001905">★</label>
+                  <input type="radio" id="star1-paper-10-1037-xge0001905" name="rating-paper-10-1037-xge0001905" value="1"><label for="star1-paper-10-1037-xge0001905">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper investigates how individuals&#39; tendency to discount future rewards relates to attentional biases during decision making, finding that higher intertemporal discounters also more strongly discount unattended alternatives. Across seven studies using attention tracking and intertemporal choice tasks, it shows that framing manipulations affecting time preferences also shift attentional discounting.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Kang, J., Fisher, G.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.48</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/xge0001905' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/xge0001905</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">When making decisions, individuals tend to favor the currently attended alternative. However, there is heterogeneity in the relationship between attention and choice, and it is unclear what factors explain this variance across people. This article proposes and finds that the extent to which individuals intertemporally discount future rewards is one behavioral factor that is associated with differences in attentional biases across people. Across four laboratory studies that tracked attentional deployment and asked participants to make trade-offs between smaller-sooner and larger-later rewards, we found that individuals who were more likely to choose the smaller-sooner reward also were more likely to attentionally discount an unattended alternative. Furthermore, in three additional studies, we find that two common framing manipulations that alter intertemporal decision making also shift the degree to which unattended alternatives are attentionally discounted when making decisions. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1037-xge0001891" class="paper-item" data-journal="JEP: General" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Inflow neglect: Forecasting failures after stocks run out.</h3>
+                <div class="star-rating" data-paper-id="paper-10-1037-xge0001891">
+                  <input type="radio" id="star5-paper-10-1037-xge0001891" name="rating-paper-10-1037-xge0001891" value="5"><label for="star5-paper-10-1037-xge0001891">★</label>
+                  <input type="radio" id="star4-paper-10-1037-xge0001891" name="rating-paper-10-1037-xge0001891" value="4"><label for="star4-paper-10-1037-xge0001891">★</label>
+                  <input type="radio" id="star3-paper-10-1037-xge0001891" name="rating-paper-10-1037-xge0001891" value="3"><label for="star3-paper-10-1037-xge0001891">★</label>
+                  <input type="radio" id="star2-paper-10-1037-xge0001891" name="rating-paper-10-1037-xge0001891" value="2"><label for="star2-paper-10-1037-xge0001891">★</label>
+                  <input type="radio" id="star1-paper-10-1037-xge0001891" name="rating-paper-10-1037-xge0001891" value="1"><label for="star1-paper-10-1037-xge0001891">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper introduces &#39;inflow neglect,&#39; a systematic error where people fail to account for continuing inflows when forecasting what happens after a stock depletes, leading to incorrect zero-outflow beliefs. Using multiple experiments, the authors show how different information presentations and reflective prompts can reduce this reasoning error.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Weber, M., Spiller, S., Hershfield, H., Shu, S.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.4</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/xge0001891' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/xge0001891</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">People frequently encounter dynamic systems that involve inflows, outflows, and accumulated stocks-whether within their own households (e.g., financial accounts, stocks of food or supplies) or in larger institutional settings (e.g., manufacturing inventory, government benefit accounts). In this research, we introduce a novel stock-flow reasoning error, inflow neglect, and argue that this error can lead to important misperceptions regarding future outflows. To study this reasoning, we first focus on the United States&#39; Social Security trust funds, whose impending depletion generates significant attention due to implications for American retirees. In Experiments 1-3, we show participants information about the trust funds over time that focus on the stock (i.e., balance) or flows (i.e., tax revenue and benefits payments), finding that those who see flows presentations are significantly less likely to expect benefits to cease completely after depletion (i.e., hold zero-outflow beliefs). In Experiments 4a and 4b, we show that prompting participants to reflect on the continuity of inflows (i.e., by reminding them that they expect payroll taxes to continue) significantly reduces inflow neglect and zero-outflow beliefs. Experiment 5 replicates these results in a separate domain, illustrating the generalizability of inflow neglect and underscoring the efficacy of presentations and targeted questions that emphasize the flows. This research contributes both theoretically and practically, advancing the literature on stock-flow reasoning and highlighting how communications about particular components of dynamic systems may contribute to-or be used to remedy-misconceptions that outflows will cease after depletion. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1037-xge0001885" class="paper-item" data-journal="JEP: General" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Lay beliefs of willpower shape individuals’ propensity to approach or avoid effortful tasks.</h3>
+                <div class="star-rating" data-paper-id="paper-10-1037-xge0001885">
+                  <input type="radio" id="star5-paper-10-1037-xge0001885" name="rating-paper-10-1037-xge0001885" value="5"><label for="star5-paper-10-1037-xge0001885">★</label>
+                  <input type="radio" id="star4-paper-10-1037-xge0001885" name="rating-paper-10-1037-xge0001885" value="4"><label for="star4-paper-10-1037-xge0001885">★</label>
+                  <input type="radio" id="star3-paper-10-1037-xge0001885" name="rating-paper-10-1037-xge0001885" value="3"><label for="star3-paper-10-1037-xge0001885">★</label>
+                  <input type="radio" id="star2-paper-10-1037-xge0001885" name="rating-paper-10-1037-xge0001885" value="2"><label for="star2-paper-10-1037-xge0001885">★</label>
+                  <input type="radio" id="star1-paper-10-1037-xge0001885" name="rating-paper-10-1037-xge0001885" value="1"><label for="star1-paper-10-1037-xge0001885">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This study shows that individuals who believe effortful tasks are energizing (rather than draining) are more likely to self-select into harder tasks, with causal evidence from an experiment manipulating willpower beliefs. It demonstrates how mental representations of effort shape goal-setting and effort-based decision-making.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Mlynski, C., Clay, G., Jankowski, J., Job, V.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.38</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/xge0001885' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/xge0001885</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Research on individuals&#39; lay beliefs of willpower-beliefs on whether demanding tasks drain a limited resource or are rather energizing-has shown that they can influence self-control performance on consecutive tasks and everyday self-regulation in the context of high demands. However, no research has examined whether these beliefs of willpower affect individuals&#39; willingness to self-select into or avoid effortful tasks in the first place. The present study addresses this gap through three correlational studies ( N = 1,461) and one preregistered experiment ( N = 442). The correlational studies demonstrated that the more participants endorsed a nonlimited-resource belief, the more likely they were to choose higher difficulty levels on a mental arithmetic task, even when controlling for math self-concept. Further analyses revealed that individuals with nonlimited-resource beliefs steadily increased their difficulty choices over the course of the task, while those with limited-resource beliefs consistently chose easier problems. Study 2 provided causal evidence showing that individuals induced to adopt a nonlimited-resource belief selected more difficult math problems than those induced to hold a limited-resource belief. These findings highlight the significant role of lay beliefs of willpower in shaping individuals&#39; willingness to self-select into or avoid effortful tasks, illustrating how these underlying beliefs can have large-scale implications for goal setting and effort-based decision-making processes. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-memory-cognition"></a><h2 class="journal-header" data-journal="Memory & Cognition" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Memory &amp; Cognition</h2>
+            <div id="paper-10-3758-s13421-026-01874-6" class="paper-item" data-journal="Memory & Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Confidence judgments, feelings of knowing and judgments of learning: Towards a common framework</h3>
+                <div class="star-rating" data-paper-id="paper-10-3758-s13421-026-01874-6">
+                  <input type="radio" id="star5-paper-10-3758-s13421-026-01874-6" name="rating-paper-10-3758-s13421-026-01874-6" value="5"><label for="star5-paper-10-3758-s13421-026-01874-6">★</label>
+                  <input type="radio" id="star4-paper-10-3758-s13421-026-01874-6" name="rating-paper-10-3758-s13421-026-01874-6" value="4"><label for="star4-paper-10-3758-s13421-026-01874-6">★</label>
+                  <input type="radio" id="star3-paper-10-3758-s13421-026-01874-6" name="rating-paper-10-3758-s13421-026-01874-6" value="3"><label for="star3-paper-10-3758-s13421-026-01874-6">★</label>
+                  <input type="radio" id="star2-paper-10-3758-s13421-026-01874-6" name="rating-paper-10-3758-s13421-026-01874-6" value="2"><label for="star2-paper-10-3758-s13421-026-01874-6">★</label>
+                  <input type="radio" id="star1-paper-10-3758-s13421-026-01874-6" name="rating-paper-10-3758-s13421-026-01874-6" value="1"><label for="star1-paper-10-3758-s13421-026-01874-6">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This study extends the Self-Consistency Model of subjective confidence to feelings of knowing and judgments of learning, showing that both exhibit &#39;consensuality&#39; and &#39;replicability&#39; effects explained by shared internal cue structures. It provides process-level evidence about how individuals form metacognitive confidence judgments across different types of decisions.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Koriat, A.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.46</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.3758/s13421-026-01874-6' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.3758/s13421-026-01874-6</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Abstract This study investigates the hypothesis that the theoretical framework underlying the Self-Consistency Model of subjective confidence can be extended to feeling of knowing (FOK) judgments and to judgments of learning (JOLs). According to this model, when individuals make a binary choice, their confidence in the selected option derives from the internal consistency among cues that are sampled randomly from a shared pool – termed collective wisdomware . Consequently, confidence should increase with the popularity of the chosen option (the “consensuality effect”) and should predict the likelihood that others will select the same option (the “replicability effect”). Applying this framework to FOK and JOL revealed that both judgments exhibit robust consensuality and replicability effects. Results for JOLs further indicated that items differ reliably in the extent to which they elicit replicable cues across different encounters, and that signs of shared collective wisdomware exist even among first graders. The implications of these findings for the characterization and development of collective wisdomware are discussed.</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-3758-s13421-026-01870-w" class="paper-item" data-journal="Memory & Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Individual differences in recall of focus and alternatives</h3>
+                <div class="star-rating" data-paper-id="paper-10-3758-s13421-026-01870-w">
+                  <input type="radio" id="star5-paper-10-3758-s13421-026-01870-w" name="rating-paper-10-3758-s13421-026-01870-w" value="5"><label for="star5-paper-10-3758-s13421-026-01870-w">★</label>
+                  <input type="radio" id="star4-paper-10-3758-s13421-026-01870-w" name="rating-paper-10-3758-s13421-026-01870-w" value="4"><label for="star4-paper-10-3758-s13421-026-01870-w">★</label>
+                  <input type="radio" id="star3-paper-10-3758-s13421-026-01870-w" name="rating-paper-10-3758-s13421-026-01870-w" value="3"><label for="star3-paper-10-3758-s13421-026-01870-w">★</label>
+                  <input type="radio" id="star2-paper-10-3758-s13421-026-01870-w" name="rating-paper-10-3758-s13421-026-01870-w" value="2"><label for="star2-paper-10-3758-s13421-026-01870-w">★</label>
+                  <input type="radio" id="star1-paper-10-3758-s13421-026-01870-w" name="rating-paper-10-3758-s13421-026-01870-w" value="1"><label for="star1-paper-10-3758-s13421-026-01870-w">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper investigates how individuals differ in their ability to recall the focal option versus alternative options in a choice context. It speaks to memory and attention processes underlying how people mentally represent and compare choice alternatives.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Sun, C., Felsenheimer, A., Koch, X., Spalek, K.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.35</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.3758/s13421-026-01870-w' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.3758/s13421-026-01870-w</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-current-directions-in-psychological-science"></a><h2 class="journal-header" data-journal="Current Directions in Psychological Science" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Current Directions in Psychological Science</h2>
+            <div id="paper-10-1177-09637214261429347" class="paper-item" data-journal="Current Directions in Psychological Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Facing Ambiguity: What We Do in the Space Between Stimulus and Response</h3>
+                <div class="star-rating" data-paper-id="paper-10-1177-09637214261429347">
+                  <input type="radio" id="star5-paper-10-1177-09637214261429347" name="rating-paper-10-1177-09637214261429347" value="5"><label for="star5-paper-10-1177-09637214261429347">★</label>
+                  <input type="radio" id="star4-paper-10-1177-09637214261429347" name="rating-paper-10-1177-09637214261429347" value="4"><label for="star4-paper-10-1177-09637214261429347">★</label>
+                  <input type="radio" id="star3-paper-10-1177-09637214261429347" name="rating-paper-10-1177-09637214261429347" value="3"><label for="star3-paper-10-1177-09637214261429347">★</label>
+                  <input type="radio" id="star2-paper-10-1177-09637214261429347" name="rating-paper-10-1177-09637214261429347" value="2"><label for="star2-paper-10-1177-09637214261429347">★</label>
+                  <input type="radio" id="star1-paper-10-1177-09637214261429347" name="rating-paper-10-1177-09637214261429347" value="1"><label for="star1-paper-10-1177-09637214261429347">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper examines how individuals differ in their tendency to categorize ambiguous stimuli as negative versus positive (valence bias), proposing that an initial negativity default exists and that positivity requires additional regulatory effort, supported by cognitive and neural evidence.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Neta, M.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.45</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1177/09637214261429347' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1177/09637214261429347</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">An extensive body of research on human and nonhuman animals has examined responses to clear valence, including stimuli that either represent a relatively clear threat (e.g., electric shock) or a clear reward (e.g., money). But daily life is replete with events or situations that are ambiguous—they could be threatening and/or rewarding. This article describes work that examines the wide interindividual variability with which humans respond to this dual-valence ambiguity. Although some individuals more readily categorize these events as negative, others are prone to arrive at more positive categorizations. This predilection to lean in a more negative versus positive direction represents a stable, trait-like difference and is referred to as “valence bias.” Valence bias is generalizable across categories of dual-valence ambiguity and has important implications for health and well-being. Here I focus on extensive findings that lend support for the initial negativity hypothesis, which posits that the initial or default response is negative across people and that positivity relies on an additional regulatory mechanism that helps to overcome the initial negativity. I also describe the cognitive and brain mechanisms underlying the valence bias, including emphasizing the importance of a broad set of systems that support human responses to ambiguity.</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-trends-in-cognitive-sciences"></a><h2 class="journal-header" data-journal="Trends in Cognitive Sciences" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Trends in Cognitive Sciences</h2>
+            <div id="paper-10-1016-j-tics-2025-10-003" class="paper-item" data-journal="Trends in Cognitive Sciences" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">The adaptive value of stubborn goals</h3>
+                <div class="star-rating" data-paper-id="paper-10-1016-j-tics-2025-10-003">
+                  <input type="radio" id="star5-paper-10-1016-j-tics-2025-10-003" name="rating-paper-10-1016-j-tics-2025-10-003" value="5"><label for="star5-paper-10-1016-j-tics-2025-10-003">★</label>
+                  <input type="radio" id="star4-paper-10-1016-j-tics-2025-10-003" name="rating-paper-10-1016-j-tics-2025-10-003" value="4"><label for="star4-paper-10-1016-j-tics-2025-10-003">★</label>
+                  <input type="radio" id="star3-paper-10-1016-j-tics-2025-10-003" name="rating-paper-10-1016-j-tics-2025-10-003" value="3"><label for="star3-paper-10-1016-j-tics-2025-10-003">★</label>
+                  <input type="radio" id="star2-paper-10-1016-j-tics-2025-10-003" name="rating-paper-10-1016-j-tics-2025-10-003" value="2"><label for="star2-paper-10-1016-j-tics-2025-10-003">★</label>
+                  <input type="radio" id="star1-paper-10-1016-j-tics-2025-10-003" name="rating-paper-10-1016-j-tics-2025-10-003" value="1"><label for="star1-paper-10-1016-j-tics-2025-10-003">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This review examines why humans persist with chosen goals, arguing that goal commitment reflects adaptive computational mechanisms that manage cognitive resources and motivation, with implications for decision-making architectures and mental health.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Holton, E., Niv, Y., O’Reilly, J.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.41</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.tics.2025.10.003' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.tics.2025.10.003</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Humans exhibit a striking tendency to persist with chosen goals. This strong attachment to goals can often appear irrational - a perspective captured by terms such as perseverance or sunk-cost biases. In this review, we explore how goal commitment could stem from several adaptive mechanisms, including those that optimise cognitive resources, shield decisions from interference, and scaffold motivation in the absence of accessible reward signals. We propose that these computational considerations have important implications for algorithmic architectures supporting decision making, including separate algorithms for goal selection and implementation, and for monitoring ongoing goals versus alternative sources of reward. Finally, we discuss how a variety of mechanisms supporting goal commitment and abandonment could relate to dimensions affected in mental health.</span>
+                </div>
+              </div>
+            </div>
+            
+      </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+      <script>
+        let isFilterActive = false;
+
+        // Only show admin controls and allow editing if running locally (file://)
+        if (window.location.protocol === 'file:') {
+          document.getElementById('admin-ui').style.display = 'block';
+        } else {
+          // Disable all radio buttons if not local
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.disabled = true;
+          });
+          // Add a style to make the stars non-interactive
+          const style = document.createElement('style');
+          style.innerHTML = '.star-rating { pointer-events: none; }';
+          document.head.appendChild(style);
+        }
+
+        function toggleTopPicks() {
+          isFilterActive = !isFilterActive;
+          const btn = document.getElementById('filter-btn');
+          const papers = document.querySelectorAll('.paper-item');
+          const headers = document.querySelectorAll('.journal-header');
+
+          if (isFilterActive) {
+            btn.style.background = '#1e3a8a';
+            btn.style.color = '#ffffff';
+            btn.innerHTML = '✨ Showing Top Picks (4★+)';
+
+            headers.forEach(header => {
+              const journal = header.getAttribute('data-journal');
+              const journalPapers = document.querySelectorAll(`.paper-item[data-journal="${journal}"]`);
+              let hasTopPick = false;
+
+              journalPapers.forEach(paper => {
+                const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+                if (parseInt(rating) >= 4) {
+                  paper.style.display = 'block';
+                  hasTopPick = true;
+                } else {
+                  paper.style.display = 'none';
+                }
+              });
+
+              header.style.display = hasTopPick ? 'block' : 'none';
+            });
+          } else {
+            btn.style.background = '#ffffff';
+            btn.style.color = '#374151';
+            btn.innerHTML = '⭐ Show Top Picks (4★+)';
+            
+            papers.forEach(p => p.style.display = 'block');
+            headers.forEach(h => h.style.display = 'block');
+          }
+        }
+
+        function savePage() {
+          // Reset filter before saving so all papers are visible in the source
+          if (isFilterActive) toggleTopPicks();
+
+          // Remove the Save button and admin UI from the saved HTML
+          const adminUI = document.getElementById('admin-ui');
+          adminUI.style.display = 'none';
+          
+          // Update the checked attribute of radio buttons based on their current state
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            if (radio.checked) {
+              radio.setAttribute('checked', 'checked');
+            } else {
+              radio.removeAttribute('checked');
+            }
+          });
+
+          const htmlContent = document.documentElement.outerHTML;
+          const blob = new Blob([htmlContent], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = window.location.pathname.split('/').pop() || 'digest.html';
+          a.click();
+          
+          // Show admin UI again
+          adminUI.style.display = 'block';
+        }
+      </script>
+    </body>
+    </html>
+    
