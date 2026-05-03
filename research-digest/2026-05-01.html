@@ -1,0 +1,270 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="../assets/site.css">
+      <style>
+        .star-rating {
+          display: inline-flex;
+          flex-direction: row-reverse;
+          gap: 4px;
+        }
+        .star-rating input { display: none; }
+        .star-rating label {
+          font-size: 24px;
+          color: #e5e7eb;
+          cursor: pointer;
+          transition: color 0.1s;
+        }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+          color: #fbbf24;
+        }
+        .admin-controls {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          z-index: 1000;
+          display: none; /* Only show locally */
+        }
+        .save-btn {
+          background: #1e3a8a;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: 600;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        @media print { .admin-controls, .star-rating { display: none !important; } }
+      </style>
+    </head>
+    <body style="background:#f6f7fb;padding:20px;color:#1f2937;">
+      <div class="admin-controls" id="admin-ui">
+        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
+      </div>
+      <a id="top"></a>
+      <div style="max-width:900px;margin:0 auto;background:#ffffff;border-radius:14px;padding:26px;box-shadow:0 6px 18px rgba(0,0,0,0.08);border:1px solid #eef0f4;">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;">
+          <div>
+            <h1 style="margin:0;font-size:26px;line-height:1.2;color:#111827;">Bi-weekly Research Digest</h1>
+            <p style="margin:8px 0 0;font-size:14px;color:#4b5563;">
+              <b>Date range:</b> 2026-04-16 → 2026-04-30<br>
+              <b>Total relevant papers:</b> 5
+            </p>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <button id="filter-btn" onclick="toggleTopPicks()" style="background:#ffffff; border:1px solid #e5e7eb; padding:8px 16px; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; color:#374151; transition:all 0.2s;">
+              ⭐ Show Top Picks (4★+)
+            </button>
+          </div>
+        </div>
+        <h2 style="margin:26px 0 10px;font-size:18px;border-bottom:1px solid #e5e7eb;padding-bottom:8px;color:#111827;">Summary by Journal</h2>
+        <ul style="margin:10px 0 0;padding-left:18px;color:#374151;line-height:1.7;">
+    <li><a href='#journal-psychological-review' style='text-decoration:none;color:#2563eb;'><b>Psychological Review</b></a>: 1</li><li><a href='#journal-nature-human-behaviour' style='text-decoration:none;color:#2563eb;'><b>Nature Human Behaviour</b></a>: 2</li><li><a href='#journal-memory-cognition' style='text-decoration:none;color:#2563eb;'><b>Memory &amp; Cognition</b></a>: 1</li><li><a href='#journal-journal-of-experimental-psychology-learning-memory-and-cognition' style='text-decoration:none;color:#2563eb;'><b>Journal of Experimental Psychology: Learning, Memory, and Cognition</b></a>: 1</li></ul><a id="journal-psychological-review"></a><h2 class="journal-header" data-journal="Psychological Review" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Psychological Review</h2>
+            <div id="paper-10-1037-rev0000620" class="paper-item" data-journal="Psychological Review" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Adaptive variability in humans, pigeons, and rats.</h3>
+                <div class="star-rating" data-paper-id="paper-10-1037-rev0000620">
+                  <input type="radio" id="star5-paper-10-1037-rev0000620" name="rating-paper-10-1037-rev0000620" value="5"><label for="star5-paper-10-1037-rev0000620">★</label>
+                  <input type="radio" id="star4-paper-10-1037-rev0000620" name="rating-paper-10-1037-rev0000620" value="4"><label for="star4-paper-10-1037-rev0000620">★</label>
+                  <input type="radio" id="star3-paper-10-1037-rev0000620" name="rating-paper-10-1037-rev0000620" value="3"><label for="star3-paper-10-1037-rev0000620">★</label>
+                  <input type="radio" id="star2-paper-10-1037-rev0000620" name="rating-paper-10-1037-rev0000620" value="2"><label for="star2-paper-10-1037-rev0000620">★</label>
+                  <input type="radio" id="star1-paper-10-1037-rev0000620" name="rating-paper-10-1037-rev0000620" value="1"><label for="star1-paper-10-1037-rev0000620">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper uses reinforcement learning models to identify cognitive mechanisms enabling adaptive behavioral variability in humans and animals in adversarial environments, finding that humans uniquely upvalue unchosen actions as a variability strategy. It fits these models to empirical data across three species to compare decision-making processes.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Reynders, J., Verguts, T., Braem, S.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.51</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/rev0000620' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/rev0000620</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Adaptively variable behavior can be advantageous in various fields such as sports (unpredictability), art (creativity), science (innovation), and problem solving (thinking outside the box). Although previous studies identified experimental conditions under which humans and nonhuman animals show increased variable decision making, we have only a limited understanding of its underlying cognitive mechanisms. Using a reinforcement learning model, we simulate three different theorized strategies in an adversarial reward learning environment that requires very high variability. These mechanisms are (a) relying on a stochastic generator, (b) increasing one&#39;s learning rate, or (c) upvaluing unchosen actions. A systematic parameter search and a policy gradient metalearning algorithm both show that agents can adaptively increase variability with each of those strategies. Next, we fitted our model on existing data sets with humans, pigeons, and rats as subjects in adversarial environments. While all three species can engage in highly variable behavior, we find that only humans upvalue unchosen actions as a strategy to achieve variability. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-nature-human-behaviour"></a><h2 class="journal-header" data-journal="Nature Human Behaviour" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Nature Human Behaviour</h2>
+            <div id="paper-10-1038-s41562-026-02439-y" class="paper-item" data-journal="Nature Human Behaviour" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Challenging the mechanism for the implicit association test</h3>
+                <div class="star-rating" data-paper-id="paper-10-1038-s41562-026-02439-y">
+                  <input type="radio" id="star5-paper-10-1038-s41562-026-02439-y" name="rating-paper-10-1038-s41562-026-02439-y" value="5"><label for="star5-paper-10-1038-s41562-026-02439-y">★</label>
+                  <input type="radio" id="star4-paper-10-1038-s41562-026-02439-y" name="rating-paper-10-1038-s41562-026-02439-y" value="4"><label for="star4-paper-10-1038-s41562-026-02439-y">★</label>
+                  <input type="radio" id="star3-paper-10-1038-s41562-026-02439-y" name="rating-paper-10-1038-s41562-026-02439-y" value="3"><label for="star3-paper-10-1038-s41562-026-02439-y">★</label>
+                  <input type="radio" id="star2-paper-10-1038-s41562-026-02439-y" name="rating-paper-10-1038-s41562-026-02439-y" value="2"><label for="star2-paper-10-1038-s41562-026-02439-y">★</label>
+                  <input type="radio" id="star1-paper-10-1038-s41562-026-02439-y" name="rating-paper-10-1038-s41562-026-02439-y" value="1"><label for="star1-paper-10-1038-s41562-026-02439-y">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper uses racing diffusion models to decompose IAT D-scores into multiple cognitive processes, finding that response caution (speed-accuracy tradeoff) explains more variance than decision ease, challenging the traditional associative memory interpretation of implicit bias measures.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> LaFollette, K., Rubez, D., Demaree, H., Goldenberg, A.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.39</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1038/s41562-026-02439-y' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1038/s41562-026-02439-y</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Implicit biases are stereotypes and attitudes that influence decisions and actions, contributing to discrimination and societal inequities. The implicit association test is the most widely used tool for measuring implicit bias, assessing response time in sorting stimuli into labelled categories. Most interpretations assume that implicit association test performance (D-scores) reflects conflicting associative memories or decision ease. We challenged this assumption by decomposing D-scores into additional cognitive processes that may influence results, particularly response caution-the tendency to trade speed for accuracy. Using racing diffusion models across 39 topics (N = 115,601), we found that response caution explained significantly more variance in D-scores beyond decision ease. Response caution also best predicted explicitly reported biases. These findings challenge the traditional interpretation of D-scores as primarily reflecting associative memory activation and highlight the need to consider multiple cognitive processes when assessing implicit biases.</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="paper-10-1038-s41562-026-02465-w" class="paper-item" data-journal="Nature Human Behaviour" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">How to conduct behavioural experiments online</h3>
+                <div class="star-rating" data-paper-id="paper-10-1038-s41562-026-02465-w">
+                  <input type="radio" id="star5-paper-10-1038-s41562-026-02465-w" name="rating-paper-10-1038-s41562-026-02465-w" value="5"><label for="star5-paper-10-1038-s41562-026-02465-w">★</label>
+                  <input type="radio" id="star4-paper-10-1038-s41562-026-02465-w" name="rating-paper-10-1038-s41562-026-02465-w" value="4"><label for="star4-paper-10-1038-s41562-026-02465-w">★</label>
+                  <input type="radio" id="star3-paper-10-1038-s41562-026-02465-w" name="rating-paper-10-1038-s41562-026-02465-w" value="3"><label for="star3-paper-10-1038-s41562-026-02465-w">★</label>
+                  <input type="radio" id="star2-paper-10-1038-s41562-026-02465-w" name="rating-paper-10-1038-s41562-026-02465-w" value="2"><label for="star2-paper-10-1038-s41562-026-02465-w">★</label>
+                  <input type="radio" id="star1-paper-10-1038-s41562-026-02465-w" name="rating-paper-10-1038-s41562-026-02465-w" value="1"><label for="star1-paper-10-1038-s41562-026-02465-w">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper provides guidance on running behavioral experiments in online settings, covering methodological considerations relevant to collecting valid individual-level behavioral and cognitive data. It is directly applicable to researchers studying decision making, risk, and cognitive processes.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Warburton, M., Tsay, J.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.31</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1038/s41562-026-02465-w' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1038/s41562-026-02465-w</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-memory-cognition"></a><h2 class="journal-header" data-journal="Memory & Cognition" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Memory &amp; Cognition</h2>
+            <div id="paper-10-3758-s13421-026-01887-1" class="paper-item" data-journal="Memory & Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">People are sensitive to environmental predictability when engaging cognitive control</h3>
+                <div class="star-rating" data-paper-id="paper-10-3758-s13421-026-01887-1">
+                  <input type="radio" id="star5-paper-10-3758-s13421-026-01887-1" name="rating-paper-10-3758-s13421-026-01887-1" value="5"><label for="star5-paper-10-3758-s13421-026-01887-1">★</label>
+                  <input type="radio" id="star4-paper-10-3758-s13421-026-01887-1" name="rating-paper-10-3758-s13421-026-01887-1" value="4"><label for="star4-paper-10-3758-s13421-026-01887-1">★</label>
+                  <input type="radio" id="star3-paper-10-3758-s13421-026-01887-1" name="rating-paper-10-3758-s13421-026-01887-1" value="3"><label for="star3-paper-10-3758-s13421-026-01887-1">★</label>
+                  <input type="radio" id="star2-paper-10-3758-s13421-026-01887-1" name="rating-paper-10-3758-s13421-026-01887-1" value="2"><label for="star2-paper-10-3758-s13421-026-01887-1">★</label>
+                  <input type="radio" id="star1-paper-10-3758-s13421-026-01887-1" name="rating-paper-10-3758-s13421-026-01887-1" value="1"><label for="star1-paper-10-3758-s13421-026-01887-1">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper investigates how individuals adapt their cognitive control strategies in response to the predictability of their environment. This touches on core mechanisms of attention, uncertainty processing, and adaptive cognition relevant to decision-making research.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Yanaoka, K., Tsubomi, H., Wout, F., Jarrold, C., Saito, S., Towse, J.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.35</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.3758/s13421-026-01887-1' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.3758/s13421-026-01887-1</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
+                </div>
+              </div>
+            </div>
+            <a id="journal-journal-of-experimental-psychology-learning-memory-and-cognition"></a><h2 class="journal-header" data-journal="Journal of Experimental Psychology: Learning, Memory, and Cognition" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Journal of Experimental Psychology: Learning, Memory, and Cognition</h2>
+            <div id="paper-10-1037-xlm0001614" class="paper-item" data-journal="Journal of Experimental Psychology: Learning, Memory, and Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Prior reward contingencies influence the contents of working memory by biasing attention in space but not in time: Evidence from recognition of sequentially versus simultaneously presented sets of items.</h3>
+                <div class="star-rating" data-paper-id="paper-10-1037-xlm0001614">
+                  <input type="radio" id="star5-paper-10-1037-xlm0001614" name="rating-paper-10-1037-xlm0001614" value="5"><label for="star5-paper-10-1037-xlm0001614">★</label>
+                  <input type="radio" id="star4-paper-10-1037-xlm0001614" name="rating-paper-10-1037-xlm0001614" value="4"><label for="star4-paper-10-1037-xlm0001614">★</label>
+                  <input type="radio" id="star3-paper-10-1037-xlm0001614" name="rating-paper-10-1037-xlm0001614" value="3"><label for="star3-paper-10-1037-xlm0001614">★</label>
+                  <input type="radio" id="star2-paper-10-1037-xlm0001614" name="rating-paper-10-1037-xlm0001614" value="2"><label for="star2-paper-10-1037-xlm0001614">★</label>
+                  <input type="radio" id="star1-paper-10-1037-xlm0001614" name="rating-paper-10-1037-xlm0001614" value="1"><label for="star1-paper-10-1037-xlm0001614">★</label>
+                </div>
+              </div>
+              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This study examines how prior reward associations influence visual working memory by biasing spatial attention during encoding, using drift-diffusion analysis to show that high-reward colors increase drift rates only in simultaneous (not sequential) presentation. The findings suggest reward shapes working memory content via an attentional gatekeeping process rather than selective rehearsal.</p>
+              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
+                <div><b>Authors:</b> Yuquimpo, J., Benjamin, A.</div>
+                <div><b>Published:</b> 2026-04</div>
+                <div><b>Relevance Score:</b> 0.33</div>
+                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/xlm0001614' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/xlm0001614</a></div>
+                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
+                  <b>Abstract:</b><br><span style="color:#374151;">Attention is automatically drawn toward stimulus features that were previously associated with reward. The consequences of reward on memory are less clear, however. Three experiments investigated the effects that prior reward associations have on encoding and recognition in visual working memory. In a training phase, participants searched for one of two colors of target, where one color had a greater reward contingency than the other. In a later task, participants studied sets of three symbols and made old/new judgments on a single test character. Critically, some study lists contained a symbol that was presented in a previously rewarded color. Using drift-diffusion analysis, we found that targets that had been displayed in a high-reward-associated color exhibited higher drift rates compared to targets presented in a low-reward-associated color, but only when the study array was presented simultaneously (Experiment 1) and not when it was presented sequentially (Experiment 2). This combination of results was replicated in Experiment 3 and suggests that reward associations shape the distribution of visual-spatial attention but do not induce differential attention to and rehearsal of the contents of working memory. Prior reward can influence the content of working memory, but only by a gatekeeping process and not by selective rehearsal. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
+                </div>
+              </div>
+            </div>
+            
+      </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+      <script>
+        let isFilterActive = false;
+
+        // Only show admin controls and allow editing if running locally (file://)
+        if (window.location.protocol === 'file:') {
+          document.getElementById('admin-ui').style.display = 'block';
+        } else {
+          // Disable all radio buttons if not local
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.disabled = true;
+          });
+          // Add a style to make the stars non-interactive
+          const style = document.createElement('style');
+          style.innerHTML = '.star-rating { pointer-events: none; }';
+          document.head.appendChild(style);
+        }
+
+        function toggleTopPicks() {
+          isFilterActive = !isFilterActive;
+          const btn = document.getElementById('filter-btn');
+          const papers = document.querySelectorAll('.paper-item');
+          const headers = document.querySelectorAll('.journal-header');
+
+          if (isFilterActive) {
+            btn.style.background = '#1e3a8a';
+            btn.style.color = '#ffffff';
+            btn.innerHTML = '✨ Showing Top Picks (4★+)';
+
+            headers.forEach(header => {
+              const journal = header.getAttribute('data-journal');
+              const journalPapers = document.querySelectorAll(`.paper-item[data-journal="${journal}"]`);
+              let hasTopPick = false;
+
+              journalPapers.forEach(paper => {
+                const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+                if (parseInt(rating) >= 4) {
+                  paper.style.display = 'block';
+                  hasTopPick = true;
+                } else {
+                  paper.style.display = 'none';
+                }
+              });
+
+              header.style.display = hasTopPick ? 'block' : 'none';
+            });
+          } else {
+            btn.style.background = '#ffffff';
+            btn.style.color = '#374151';
+            btn.innerHTML = '⭐ Show Top Picks (4★+)';
+            
+            papers.forEach(p => p.style.display = 'block');
+            headers.forEach(h => h.style.display = 'block');
+          }
+        }
+
+        function savePage() {
+          // Reset filter before saving so all papers are visible in the source
+          if (isFilterActive) toggleTopPicks();
+
+          // Remove the Save button and admin UI from the saved HTML
+          const adminUI = document.getElementById('admin-ui');
+          adminUI.style.display = 'none';
+          
+          // Update the checked attribute of radio buttons based on their current state
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            if (radio.checked) {
+              radio.setAttribute('checked', 'checked');
+            } else {
+              radio.removeAttribute('checked');
+            }
+          });
+
+          const htmlContent = document.documentElement.outerHTML;
+          const blob = new Blob([htmlContent], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = window.location.pathname.split('/').pop() || 'digest.html';
+          a.click();
+          
+          // Show admin UI again
+          adminUI.style.display = 'block';
+        }
+      </script>
+    </body>
+    </html>
+    
