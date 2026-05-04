@@ -2,7 +2,7 @@ import os
 import json
 import requests
 import numpy as np
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta
 from openai import OpenAI
 from anthropic import Anthropic
 import re
@@ -20,14 +20,7 @@ LOG_DIR = ROOT / "research-digest" / "logs"
 LOG_DIR.mkdir(exist_ok=True)
 
 DIGEST_INDEX = DIGEST_DIR / "digests.json"
-FEED_PATH = DIGEST_DIR / "feed.xml"
-FEED_MAX_ITEMS = 20
 SITE_URL = "https://maohuanie.com"
-
-# MailerLite subscriber broadcast
-MAILERLITE_GROUP_ID = "184760257614972692"  # "Decision Science Digest" group
-MAILERLITE_FROM_EMAIL = "niemaohua@gmail.com"  # must be a verified sender in MailerLite
-MAILERLITE_FROM_NAME = "Maohua Nie"
 
 ELSEVIER_CACHE = {}
 
@@ -832,246 +825,6 @@ def update_digest_index(date_str, filename, results, start_day, end_day):
     with open(DIGEST_INDEX, "w", encoding="utf-8") as f:
         json.dump(index, f, indent=2)
 
-    # Regenerate the RSS feed so subscribers (via MailerLite etc.) get the new digest
-    update_rss_feed()
-
-
-def _rfc822(date_obj):
-    """Format a date/datetime as RFC 822 string, required by the RSS 2.0 spec."""
-    if isinstance(date_obj, str):
-        date_obj = datetime.strptime(date_obj, "%Y-%m-%d")
-    elif isinstance(date_obj, date) and not isinstance(date_obj, datetime):
-        date_obj = datetime(date_obj.year, date_obj.month, date_obj.day)
-    return date_obj.strftime("%a, %d %b %Y 00:00:00 GMT")
-
-
-def _xml_escape(text):
-    """Escape XML-unsafe characters so the feed validates."""
-    if not isinstance(text, str):
-        text = str(text)
-    return (text.replace("&", "&amp;")
-                .replace("<", "&lt;")
-                .replace(">", "&gt;")
-                .replace('"', "&quot;")
-                .replace("'", "&apos;"))
-
-
-def update_rss_feed():
-    """
-    Generate /research-digest/feed.xml (RSS 2.0) from digests.json.
-
-    MailerLite (and any other RSS-to-email service) polls this feed and
-    automatically emails subscribers whenever a new <item> appears.
-    The feed keeps only the most recent FEED_MAX_ITEMS digests.
-    """
-    if not DIGEST_INDEX.exists():
-        return
-
-    try:
-        with open(DIGEST_INDEX, "r", encoding="utf-8") as f:
-            index = json.load(f)
-    except json.JSONDecodeError:
-        print("Warning: digests.json could not be read for RSS feed generation.")
-        return
-
-    if not index:
-        return
-
-    items = sorted(index, key=lambda x: x["date"], reverse=True)[:FEED_MAX_ITEMS]
-
-    channel_title = "Decision Science Digest | Maohua Nie"
-    channel_desc = (
-        "A bi-weekly reading list of interesting new papers on "
-        "decision making, risk, behavioral economics, and cognitive modeling "
-        "— automatically curated from 25+ leading journals."
-    )
-    channel_link = f"{SITE_URL}/research-digest/"
-    feed_self = f"{SITE_URL}/research-digest/feed.xml"
-    last_build = _rfc822(datetime.utcnow())
-
-    lines = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
-        '  <channel>',
-        f'    <title>{_xml_escape(channel_title)}</title>',
-        f'    <link>{_xml_escape(channel_link)}</link>',
-        f'    <description>{_xml_escape(channel_desc)}</description>',
-        '    <language>en-us</language>',
-        f'    <atom:link href="{_xml_escape(feed_self)}" rel="self" type="application/rss+xml" />',
-        f'    <lastBuildDate>{last_build}</lastBuildDate>',
-    ]
-
-    for entry in items:
-        item_url = f"{SITE_URL}/research-digest/{entry['file']}"
-        paper_count = entry.get("papers", 0)
-        plural = "" if paper_count == 1 else "s"
-        item_title = f"{entry.get('title', 'Research Digest')} ({paper_count} paper{plural})"
-        item_desc = (
-            f"This digest features {paper_count} curated new paper{plural} on "
-            f"decision making, behavioral economics, and cognitive modeling. "
-            f"Read the full digest at {item_url}"
-        )
-        lines.extend([
-            '    <item>',
-            f'      <title>{_xml_escape(item_title)}</title>',
-            f'      <link>{_xml_escape(item_url)}</link>',
-            f'      <guid isPermaLink="true">{_xml_escape(item_url)}</guid>',
-            f'      <pubDate>{_rfc822(entry["date"])}</pubDate>',
-            f'      <description>{_xml_escape(item_desc)}</description>',
-            '    </item>',
-        ])
-
-    lines.extend(['  </channel>', '</rss>'])
-
-    with open(FEED_PATH, "w", encoding="utf-8") as f:
-        f.write("\n".join(lines) + "\n")
-
-    print(f"RSS feed updated: {FEED_PATH.name} ({len(items)} items)")
-
-
-def _html_to_email_body(html, digest_url, start_day, end_day, paper_count):
-    """
-    Convert a saved digest HTML file into an email-safe body.
-
-    Emails can't execute JS, load external stylesheets, or render form
-    inputs — so we strip <script>, <link rel="stylesheet">, the star
-    rating radio inputs, the admin controls, and the filter button.
-    A branded header and a "read online" link are wrapped around the
-    remaining content.
-    """
-    # Strip <script>...</script> blocks
-    html = re.sub(r"<script\b[^>]*>.*?</script>", "", html, flags=re.DOTALL | re.IGNORECASE)
-    # Strip <link rel="stylesheet" ...>
-    html = re.sub(r"<link\s+[^>]*rel=[\"']stylesheet[\"'][^>]*/?>", "", html, flags=re.IGNORECASE)
-    # Strip the admin-controls div (buttons only visible locally)
-    html = re.sub(r"<div\s+class=[\"']admin-controls[\"'][^>]*>.*?</div>", "", html, flags=re.DOTALL | re.IGNORECASE)
-    # Strip the interactive "Show Top Picks" filter button
-    html = re.sub(r"<button\s+id=[\"']filter-btn[\"'][^>]*>.*?</button>", "", html, flags=re.DOTALL | re.IGNORECASE)
-    # Strip the whole star-rating block (radio inputs don't render in email)
-    html = re.sub(r"<div\s+class=[\"']star-rating[\"'][^>]*>.*?</div>", "", html, flags=re.DOTALL | re.IGNORECASE)
-    # Strip the floating "back-to-top" link
-    html = re.sub(r"<a\s+href=[\"']#top[\"']\s+class=[\"']back-to-top[\"'][^>]*>.*?</a>", "", html, flags=re.DOTALL | re.IGNORECASE)
-
-    # Extract just the body content so we can wrap our own header around it
-    m = re.search(r"<body[^>]*>(.*?)</body>", html, flags=re.DOTALL | re.IGNORECASE)
-    body_inner = m.group(1) if m else html
-
-    header = (
-        "<div style=\"text-align:center;padding:28px 24px 18px;background:#ffffff;\">"
-        "<h1 style=\"color:#004b7a;margin:0;font-size:24px;font-weight:700;letter-spacing:-0.01em;\">"
-        "Decision Science Digest</h1>"
-        "<p style=\"color:#6b7280;margin:4px 0 0;font-size:14px;\">by Maohua Nie</p>"
-        f"<p style=\"color:#9ca3af;margin:14px 0 6px;font-size:13px;letter-spacing:0.04em;\">"
-        f"{start_day} &nbsp;→&nbsp; {end_day}</p>"
-        "</div>"
-    )
-
-    archive_url = f"{SITE_URL}/research-digest/"
-    footer = (
-        "<div style=\"text-align:center;padding:20px 24px 30px;background:#ffffff;\">"
-        f"<a href=\"{archive_url}\" style=\"display:inline-block;padding:10px 22px;"
-        "background:#004b7a;color:#fff;text-decoration:none;border-radius:8px;"
-        "font-weight:600;font-size:14px;\">Browse the archive →</a>"
-        "</div>"
-    )
-
-    wrapper_open = (
-        "<!DOCTYPE html><html><body style=\"margin:0;padding:0;background:#f6f7fb;"
-        "font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;\">"
-    )
-    wrapper_close = "</body></html>"
-
-    return wrapper_open + header + body_inner + footer + wrapper_close
-
-
-def send_digest_email(date_str, filename, results, start_day, end_day):
-    """
-    Broadcast the new digest to MailerLite subscribers.
-
-    Creates a one-off campaign via MailerLite's API and sends it immediately
-    to the Decision Science Digest group. Requires MAILERLITE_API_TOKEN —
-    if absent (e.g., local run), the function logs and returns without
-    failing the pipeline.
-    """
-    api_token = os.getenv("MAILERLITE_API_TOKEN")
-    if not api_token:
-        print("MAILERLITE_API_TOKEN not set — skipping subscriber email broadcast.")
-        return
-
-    paper_count = len(results)
-    plural = "" if paper_count == 1 else "s"
-    digest_url = f"{SITE_URL}/research-digest/{filename}"
-    subject = f"Decision Science Digest · {start_day} → {end_day} ({paper_count} paper{plural})"
-
-    # Load the already-saved digest HTML and adapt it for email rendering.
-    digest_path = DIGEST_DIR / filename
-    if not digest_path.exists():
-        print(f"MailerLite: digest file {digest_path} not found; skipping email.")
-        return
-    with open(digest_path, "r", encoding="utf-8") as f:
-        digest_html = f.read()
-
-    html_body = _html_to_email_body(digest_html, digest_url, start_day, end_day, paper_count)
-
-    headers = {
-        "Authorization": f"Bearer {api_token}",
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-    }
-
-    # 1. Create the campaign (draft state)
-    # NOTE: Per MailerLite's official SDK tests, the create-campaign payload
-    # uses name/language_id/type/emails. Recipients (groups) are NOT set at
-    # creation — the campaign defaults to all subscribers, which is fine
-    # while the "Decision Science Digest" group is the only one collecting
-    # signups. To target a specific group, set it via the update endpoint
-    # before scheduling.
-    # Match the exact fields MailerLite's official SDK sends (name/language_id/
-    # type/emails with subject/from_name/from/content). Extra fields like
-    # plain_text cause the API to reject the whole emails[0] entry with a
-    # vague "must be an array" error; MailerLite auto-generates plain text.
-    create_payload = {
-        "name": f"Decision Science Digest · {date_str}",
-        "language_id": 4,  # English (en-US). language_id 1 is Lithuanian — MailerLite's default.
-        "type": "regular",
-        "emails": [{
-            "subject": subject,
-            "from_name": MAILERLITE_FROM_NAME,
-            "from": MAILERLITE_FROM_EMAIL,
-            "content": html_body,
-        }],
-    }
-
-    try:
-        r = requests.post(
-            "https://connect.mailerlite.com/api/campaigns",
-            headers=headers, json=create_payload, timeout=30,
-        )
-        r.raise_for_status()
-        campaign_id = r.json()["data"]["id"]
-        print(f"MailerLite campaign created: id={campaign_id}")
-    except requests.HTTPError as e:
-        body = e.response.text if e.response is not None else ""
-        print(f"MailerLite: failed to create campaign ({e}). Response: {body}")
-        return
-    except Exception as e:
-        print(f"MailerLite: unexpected error creating campaign: {e}")
-        return
-
-    # 2. Schedule for immediate delivery
-    try:
-        r2 = requests.post(
-            f"https://connect.mailerlite.com/api/campaigns/{campaign_id}/schedule",
-            headers=headers, json={"delivery": "instant"}, timeout=30,
-        )
-        r2.raise_for_status()
-        print(f"MailerLite campaign {campaign_id} scheduled for instant send.")
-    except requests.HTTPError as e:
-        body = e.response.text if e.response is not None else ""
-        print(f"MailerLite: failed to schedule campaign {campaign_id} ({e}). Response: {body}")
-    except Exception as e:
-        print(f"MailerLite: unexpected error scheduling campaign {campaign_id}: {e}")
-
 
 # =========================================================
 # MAIN & CATCH-UP LOGIC
@@ -1173,9 +926,6 @@ def main():
 
         update_digest_index(date_str, filename, results, start_day, end_day)
         print(f"Success! Saved digest to: {DIGEST_DIR.name}/{filename}")
-
-        # Broadcast to MailerLite subscribers (no-op if MAILERLITE_API_TOKEN is unset)
-        send_digest_email(date_str, filename, results, start_day, end_day)
 
     print("\n🎉 All missing digests have been generated and the index is up to date!")
 

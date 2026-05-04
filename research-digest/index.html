@@ -194,76 +194,6 @@
       background: #f6f7fb;
     }
 
-    /* ===== Subscribe (compact, sidebar) ===== */
-    .subscribe-box {
-      padding: 14px;
-      border-radius: 14px;
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 18px;
-    }
-    .subscribe-box h2 {
-      font-size: 13px;
-      font-weight: 700;
-      color: #0c4a6e;
-      margin: 0 0 4px 0;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .subscribe-box p {
-      font-size: 12px;
-      color: #475569;
-      margin: 0 0 10px 0;
-      line-height: 1.4;
-    }
-    .subscribe-box form { margin: 0; }
-    .subscribe-box .sb-row {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .subscribe-box input[type="email"] {
-      padding: 8px 10px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      font-size: 13px;
-      outline: none;
-      background: #fff;
-      color: #111827;
-      font-family: inherit;
-      box-sizing: border-box;
-      width: 100%;
-    }
-    .subscribe-box input[type="email"]:focus {
-      border-color: #0ea5e9;
-      box-shadow: 0 0 0 3px rgba(14,165,233,0.15);
-    }
-    .subscribe-box button {
-      padding: 8px 10px;
-      background: #0c4a6e;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background .15s ease;
-    }
-    .subscribe-box button:hover { background: #083a59; }
-    .subscribe-box .sb-note {
-      font-size: 10.5px;
-      color: #64748b;
-      margin: 8px 0 0 0;
-      text-align: center;
-    }
-    .subscribe-box .sb-success {
-      font-size: 12.5px;
-      color: #0c4a6e;
-      font-weight: 600;
-      line-height: 1.45;
-    }
-
     /* ===== Mobile ===== */
     @media (max-width: 900px) {
       .digest-layout {
@@ -295,25 +225,6 @@
       </div>
 
       <div class="digest-divider"></div>
-
-      <!-- Subscribe -->
-      <div id="mlb2-39919038" class="subscribe-box ml-subscribe-form ml-subscribe-form-39919038">
-        <div class="row-form">
-          <h2>Get it by email</h2>
-          <p>New digest in your inbox every two weeks.</p>
-          <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2268763/forms/184760232267744352/subscribe" method="post" target="_blank">
-            <div class="sb-row">
-              <input aria-label="Email address" type="email" name="fields[email]" placeholder="you@example.com" autocomplete="email" required>
-              <input type="hidden" name="ml-submit" value="1">
-              <input type="hidden" name="anticsrf" value="true">
-              <button type="submit">Subscribe</button>
-            </div>
-          </form>
-        </div>
-        <div class="row-success sb-success" style="display: none;">
-          ✓ Subscribed — next digest will land in your inbox.
-        </div>
-      </div>
 
       <!-- Search Box -->
       <div style="margin-bottom: 24px;">
@@ -466,17 +377,5 @@
       renderNav(allDigests, e.target.value);
     });
   </script>
-
-  <!-- MailerLite subscribe form integration -->
-  <script>
-    function ml_webform_success_39919038() {
-      var $ = window.ml_jQuery || window.jQuery;
-      if (!$) return;
-      $('.ml-subscribe-form-39919038 .row-success').show();
-      $('.ml-subscribe-form-39919038 .row-form').hide();
-    }
-  </script>
-  <script src="https://groot.mailerlite.com/js/w/webforms.min.js?v95037e5bac78f29ed026832ca21a7c7b" type="text/javascript"></script>
-  <script>fetch("https://assets.mailerlite.com/jsonp/2268763/forms/184760232267744352/takel");</script>
 </body>
 </html>
