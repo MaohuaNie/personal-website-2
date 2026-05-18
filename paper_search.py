@@ -193,7 +193,7 @@ def format_authors(author_list):
     return ", ".join(out)
 
 def format_pub_date(item):
-    for key in ["published-print", "published-online", "created"]:
+    for key in ["published-online", "published-print", "created"]:
         if key in item:
             d = item[key].get("date-parts", [[]])[0]
             if len(d) >= 2:
@@ -203,7 +203,7 @@ def format_pub_date(item):
     return "n.d."
 
 def parse_pub_datetime(item):
-    for key in ["published-print", "published-online", "created"]:
+    for key in ["published-online", "published-print", "created"]:
         if key in item:
             d = item[key].get("date-parts", [[]])[0]
             try:
