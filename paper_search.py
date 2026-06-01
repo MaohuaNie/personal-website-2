@@ -50,6 +50,14 @@ JOURNALS = [
     {"name": "American Economic Review", "issn": "0002-8282"},
     {"name": "Management Science", "issn": "0025-1909"},
     {"name": "The Quarterly Journal of Economics", "issn": "0033-5533"},
+    {"name": "Journal of Economic Behavior & Organization", "issn": "0167-2681"},
+    {"name": "Nature Neuroscience", "issn": "1097-6256"},
+    {"name": "Neuron", "issn": "0896-6273"},
+    {"name": "Nature Communications", "issn": "2041-1723"},
+    {"name": "PNAS", "issn": "0027-8424"},
+    {"name": "eLife", "issn": "2050-084X"},
+    {"name": "PLOS Computational Biology", "issn": "1553-7358"},
+    {"name": "Attention, Perception, & Psychophysics", "issn": "1943-3921"},
 ]
 
 ELSEVIER_ISSNS = {
@@ -58,6 +66,8 @@ ELSEVIER_ISSNS = {
     "0010-0285",  # Cognitive Psychology
     "0167-4870",  # Journal of Economic Psychology
     "0022-2496",  # Journal of Mathematical Psychology
+    "0167-2681",  # Journal of Economic Behavior & Organization
+    "0896-6273",  # Neuron
 }
 
 TOP_K_PER_JOURNAL = 30
