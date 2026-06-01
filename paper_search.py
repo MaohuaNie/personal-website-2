@@ -87,6 +87,12 @@ prospect theory, cumulative prospect theory, probability weighting,
 expected utility, higher-order risk preferences, skewness preferences,
 heuristics, bounded rationality,
 
+attention allocation during decision making,
+gaze, eye movements, and fixations while evaluating and comparing choice options,
+gaze-weighted evidence accumulation, attentional drift diffusion model (aDDM),
+how attention allocation relates to choice and response times,
+how prior preferences bias attention during deliberation,
+
 process-level analysis of decisions,
 response times, attention and information processing, eye tracking,
 speed–accuracy tradeoff,
@@ -427,22 +433,23 @@ def fetch_range_for_journal(issn, start_date, end_date):
 
 def gpt_relevance_and_summary(title, abstract):
     prompt = f"""
-        You are assisting a PhD student in economic psychology who studies **individual-level decision making**.
-        His research focuses on how **people mentally represent, evaluate, and compare choice options**, particularly under **risk, uncertainty, and complexity**, and how these processes generate observable behavior.
+        You are assisting a PhD student in economic psychology whose **main field is decision making under risk and uncertainty** — how people mentally represent, evaluate, and compare choice options (including under complexity), and how these cognitive processes generate observable behavior such as choices and response times. He also has a **growing, secondary interest in how attention is allocated during these decisions** — how gaze and eye movements relate to choice and response times, and how prior preferences may bias attention during deliberation.
 
-        Your task is to evaluate whether the paper is relevant to **this cognitive and process-oriented research agenda**.
+        Your task is to evaluate whether the paper is relevant to **this research agenda, which centers on risky / uncertain decision making and additionally values attention-allocation work that is tied to choice**.
 
         ### Treat a paper as RELEVANT if it substantially concerns:
-        - Individual decision making under risk or uncertainty.
+        - Individual decision making under risk, uncertainty, or complexity.
         - Choice complexity, cognitive load, or informational complexity.
         - Gain–loss asymmetries, loss aversion, ambiguity, probability weighting.
         - Process-level evidence (response times, attention, memory, eye tracking).
-        - Computational or formal cognitive models (Bayesian, drift diffusion, evidence accumulation).
+        - Computational or formal cognitive models (Bayesian, drift diffusion, evidence accumulation, sequential sampling).
+        - Additionally (a growing interest): how attention, gaze, eye movements, or fixations are allocated during decisions, judgments, or value-based / risky choice, and how this relates to choice, preference, or response times (e.g., gaze-weighted evidence accumulation, attentional drift diffusion / aDDM, gaze-cascade effects) — including cognitive-neuroscience work, provided it still connects to choice, value, preference, judgment, or response-time behavior.
 
         ### Treat a paper as NOT RELEVANT if it primarily focuses on:
         - Market-level, firm-level, or population-level outcomes without modeling individual processes.
         - Purely normative optimization or policy design without psychological interpretation.
         - Field data without a cognitive account.
+        - Low-level perception, clinical, or neurobiological questions with no link to decision making, value, preference, attention allocation, or choice / response-time behavior.
 
         Return ONLY this JSON:
         {{
