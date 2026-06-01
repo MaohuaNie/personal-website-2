@@ -168,6 +168,38 @@ def is_correction_item(it):
 
     return False
 
+def _dedup_key(it):
+    """Stable identity for a paper, used to collapse duplicate records.
+
+    eLife (and similar) deposit a versioned DOI (…/elife.104684.5) alongside the
+    canonical one (…/elife.104684), and Crossref returns both as journal-articles.
+    Key on the canonical DOI so versions collapse; fall back to a normalized title
+    when a DOI is missing.
+    """
+    doi = (it.get("DOI") or "").lower().strip()
+    if doi:
+        m = re.match(r"(10\.7554/elife\.\d+)\.\d+$", doi)
+        return m.group(1) if m else doi
+    title = (it.get("title") or [""])[0].lower()
+    return re.sub(r"\s+", " ", re.sub(r"[^\w\s]", "", title)).strip()
+
+def _is_versioned_doi(doi):
+    return bool(re.match(r"10\.7554/elife\.\d+\.\d+$", (doi or "").lower().strip()))
+
+def dedup_items(items):
+    """Keep one record per paper, preferring the canonical (non-versioned) DOI."""
+    # Stable sort puts canonical DOIs before versioned ones, so the first
+    # occurrence we keep is the canonical record.
+    ordered = sorted(items, key=lambda it: _is_versioned_doi(it.get("DOI", "")))
+    seen, out = set(), []
+    for it in ordered:
+        k = _dedup_key(it)
+        if not k or k in seen:
+            continue
+        seen.add(k)
+        out.append(it)
+    return out
+
 def cosine_sim(a, b):
     return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
 
@@ -493,6 +525,11 @@ def find_relevant_papers(start_day, end_day):
             and start_day <= parse_pub_datetime(it) <= end_day
             and not is_correction_item(it)
         ]
+
+        before = len(valid_items)
+        valid_items = dedup_items(valid_items)
+        if before != len(valid_items):
+            log(f"  Deduped {before - len(valid_items)} duplicate record(s) (e.g. eLife versions)")
 
         if not valid_items:
             continue
