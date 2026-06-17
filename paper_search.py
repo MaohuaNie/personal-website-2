@@ -18,6 +18,8 @@ DIGEST_DIR = ROOT / "research-digest"
 DIGEST_DIR.mkdir(exist_ok=True)
 LOG_DIR = ROOT / "research-digest" / "logs"
 LOG_DIR.mkdir(exist_ok=True)
+WECHAT_DIR = DIGEST_DIR / "wechat"
+WECHAT_DIR.mkdir(exist_ok=True)
 
 DIGEST_INDEX = DIGEST_DIR / "digests.json"
 SITE_URL = "https://maohuanie.com"
@@ -605,7 +607,8 @@ def find_relevant_papers(start_day, end_day):
                     "doi": doi,
                     "abstract": abstracts[idx],
                     "abstract_source": sources[idx],
-                    "summary": summary
+                    "summary": summary,
+                    "reason": reason
                 })
 
             run_log.append(entry)
@@ -837,7 +840,18 @@ def format_email_body_html(results, start_day, end_day):
     </html>
     """
     return html
-    return html
+
+
+def wechat_push_title(start_day):
+    """Per-issue push title, e.g. '文献汇总：6月上'.
+
+    上 = first half (1st–15th), 下 = second half (16th–month end). Derived from
+    the interval start so the second-half issue (filed on the 1st of the next
+    month) is still labelled with its content month.
+    """
+    half = "上" if start_day.day < 16 else "下"
+    return f"文献汇总：{start_day.month}月{half}"
+
 
 def save_digest_html(html, run_date):
     """
@@ -852,6 +866,125 @@ def save_digest_html(html, run_date):
         f.write(html)
 
     return filename, date_str
+
+def save_wechat_docx(results, start_day, end_day, run_date):
+    """Write a .docx for WeChat's 文档导入 (document import) upload route.
+
+    Organised with a per-journal overview, numbered entries, and journal
+    sections. Paper titles are real hyperlinks to their DOI — clickable when the
+    .docx is opened in Word/Pages and on the website. NOTE: WeChat strips
+    external links from the article body on import, so inside the published
+    article the linked title becomes plain text; the reliable click-through for
+    readers is the 「阅读原文」 link, which should point at this issue's page.
+    Saved as research-digest/wechat/<date>.docx.
+    """
+    try:
+        from docx import Document
+        from docx.shared import Pt, RGBColor
+        from docx.enum.text import WD_ALIGN_PARAGRAPH
+        from docx.oxml import OxmlElement
+        from docx.oxml.ns import qn
+    except ImportError:
+        log("python-docx not installed; skipping .docx export (pip install python-docx)")
+        return None
+
+    BRAND, GREY, INK = "004B7A", "888888", "1A1A1A"
+
+    doc = Document()
+
+    def para(align=None, before=None, after=None):
+        p = doc.add_paragraph()
+        if align is not None:
+            p.alignment = align
+        if before is not None:
+            p.paragraph_format.space_before = Pt(before)
+        if after is not None:
+            p.paragraph_format.space_after = Pt(after)
+        return p
+
+    def run(p, text, bold=False, size=11, color=None):
+        r = p.add_run(text)
+        r.bold = bold
+        r.font.size = Pt(size)
+        if color is not None:
+            r.font.color.rgb = RGBColor.from_string(color)
+        return r
+
+    def link(p, url, text, color=BRAND, bold=True, size=13):
+        """Append a real hyperlink run (clickable in Word / on the web)."""
+        r_id = p.part.relate_to(
+            url, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink",
+            is_external=True)
+        h = OxmlElement("w:hyperlink")
+        h.set(qn("r:id"), r_id)
+        r = OxmlElement("w:r")
+        rpr = OxmlElement("w:rPr")
+        c = OxmlElement("w:color")
+        c.set(qn("w:val"), color)
+        rpr.append(c)
+        u = OxmlElement("w:u")
+        u.set(qn("w:val"), "single")
+        rpr.append(u)
+        if bold:
+            rpr.append(OxmlElement("w:b"))
+        sz = OxmlElement("w:sz")
+        sz.set(qn("w:val"), str(int(size * 2)))
+        rpr.append(sz)
+        r.append(rpr)
+        t = OxmlElement("w:t")
+        t.set(qn("xml:space"), "preserve")
+        t.text = text
+        r.append(t)
+        h.append(r)
+        p._p.append(h)
+
+    push_title = wechat_push_title(start_day)
+    run(para(align=WD_ALIGN_PARAGRAPH.CENTER, after=2), push_title, bold=True, size=20, color=BRAND)
+    run(para(align=WD_ALIGN_PARAGRAPH.CENTER, after=10),
+        f"{start_day} → {end_day} · 共 {len(results)} 篇", size=9, color=GREY)
+
+    if not results:
+        run(para(), "本期暂无符合主题的新论文。", color=GREY)
+    else:
+        journals, by_journal = [], {}
+        for r in results:
+            j = r.get("journal", "Unknown journal")
+            if j not in by_journal:
+                by_journal[j] = []
+                journals.append(j)
+            by_journal[j].append(r)
+
+        idx = 0
+        for j in journals:
+            run(para(before=20, after=8), f"▎ {j}", bold=True, size=12, color=BRAND)
+            for n, r in enumerate(by_journal[j]):
+                if n:  # light separator between papers in the same journal
+                    run(para(align=WD_ALIGN_PARAGRAPH.CENTER, before=6, after=12),
+                        "· · ·", size=10, color=GREY)
+                idx += 1
+                tp = para(after=2)
+                run(tp, f"{idx}. ", bold=True, size=13, color=INK)
+                doi = (r.get("doi") or "").strip()
+                title = r.get("title", "Untitled")
+                if doi:
+                    link(tp, f"https://doi.org/{doi}", title, color=BRAND, bold=True, size=13)
+                else:
+                    run(tp, title, bold=True, size=13, color=INK)
+                run(para(after=5), r.get("authors", "Unknown"), size=9, color=GREY)
+                if r.get("summary"):
+                    ps = para(after=4)
+                    run(ps, "内容简介 · ", bold=True, color=INK)
+                    run(ps, r["summary"])
+
+    run(para(align=WD_ALIGN_PARAGRAPH.CENTER, before=16, after=0),
+        "点击文末「阅读原文」查看全部论文与可点击的 DOI 链接。", size=9, color=GREY)
+    run(para(align=WD_ALIGN_PARAGRAPH.CENTER),
+        "由自动化文献管线生成；摘要与推荐理由由模型自动生成，可能不完整，请以原文为准。",
+        size=8, color=GREY)
+
+    filename = f"{run_date.isoformat()}.docx"
+    doc.save(str(WECHAT_DIR / filename))
+    return filename
 
 def update_digest_index(date_str, filename, results, start_day, end_day):
     entry = {
@@ -975,11 +1108,17 @@ def main():
         if not results:
             print(f"No relevant papers found for {start_day} → {end_day}. Creating an empty digest.")
 
+        # Website: the HTML digest page (listed in digests.json, shown in the viewer).
         html = format_email_body_html(results, start_day, end_day)
         filename, date_str = save_digest_html(html, report_date)
+        # WeChat: the .docx to drag into 文档导入.
+        docx_filename = save_wechat_docx(results, start_day, end_day, report_date)
 
         update_digest_index(date_str, filename, results, start_day, end_day)
-        print(f"Success! Saved digest to: {DIGEST_DIR.name}/{filename}")
+        print(f"Success! Website digest: {DIGEST_DIR.name}/{filename}")
+        if docx_filename:
+            print(f"         WeChat .docx:    {WECHAT_DIR.relative_to(ROOT)}/{docx_filename}  →  标题「{wechat_push_title(start_day)}」")
+            print(f"         阅读原文 →        {SITE_URL}/{DIGEST_DIR.name}/{filename}")
 
     print("\n🎉 All missing digests have been generated and the index is up to date!")
 
