@@ -1,137 +1,228 @@
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<link href="../assets/site.css" rel="stylesheet"/>
-<style>
-        .star-rating {
-          display: inline-flex;
-          flex-direction: row-reverse;
-          gap: 4px;
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+      <link rel="stylesheet" href="../assets/site.css">
+      <style>
+        :root {
+          --paper:#fffdf9; --page:#efece5; --ink:#23272c; --ink-soft:#4c525a;
+          --muted:#8b9099; --rule:#e7e2d7; --rule-strong:#cfc8b9; --accent:#0b4a6f;
         }
-        .star-rating input { display: none; }
-        .star-rating label {
-          font-size: 24px;
-          color: #e5e7eb;
-          cursor: pointer;
-          transition: color 0.1s;
+        html, body { margin:0; }
+        body {
+          background:var(--page); color:var(--ink);
+          font-family:'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+          font-size:17px; line-height:1.6;
+          -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+          padding:28px 18px 90px;
         }
+        .sans { font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif; }
+        .sheet {
+          max-width:800px; margin:0 auto; background:var(--paper);
+          padding:60px 68px 76px;
+          border:1px solid var(--rule);
+          box-shadow:0 1px 2px rgba(20,20,30,.04), 0 24px 60px rgba(30,30,45,.07);
+        }
+
+        /* ---- Masthead ---- */
+        .masthead { text-align:center; border-bottom:3px double var(--rule-strong); padding-bottom:24px; }
+        .masthead .eyebrow {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 12px;
+        }
+        .masthead h1 { margin:0; font-size:42px; font-weight:700; letter-spacing:.005em; line-height:1.08; color:#1a1d21; }
+        .masthead .meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; letter-spacing:.03em; color:var(--ink-soft); margin:14px 0 0;
+        }
+        .masthead .meta .dot { color:var(--rule-strong); margin:0 9px; }
+
+        /* ---- Toolbar ---- */
+        .toolbar { display:flex; justify-content:center; margin:18px 0 0; }
+        #filter-btn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          background:transparent; border:1px solid var(--rule-strong); color:var(--ink-soft);
+          padding:7px 15px; border-radius:2px; font-size:12px; letter-spacing:.05em;
+          cursor:pointer; transition:all .18s ease;
+        }
+        #filter-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+        /* ---- Contents (table of contents) ---- */
+        .contents { margin:34px 0 6px; }
+        .contents-title {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 20px;
+        }
+        .toc-field { margin:0 0 18px; }
+        .toc-fname { font-size:18px; font-weight:600; text-decoration:none; }
+        .toc-fname:hover { text-decoration:underline; }
+        .toc-fcount {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; color:var(--muted); margin-left:8px;
+        }
+        .toc-list { list-style:none; margin:7px 0 0; padding:0; }
+        .toc-row { display:flex; align-items:baseline; padding:2px 0; font-size:15.5px; }
+        .toc-row a { color:var(--ink-soft); text-decoration:none; white-space:nowrap; }
+        .toc-row a:hover { color:var(--accent); }
+        .toc-lead { flex:1; border-bottom:1px dotted var(--rule-strong); margin:0 9px; position:relative; top:-4px; }
+        .toc-row .n {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12.5px; color:var(--muted);
+        }
+
+        /* ---- Field section ---- */
+        .field-header {
+          display:flex; align-items:baseline; gap:15px;
+          margin:64px 0 6px; padding-bottom:10px; border-bottom:2px solid currentColor;
+        }
+        .field-header .rn { font-size:20px; font-weight:600; opacity:.5; }
+        .field-header .ft { font-size:31px; font-weight:700; letter-spacing:.005em; }
+        .field-header .fc {
+          margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.06em; opacity:.6; align-self:center;
+        }
+
+        /* ---- Journal sub-header ---- */
+        .journal-header {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; font-weight:600; letter-spacing:.19em; text-transform:uppercase;
+          color:var(--muted); margin:34px 0 2px;
+        }
+
+        /* ---- Paper entry ---- */
+        .paper { padding:22px 0 24px; border-bottom:1px solid var(--rule); }
+        .paper-head { display:flex; justify-content:space-between; align-items:flex-start; gap:22px; }
+        .paper-title { margin:0; font-size:20px; line-height:1.34; font-weight:600; color:#1c1f23; flex:1; }
+        .paper-title .pn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; font-weight:600; color:var(--muted); margin-right:9px;
+        }
+        .paper-authors { margin:8px 0 0; font-style:italic; font-size:15.5px; color:var(--ink-soft); }
+        .paper-summary { margin:11px 0 0; font-size:16px; line-height:1.58; color:var(--ink); }
+        .paper-meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.02em; color:var(--muted);
+          margin:12px 0 0; display:flex; flex-wrap:wrap; gap:8px 18px;
+        }
+        .paper-meta a { color:var(--accent); text-decoration:none; }
+        .paper-meta a:hover { text-decoration:underline; }
+        .paper-abstract {
+          margin:14px 0 0; padding:1px 0 1px 20px; border-left:2px solid var(--rule-strong);
+          font-size:14.5px; line-height:1.66; color:var(--ink-soft);
+          text-align:justify; hyphens:auto;
+        }
+        .paper-abstract .lbl {
+          display:block; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 6px;
+        }
+
+        /* ---- Star rating ---- */
+        .star-rating { display:inline-flex; flex-direction:row-reverse; gap:3px; flex-shrink:0; }
+        .star-rating input { display:none; }
+        .star-rating label { font-size:17px; color:#ded8ca; cursor:pointer; transition:color .1s; }
         .star-rating input:checked ~ label,
         .star-rating label:hover,
-        .star-rating label:hover ~ label {
-          color: #fbbf24;
-        }
-        .admin-controls {
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          z-index: 1000;
-          display: none; /* Only show locally */
-        }
+        .star-rating label:hover ~ label { color:#c19a35; }
+
+        /* ---- Admin ---- */
+        .admin-controls { position:fixed; top:20px; right:20px; z-index:1000; display:none; }
         .save-btn {
-          background: #1e3a8a;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 8px;
-          cursor: pointer;
-          font-weight: 600;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          background:var(--accent); color:#fff; border:none; padding:10px 20px;
+          border-radius:4px; cursor:pointer; font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,.15);
         }
-        @media print { .admin-controls, .star-rating { display: none !important; } }
+
+        @media print { .admin-controls, .star-rating, .toolbar { display:none !important; }
+          body { background:#fff; padding:0; } .sheet { box-shadow:none; border:none; } }
+        @media (max-width:640px) {
+          .sheet { padding:34px 22px 46px; }
+          .masthead h1 { font-size:31px; }
+          .field-header .ft { font-size:25px; }
+          .field-header .fc { display:none; }
+          .paper-head { flex-direction:column; gap:10px; }
+        }
       </style>
-</head>
-<body style="background:#f6f7fb;padding:20px;color:#1f2937;">
-<div class="admin-controls" id="admin-ui" style="display: none;">
-<button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
-</div>
-<a id="top"></a>
-<div style="max-width:900px;margin:0 auto;background:#ffffff;border-radius:14px;padding:26px;box-shadow:0 6px 18px rgba(0,0,0,0.08);border:1px solid #eef0f4;">
-<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;">
-<div>
-<h1 style="margin:0;font-size:26px;line-height:1.2;color:#111827;">Bi-weekly Research Digest</h1>
-<p style="margin:8px 0 0;font-size:14px;color:#4b5563;">
-<b>Date range:</b> 2026-02-16 → 2026-02-28<br/>
-<b>Total relevant papers:</b> 3
-            </p>
-</div>
-<div style="display:flex; gap:10px; align-items:center;">
-<button id="filter-btn" onclick="toggleTopPicks()" style="background:#ffffff; border:1px solid #e5e7eb; padding:8px 16px; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; color:#374151; transition:all 0.2s;">
-              ⭐ Show Top Picks (4★+)
-            </button>
-</div>
-</div>
-<h2 style="margin:26px 0 10px;font-size:18px;border-bottom:1px solid #e5e7eb;padding-bottom:8px;color:#111827;">Summary by Journal</h2>
-<ul style="margin:10px 0 0;padding-left:18px;color:#374151;line-height:1.7;">
-<li><a href="#journal-journal-of-experimental-psychology-learning-memory-and-cognition" style="text-decoration:none;color:#2563eb;"><b>Journal of Experimental Psychology: Learning, Memory, and Cognition</b></a>: 2</li><li><a href="#journal-management-science" style="text-decoration:none;color:#2563eb;"><b>Management Science</b></a>: 1</li></ul><a id="journal-journal-of-experimental-psychology-learning-memory-and-cognition"></a><h2 class="journal-header journal-header" data-journal="Journal of Experimental Psychology: Learning, Memory, and Cognition" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Journal of Experimental Psychology: Learning, Memory, and Cognition</h2>
-<div class="paper-item paper-item" data-journal="Journal of Experimental Psychology: Learning, Memory, and Cognition" id="paper-10-1037-xlm0001583" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-<h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Information search patterns in risky versus intertemporal choice: Tests across contexts of common and distinct behavioral anomalies.</h3>
-<div class="star-rating" data-paper-id="paper-10-1037-xlm0001583">
-<input checked="checked" id="star5-paper-10-1037-xlm0001583" name="rating-paper-10-1037-xlm0001583" type="radio" value="5"/><label for="star5-paper-10-1037-xlm0001583">★</label>
-<input id="star4-paper-10-1037-xlm0001583" name="rating-paper-10-1037-xlm0001583" type="radio" value="4"/><label for="star4-paper-10-1037-xlm0001583">★</label>
-<input id="star3-paper-10-1037-xlm0001583" name="rating-paper-10-1037-xlm0001583" type="radio" value="3"/><label for="star3-paper-10-1037-xlm0001583">★</label>
-<input id="star2-paper-10-1037-xlm0001583" name="rating-paper-10-1037-xlm0001583" type="radio" value="2"/><label for="star2-paper-10-1037-xlm0001583">★</label>
-<input id="star1-paper-10-1037-xlm0001583" name="rating-paper-10-1037-xlm0001583" type="radio" value="1"/><label for="star1-paper-10-1037-xlm0001583">★</label>
-</div>
-</div>
-<p style="margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;">Using process-tracing and eye-tracking across three experiments, it shows how people search information differently in risky versus intertemporal choices, revealing both shared and task-specific cognitive mechanisms and the impact of display formats on information processing.</p>
-<div style="font-size:13px;color:#4b5563;line-height:1.7;">
-<div><b>Authors:</b> He, L., Li, K., Tian, Y., Wang, H.</div>
-<div><b>Published:</b> 2026-02</div>
-<div><b>Relevance Score:</b> 0.63</div>
-<div style="margin-top:10px;"><b>DOI:</b> <a href="https://doi.org/10.1037/xlm0001583" rel="noopener noreferrer" style="color:#2563eb;text-decoration:none;" target="_blank">https://doi.org/10.1037/xlm0001583</a></div>
-<div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-<b>Abstract:</b><br/><span style="color:#374151;">Understanding how people make decisions across various contexts is at the core of theoretical and applied work in behavioral decision research. In this study, we investigate how process tracing contributes to the understanding of common and distinct processes underlying risky and intertemporal choices in three eye-tracking experiments. Experiment 1 elicited behavioral patterns that were interpreted as supporting a common mechanism (i.e., the common ratio effect in risky choice and the common difference effect in intertemporal choice). In contrast, Experiment 2 elicited behavioral patterns that challenge this unified perspective (i.e., the peanuts effect in risky choice and the magnitude effect in intertemporal choice). Experiment 3 elicited both sets of behavioral anomalies and varied the display format of choice options, testing the generalizability and variability of information search patterns across different contexts. The results suggest that people not only exhibit distinct behavioral anomalies but also engage in different information search patterns in risky versus intertemporal choice. Furthermore, information search patterns, as well as the between-task differences thereof, appeared to be sensitive to stimulus designs and display formats. In so doing, we provide a process-level framework to test the common and distinct cognitive processes underlying different choice tasks across different decision contexts. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
-</div>
-</div>
-</div>
-<div class="paper-item paper-item" data-journal="Journal of Experimental Psychology: Learning, Memory, and Cognition" id="paper-10-1037-xlm0001590" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-<h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Is there a criterion in criterial learning? Insights from studying feedback delays.</h3>
-<div class="star-rating" data-paper-id="paper-10-1037-xlm0001590">
-<input id="star5-paper-10-1037-xlm0001590" name="rating-paper-10-1037-xlm0001590" type="radio" value="5"/><label for="star5-paper-10-1037-xlm0001590">★</label>
-<input id="star4-paper-10-1037-xlm0001590" name="rating-paper-10-1037-xlm0001590" type="radio" value="4"/><label for="star4-paper-10-1037-xlm0001590">★</label>
-<input id="star3-paper-10-1037-xlm0001590" name="rating-paper-10-1037-xlm0001590" type="radio" value="3"/><label for="star3-paper-10-1037-xlm0001590">★</label>
-<input checked="checked" id="star2-paper-10-1037-xlm0001590" name="rating-paper-10-1037-xlm0001590" type="radio" value="2"/><label for="star2-paper-10-1037-xlm0001590">★</label>
-<input id="star1-paper-10-1037-xlm0001590" name="rating-paper-10-1037-xlm0001590" type="radio" value="1"/><label for="star1-paper-10-1037-xlm0001590">★</label>
-</div>
-</div>
-<p style="margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;">Two experiments test whether criterial learning arises from a stored threshold or stimulus–response associations, finding support for the latter and showing that feedback delay influences updating; the work uses modeling to link learning processes to decision thresholds.</p>
-<div style="font-size:13px;color:#4b5563;line-height:1.7;">
-<div><b>Authors:</b> Crossley, M., Pelzer, B., Ashby, F.</div>
-<div><b>Published:</b> 2026-02</div>
-<div><b>Relevance Score:</b> 0.41</div>
-<div style="margin-top:10px;"><b>DOI:</b> <a href="https://doi.org/10.1037/xlm0001590" rel="noopener noreferrer" style="color:#2563eb;text-decoration:none;" target="_blank">https://doi.org/10.1037/xlm0001590</a></div>
-<div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-<b>Abstract:</b><br/><span style="color:#374151;">The notion of a response criterion is ubiquitous in psychology, yet its cognitive and neural underpinnings remain poorly understood. Two experiments and extensive computational modeling were used to test between two strikingly different interpretations of the criterion. The traditional account is that decisions are made by comparing the stimulus value to a stored value of the criterion. A conceptually different interpretation is that learning instead is a process of associating responses with stimuli and that the criterion is simply the hypothetical value that separates stimuli associated with contrasting responses. The experiments and modeling tested between these two interpretations by contrasting the effects on criterial learning of feedback delays versus increases in the duration of the intertrial interval in a one-dimensional category-learning task. The empirical results strongly suggested that human criterial learning is sensitive to feedback delay but not to the duration of the intertrial interval. The computational modeling showed that these results are compatible with a stimulus-response learning account, and incompatible with all versions of the stored-criterion account, except for the subset of these models that explicitly assume the criterial updating process is sensitive to feedback delay. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
-</div>
-</div>
-</div>
-<a id="journal-management-science"></a><h2 class="journal-header journal-header" data-journal="Management Science" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Management Science</h2>
-<div class="paper-item paper-item" data-journal="Management Science" id="paper-10-1287-mnsc-2023-00239" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-<h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Nudging Green-but-Slow Shipping Choices in Online Retail</h3>
-<div class="star-rating" data-paper-id="paper-10-1287-mnsc-2023-00239">
-<input id="star5-paper-10-1287-mnsc-2023-00239" name="rating-paper-10-1287-mnsc-2023-00239" type="radio" value="5"/><label for="star5-paper-10-1287-mnsc-2023-00239">★</label>
-<input id="star4-paper-10-1287-mnsc-2023-00239" name="rating-paper-10-1287-mnsc-2023-00239" type="radio" value="4"/><label for="star4-paper-10-1287-mnsc-2023-00239">★</label>
-<input id="star3-paper-10-1287-mnsc-2023-00239" name="rating-paper-10-1287-mnsc-2023-00239" type="radio" value="3"/><label for="star3-paper-10-1287-mnsc-2023-00239">★</label>
-<input checked="checked" id="star2-paper-10-1287-mnsc-2023-00239" name="rating-paper-10-1287-mnsc-2023-00239" type="radio" value="2"/><label for="star2-paper-10-1287-mnsc-2023-00239">★</label>
-<input id="star1-paper-10-1287-mnsc-2023-00239" name="rating-paper-10-1287-mnsc-2023-00239" type="radio" value="1"/><label for="star1-paper-10-1287-mnsc-2023-00239">★</label>
-</div>
-</div>
-<p style="margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;">The study tests how different information strategies (green label, process/outcome information) affect online shoppers' choices between green-but-slow shipping and faster options across contexts, using experiments with 3,800 participants.</p>
-<div style="font-size:13px;color:#4b5563;line-height:1.7;">
-<div><b>Authors:</b> Lee, Y., Donohue, K.</div>
-<div><b>Published:</b> 2026-02</div>
-<div><b>Relevance Score:</b> 0.37</div>
-<div style="margin-top:10px;"><b>DOI:</b> <a href="https://doi.org/10.1287/mnsc.2023.00239" rel="noopener noreferrer" style="color:#2563eb;text-decoration:none;" target="_blank">https://doi.org/10.1287/mnsc.2023.00239</a></div>
-<div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-<b>Abstract:</b><br/><span style="color:#374151;">Faster e-commerce fulfillment often comes at a cost to the environment because of energy-intensive transportation modes and more frequent, less consolidated last-mile deliveries. Despite these environmental implications, most retailers feel pressure to provide fast fulfillment to remain competitive. But what if consumers could be nudged to voluntarily choose green-but-slow shipping? In practice, a variety of information strategies are used to nudge such decisions, but it is unclear which strategy is best and why. This study examines these questions in two logistical contexts, each involving a different type of process change to support green-but-slow shipping: shipping mode and order consolidation. We first introduce a conceptual framework for selecting information strategies based on their influence on customer perceptions related to key stakeholders in each context: delivery convenience (self), environmental impact (society), and sustainability intention (retailer). Then, drawing on behavioral research and industry practices, we identify and test the effect of a comprehensive set of information strategies (i.e., Process, Green Label, Green Process, and Green Outcome) through controlled experiments involving 3,800 participants. Experimental results suggest that different logistical contexts require distinct nudging strategies, aligning with our conceptual framework. We find that including a green label is particularly effective for the shipping mode context, especially when combined with outcome information. In contrast, process information is more promising in the order consolidation context. Also, adding financial incentives can enhance the effectiveness of information strategies without a clear environmental signal, whereas pairing them with a simple green label may be effective for low eco-conscious individuals. This paper was accepted by Elena Katok, operations management. Funding: This work was supported by the Institute on the Environment, University of Minnesota [MF-0009-23]. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2023.00239 .</span>
-</div>
-</div>
-</div>
-</div>
-<a aria-label="Back to top" class="back-to-top" href="#top">↑</a>
-<script>
+    </head>
+    <body>
+      <div class="admin-controls" id="admin-ui">
+        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
+      </div>
+      <a id="top"></a>
+      <div class="sheet">
+        <header class="masthead">
+          <p class="eyebrow">Maohua Nie · Research Digest</p>
+          <h1>Bi-weekly Research Digest</h1>
+          <p class="meta">16 Feb 2026 – 28 Feb 2026<span class="dot">◆</span>3 papers across 2 fields</p>
+        </header>
+
+        <div class="toolbar">
+          <button id="filter-btn" onclick="toggleTopPicks()">★ Show top picks (4★+)</button>
+        </div>
+
+        <nav class="contents">
+          <p class="contents-title">Contents</p>
+    <div class="toc-field"><a class="toc-fname" href="#field-economics" style="color:#1c5d54">I. Economics</a><span class="toc-fcount">1</span><ul class="toc-list"><li class="toc-row"><a href="#journal-economics-management-science">Management Science</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-psychology" style="color:#8a2b3a">II. Psychology</a><span class="toc-fcount">2</span><ul class="toc-list"><li class="toc-row"><a href="#journal-psychology-journal-of-experimental-psychology-learning-memory-and-cognition">Journal of Experimental Psychology: Learning, Memory, and Cognition</a><span class="toc-lead"></span><span class="n">2</span></li></ul></div></nav><a id="field-economics"></a><h2 class="field-header" data-field="economics" style="color:#1c5d54"><span class="rn">I</span><span class="ft">Economics</span><span class="fc">1 paper</span></h2><a id="journal-economics-management-science"></a><h3 class="journal-header" data-group="economics-management-science">Management Science</h3>
+                <div id="paper-nudging-green-but-slow-shipping-choices-in-online-retail" class="paper-item paper" data-field="economics" data-group="economics-management-science">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">1</span>Nudging Green-but-Slow Shipping Choices in Online Retail</h4>
+                    <div class="star-rating" data-paper-id="paper-nudging-green-but-slow-shipping-choices-in-online-retail">
+                      <input type="radio" id="star5-paper-nudging-green-but-slow-shipping-choices-in-online-retail" name="rating-paper-nudging-green-but-slow-shipping-choices-in-online-retail" value="5"><label for="star5-paper-nudging-green-but-slow-shipping-choices-in-online-retail">★</label>
+                      <input type="radio" id="star4-paper-nudging-green-but-slow-shipping-choices-in-online-retail" name="rating-paper-nudging-green-but-slow-shipping-choices-in-online-retail" value="4"><label for="star4-paper-nudging-green-but-slow-shipping-choices-in-online-retail">★</label>
+                      <input type="radio" id="star3-paper-nudging-green-but-slow-shipping-choices-in-online-retail" name="rating-paper-nudging-green-but-slow-shipping-choices-in-online-retail" value="3"><label for="star3-paper-nudging-green-but-slow-shipping-choices-in-online-retail">★</label>
+                      <input type="radio" id="star2-paper-nudging-green-but-slow-shipping-choices-in-online-retail" name="rating-paper-nudging-green-but-slow-shipping-choices-in-online-retail" value="2"><label for="star2-paper-nudging-green-but-slow-shipping-choices-in-online-retail">★</label>
+                      <input type="radio" id="star1-paper-nudging-green-but-slow-shipping-choices-in-online-retail" name="rating-paper-nudging-green-but-slow-shipping-choices-in-online-retail" value="1"><label for="star1-paper-nudging-green-but-slow-shipping-choices-in-online-retail">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Lee, Y., Donohue, K.</p>
+                  
+                  <p class="paper-meta"><span>2026-02</span><span>Relevance 0.37</span><span>DOI not available</span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="field-psychology"></a><h2 class="field-header" data-field="psychology" style="color:#8a2b3a"><span class="rn">II</span><span class="ft">Psychology</span><span class="fc">2 papers</span></h2><a id="journal-psychology-journal-of-experimental-psychology-learning-memory-and-cognition"></a><h3 class="journal-header" data-group="psychology-journal-of-experimental-psychology-learning-memory-and-cognition">Journal of Experimental Psychology: Learning, Memory, and Cognition</h3>
+                <div id="paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-experimental-psychology-learning-memory-and-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">2</span>Information search patterns in risky versus intertemporal choice: Tests across contexts of common and distinct behavioral anomalies.</h4>
+                    <div class="star-rating" data-paper-id="paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-">
+                      <input type="radio" id="star5-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-" name="rating-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-" value="5"><label for="star5-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-">★</label>
+                      <input type="radio" id="star4-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-" name="rating-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-" value="4"><label for="star4-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-">★</label>
+                      <input type="radio" id="star3-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-" name="rating-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-" value="3"><label for="star3-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-">★</label>
+                      <input type="radio" id="star2-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-" name="rating-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-" value="2"><label for="star2-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-">★</label>
+                      <input type="radio" id="star1-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-" name="rating-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-" value="1"><label for="star1-paper-information-search-patterns-in-risky-versus-intertemporal-choice--tests-across-contexts-of-common-and-distinct-behavioral-anomalies-">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">He, L., Li, K., Tian, Y., Wang, H.</p>
+                  
+                  <p class="paper-meta"><span>2026-02</span><span>Relevance 0.63</span><span>DOI not available</span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                
+                <div id="paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-experimental-psychology-learning-memory-and-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">3</span>Is there a criterion in criterial learning? Insights from studying feedback delays.</h4>
+                    <div class="star-rating" data-paper-id="paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-">
+                      <input type="radio" id="star5-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-" name="rating-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-" value="5"><label for="star5-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-">★</label>
+                      <input type="radio" id="star4-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-" name="rating-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-" value="4"><label for="star4-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-">★</label>
+                      <input type="radio" id="star3-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-" name="rating-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-" value="3"><label for="star3-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-">★</label>
+                      <input type="radio" id="star2-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-" name="rating-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-" value="2"><label for="star2-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-">★</label>
+                      <input type="radio" id="star1-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-" name="rating-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-" value="1"><label for="star1-paper-is-there-a-criterion-in-criterial-learning--insights-from-studying-feedback-delays-">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Crossley, M., Pelzer, B., Ashby, F.</p>
+                  
+                  <p class="paper-meta"><span>2026-02</span><span>Relevance 0.41</span><span>DOI not available</span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                
+      </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+      <script>
         let isFilterActive = false;
 
         // Only show admin controls and allow editing if running locally (file://)
@@ -152,37 +243,45 @@
           isFilterActive = !isFilterActive;
           const btn = document.getElementById('filter-btn');
           const papers = document.querySelectorAll('.paper-item');
-          const headers = document.querySelectorAll('.journal-header');
+          const journalHeaders = document.querySelectorAll('.journal-header');
+          const fieldHeaders = document.querySelectorAll('.field-header');
 
           if (isFilterActive) {
-            btn.style.background = '#1e3a8a';
+            btn.style.background = '#0b4a6f';
             btn.style.color = '#ffffff';
-            btn.innerHTML = '✨ Showing Top Picks (4★+)';
+            btn.style.borderColor = '#0b4a6f';
+            btn.innerHTML = '★ Showing top picks (4★+)';
 
-            headers.forEach(header => {
-              const journal = header.getAttribute('data-journal');
-              const journalPapers = document.querySelectorAll(`.paper-item[data-journal="${journal}"]`);
-              let hasTopPick = false;
+            // Show/hide papers by rating.
+            papers.forEach(paper => {
+              const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+              paper.style.display = parseInt(rating) >= 4 ? 'block' : 'none';
+            });
 
-              journalPapers.forEach(paper => {
-                const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
-                if (parseInt(rating) >= 4) {
-                  paper.style.display = 'block';
-                  hasTopPick = true;
-                } else {
-                  paper.style.display = 'none';
-                }
-              });
+            // Hide journal sub-headers whose papers are all filtered out.
+            journalHeaders.forEach(header => {
+              const group = header.getAttribute('data-group');
+              const groupPapers = document.querySelectorAll(`.paper-item[data-group="${group}"]`);
+              const anyVisible = Array.from(groupPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
 
-              header.style.display = hasTopPick ? 'block' : 'none';
+            // Hide field headers whose whole section is filtered out.
+            fieldHeaders.forEach(header => {
+              const field = header.getAttribute('data-field');
+              const fieldPapers = document.querySelectorAll(`.paper-item[data-field="${field}"]`);
+              const anyVisible = Array.from(fieldPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
             });
           } else {
-            btn.style.background = '#ffffff';
-            btn.style.color = '#374151';
-            btn.innerHTML = '⭐ Show Top Picks (4★+)';
-            
+            btn.style.background = 'transparent';
+            btn.style.color = '#4c525a';
+            btn.style.borderColor = '#cfc8b9';
+            btn.innerHTML = '★ Show top picks (4★+)';
+
             papers.forEach(p => p.style.display = 'block');
-            headers.forEach(h => h.style.display = 'block');
+            journalHeaders.forEach(h => h.style.display = 'block');
+            fieldHeaders.forEach(h => h.style.display = 'block');
           }
         }
 
@@ -214,4 +313,6 @@
           adminUI.style.display = 'block';
         }
       </script>
-</body></html>
+    </body>
+    </html>
+    

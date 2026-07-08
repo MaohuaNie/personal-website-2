@@ -3,11 +3,12 @@ import json
 import requests
 import numpy as np
 from datetime import datetime, timedelta
-from openai import OpenAI
-from anthropic import Anthropic
 import re
 from pathlib import Path
 from urllib.parse import quote
+
+# OpenAI / Anthropic are imported lazily in init_clients() so this module can be
+# imported (e.g. to reuse format_email_body_html) without those packages or keys.
 
 # =========================================================
 # CONFIG & CONSTANTS    
@@ -53,6 +54,9 @@ JOURNALS = [
     {"name": "Management Science", "issn": "0025-1909"},
     {"name": "The Quarterly Journal of Economics", "issn": "0033-5533"},
     {"name": "Journal of Economic Behavior & Organization", "issn": "0167-2681"},
+    {"name": "Experimental Economics", "issn": "1386-4157"},
+    {"name": "Journal of Behavioral and Experimental Economics", "issn": "2214-8043"},
+    {"name": "Theory and Decision", "issn": "0040-5833"},
     {"name": "Nature Neuroscience", "issn": "1097-6256"},
     {"name": "Neuron", "issn": "0896-6273"},
     {"name": "Nature Communications", "issn": "2041-1723"},
@@ -69,11 +73,29 @@ ELSEVIER_ISSNS = {
     "0167-4870",  # Journal of Economic Psychology
     "0022-2496",  # Journal of Mathematical Psychology
     "0167-2681",  # Journal of Economic Behavior & Organization
+    "2214-8043",  # Journal of Behavioral and Experimental Economics
     "0896-6273",  # Neuron
 }
 
 TOP_K_PER_JOURNAL = 30
 SIM_THRESHOLD = 0.30
+
+# Papers are grouped in the digest by field. The LLM assigns each paper one of
+# these based on the paper's own content (not its journal), so interdisciplinary
+# journals (PNAS, Nature Human Behaviour, ...) no longer need a "General" bucket.
+FIELD_ORDER = ["Economics", "Psychology", "Neuroscience"]
+DEFAULT_FIELD = "Psychology"  # fallback when the model returns something unexpected
+
+def normalize_field(value):
+    """Map a raw model field string onto one of FIELD_ORDER (default: Psychology)."""
+    v = (value or "").strip().lower()
+    if v.startswith("econ"):
+        return "Economics"
+    if v.startswith("neuro"):
+        return "Neuroscience"
+    if v.startswith("psych"):
+        return "Psychology"
+    return DEFAULT_FIELD
 
 TOPIC_TEXT = """
 decision making under risk and uncertainty,
@@ -113,26 +135,39 @@ random utility models
 # =========================================================
 
 ELSEVIER_API_KEY = os.getenv("ELSEVIER_API_KEY")
-if not ELSEVIER_API_KEY:
-    raise RuntimeError("Missing ELSEVIER_API_KEY environment variable")
-
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-if not OPENAI_API_KEY:
-    raise RuntimeError("Missing OPENAI_API_KEY environment variable")
-
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
-if not ANTHROPIC_API_KEY:
-    raise RuntimeError("Missing ANTHROPIC_API_KEY environment variable")
 
-openai_client = OpenAI(api_key=OPENAI_API_KEY)
-anthropic_client = Anthropic(api_key=ANTHROPIC_API_KEY)
+# Clients and the precomputed topic embedding are initialised lazily by
+# init_clients() so that importing this module (e.g. to reuse
+# format_email_body_html for previews / regeneration) does not require API keys
+# or make network calls. A live digest run calls init_clients() from main().
+openai_client = None
+anthropic_client = None
+topic_emb = None
 
-# Pre-compute topic embedding
-topic_emb = openai_client.embeddings.create(
-    model="text-embedding-3-small",
-    input=[TOPIC_TEXT]
-).data[0].embedding
-topic_emb = np.array(topic_emb)
+def init_clients():
+    """Validate keys, create API clients, and precompute the topic embedding."""
+    global openai_client, anthropic_client, topic_emb
+    if topic_emb is not None:
+        return
+    if not ELSEVIER_API_KEY:
+        raise RuntimeError("Missing ELSEVIER_API_KEY environment variable")
+    if not OPENAI_API_KEY:
+        raise RuntimeError("Missing OPENAI_API_KEY environment variable")
+    if not ANTHROPIC_API_KEY:
+        raise RuntimeError("Missing ANTHROPIC_API_KEY environment variable")
+
+    from openai import OpenAI
+    from anthropic import Anthropic
+    openai_client = OpenAI(api_key=OPENAI_API_KEY)
+    anthropic_client = Anthropic(api_key=ANTHROPIC_API_KEY)
+    topic_emb = np.array(
+        openai_client.embeddings.create(
+            model="text-embedding-3-small",
+            input=[TOPIC_TEXT],
+        ).data[0].embedding
+    )
 
 
 # =========================================================
@@ -453,11 +488,25 @@ def gpt_relevance_and_summary(title, abstract):
         - Field data without a cognitive account.
         - Low-level perception, clinical, or neurobiological questions with no link to decision making, value, preference, attention allocation, or choice / response-time behavior.
 
+        ### Also classify the paper into ONE field, based on the paper's own
+        ### content, methods, and framing — NOT on the journal it appeared in:
+        - "Economics": economic decision-making, behavioral / experimental economics,
+          risk & uncertainty framed in an economic tradition, markets, incentives,
+          preference elicitation, finance, game-theoretic behavior.
+        - "Psychology": cognitive / experimental psychology, judgment and decision
+          making, cognitive modeling, attention, memory, perception, response times.
+        - "Neuroscience": neural mechanisms, brain imaging / recording, computational
+          neuroscience, neural correlates of value, choice, or attention.
+        Pick the single BEST fit. Interdisciplinary papers (e.g. in Nature Human
+        Behaviour, PNAS, Nature Communications, eLife) must still be assigned to the
+        one field their core approach most resembles.
+
         Return ONLY this JSON:
         {{
         "relevant": true/false,
         "reason": "1–2 sentences explaining why",
-        "summary": "1–2 sentence plain-language summary of the paper"
+        "summary": "1–2 sentence plain-language summary of the paper",
+        "field": "Economics" | "Psychology" | "Neuroscience"
         }}
 
         Title: {title}
@@ -466,7 +515,7 @@ def gpt_relevance_and_summary(title, abstract):
     try:
         resp = anthropic_client.messages.create(
             model="claude-sonnet-4-6",
-            max_tokens=300,
+            max_tokens=350,
             messages=[{"role": "user", "content": prompt}]
         )
         content = resp.content[0].text
@@ -476,11 +525,16 @@ def gpt_relevance_and_summary(title, abstract):
             content = re.sub(r"^```(?:json)?\s*", "", content)
             content = re.sub(r"\s*```$", "", content)
         j = json.loads(content)
-        return bool(j.get("relevant", False)), j.get("reason", ""), j.get("summary", "")
+        return (
+            bool(j.get("relevant", False)),
+            j.get("reason", ""),
+            j.get("summary", ""),
+            normalize_field(j.get("field", "")),
+        )
     except Exception as e:
         log(f"  LLM parse error for '{title[:60]}': {e}")
         log(f"  Raw response: {content[:300] if 'content' in dir() else 'no response'}")
-        return False, "Parse error", ""
+        return False, "Parse error", "", DEFAULT_FIELD
 
 # =========================================================
 # CORE LOGIC
@@ -582,9 +636,10 @@ def find_relevant_papers(start_day, end_day):
                 run_log.append(entry)
                 continue
 
-            relevant, reason, summary = gpt_relevance_and_summary(title, abstracts[idx])
+            relevant, reason, summary, field = gpt_relevance_and_summary(title, abstracts[idx])
             entry["llm_relevant"] = relevant
             entry["llm_reason"] = reason
+            entry["llm_field"] = field
 
             if relevant:
                 entry["final_included"] = True
@@ -603,6 +658,7 @@ def find_relevant_papers(start_day, end_day):
                     "authors": authors,
                     "published": published,
                     "journal": j["name"],
+                    "field": field,
                     "relevance_score": score,
                     "doi": doi,
                     "abstract": abstracts[idx],
@@ -621,134 +677,305 @@ def find_relevant_papers(start_day, end_day):
 
     return sorted(all_results, key=lambda x: x["relevance_score"], reverse=True)
 
-def format_email_body_html(results, start_day, end_day):
-    journal_counts = {}
-    for r in results:
-        j = r.get("journal", "Unknown journal")
-        journal_counts[j] = journal_counts.get(j, 0) + 1
+FIELD_META = {
+    "Economics":    {"color": "#1c5d54"},   # deep teal
+    "Psychology":   {"color": "#8a2b3a"},   # muted burgundy
+    "Neuroscience": {"color": "#3d3a78"},   # muted indigo
+}
+FIELD_DEFAULT_COLOR = "#495159"
+ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]
 
+def format_email_body_html(results, start_day, end_day):
     def esc(s):
         if s is None: return ""
         s = str(s)
         return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;").replace("'", "&#39;")
+
+    def slug(*parts):
+        return re.sub(r"[^a-z0-9]+", "-", "-".join(parts).lower()).strip("-")
+
+    def field_anchor(field_name):
+        return "field-" + slug(field_name)
+
+    def journal_anchor(field_name, journal_name):
+        return "journal-" + slug(field_name, journal_name)
+
+    def field_color(field_name):
+        return FIELD_META.get(field_name, {}).get("color", FIELD_DEFAULT_COLOR)
+
+    def paper_field(r):
+        return r.get("field") or DEFAULT_FIELD
+
+    # Order fields by FIELD_ORDER, then any unexpected ones; keep only fields
+    # that actually have papers this issue.
+    present = [f for f in FIELD_ORDER if any(paper_field(r) == f for r in results)]
+    for r in results:
+        f = paper_field(r)
+        if f not in present:
+            present.append(f)
+
+    def journals_in_field(field):
+        seen = []
+        for r in results:
+            if paper_field(r) != field:
+                continue
+            j = r.get("journal", "Unknown journal")
+            if j not in seen:
+                seen.append(j)
+        return seen
+
+    range_label = f"{start_day:%d %b %Y} – {end_day:%d %b %Y}"
 
     html = f"""
     <!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
       <link rel="stylesheet" href="../assets/site.css">
       <style>
-        .star-rating {{
-          display: inline-flex;
-          flex-direction: row-reverse;
-          gap: 4px;
+        :root {{
+          --paper:#fffdf9; --page:#efece5; --ink:#23272c; --ink-soft:#4c525a;
+          --muted:#8b9099; --rule:#e7e2d7; --rule-strong:#cfc8b9; --accent:#0b4a6f;
         }}
-        .star-rating input {{ display: none; }}
-        .star-rating label {{
-          font-size: 24px;
-          color: #e5e7eb;
-          cursor: pointer;
-          transition: color 0.1s;
+        html, body {{ margin:0; }}
+        body {{
+          background:var(--page); color:var(--ink);
+          font-family:'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+          font-size:17px; line-height:1.6;
+          -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+          padding:28px 18px 90px;
         }}
+        .sans {{ font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif; }}
+        .sheet {{
+          max-width:800px; margin:0 auto; background:var(--paper);
+          padding:60px 68px 76px;
+          border:1px solid var(--rule);
+          box-shadow:0 1px 2px rgba(20,20,30,.04), 0 24px 60px rgba(30,30,45,.07);
+        }}
+
+        /* ---- Masthead ---- */
+        .masthead {{ text-align:center; border-bottom:3px double var(--rule-strong); padding-bottom:24px; }}
+        .masthead .eyebrow {{
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 12px;
+        }}
+        .masthead h1 {{ margin:0; font-size:42px; font-weight:700; letter-spacing:.005em; line-height:1.08; color:#1a1d21; }}
+        .masthead .meta {{
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; letter-spacing:.03em; color:var(--ink-soft); margin:14px 0 0;
+        }}
+        .masthead .meta .dot {{ color:var(--rule-strong); margin:0 9px; }}
+
+        /* ---- Toolbar ---- */
+        .toolbar {{ display:flex; justify-content:center; margin:18px 0 0; }}
+        #filter-btn {{
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          background:transparent; border:1px solid var(--rule-strong); color:var(--ink-soft);
+          padding:7px 15px; border-radius:2px; font-size:12px; letter-spacing:.05em;
+          cursor:pointer; transition:all .18s ease;
+        }}
+        #filter-btn:hover {{ border-color:var(--accent); color:var(--accent); }}
+
+        /* ---- Contents (table of contents) ---- */
+        .contents {{ margin:34px 0 6px; }}
+        .contents-title {{
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 20px;
+        }}
+        .toc-field {{ margin:0 0 18px; }}
+        .toc-fname {{ font-size:18px; font-weight:600; text-decoration:none; }}
+        .toc-fname:hover {{ text-decoration:underline; }}
+        .toc-fcount {{
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; color:var(--muted); margin-left:8px;
+        }}
+        .toc-list {{ list-style:none; margin:7px 0 0; padding:0; }}
+        .toc-row {{ display:flex; align-items:baseline; padding:2px 0; font-size:15.5px; }}
+        .toc-row a {{ color:var(--ink-soft); text-decoration:none; white-space:nowrap; }}
+        .toc-row a:hover {{ color:var(--accent); }}
+        .toc-lead {{ flex:1; border-bottom:1px dotted var(--rule-strong); margin:0 9px; position:relative; top:-4px; }}
+        .toc-row .n {{
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12.5px; color:var(--muted);
+        }}
+
+        /* ---- Field section ---- */
+        .field-header {{
+          display:flex; align-items:baseline; gap:15px;
+          margin:64px 0 6px; padding-bottom:10px; border-bottom:2px solid currentColor;
+        }}
+        .field-header .rn {{ font-size:20px; font-weight:600; opacity:.5; }}
+        .field-header .ft {{ font-size:31px; font-weight:700; letter-spacing:.005em; }}
+        .field-header .fc {{
+          margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.06em; opacity:.6; align-self:center;
+        }}
+
+        /* ---- Journal sub-header ---- */
+        .journal-header {{
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; font-weight:600; letter-spacing:.19em; text-transform:uppercase;
+          color:var(--muted); margin:34px 0 2px;
+        }}
+
+        /* ---- Paper entry ---- */
+        .paper {{ padding:22px 0 24px; border-bottom:1px solid var(--rule); }}
+        .paper-head {{ display:flex; justify-content:space-between; align-items:flex-start; gap:22px; }}
+        .paper-title {{ margin:0; font-size:20px; line-height:1.34; font-weight:600; color:#1c1f23; flex:1; }}
+        .paper-title .pn {{
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; font-weight:600; color:var(--muted); margin-right:9px;
+        }}
+        .paper-authors {{ margin:8px 0 0; font-style:italic; font-size:15.5px; color:var(--ink-soft); }}
+        .paper-summary {{ margin:11px 0 0; font-size:16px; line-height:1.58; color:var(--ink); }}
+        .paper-meta {{
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.02em; color:var(--muted);
+          margin:12px 0 0; display:flex; flex-wrap:wrap; gap:8px 18px;
+        }}
+        .paper-meta a {{ color:var(--accent); text-decoration:none; }}
+        .paper-meta a:hover {{ text-decoration:underline; }}
+        .paper-abstract {{
+          margin:14px 0 0; padding:1px 0 1px 20px; border-left:2px solid var(--rule-strong);
+          font-size:14.5px; line-height:1.66; color:var(--ink-soft);
+          text-align:justify; hyphens:auto;
+        }}
+        .paper-abstract .lbl {{
+          display:block; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 6px;
+        }}
+
+        /* ---- Star rating ---- */
+        .star-rating {{ display:inline-flex; flex-direction:row-reverse; gap:3px; flex-shrink:0; }}
+        .star-rating input {{ display:none; }}
+        .star-rating label {{ font-size:17px; color:#ded8ca; cursor:pointer; transition:color .1s; }}
         .star-rating input:checked ~ label,
         .star-rating label:hover,
-        .star-rating label:hover ~ label {{
-          color: #fbbf24;
-        }}
-        .admin-controls {{
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          z-index: 1000;
-          display: none; /* Only show locally */
-        }}
+        .star-rating label:hover ~ label {{ color:#c19a35; }}
+
+        /* ---- Admin ---- */
+        .admin-controls {{ position:fixed; top:20px; right:20px; z-index:1000; display:none; }}
         .save-btn {{
-          background: #1e3a8a;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 8px;
-          cursor: pointer;
-          font-weight: 600;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          background:var(--accent); color:#fff; border:none; padding:10px 20px;
+          border-radius:4px; cursor:pointer; font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,.15);
         }}
-        @media print {{ .admin-controls, .star-rating {{ display: none !important; }} }}
+
+        @media print {{ .admin-controls, .star-rating, .toolbar {{ display:none !important; }}
+          body {{ background:#fff; padding:0; }} .sheet {{ box-shadow:none; border:none; }} }}
+        @media (max-width:640px) {{
+          .sheet {{ padding:34px 22px 46px; }}
+          .masthead h1 {{ font-size:31px; }}
+          .field-header .ft {{ font-size:25px; }}
+          .field-header .fc {{ display:none; }}
+          .paper-head {{ flex-direction:column; gap:10px; }}
+        }}
       </style>
     </head>
-    <body style="background:#f6f7fb;padding:20px;color:#1f2937;">
+    <body>
       <div class="admin-controls" id="admin-ui">
         <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
       </div>
       <a id="top"></a>
-      <div style="max-width:900px;margin:0 auto;background:#ffffff;border-radius:14px;padding:26px;box-shadow:0 6px 18px rgba(0,0,0,0.08);border:1px solid #eef0f4;">
-        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;">
-          <div>
-            <h1 style="margin:0;font-size:26px;line-height:1.2;color:#111827;">Bi-weekly Research Digest</h1>
-            <p style="margin:8px 0 0;font-size:14px;color:#4b5563;">
-              <b>Date range:</b> {start_day} → {end_day}<br>
-              <b>Total relevant papers:</b> {len(results)}
-            </p>
-          </div>
-          <div style="display:flex; gap:10px; align-items:center;">
-            <button id="filter-btn" onclick="toggleTopPicks()" style="background:#ffffff; border:1px solid #e5e7eb; padding:8px 16px; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; color:#374151; transition:all 0.2s;">
-              ⭐ Show Top Picks (4★+)
-            </button>
-          </div>
+      <div class="sheet">
+        <header class="masthead">
+          <p class="eyebrow">Maohua Nie · Research Digest</p>
+          <h1>Bi-weekly Research Digest</h1>
+          <p class="meta">{range_label}<span class="dot">◆</span>{len(results)} paper{"s" if len(results) != 1 else ""} across {len(present)} field{"s" if len(present) != 1 else ""}</p>
+        </header>
+
+        <div class="toolbar">
+          <button id="filter-btn" onclick="toggleTopPicks()">★ Show top picks (4★+)</button>
         </div>
-        <h2 style="margin:26px 0 10px;font-size:18px;border-bottom:1px solid #e5e7eb;padding-bottom:8px;color:#111827;">Summary by Journal</h2>
-        <ul style="margin:10px 0 0;padding-left:18px;color:#374151;line-height:1.7;">
+
+        <nav class="contents">
+          <p class="contents-title">Contents</p>
     """
 
-    def journal_anchor(journal_name):
-        return "journal-" + re.sub(r"[^a-z0-9]+", "-", journal_name.lower()).strip("-")
+    # ---- Contents: field -> journals with dotted leaders ----
+    for i, field in enumerate(present):
+        color = field_color(field)
+        field_total = sum(1 for r in results if paper_field(r) == field)
+        html += (
+            f'<div class="toc-field">'
+            f'<a class="toc-fname" href="#{field_anchor(field)}" style="color:{color}">'
+            f'{ROMAN[i]}. {esc(field)}</a>'
+            f'<span class="toc-fcount">{field_total}</span>'
+            f'<ul class="toc-list">'
+        )
+        for journal in journals_in_field(field):
+            c = sum(1 for r in results if paper_field(r) == field and r.get("journal") == journal)
+            html += (
+                f'<li class="toc-row"><a href="#{journal_anchor(field, journal)}">{esc(journal)}</a>'
+                f'<span class="toc-lead"></span><span class="n">{c}</span></li>'
+            )
+        html += "</ul></div>"
+    html += "</nav>"
 
-    for j, c in journal_counts.items():
-        html += f"<li><a href='#{journal_anchor(j)}' style='text-decoration:none;color:#2563eb;'><b>{esc(j)}</b></a>: {c}</li>"
+    # ---- Body: field sections -> journal sub-sections -> papers ----
+    paper_no = 0
+    for i, field in enumerate(present):
+        color = field_color(field)
+        f_slug = slug(field)
+        field_total = sum(1 for r in results if paper_field(r) == field)
+        html += (
+            f'<a id="{field_anchor(field)}"></a>'
+            f'<h2 class="field-header" data-field="{f_slug}" style="color:{color}">'
+            f'<span class="rn">{ROMAN[i]}</span><span class="ft">{esc(field)}</span>'
+            f'<span class="fc">{field_total} paper{"s" if field_total != 1 else ""}</span></h2>'
+        )
 
-    html += "</ul>"
+        for journal in journals_in_field(field):
+            g_slug = slug(field, journal)
+            html += (
+                f'<a id="{journal_anchor(field, journal)}"></a>'
+                f'<h3 class="journal-header" data-group="{g_slug}">{esc(journal)}</h3>'
+            )
 
-    for journal in journal_counts.keys():
-        anchor = journal_anchor(journal)
-        html += f"""<a id="{anchor}"></a><h2 class="journal-header" data-journal="{journal}" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">{esc(journal)}</h2>"""
-        
-        for idx, r in enumerate(results):
-            if r.get("journal") != journal: continue
-            
-            title = esc(r.get("title", "Untitled"))
-            summary = esc(r.get("summary", "")).strip()
-            authors = esc(r.get("authors", "Unknown"))
-            published = esc(r.get("published", "n.d."))
-            score = esc(r.get("relevance_score", ""))
-            doi = r.get('doi', '')
-            doi_url = f"https://doi.org/{doi}" if doi else ""
-            abstract_html = esc(r.get("abstract")) if r.get("abstract") else "Not available."
-            paper_id = f"paper-{re.sub(r'[^a-z0-9]', '-', (doi or title).lower())}"
+            for r in results:
+                if paper_field(r) != field or r.get("journal") != journal:
+                    continue
 
-            html += f"""
-            <div id="{paper_id}" class="paper-item" data-journal="{journal}" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">{title}</h3>
-                <div class="star-rating" data-paper-id="{paper_id}">
-                  <input type="radio" id="star5-{paper_id}" name="rating-{paper_id}" value="5"><label for="star5-{paper_id}">★</label>
-                  <input type="radio" id="star4-{paper_id}" name="rating-{paper_id}" value="4"><label for="star4-{paper_id}">★</label>
-                  <input type="radio" id="star3-{paper_id}" name="rating-{paper_id}" value="3"><label for="star3-{paper_id}">★</label>
-                  <input type="radio" id="star2-{paper_id}" name="rating-{paper_id}" value="2"><label for="star2-{paper_id}">★</label>
-                  <input type="radio" id="star1-{paper_id}" name="rating-{paper_id}" value="1"><label for="star1-{paper_id}">★</label>
+                paper_no += 1
+                title = esc(r.get("title", "Untitled"))
+                summary = esc(r.get("summary", "")).strip()
+                authors = esc(r.get("authors", "Unknown"))
+                published = esc(r.get("published", "n.d."))
+                score = esc(r.get("relevance_score", ""))
+                doi = r.get('doi', '')
+                doi_url = f"https://doi.org/{doi}" if doi else ""
+                abstract_html = esc(r.get("abstract")) if r.get("abstract") else "Not available."
+                paper_id = f"paper-{re.sub(r'[^a-z0-9]', '-', (doi or title).lower())}"
+
+                doi_html = (
+                    f"<a href='{esc(doi_url)}' target='_blank' rel='noopener noreferrer'>doi.org/{esc(doi)}</a>"
+                    if doi_url else "DOI not available"
+                )
+
+                html += f"""
+                <div id="{paper_id}" class="paper-item paper" data-field="{f_slug}" data-group="{g_slug}">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">{paper_no}</span>{title}</h4>
+                    <div class="star-rating" data-paper-id="{paper_id}">
+                      <input type="radio" id="star5-{paper_id}" name="rating-{paper_id}" value="5"><label for="star5-{paper_id}">★</label>
+                      <input type="radio" id="star4-{paper_id}" name="rating-{paper_id}" value="4"><label for="star4-{paper_id}">★</label>
+                      <input type="radio" id="star3-{paper_id}" name="rating-{paper_id}" value="3"><label for="star3-{paper_id}">★</label>
+                      <input type="radio" id="star2-{paper_id}" name="rating-{paper_id}" value="2"><label for="star2-{paper_id}">★</label>
+                      <input type="radio" id="star1-{paper_id}" name="rating-{paper_id}" value="1"><label for="star1-{paper_id}">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">{authors}</p>
+                  {"<p class='paper-summary'>" + summary + "</p>" if summary else ""}
+                  <p class="paper-meta"><span>{published}</span><span>Relevance {score}</span><span>{doi_html}</span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>{abstract_html}</div>
                 </div>
-              </div>
-              {"<p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>" + summary + "</p>" if summary else ""}
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> {authors}</div>
-                <div><b>Published:</b> {published}</div>
-                <div><b>Relevance Score:</b> {score}</div>
-                <div style="margin-top:10px;"><b>DOI:</b> {"<a href='" + esc(doi_url) + "' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>" + esc(doi_url) + "</a>" if doi_url else "Not available."}</div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">{abstract_html}</span>
-                </div>
-              </div>
-            </div>
-            """
+                """
 
     html += """
       </div>
@@ -774,37 +1001,45 @@ def format_email_body_html(results, start_day, end_day):
           isFilterActive = !isFilterActive;
           const btn = document.getElementById('filter-btn');
           const papers = document.querySelectorAll('.paper-item');
-          const headers = document.querySelectorAll('.journal-header');
+          const journalHeaders = document.querySelectorAll('.journal-header');
+          const fieldHeaders = document.querySelectorAll('.field-header');
 
           if (isFilterActive) {
-            btn.style.background = '#1e3a8a';
+            btn.style.background = '#0b4a6f';
             btn.style.color = '#ffffff';
-            btn.innerHTML = '✨ Showing Top Picks (4★+)';
+            btn.style.borderColor = '#0b4a6f';
+            btn.innerHTML = '★ Showing top picks (4★+)';
 
-            headers.forEach(header => {
-              const journal = header.getAttribute('data-journal');
-              const journalPapers = document.querySelectorAll(`.paper-item[data-journal="${journal}"]`);
-              let hasTopPick = false;
+            // Show/hide papers by rating.
+            papers.forEach(paper => {
+              const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+              paper.style.display = parseInt(rating) >= 4 ? 'block' : 'none';
+            });
 
-              journalPapers.forEach(paper => {
-                const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
-                if (parseInt(rating) >= 4) {
-                  paper.style.display = 'block';
-                  hasTopPick = true;
-                } else {
-                  paper.style.display = 'none';
-                }
-              });
+            // Hide journal sub-headers whose papers are all filtered out.
+            journalHeaders.forEach(header => {
+              const group = header.getAttribute('data-group');
+              const groupPapers = document.querySelectorAll(`.paper-item[data-group="${group}"]`);
+              const anyVisible = Array.from(groupPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
 
-              header.style.display = hasTopPick ? 'block' : 'none';
+            // Hide field headers whose whole section is filtered out.
+            fieldHeaders.forEach(header => {
+              const field = header.getAttribute('data-field');
+              const fieldPapers = document.querySelectorAll(`.paper-item[data-field="${field}"]`);
+              const anyVisible = Array.from(fieldPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
             });
           } else {
-            btn.style.background = '#ffffff';
-            btn.style.color = '#374151';
-            btn.innerHTML = '⭐ Show Top Picks (4★+)';
-            
+            btn.style.background = 'transparent';
+            btn.style.color = '#4c525a';
+            btn.style.borderColor = '#cfc8b9';
+            btn.innerHTML = '★ Show top picks (4★+)';
+
             papers.forEach(p => p.style.display = 'block');
-            headers.forEach(h => h.style.display = 'block');
+            journalHeaders.forEach(h => h.style.display = 'block');
+            fieldHeaders.forEach(h => h.style.display = 'block');
           }
         }
 
@@ -870,8 +1105,9 @@ def save_digest_html(html, run_date):
 def save_wechat_docx(results, start_day, end_day, run_date):
     """Write a .docx for WeChat's 文档导入 (document import) upload route.
 
-    Organised with a per-journal overview, numbered entries, and journal
-    sections. Paper titles are real hyperlinks to their DOI — clickable when the
+    Organised into field sections (Economics / Psychology / Neuroscience),
+    then journal sub-sections, with numbered entries — mirroring the website.
+    Paper titles are real hyperlinks to their DOI — clickable when the
     .docx is opened in Word/Pages and on the website. NOTE: WeChat strips
     external links from the article body on import, so inside the published
     article the linked title becomes plain text; the reliable click-through for
@@ -946,35 +1182,59 @@ def save_wechat_docx(results, start_day, end_day, run_date):
     if not results:
         run(para(), "本期暂无符合主题的新论文。", color=GREY)
     else:
-        journals, by_journal = [], {}
+        # Mirror the website: group by field, then by journal within each field.
+        FIELD_ZH = {"Economics": "经济学 · Economics",
+                    "Psychology": "心理学 · Psychology",
+                    "Neuroscience": "神经科学 · Neuroscience"}
+        FIELD_HEX = {"Economics": "1C5D54", "Psychology": "8A2B3A", "Neuroscience": "3D3A78"}
+        ROMAN_ZH = ["Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ"]
+
+        def pfield(r):
+            return r.get("field") or DEFAULT_FIELD
+
+        present = [f for f in FIELD_ORDER if any(pfield(r) == f for r in results)]
         for r in results:
-            j = r.get("journal", "Unknown journal")
-            if j not in by_journal:
-                by_journal[j] = []
-                journals.append(j)
-            by_journal[j].append(r)
+            f = pfield(r)
+            if f not in present:
+                present.append(f)
 
         idx = 0
-        for j in journals:
-            run(para(before=20, after=8), f"▎ {j}", bold=True, size=12, color=BRAND)
-            for n, r in enumerate(by_journal[j]):
-                if n:  # light separator between papers in the same journal
-                    run(para(align=WD_ALIGN_PARAGRAPH.CENTER, before=6, after=12),
-                        "· · ·", size=10, color=GREY)
-                idx += 1
-                tp = para(after=2)
-                run(tp, f"{idx}. ", bold=True, size=13, color=INK)
-                doi = (r.get("doi") or "").strip()
-                title = r.get("title", "Untitled")
-                if doi:
-                    link(tp, f"https://doi.org/{doi}", title, color=BRAND, bold=True, size=13)
-                else:
-                    run(tp, title, bold=True, size=13, color=INK)
-                run(para(after=5), r.get("authors", "Unknown"), size=9, color=GREY)
-                if r.get("summary"):
-                    ps = para(after=4)
-                    run(ps, "内容简介 · ", bold=True, color=INK)
-                    run(ps, r["summary"])
+        for fi, field in enumerate(present):
+            fcolor = FIELD_HEX.get(field, BRAND)
+            fcount = sum(1 for r in results if pfield(r) == field)
+            run(para(before=24, after=2),
+                f"{ROMAN_ZH[fi]}  {FIELD_ZH.get(field, field)}（{fcount}）",
+                bold=True, size=15, color=fcolor)
+
+            seen = []
+            for r in results:
+                if pfield(r) == field and r.get("journal", "Unknown journal") not in seen:
+                    seen.append(r.get("journal", "Unknown journal"))
+
+            for j in seen:
+                run(para(before=12, after=6), f"▎ {j}", bold=True, size=11, color=GREY)
+                first = True
+                for r in results:
+                    if pfield(r) != field or r.get("journal") != j:
+                        continue
+                    if not first:  # light separator between papers in the same journal
+                        run(para(align=WD_ALIGN_PARAGRAPH.CENTER, before=6, after=12),
+                            "· · ·", size=10, color=GREY)
+                    first = False
+                    idx += 1
+                    tp = para(after=2)
+                    run(tp, f"{idx}. ", bold=True, size=13, color=INK)
+                    doi = (r.get("doi") or "").strip()
+                    title = r.get("title", "Untitled")
+                    if doi:
+                        link(tp, f"https://doi.org/{doi}", title, color=BRAND, bold=True, size=13)
+                    else:
+                        run(tp, title, bold=True, size=13, color=INK)
+                    run(para(after=5), r.get("authors", "Unknown"), size=9, color=GREY)
+                    if r.get("summary"):
+                        ps = para(after=4)
+                        run(ps, "内容简介 · ", bold=True, color=INK)
+                        run(ps, r["summary"])
 
     run(para(align=WD_ALIGN_PARAGRAPH.CENTER, before=16, after=0),
         "点击文末「阅读原文」查看全部论文与可点击的 DOI 链接。", size=9, color=GREY)
@@ -1067,6 +1327,7 @@ def get_next_report_date(r_date):
         raise ValueError(f"Unexpected report date: {r_date}")
 
 def main():
+    init_clients()
     today = datetime.today().date()
     
     # 1. Determine what the CURRENT latest valid interval should be

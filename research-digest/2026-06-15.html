@@ -3,482 +3,478 @@
     <html lang="en">
     <head>
       <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
       <link rel="stylesheet" href="../assets/site.css">
       <style>
-        .star-rating {
-          display: inline-flex;
-          flex-direction: row-reverse;
-          gap: 4px;
+        :root {
+          --paper:#fffdf9; --page:#efece5; --ink:#23272c; --ink-soft:#4c525a;
+          --muted:#8b9099; --rule:#e7e2d7; --rule-strong:#cfc8b9; --accent:#0b4a6f;
         }
-        .star-rating input { display: none; }
-        .star-rating label {
-          font-size: 24px;
-          color: #e5e7eb;
-          cursor: pointer;
-          transition: color 0.1s;
+        html, body { margin:0; }
+        body {
+          background:var(--page); color:var(--ink);
+          font-family:'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+          font-size:17px; line-height:1.6;
+          -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+          padding:28px 18px 90px;
         }
+        .sans { font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif; }
+        .sheet {
+          max-width:800px; margin:0 auto; background:var(--paper);
+          padding:60px 68px 76px;
+          border:1px solid var(--rule);
+          box-shadow:0 1px 2px rgba(20,20,30,.04), 0 24px 60px rgba(30,30,45,.07);
+        }
+
+        /* ---- Masthead ---- */
+        .masthead { text-align:center; border-bottom:3px double var(--rule-strong); padding-bottom:24px; }
+        .masthead .eyebrow {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 12px;
+        }
+        .masthead h1 { margin:0; font-size:42px; font-weight:700; letter-spacing:.005em; line-height:1.08; color:#1a1d21; }
+        .masthead .meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; letter-spacing:.03em; color:var(--ink-soft); margin:14px 0 0;
+        }
+        .masthead .meta .dot { color:var(--rule-strong); margin:0 9px; }
+
+        /* ---- Toolbar ---- */
+        .toolbar { display:flex; justify-content:center; margin:18px 0 0; }
+        #filter-btn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          background:transparent; border:1px solid var(--rule-strong); color:var(--ink-soft);
+          padding:7px 15px; border-radius:2px; font-size:12px; letter-spacing:.05em;
+          cursor:pointer; transition:all .18s ease;
+        }
+        #filter-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+        /* ---- Contents (table of contents) ---- */
+        .contents { margin:34px 0 6px; }
+        .contents-title {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 20px;
+        }
+        .toc-field { margin:0 0 18px; }
+        .toc-fname { font-size:18px; font-weight:600; text-decoration:none; }
+        .toc-fname:hover { text-decoration:underline; }
+        .toc-fcount {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; color:var(--muted); margin-left:8px;
+        }
+        .toc-list { list-style:none; margin:7px 0 0; padding:0; }
+        .toc-row { display:flex; align-items:baseline; padding:2px 0; font-size:15.5px; }
+        .toc-row a { color:var(--ink-soft); text-decoration:none; white-space:nowrap; }
+        .toc-row a:hover { color:var(--accent); }
+        .toc-lead { flex:1; border-bottom:1px dotted var(--rule-strong); margin:0 9px; position:relative; top:-4px; }
+        .toc-row .n {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12.5px; color:var(--muted);
+        }
+
+        /* ---- Field section ---- */
+        .field-header {
+          display:flex; align-items:baseline; gap:15px;
+          margin:64px 0 6px; padding-bottom:10px; border-bottom:2px solid currentColor;
+        }
+        .field-header .rn { font-size:20px; font-weight:600; opacity:.5; }
+        .field-header .ft { font-size:31px; font-weight:700; letter-spacing:.005em; }
+        .field-header .fc {
+          margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.06em; opacity:.6; align-self:center;
+        }
+
+        /* ---- Journal sub-header ---- */
+        .journal-header {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; font-weight:600; letter-spacing:.19em; text-transform:uppercase;
+          color:var(--muted); margin:34px 0 2px;
+        }
+
+        /* ---- Paper entry ---- */
+        .paper { padding:22px 0 24px; border-bottom:1px solid var(--rule); }
+        .paper-head { display:flex; justify-content:space-between; align-items:flex-start; gap:22px; }
+        .paper-title { margin:0; font-size:20px; line-height:1.34; font-weight:600; color:#1c1f23; flex:1; }
+        .paper-title .pn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; font-weight:600; color:var(--muted); margin-right:9px;
+        }
+        .paper-authors { margin:8px 0 0; font-style:italic; font-size:15.5px; color:var(--ink-soft); }
+        .paper-summary { margin:11px 0 0; font-size:16px; line-height:1.58; color:var(--ink); }
+        .paper-meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.02em; color:var(--muted);
+          margin:12px 0 0; display:flex; flex-wrap:wrap; gap:8px 18px;
+        }
+        .paper-meta a { color:var(--accent); text-decoration:none; }
+        .paper-meta a:hover { text-decoration:underline; }
+        .paper-abstract {
+          margin:14px 0 0; padding:1px 0 1px 20px; border-left:2px solid var(--rule-strong);
+          font-size:14.5px; line-height:1.66; color:var(--ink-soft);
+          text-align:justify; hyphens:auto;
+        }
+        .paper-abstract .lbl {
+          display:block; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 6px;
+        }
+
+        /* ---- Star rating ---- */
+        .star-rating { display:inline-flex; flex-direction:row-reverse; gap:3px; flex-shrink:0; }
+        .star-rating input { display:none; }
+        .star-rating label { font-size:17px; color:#ded8ca; cursor:pointer; transition:color .1s; }
         .star-rating input:checked ~ label,
         .star-rating label:hover,
-        .star-rating label:hover ~ label {
-          color: #fbbf24;
-        }
-        .admin-controls {
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          z-index: 1000;
-          display: none; /* Only show locally */
-        }
+        .star-rating label:hover ~ label { color:#c19a35; }
+
+        /* ---- Admin ---- */
+        .admin-controls { position:fixed; top:20px; right:20px; z-index:1000; display:none; }
         .save-btn {
-          background: #1e3a8a;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 8px;
-          cursor: pointer;
-          font-weight: 600;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          background:var(--accent); color:#fff; border:none; padding:10px 20px;
+          border-radius:4px; cursor:pointer; font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,.15);
         }
-        @media print { .admin-controls, .star-rating { display: none !important; } }
+
+        @media print { .admin-controls, .star-rating, .toolbar { display:none !important; }
+          body { background:#fff; padding:0; } .sheet { box-shadow:none; border:none; } }
+        @media (max-width:640px) {
+          .sheet { padding:34px 22px 46px; }
+          .masthead h1 { font-size:31px; }
+          .field-header .ft { font-size:25px; }
+          .field-header .fc { display:none; }
+          .paper-head { flex-direction:column; gap:10px; }
+        }
       </style>
     </head>
-    <body style="background:#f6f7fb;padding:20px;color:#1f2937;">
+    <body>
       <div class="admin-controls" id="admin-ui">
         <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
       </div>
       <a id="top"></a>
-      <div style="max-width:900px;margin:0 auto;background:#ffffff;border-radius:14px;padding:26px;box-shadow:0 6px 18px rgba(0,0,0,0.08);border:1px solid #eef0f4;">
-        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;">
-          <div>
-            <h1 style="margin:0;font-size:26px;line-height:1.2;color:#111827;">Bi-weekly Research Digest</h1>
-            <p style="margin:8px 0 0;font-size:14px;color:#4b5563;">
-              <b>Date range:</b> 2026-06-01 → 2026-06-15<br>
-              <b>Total relevant papers:</b> 18
-            </p>
-          </div>
-          <div style="display:flex; gap:10px; align-items:center;">
-            <button id="filter-btn" onclick="toggleTopPicks()" style="background:#ffffff; border:1px solid #e5e7eb; padding:8px 16px; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; color:#374151; transition:all 0.2s;">
-              ⭐ Show Top Picks (4★+)
-            </button>
-          </div>
+      <div class="sheet">
+        <header class="masthead">
+          <p class="eyebrow">Maohua Nie · Research Digest</p>
+          <h1>Bi-weekly Research Digest</h1>
+          <p class="meta">01 Jun 2026 – 15 Jun 2026<span class="dot">◆</span>18 papers across 3 fields</p>
+        </header>
+
+        <div class="toolbar">
+          <button id="filter-btn" onclick="toggleTopPicks()">★ Show top picks (4★+)</button>
         </div>
-        <h2 style="margin:26px 0 10px;font-size:18px;border-bottom:1px solid #e5e7eb;padding-bottom:8px;color:#111827;">Summary by Journal</h2>
-        <ul style="margin:10px 0 0;padding-left:18px;color:#374151;line-height:1.7;">
-    <li><a href='#journal-journal-of-economic-behavior-organization' style='text-decoration:none;color:#2563eb;'><b>Journal of Economic Behavior &amp; Organization</b></a>: 3</li><li><a href='#journal-the-quarterly-journal-of-economics' style='text-decoration:none;color:#2563eb;'><b>The Quarterly Journal of Economics</b></a>: 1</li><li><a href='#journal-management-science' style='text-decoration:none;color:#2563eb;'><b>Management Science</b></a>: 3</li><li><a href='#journal-cognition' style='text-decoration:none;color:#2563eb;'><b>Cognition</b></a>: 4</li><li><a href='#journal-journal-of-behavioral-decision-making' style='text-decoration:none;color:#2563eb;'><b>Journal of Behavioral Decision Making</b></a>: 1</li><li><a href='#journal-pnas' style='text-decoration:none;color:#2563eb;'><b>PNAS</b></a>: 2</li><li><a href='#journal-plos-computational-biology' style='text-decoration:none;color:#2563eb;'><b>PLOS Computational Biology</b></a>: 1</li><li><a href='#journal-psychological-methods' style='text-decoration:none;color:#2563eb;'><b>Psychological Methods</b></a>: 1</li><li><a href='#journal-memory-cognition' style='text-decoration:none;color:#2563eb;'><b>Memory &amp; Cognition</b></a>: 2</li></ul><a id="journal-journal-of-economic-behavior-organization"></a><h2 class="journal-header" data-journal="Journal of Economic Behavior & Organization" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Journal of Economic Behavior &amp; Organization</h2>
-            <div id="paper-10-1016-j-jebo-2026-107563" class="paper-item" data-journal="Journal of Economic Behavior & Organization" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Decision models and online betting behavior: Comparing mean-variance, expected utility, and prospect theory</h3>
-                <div class="star-rating" data-paper-id="paper-10-1016-j-jebo-2026-107563">
-                  <input type="radio" id="star5-paper-10-1016-j-jebo-2026-107563" name="rating-paper-10-1016-j-jebo-2026-107563" value="5"><label for="star5-paper-10-1016-j-jebo-2026-107563">★</label>
-                  <input type="radio" id="star4-paper-10-1016-j-jebo-2026-107563" name="rating-paper-10-1016-j-jebo-2026-107563" value="4"><label for="star4-paper-10-1016-j-jebo-2026-107563">★</label>
-                  <input type="radio" id="star3-paper-10-1016-j-jebo-2026-107563" name="rating-paper-10-1016-j-jebo-2026-107563" value="3"><label for="star3-paper-10-1016-j-jebo-2026-107563">★</label>
-                  <input type="radio" id="star2-paper-10-1016-j-jebo-2026-107563" name="rating-paper-10-1016-j-jebo-2026-107563" value="2"><label for="star2-paper-10-1016-j-jebo-2026-107563">★</label>
-                  <input type="radio" id="star1-paper-10-1016-j-jebo-2026-107563" name="rating-paper-10-1016-j-jebo-2026-107563" value="1"><label for="star1-paper-10-1016-j-jebo-2026-107563">★</label>
+
+        <nav class="contents">
+          <p class="contents-title">Contents</p>
+    <div class="toc-field"><a class="toc-fname" href="#field-economics" style="color:#1c5d54">I. Economics</a><span class="toc-fcount">8</span><ul class="toc-list"><li class="toc-row"><a href="#journal-economics-journal-of-economic-behavior-organization">Journal of Economic Behavior &amp; Organization</a><span class="toc-lead"></span><span class="n">3</span></li><li class="toc-row"><a href="#journal-economics-the-quarterly-journal-of-economics">The Quarterly Journal of Economics</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-economics-management-science">Management Science</a><span class="toc-lead"></span><span class="n">3</span></li><li class="toc-row"><a href="#journal-economics-pnas">PNAS</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-psychology" style="color:#8a2b3a">II. Psychology</a><span class="toc-fcount">9</span><ul class="toc-list"><li class="toc-row"><a href="#journal-psychology-cognition">Cognition</a><span class="toc-lead"></span><span class="n">4</span></li><li class="toc-row"><a href="#journal-psychology-journal-of-behavioral-decision-making">Journal of Behavioral Decision Making</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-psychological-methods">Psychological Methods</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-pnas">PNAS</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-memory-cognition">Memory &amp; Cognition</a><span class="toc-lead"></span><span class="n">2</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-neuroscience" style="color:#3d3a78">III. Neuroscience</a><span class="toc-fcount">1</span><ul class="toc-list"><li class="toc-row"><a href="#journal-neuroscience-plos-computational-biology">PLOS Computational Biology</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div></nav><a id="field-economics"></a><h2 class="field-header" data-field="economics" style="color:#1c5d54"><span class="rn">I</span><span class="ft">Economics</span><span class="fc">8 papers</span></h2><a id="journal-economics-journal-of-economic-behavior-organization"></a><h3 class="journal-header" data-group="economics-journal-of-economic-behavior-organization">Journal of Economic Behavior &amp; Organization</h3>
+                <div id="paper-10-1016-j-jebo-2026-107563" class="paper-item paper" data-field="economics" data-group="economics-journal-of-economic-behavior-organization">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">1</span>Decision models and online betting behavior: Comparing mean-variance, expected utility, and prospect theory</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-jebo-2026-107563">
+                      <input type="radio" id="star5-paper-10-1016-j-jebo-2026-107563" name="rating-paper-10-1016-j-jebo-2026-107563" value="5"><label for="star5-paper-10-1016-j-jebo-2026-107563">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-jebo-2026-107563" name="rating-paper-10-1016-j-jebo-2026-107563" value="4"><label for="star4-paper-10-1016-j-jebo-2026-107563">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-jebo-2026-107563" name="rating-paper-10-1016-j-jebo-2026-107563" value="3"><label for="star3-paper-10-1016-j-jebo-2026-107563">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-jebo-2026-107563" name="rating-paper-10-1016-j-jebo-2026-107563" value="2"><label for="star2-paper-10-1016-j-jebo-2026-107563">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-jebo-2026-107563" name="rating-paper-10-1016-j-jebo-2026-107563" value="1"><label for="star1-paper-10-1016-j-jebo-2026-107563">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Reichenbach, F., Walther, M.</p>
+                  <p class='paper-summary'>Using over 1.6 million betting odds from online sports betting markets, this paper estimates and compares parameters for EUT, CPT, and mean-variance models, finding that moment-based models without nonlinear probability weighting perform comparably to CPT, and that bettors show preferences for skewness and kurtosis rather than risk or loss aversion.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.66</span><span><a href='https://doi.org/10.1016/j.jebo.2026.107563' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.jebo.2026.107563</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>We examine the drivers of decision making under risk by leveraging the odds offered by bookmakers in online sport betting. First, we use a dataset of over 1.6 million odds from ten years of soccer and 25 years of tennis online betting to estimate parameters for Expected Utility Theory (EUT), Cumulative Prospect Theory (CPT), and extended mean-variance models. Subsequently, we compare their out-of-sample predictive performance. We find that moment-based models that do not explicitly include nonlinear probability weighting perform on par with CPT. Our results further indicate that bettors are neither risk-averse (EUT) nor loss-averse (CPT) and exhibit preferences for skewness and kurtosis. Given the large share of adults who gamble regularly, these findings have broad relevance: We show that extended mean-variance frameworks, commonly used in finance, offer a simple alternative to prospect theory with comparable predictive power in online betting. Our study also offers insights into potential behavioral drivers of asset pricing anomalies, such as the underperformance of high-variance and high-skewness stocks. Furthermore, we provide parameter estimates for each framework that can be used in future empirical research, especially regarding the influence of gamblers in financial markets.</div>
                 </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>Using over 1.6 million betting odds from online sports betting markets, this paper estimates and compares parameters for EUT, CPT, and mean-variance models, finding that moment-based models without nonlinear probability weighting perform comparably to CPT, and that bettors show preferences for skewness and kurtosis rather than risk or loss aversion.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Reichenbach, F., Walther, M.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.66</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.jebo.2026.107563' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.jebo.2026.107563</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">We examine the drivers of decision making under risk by leveraging the odds offered by bookmakers in online sport betting. First, we use a dataset of over 1.6 million odds from ten years of soccer and 25 years of tennis online betting to estimate parameters for Expected Utility Theory (EUT), Cumulative Prospect Theory (CPT), and extended mean-variance models. Subsequently, we compare their out-of-sample predictive performance. We find that moment-based models that do not explicitly include nonlinear probability weighting perform on par with CPT. Our results further indicate that bettors are neither risk-averse (EUT) nor loss-averse (CPT) and exhibit preferences for skewness and kurtosis. Given the large share of adults who gamble regularly, these findings have broad relevance: We show that extended mean-variance frameworks, commonly used in finance, offer a simple alternative to prospect theory with comparable predictive power in online betting. Our study also offers insights into potential behavioral drivers of asset pricing anomalies, such as the underperformance of high-variance and high-skewness stocks. Furthermore, we provide parameter estimates for each framework that can be used in future empirical research, especially regarding the influence of gamblers in financial markets.</span>
+                
+                <div id="paper-10-1016-j-jebo-2026-107562" class="paper-item paper" data-field="economics" data-group="economics-journal-of-economic-behavior-organization">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">2</span>Magnitude effects and decreasing impatience in temporal discounting: Models, evidence, and applications</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-jebo-2026-107562">
+                      <input type="radio" id="star5-paper-10-1016-j-jebo-2026-107562" name="rating-paper-10-1016-j-jebo-2026-107562" value="5"><label for="star5-paper-10-1016-j-jebo-2026-107562">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-jebo-2026-107562" name="rating-paper-10-1016-j-jebo-2026-107562" value="4"><label for="star4-paper-10-1016-j-jebo-2026-107562">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-jebo-2026-107562" name="rating-paper-10-1016-j-jebo-2026-107562" value="3"><label for="star3-paper-10-1016-j-jebo-2026-107562">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-jebo-2026-107562" name="rating-paper-10-1016-j-jebo-2026-107562" value="2"><label for="star2-paper-10-1016-j-jebo-2026-107562">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-jebo-2026-107562" name="rating-paper-10-1016-j-jebo-2026-107562" value="1"><label for="star1-paper-10-1016-j-jebo-2026-107562">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Baucells, M., Cillo, A.</p>
+                  <p class='paper-summary'>This paper examines how the size of rewards affects temporal discounting (magnitude effects) and the pattern of decreasing impatience, reviewing models, empirical evidence, and applications of these phenomena in intertemporal choice.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.48</span><span><a href='https://doi.org/10.1016/j.jebo.2026.107562' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.jebo.2026.107562</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
                 </div>
-              </div>
-            </div>
-            
-            <div id="paper-10-1016-j-jebo-2026-107562" class="paper-item" data-journal="Journal of Economic Behavior & Organization" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Magnitude effects and decreasing impatience in temporal discounting: Models, evidence, and applications</h3>
-                <div class="star-rating" data-paper-id="paper-10-1016-j-jebo-2026-107562">
-                  <input type="radio" id="star5-paper-10-1016-j-jebo-2026-107562" name="rating-paper-10-1016-j-jebo-2026-107562" value="5"><label for="star5-paper-10-1016-j-jebo-2026-107562">★</label>
-                  <input type="radio" id="star4-paper-10-1016-j-jebo-2026-107562" name="rating-paper-10-1016-j-jebo-2026-107562" value="4"><label for="star4-paper-10-1016-j-jebo-2026-107562">★</label>
-                  <input type="radio" id="star3-paper-10-1016-j-jebo-2026-107562" name="rating-paper-10-1016-j-jebo-2026-107562" value="3"><label for="star3-paper-10-1016-j-jebo-2026-107562">★</label>
-                  <input type="radio" id="star2-paper-10-1016-j-jebo-2026-107562" name="rating-paper-10-1016-j-jebo-2026-107562" value="2"><label for="star2-paper-10-1016-j-jebo-2026-107562">★</label>
-                  <input type="radio" id="star1-paper-10-1016-j-jebo-2026-107562" name="rating-paper-10-1016-j-jebo-2026-107562" value="1"><label for="star1-paper-10-1016-j-jebo-2026-107562">★</label>
+                
+                <div id="paper-10-1016-j-jebo-2026-107556" class="paper-item paper" data-field="economics" data-group="economics-journal-of-economic-behavior-organization">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">3</span>Incidental emotions and financial risk-taking</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-jebo-2026-107556">
+                      <input type="radio" id="star5-paper-10-1016-j-jebo-2026-107556" name="rating-paper-10-1016-j-jebo-2026-107556" value="5"><label for="star5-paper-10-1016-j-jebo-2026-107556">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-jebo-2026-107556" name="rating-paper-10-1016-j-jebo-2026-107556" value="4"><label for="star4-paper-10-1016-j-jebo-2026-107556">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-jebo-2026-107556" name="rating-paper-10-1016-j-jebo-2026-107556" value="3"><label for="star3-paper-10-1016-j-jebo-2026-107556">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-jebo-2026-107556" name="rating-paper-10-1016-j-jebo-2026-107556" value="2"><label for="star2-paper-10-1016-j-jebo-2026-107556">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-jebo-2026-107556" name="rating-paper-10-1016-j-jebo-2026-107556" value="1"><label for="star1-paper-10-1016-j-jebo-2026-107556">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Dong, Y., Dreber, A., Johannesson, M., Kilicgedik, G.</p>
+                  <p class='paper-summary'>This paper examines how incidental (task-unrelated) emotions influence individuals&#39; willingness to take financial risks. It likely explores how emotional states alter risk preferences, probability weighting, or gain-loss evaluations in financial decision contexts.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.45</span><span><a href='https://doi.org/10.1016/j.jebo.2026.107556' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.jebo.2026.107556</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
                 </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper examines how the size of rewards affects temporal discounting (magnitude effects) and the pattern of decreasing impatience, reviewing models, empirical evidence, and applications of these phenomena in intertemporal choice.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Baucells, M., Cillo, A.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.48</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.jebo.2026.107562' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.jebo.2026.107562</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
+                <a id="journal-economics-the-quarterly-journal-of-economics"></a><h3 class="journal-header" data-group="economics-the-quarterly-journal-of-economics">The Quarterly Journal of Economics</h3>
+                <div id="paper-10-1093-qje-qjag023" class="paper-item paper" data-field="economics" data-group="economics-the-quarterly-journal-of-economics">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">4</span>A Cognitive Theory of Reasoning and Choice</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1093-qje-qjag023">
+                      <input type="radio" id="star5-paper-10-1093-qje-qjag023" name="rating-paper-10-1093-qje-qjag023" value="5"><label for="star5-paper-10-1093-qje-qjag023">★</label>
+                      <input type="radio" id="star4-paper-10-1093-qje-qjag023" name="rating-paper-10-1093-qje-qjag023" value="4"><label for="star4-paper-10-1093-qje-qjag023">★</label>
+                      <input type="radio" id="star3-paper-10-1093-qje-qjag023" name="rating-paper-10-1093-qje-qjag023" value="3"><label for="star3-paper-10-1093-qje-qjag023">★</label>
+                      <input type="radio" id="star2-paper-10-1093-qje-qjag023" name="rating-paper-10-1093-qje-qjag023" value="2"><label for="star2-paper-10-1093-qje-qjag023">★</label>
+                      <input type="radio" id="star1-paper-10-1093-qje-qjag023" name="rating-paper-10-1093-qje-qjag023" value="1"><label for="star1-paper-10-1093-qje-qjag023">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Bordalo, P., Gennaioli, N., Lanzani, G., Shleifer, A.</p>
+                  <p class='paper-summary'>The paper proposes a theory in which past experience drives categorization of choice problems, determining which features receive attention and thereby producing heterogeneous and unstable choices. It unifies major judgment and decision-making biases through differences in attention and representation.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.6</span><span><a href='https://doi.org/10.1093/qje/qjag023' target='_blank' rel='noopener noreferrer'>doi.org/10.1093/qje/qjag023</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract We present a theory of choice in which attention to the features of options is determined by the decision maker’s categorization of the current problem in a set of problems she solved in the past. Categorization depends on goal-relevant and contextual problem-level features. The model yields heterogeneity in attention and choice in a given problem based on different past experiences and instability when changes in irrelevant context cause re-categorization. We show that heterogeneous and unstable representations of a choice problem unify major biases in judgment and decision making.</div>
                 </div>
-              </div>
-            </div>
-            
-            <div id="paper-10-1016-j-jebo-2026-107556" class="paper-item" data-journal="Journal of Economic Behavior & Organization" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Incidental emotions and financial risk-taking</h3>
-                <div class="star-rating" data-paper-id="paper-10-1016-j-jebo-2026-107556">
-                  <input type="radio" id="star5-paper-10-1016-j-jebo-2026-107556" name="rating-paper-10-1016-j-jebo-2026-107556" value="5"><label for="star5-paper-10-1016-j-jebo-2026-107556">★</label>
-                  <input type="radio" id="star4-paper-10-1016-j-jebo-2026-107556" name="rating-paper-10-1016-j-jebo-2026-107556" value="4"><label for="star4-paper-10-1016-j-jebo-2026-107556">★</label>
-                  <input type="radio" id="star3-paper-10-1016-j-jebo-2026-107556" name="rating-paper-10-1016-j-jebo-2026-107556" value="3"><label for="star3-paper-10-1016-j-jebo-2026-107556">★</label>
-                  <input type="radio" id="star2-paper-10-1016-j-jebo-2026-107556" name="rating-paper-10-1016-j-jebo-2026-107556" value="2"><label for="star2-paper-10-1016-j-jebo-2026-107556">★</label>
-                  <input type="radio" id="star1-paper-10-1016-j-jebo-2026-107556" name="rating-paper-10-1016-j-jebo-2026-107556" value="1"><label for="star1-paper-10-1016-j-jebo-2026-107556">★</label>
+                <a id="journal-economics-management-science"></a><h3 class="journal-header" data-group="economics-management-science">Management Science</h3>
+                <div id="paper-10-1287-mnsc-2023-02381" class="paper-item paper" data-field="economics" data-group="economics-management-science">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">5</span>Sequential Decision Making: From Decision Elicitation to Strategy Identification</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2023-02381">
+                      <input type="radio" id="star5-paper-10-1287-mnsc-2023-02381" name="rating-paper-10-1287-mnsc-2023-02381" value="5"><label for="star5-paper-10-1287-mnsc-2023-02381">★</label>
+                      <input type="radio" id="star4-paper-10-1287-mnsc-2023-02381" name="rating-paper-10-1287-mnsc-2023-02381" value="4"><label for="star4-paper-10-1287-mnsc-2023-02381">★</label>
+                      <input type="radio" id="star3-paper-10-1287-mnsc-2023-02381" name="rating-paper-10-1287-mnsc-2023-02381" value="3"><label for="star3-paper-10-1287-mnsc-2023-02381">★</label>
+                      <input type="radio" id="star2-paper-10-1287-mnsc-2023-02381" name="rating-paper-10-1287-mnsc-2023-02381" value="2"><label for="star2-paper-10-1287-mnsc-2023-02381">★</label>
+                      <input type="radio" id="star1-paper-10-1287-mnsc-2023-02381" name="rating-paper-10-1287-mnsc-2023-02381" value="1"><label for="star1-paper-10-1287-mnsc-2023-02381">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Kagan, E., Leider, S., Sahin, O.</p>
+                  <p class='paper-summary'>This paper introduces an experimental and econometric method to identify decision strategies in sequential choice problems (e.g., search and stopping tasks), finding that decision makers are less sensitive to state/time than optimal and tend toward more accepting policies, with elicitation format significantly affecting strategy adoption.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.59</span><span><a href='https://doi.org/10.1287/mnsc.2023.02381' target='_blank' rel='noopener noreferrer'>doi.org/10.1287/mnsc.2023.02381</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Characterizing behavior in sequential problems is often complicated by the presence of multiple decision rules with overlapping predictions. To address this issue, we introduce a new experimental and econometric approach for identifying decision strategies in sequential contexts. This approach consists of eliciting conditional strategies (as opposed to direct choices) and measuring policy adherence via maximum-likelihood estimation (as opposed to counting coincidences). Applying this approach to several common types of sequential problems increases the proportion of uniquely identifiable subjects by up to a third relative to standard methods and yields the following findings. First, in search and stopping problems, decision makers respond less strongly to state and time of the dynamic problem than in problems that do not have a stopping structure. Second, decision rules are often biased toward being more accepting (less demanding) than the optimal policy would predict. Third, the format used to elicit decisions (menu-based choice versus numeric threshold entry) has a significant effect on policy adoption. In addition to identifying decision rules that better fit observed behavior in dynamic choice problems, these results have implications for firms serving customers who face sequential decisions. We use a revenue management example (optimal subscription service pricing) to show that failing to account for the relevant decision rules can reduce firm profits by up to 54%. This paper was accepted by Elena Katok, operations management. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2023.02381 .</div>
                 </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper examines how incidental (task-unrelated) emotions influence individuals&#39; willingness to take financial risks. It likely explores how emotional states alter risk preferences, probability weighting, or gain-loss evaluations in financial decision contexts.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Dong, Y., Dreber, A., Johannesson, M., Kilicgedik, G.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.45</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.jebo.2026.107556' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.jebo.2026.107556</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
+                
+                <div id="paper-10-1287-mnsc-2024-04870" class="paper-item paper" data-field="economics" data-group="economics-management-science">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">6</span>Measuring Probabilistic Risk Attitudes</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2024-04870">
+                      <input type="radio" id="star5-paper-10-1287-mnsc-2024-04870" name="rating-paper-10-1287-mnsc-2024-04870" value="5"><label for="star5-paper-10-1287-mnsc-2024-04870">★</label>
+                      <input type="radio" id="star4-paper-10-1287-mnsc-2024-04870" name="rating-paper-10-1287-mnsc-2024-04870" value="4"><label for="star4-paper-10-1287-mnsc-2024-04870">★</label>
+                      <input type="radio" id="star3-paper-10-1287-mnsc-2024-04870" name="rating-paper-10-1287-mnsc-2024-04870" value="3"><label for="star3-paper-10-1287-mnsc-2024-04870">★</label>
+                      <input type="radio" id="star2-paper-10-1287-mnsc-2024-04870" name="rating-paper-10-1287-mnsc-2024-04870" value="2"><label for="star2-paper-10-1287-mnsc-2024-04870">★</label>
+                      <input type="radio" id="star1-paper-10-1287-mnsc-2024-04870" name="rating-paper-10-1287-mnsc-2024-04870" value="1"><label for="star1-paper-10-1287-mnsc-2024-04870">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Nascimento, A., Ng, C., Gonzalez, R.</p>
+                  <p class='paper-summary'>This paper introduces formal, mathematically precise measures for two psychological components of probabilistic risk attitudes—attractiveness (motivational) and discriminability (cognitive)—applicable to any probability weighting function. It also examines how existing weighting function parameters relate to these two factors and formalizes their independence.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.59</span><span><a href='https://doi.org/10.1287/mnsc.2024.04870' target='_blank' rel='noopener noreferrer'>doi.org/10.1287/mnsc.2024.04870</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>We introduce formal measures for two psychological factors of probabilistic risk attitudes: attractiveness (motivational factor) and discriminability (cognitive factor). Unlike previous approaches that relied on heuristic proxies, our measures precisely capture these two fundamental factors. Our measures are mathematically tractable, robust to discontinuities, such as in the NEO-additive case, and flexible to be applied to any weighting function, as well as to both small and large probabilities. Additionally, through detailed numerical analysis, we examine to what extent existing weighting function parameters capture the two factors: attractiveness and discriminability. Finally, using these new measures, we provide a formal understanding of the independence between motivational and cognitive factors. This paper was accepted by Jack Soll, behavioral economics and decision analysis. Funding: The research was made possible by the financial support from Brazilian Agency of Research and Innovation (Finep), Coordenação de Aperfeiçoamento de Pessoal de Nível Superior - Brasil (CAPES) [Grants PROJ–CAPES PRINT 1033427P] and PUC-Rio. Supplemental Material: The data files are available at https://doi.org/10.1287/mnsc.2024.04870 .</div>
                 </div>
-              </div>
-            </div>
-            <a id="journal-the-quarterly-journal-of-economics"></a><h2 class="journal-header" data-journal="The Quarterly Journal of Economics" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">The Quarterly Journal of Economics</h2>
-            <div id="paper-10-1093-qje-qjag023" class="paper-item" data-journal="The Quarterly Journal of Economics" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">A Cognitive Theory of Reasoning and Choice</h3>
-                <div class="star-rating" data-paper-id="paper-10-1093-qje-qjag023">
-                  <input type="radio" id="star5-paper-10-1093-qje-qjag023" name="rating-paper-10-1093-qje-qjag023" value="5"><label for="star5-paper-10-1093-qje-qjag023">★</label>
-                  <input type="radio" id="star4-paper-10-1093-qje-qjag023" name="rating-paper-10-1093-qje-qjag023" value="4"><label for="star4-paper-10-1093-qje-qjag023">★</label>
-                  <input type="radio" id="star3-paper-10-1093-qje-qjag023" name="rating-paper-10-1093-qje-qjag023" value="3"><label for="star3-paper-10-1093-qje-qjag023">★</label>
-                  <input type="radio" id="star2-paper-10-1093-qje-qjag023" name="rating-paper-10-1093-qje-qjag023" value="2"><label for="star2-paper-10-1093-qje-qjag023">★</label>
-                  <input type="radio" id="star1-paper-10-1093-qje-qjag023" name="rating-paper-10-1093-qje-qjag023" value="1"><label for="star1-paper-10-1093-qje-qjag023">★</label>
+                
+                <div id="paper-10-1287-mnsc-2025-01348" class="paper-item paper" data-field="economics" data-group="economics-management-science">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">7</span>Fast and Simple Adaptive Elicitations</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2025-01348">
+                      <input type="radio" id="star5-paper-10-1287-mnsc-2025-01348" name="rating-paper-10-1287-mnsc-2025-01348" value="5"><label for="star5-paper-10-1287-mnsc-2025-01348">★</label>
+                      <input type="radio" id="star4-paper-10-1287-mnsc-2025-01348" name="rating-paper-10-1287-mnsc-2025-01348" value="4"><label for="star4-paper-10-1287-mnsc-2025-01348">★</label>
+                      <input type="radio" id="star3-paper-10-1287-mnsc-2025-01348" name="rating-paper-10-1287-mnsc-2025-01348" value="3"><label for="star3-paper-10-1287-mnsc-2025-01348">★</label>
+                      <input type="radio" id="star2-paper-10-1287-mnsc-2025-01348" name="rating-paper-10-1287-mnsc-2025-01348" value="2"><label for="star2-paper-10-1287-mnsc-2025-01348">★</label>
+                      <input type="radio" id="star1-paper-10-1287-mnsc-2025-01348" name="rating-paper-10-1287-mnsc-2025-01348" value="1"><label for="star1-paper-10-1287-mnsc-2025-01348">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Bertani, N., Diecidue, E., Perny, P., Viappiani, P.</p>
+                  <p class='paper-summary'>The paper introduces a new adaptive elicitation procedure (FSE) for measuring decision models, particularly probability weighting functions, using linear programming and splines without distributional assumptions. It demonstrates superior recovery of individual-level weighting functions and out-of-sample choice prediction compared to existing methods.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.51</span><span><a href='https://doi.org/10.1287/mnsc.2025.01348' target='_blank' rel='noopener noreferrer'>doi.org/10.1287/mnsc.2025.01348</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>We propose a new Fast and Simple Elicitation procedure (FSE) for the measurement of decision models. Our procedure bounds the function of the decision model, iteratively halves the maximal distance between the bounds, and incrementally restricts the feasible space of associated parameters. It requires no distributional assumptions and relies on linear programming and approximating splines, improving tractability and descriptiveness. We apply FSE to elicit the probability weighting function in three studies: a simulation and two experiments. Our results demonstrate FSE’s ability to faithfully recover the function. Both in the laboratory and online, FSE reflects the choices made by a respondent more precisely than alternative elicitation procedures and standard functional forms. Importantly, FSE also predicts the out-of-sample choices of a representative online sample more accurately than its alternatives. Taken together, our results shed new light on the prevalence of possibility and certainty effects, and convey general implications for experimental modeling and design. This paper was accepted by Manel Baucells, behavioral economics and decision analysis. Funding: This work was supported by INSEAD R&amp;amp;D and by a grant from Sorbonne University. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2025.01348 .</div>
                 </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper proposes a theory in which past experience drives categorization of choice problems, determining which features receive attention and thereby producing heterogeneous and unstable choices. It unifies major judgment and decision-making biases through differences in attention and representation.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Bordalo, P., Gennaioli, N., Lanzani, G., Shleifer, A.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.6</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1093/qje/qjag023' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1093/qje/qjag023</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Abstract We present a theory of choice in which attention to the features of options is determined by the decision maker’s categorization of the current problem in a set of problems she solved in the past. Categorization depends on goal-relevant and contextual problem-level features. The model yields heterogeneity in attention and choice in a given problem based on different past experiences and instability when changes in irrelevant context cause re-categorization. We show that heterogeneous and unstable representations of a choice problem unify major biases in judgment and decision making.</span>
+                <a id="journal-economics-pnas"></a><h3 class="journal-header" data-group="economics-pnas">PNAS</h3>
+                <div id="paper-10-1073-pnas-2537030123" class="paper-item paper" data-field="economics" data-group="economics-pnas">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">8</span>AI agents are sensitive to nudges</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1073-pnas-2537030123">
+                      <input type="radio" id="star5-paper-10-1073-pnas-2537030123" name="rating-paper-10-1073-pnas-2537030123" value="5"><label for="star5-paper-10-1073-pnas-2537030123">★</label>
+                      <input type="radio" id="star4-paper-10-1073-pnas-2537030123" name="rating-paper-10-1073-pnas-2537030123" value="4"><label for="star4-paper-10-1073-pnas-2537030123">★</label>
+                      <input type="radio" id="star3-paper-10-1073-pnas-2537030123" name="rating-paper-10-1073-pnas-2537030123" value="3"><label for="star3-paper-10-1073-pnas-2537030123">★</label>
+                      <input type="radio" id="star2-paper-10-1073-pnas-2537030123" name="rating-paper-10-1073-pnas-2537030123" value="2"><label for="star2-paper-10-1073-pnas-2537030123">★</label>
+                      <input type="radio" id="star1-paper-10-1073-pnas-2537030123" name="rating-paper-10-1073-pnas-2537030123" value="1"><label for="star1-paper-10-1073-pnas-2537030123">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Cherep, M., Maes, P., Singh, N.</p>
+                  <p class='paper-summary'>This paper tests how leading LLMs respond to various choice architecture interventions (defaults, nudges, information highlighting) and finds they are far more sensitive to these manipulations than humans, sometimes acquiring excessive information or ignoring it entirely. The study uses a resource-rational model of human choice as a normative baseline and highlights safety concerns about behavioral brittleness in LLM agents.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.5</span><span><a href='https://doi.org/10.1073/pnas.2537030123' target='_blank' rel='noopener noreferrer'>doi.org/10.1073/pnas.2537030123</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Large language models (LLMs) are increasingly deployed as autonomous agents that make choices and use tools on behalf of users. Yet, we have limited evidence about how their decisions are shaped by their environment. We adapt a human decision-making task to test leading LLMs under four forms of choice architecture: defaults, suggestions, information highlighting, and “optimal” nudges derived from a resource-rational model of human choice. We treat human behavior as a baseline for predictable sensitivity to such interventions. Across models and prompting strategies, LLMs often depart substantially from this baseline. They sometimes pay excessive costs to acquire information, sometimes ignore available information, and, most crucially, are far more responsive to nudges than humans, such that weak cues that slightly shift human behavior have larger effects on model choices, toward both better and worse payoff outcomes. Chain-of-thought prompting and in-context human data do not reliably stabilize behavior. Recent reasoning-optimized LLMs can, in some configurations, restore more human-level sensitivity to nudges, but do so inconsistently and at substantial computational cost. These results point to an important and largely neglected safety concern: LLM agents can be behaviorally brittle under subtle changes in choice architecture, even in the absence of adversarial settings.</div>
                 </div>
-              </div>
-            </div>
-            <a id="journal-management-science"></a><h2 class="journal-header" data-journal="Management Science" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Management Science</h2>
-            <div id="paper-10-1287-mnsc-2023-02381" class="paper-item" data-journal="Management Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Sequential Decision Making: From Decision Elicitation to Strategy Identification</h3>
-                <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2023-02381">
-                  <input type="radio" id="star5-paper-10-1287-mnsc-2023-02381" name="rating-paper-10-1287-mnsc-2023-02381" value="5"><label for="star5-paper-10-1287-mnsc-2023-02381">★</label>
-                  <input type="radio" id="star4-paper-10-1287-mnsc-2023-02381" name="rating-paper-10-1287-mnsc-2023-02381" value="4"><label for="star4-paper-10-1287-mnsc-2023-02381">★</label>
-                  <input type="radio" id="star3-paper-10-1287-mnsc-2023-02381" name="rating-paper-10-1287-mnsc-2023-02381" value="3"><label for="star3-paper-10-1287-mnsc-2023-02381">★</label>
-                  <input type="radio" id="star2-paper-10-1287-mnsc-2023-02381" name="rating-paper-10-1287-mnsc-2023-02381" value="2"><label for="star2-paper-10-1287-mnsc-2023-02381">★</label>
-                  <input type="radio" id="star1-paper-10-1287-mnsc-2023-02381" name="rating-paper-10-1287-mnsc-2023-02381" value="1"><label for="star1-paper-10-1287-mnsc-2023-02381">★</label>
+                <a id="field-psychology"></a><h2 class="field-header" data-field="psychology" style="color:#8a2b3a"><span class="rn">II</span><span class="ft">Psychology</span><span class="fc">9 papers</span></h2><a id="journal-psychology-cognition"></a><h3 class="journal-header" data-group="psychology-cognition">Cognition</h3>
+                <div id="paper-10-1016-j-cognition-2026-106449" class="paper-item paper" data-field="psychology" data-group="psychology-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">9</span>Frequency effects in decision-making involving loss minimization</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2026-106449">
+                      <input type="radio" id="star5-paper-10-1016-j-cognition-2026-106449" name="rating-paper-10-1016-j-cognition-2026-106449" value="5"><label for="star5-paper-10-1016-j-cognition-2026-106449">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-cognition-2026-106449" name="rating-paper-10-1016-j-cognition-2026-106449" value="4"><label for="star4-paper-10-1016-j-cognition-2026-106449">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-cognition-2026-106449" name="rating-paper-10-1016-j-cognition-2026-106449" value="3"><label for="star3-paper-10-1016-j-cognition-2026-106449">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-cognition-2026-106449" name="rating-paper-10-1016-j-cognition-2026-106449" value="2"><label for="star2-paper-10-1016-j-cognition-2026-106449">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-cognition-2026-106449" name="rating-paper-10-1016-j-cognition-2026-106449" value="1"><label for="star1-paper-10-1016-j-cognition-2026-106449">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Worthy, D., Hu, M.</p>
+                  <p class='paper-summary'>This paper investigates how frequency information affects decision-making processes when people are trying to minimize losses, exploring a domain closely tied to loss aversion and probability/frequency representation in risky choice.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.55</span><span><a href='https://doi.org/10.1016/j.cognition.2026.106449' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.cognition.2026.106449</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
                 </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper introduces an experimental and econometric method to identify decision strategies in sequential choice problems (e.g., search and stopping tasks), finding that decision makers are less sensitive to state/time than optimal and tend toward more accepting policies, with elicitation format significantly affecting strategy adoption.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Kagan, E., Leider, S., Sahin, O.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.59</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1287/mnsc.2023.02381' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2023.02381</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Characterizing behavior in sequential problems is often complicated by the presence of multiple decision rules with overlapping predictions. To address this issue, we introduce a new experimental and econometric approach for identifying decision strategies in sequential contexts. This approach consists of eliciting conditional strategies (as opposed to direct choices) and measuring policy adherence via maximum-likelihood estimation (as opposed to counting coincidences). Applying this approach to several common types of sequential problems increases the proportion of uniquely identifiable subjects by up to a third relative to standard methods and yields the following findings. First, in search and stopping problems, decision makers respond less strongly to state and time of the dynamic problem than in problems that do not have a stopping structure. Second, decision rules are often biased toward being more accepting (less demanding) than the optimal policy would predict. Third, the format used to elicit decisions (menu-based choice versus numeric threshold entry) has a significant effect on policy adoption. In addition to identifying decision rules that better fit observed behavior in dynamic choice problems, these results have implications for firms serving customers who face sequential decisions. We use a revenue management example (optimal subscription service pricing) to show that failing to account for the relevant decision rules can reduce firm profits by up to 54%. This paper was accepted by Elena Katok, operations management. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2023.02381 .</span>
+                
+                <div id="paper-10-1016-j-cognition-2026-106442" class="paper-item paper" data-field="psychology" data-group="psychology-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">10</span>Context-dependent effects of branches in decisions under risk</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2026-106442">
+                      <input type="radio" id="star5-paper-10-1016-j-cognition-2026-106442" name="rating-paper-10-1016-j-cognition-2026-106442" value="5"><label for="star5-paper-10-1016-j-cognition-2026-106442">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-cognition-2026-106442" name="rating-paper-10-1016-j-cognition-2026-106442" value="4"><label for="star4-paper-10-1016-j-cognition-2026-106442">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-cognition-2026-106442" name="rating-paper-10-1016-j-cognition-2026-106442" value="3"><label for="star3-paper-10-1016-j-cognition-2026-106442">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-cognition-2026-106442" name="rating-paper-10-1016-j-cognition-2026-106442" value="2"><label for="star2-paper-10-1016-j-cognition-2026-106442">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-cognition-2026-106442" name="rating-paper-10-1016-j-cognition-2026-106442" value="1"><label for="star1-paper-10-1016-j-cognition-2026-106442">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Evangelidis, I.</p>
+                  <p class='paper-summary'>This paper investigates how the branching structure or context of risky options affects decisions under risk, examining context-dependent shifts in risk preferences. It likely explores how presenting lotteries with different branch structures changes how people evaluate and choose among risky options.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.55</span><span><a href='https://doi.org/10.1016/j.cognition.2026.106442' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.cognition.2026.106442</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
                 </div>
-              </div>
-            </div>
-            
-            <div id="paper-10-1287-mnsc-2024-04870" class="paper-item" data-journal="Management Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Measuring Probabilistic Risk Attitudes</h3>
-                <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2024-04870">
-                  <input type="radio" id="star5-paper-10-1287-mnsc-2024-04870" name="rating-paper-10-1287-mnsc-2024-04870" value="5"><label for="star5-paper-10-1287-mnsc-2024-04870">★</label>
-                  <input type="radio" id="star4-paper-10-1287-mnsc-2024-04870" name="rating-paper-10-1287-mnsc-2024-04870" value="4"><label for="star4-paper-10-1287-mnsc-2024-04870">★</label>
-                  <input type="radio" id="star3-paper-10-1287-mnsc-2024-04870" name="rating-paper-10-1287-mnsc-2024-04870" value="3"><label for="star3-paper-10-1287-mnsc-2024-04870">★</label>
-                  <input type="radio" id="star2-paper-10-1287-mnsc-2024-04870" name="rating-paper-10-1287-mnsc-2024-04870" value="2"><label for="star2-paper-10-1287-mnsc-2024-04870">★</label>
-                  <input type="radio" id="star1-paper-10-1287-mnsc-2024-04870" name="rating-paper-10-1287-mnsc-2024-04870" value="1"><label for="star1-paper-10-1287-mnsc-2024-04870">★</label>
+                
+                <div id="paper-10-1016-j-cognition-2026-106447" class="paper-item paper" data-field="psychology" data-group="psychology-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">11</span>Delaying reward feedback does not increase the influence of information on attentional priority in visual search</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2026-106447">
+                      <input type="radio" id="star5-paper-10-1016-j-cognition-2026-106447" name="rating-paper-10-1016-j-cognition-2026-106447" value="5"><label for="star5-paper-10-1016-j-cognition-2026-106447">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-cognition-2026-106447" name="rating-paper-10-1016-j-cognition-2026-106447" value="4"><label for="star4-paper-10-1016-j-cognition-2026-106447">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-cognition-2026-106447" name="rating-paper-10-1016-j-cognition-2026-106447" value="3"><label for="star3-paper-10-1016-j-cognition-2026-106447">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-cognition-2026-106447" name="rating-paper-10-1016-j-cognition-2026-106447" value="2"><label for="star2-paper-10-1016-j-cognition-2026-106447">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-cognition-2026-106447" name="rating-paper-10-1016-j-cognition-2026-106447" value="1"><label for="star1-paper-10-1016-j-cognition-2026-106447">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Chow, J., Garner, K., Pearson, D., Theeuwes, J., Le Pelley, M.</p>
+                  <p class='paper-summary'>Using eye-tracking in visual search tasks, this paper examines whether uncertain or diagnostic reward cues capture attention more strongly, finding robust prioritization of uncertain stimuli regardless of reward feedback delay, and interpreting this as automatic exploratory attention for learning.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.53</span><span><a href='https://doi.org/10.1016/j.cognition.2026.106447' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.cognition.2026.106447</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Demonstrations of information-seeking behaviour suggest that attention often acts in an exploitative way, prioritising stimuli that provide diagnostic information about upcoming events over stimuli associated with uncertainty. However, recent evidence from studies of attentional capture in visual search show an opposite pattern: automatic prioritisation of items associated with reward uncertainty over diagnostic stimuli. We hypothesise that this uncertainty-modulated attentional capture (UMAC) effect reflects &#39;attention for learning&#39;: that is, exploration of potential sources of new information. Here we investigated whether UMAC arises because immediate provision of reward feedback in prior studies rendered advance information redundant, attenuating exploitation of diagnostic items and promoting exploration. Accordingly, increasing the duration of anticipated uncertainty (and hence the value of advance information that allows us to escape uncertainty earlier) should promote prioritisation of diagnostic cues and lead to patterns of attentional exploitation. In two eye-tracking experiments, we compared attentional capture by a cue providing diagnostic reward information and a cue signalling uncertain reward, while manipulating the delay between response and feedback (i.e., the duration of anticipated uncertainty that advance information could forestall). We found a UMAC effect in all conditions: regardless of response-feedback delay, uncertain stimuli were more likely to capture attention than diagnostic stimuli. These results suggest that prioritisation of uncertainty is a robust pattern of behaviour in this task. Synthesising current and previous findings, we suggest that different modes of attentional information-seeking may reflect qualitative task differences, with exploration operating at an implicit, automatic level, and exploitation resulting from top-down, volitional processes.</div>
                 </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper introduces formal, mathematically precise measures for two psychological components of probabilistic risk attitudes—attractiveness (motivational) and discriminability (cognitive)—applicable to any probability weighting function. It also examines how existing weighting function parameters relate to these two factors and formalizes their independence.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Nascimento, A., Ng, C., Gonzalez, R.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.59</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1287/mnsc.2024.04870' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2024.04870</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">We introduce formal measures for two psychological factors of probabilistic risk attitudes: attractiveness (motivational factor) and discriminability (cognitive factor). Unlike previous approaches that relied on heuristic proxies, our measures precisely capture these two fundamental factors. Our measures are mathematically tractable, robust to discontinuities, such as in the NEO-additive case, and flexible to be applied to any weighting function, as well as to both small and large probabilities. Additionally, through detailed numerical analysis, we examine to what extent existing weighting function parameters capture the two factors: attractiveness and discriminability. Finally, using these new measures, we provide a formal understanding of the independence between motivational and cognitive factors. This paper was accepted by Jack Soll, behavioral economics and decision analysis. Funding: The research was made possible by the financial support from Brazilian Agency of Research and Innovation (Finep), Coordenação de Aperfeiçoamento de Pessoal de Nível Superior - Brasil (CAPES) [Grants PROJ–CAPES PRINT 1033427P] and PUC-Rio. Supplemental Material: The data files are available at https://doi.org/10.1287/mnsc.2024.04870 .</span>
+                
+                <div id="paper-10-1016-j-cognition-2026-106438" class="paper-item paper" data-field="psychology" data-group="psychology-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">12</span>A cognitive fallacy in a fish? Glass catfish, like humans, make sub-optimal choices in the Monty Hall dilemma</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2026-106438">
+                      <input type="radio" id="star5-paper-10-1016-j-cognition-2026-106438" name="rating-paper-10-1016-j-cognition-2026-106438" value="5"><label for="star5-paper-10-1016-j-cognition-2026-106438">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-cognition-2026-106438" name="rating-paper-10-1016-j-cognition-2026-106438" value="4"><label for="star4-paper-10-1016-j-cognition-2026-106438">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-cognition-2026-106438" name="rating-paper-10-1016-j-cognition-2026-106438" value="3"><label for="star3-paper-10-1016-j-cognition-2026-106438">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-cognition-2026-106438" name="rating-paper-10-1016-j-cognition-2026-106438" value="2"><label for="star2-paper-10-1016-j-cognition-2026-106438">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-cognition-2026-106438" name="rating-paper-10-1016-j-cognition-2026-106438" value="1"><label for="star1-paper-10-1016-j-cognition-2026-106438">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Agrillo, C., Pecunioso, A.</p>
+                  <p class='paper-summary'>This study shows that glass catfish, like humans, fail to switch choices in the Monty Hall dilemma despite switching being the statistically superior strategy, suggesting that the cognitive bias of sticking with initial choices under conditioned probability scenarios may be phylogenetically widespread.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.47</span><span><a href='https://doi.org/10.1016/j.cognition.2026.106438' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.cognition.2026.106438</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Exploring cognitive fallacies is a key pursuit for neuroscientists as they offer a unique window into the foundations of how we think and make decisions. The Monty Hall dilemma (MHD) is a probability puzzle in which a person is offered a choice among three doors, behind one of which is a prize. After the person selects one door, the remaining door without the prize is revealed. The person is now given the option to either keep their original choice or switch to the other door. Most people stick with the initial choice, even though switching would offer a higher chance of winning. Here, we observed that a distantly related species, such as fish, shows a human-like behavior in the MHD, as they consistently maintained their first option. Our study suggests that the mechanisms behind misjudging two-stage decision-making involving conditioned probabilities may also be shared by smaller, non-cortical brains.</div>
                 </div>
-              </div>
-            </div>
-            
-            <div id="paper-10-1287-mnsc-2025-01348" class="paper-item" data-journal="Management Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Fast and Simple Adaptive Elicitations</h3>
-                <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2025-01348">
-                  <input type="radio" id="star5-paper-10-1287-mnsc-2025-01348" name="rating-paper-10-1287-mnsc-2025-01348" value="5"><label for="star5-paper-10-1287-mnsc-2025-01348">★</label>
-                  <input type="radio" id="star4-paper-10-1287-mnsc-2025-01348" name="rating-paper-10-1287-mnsc-2025-01348" value="4"><label for="star4-paper-10-1287-mnsc-2025-01348">★</label>
-                  <input type="radio" id="star3-paper-10-1287-mnsc-2025-01348" name="rating-paper-10-1287-mnsc-2025-01348" value="3"><label for="star3-paper-10-1287-mnsc-2025-01348">★</label>
-                  <input type="radio" id="star2-paper-10-1287-mnsc-2025-01348" name="rating-paper-10-1287-mnsc-2025-01348" value="2"><label for="star2-paper-10-1287-mnsc-2025-01348">★</label>
-                  <input type="radio" id="star1-paper-10-1287-mnsc-2025-01348" name="rating-paper-10-1287-mnsc-2025-01348" value="1"><label for="star1-paper-10-1287-mnsc-2025-01348">★</label>
+                <a id="journal-psychology-journal-of-behavioral-decision-making"></a><h3 class="journal-header" data-group="psychology-journal-of-behavioral-decision-making">Journal of Behavioral Decision Making</h3>
+                <div id="paper-10-1002-bdm-70086" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-behavioral-decision-making">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">13</span>Adjustment of Adolescents and Young Adults to the Level of Risk in Ambiguous Risk‐Taking Situation</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1002-bdm-70086">
+                      <input type="radio" id="star5-paper-10-1002-bdm-70086" name="rating-paper-10-1002-bdm-70086" value="5"><label for="star5-paper-10-1002-bdm-70086">★</label>
+                      <input type="radio" id="star4-paper-10-1002-bdm-70086" name="rating-paper-10-1002-bdm-70086" value="4"><label for="star4-paper-10-1002-bdm-70086">★</label>
+                      <input type="radio" id="star3-paper-10-1002-bdm-70086" name="rating-paper-10-1002-bdm-70086" value="3"><label for="star3-paper-10-1002-bdm-70086">★</label>
+                      <input type="radio" id="star2-paper-10-1002-bdm-70086" name="rating-paper-10-1002-bdm-70086" value="2"><label for="star2-paper-10-1002-bdm-70086">★</label>
+                      <input type="radio" id="star1-paper-10-1002-bdm-70086" name="rating-paper-10-1002-bdm-70086" value="1"><label for="star1-paper-10-1002-bdm-70086">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Moncel, C., Dauvier, B., Guiller, T., Osmont, A.</p>
+                  <p class='paper-summary'>This study investigates how adolescents and young adults adjust their risk-taking behavior through feedback learning in ambiguous situations with varying levels of loss probability, finding that younger adolescents explore more but adjust less optimally in high-risk conditions.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.55</span><span><a href='https://doi.org/10.1002/bdm.70086' target='_blank' rel='noopener noreferrer'>doi.org/10.1002/bdm.70086</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>ABSTRACT Adolescent risk‐taking generally occurs in ambiguous situations where decisions must rely on experiential learning. Although adolescence is characterized by heightened exploration in such situations, this does not systematically lead to optimal risk adjustment based on feedback learning. This study examines initial exploration and risk adjustment through feedback in ambiguous situations. The Risk Learning Card Task (RLCT), distinguishing three levels of risk (low, medium, and high probability of loss), was used to assess risk‐taking in ambiguous situations by adolescents ( N = 285, aged 10–17 years, M = 13.39, SD = 1.63, 45.96% female) and young adults ( N = 162, aged 18–25 years, M = 19.10, SD = 1.29, 70.99% female). Generalized additive mixed models (GAMM), considering age as a continuous variable, revealed that (1) the youngest adolescents showed the highest level of exploration, (2) a majority of participants exhibited a correct explicit risk level estimation regardless of age (i.e., they were able to estimate risk levels at the end of the task), (3) the younger the participants were, the less risk they took and the more points they earned in the low‐risk condition; the more risk they took, the fewer points they earned in the high‐risk situation. Thus, adolescents&#39; adjustment is more optimal in low‐risk situations and less optimal in high‐risk situations.</div>
                 </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper introduces a new adaptive elicitation procedure (FSE) for measuring decision models, particularly probability weighting functions, using linear programming and splines without distributional assumptions. It demonstrates superior recovery of individual-level weighting functions and out-of-sample choice prediction compared to existing methods.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Bertani, N., Diecidue, E., Perny, P., Viappiani, P.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.51</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1287/mnsc.2025.01348' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2025.01348</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">We propose a new Fast and Simple Elicitation procedure (FSE) for the measurement of decision models. Our procedure bounds the function of the decision model, iteratively halves the maximal distance between the bounds, and incrementally restricts the feasible space of associated parameters. It requires no distributional assumptions and relies on linear programming and approximating splines, improving tractability and descriptiveness. We apply FSE to elicit the probability weighting function in three studies: a simulation and two experiments. Our results demonstrate FSE’s ability to faithfully recover the function. Both in the laboratory and online, FSE reflects the choices made by a respondent more precisely than alternative elicitation procedures and standard functional forms. Importantly, FSE also predicts the out-of-sample choices of a representative online sample more accurately than its alternatives. Taken together, our results shed new light on the prevalence of possibility and certainty effects, and convey general implications for experimental modeling and design. This paper was accepted by Manel Baucells, behavioral economics and decision analysis. Funding: This work was supported by INSEAD R&amp;amp;D and by a grant from Sorbonne University. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2025.01348 .</span>
+                <a id="journal-psychology-psychological-methods"></a><h3 class="journal-header" data-group="psychology-psychological-methods">Psychological Methods</h3>
+                <div id="paper-10-1037-met0000814" class="paper-item paper" data-field="psychology" data-group="psychology-psychological-methods">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">14</span>Testing and improving the robustness of amortized bayesian inference for cognitive models.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-met0000814">
+                      <input type="radio" id="star5-paper-10-1037-met0000814" name="rating-paper-10-1037-met0000814" value="5"><label for="star5-paper-10-1037-met0000814">★</label>
+                      <input type="radio" id="star4-paper-10-1037-met0000814" name="rating-paper-10-1037-met0000814" value="4"><label for="star4-paper-10-1037-met0000814">★</label>
+                      <input type="radio" id="star3-paper-10-1037-met0000814" name="rating-paper-10-1037-met0000814" value="3"><label for="star3-paper-10-1037-met0000814">★</label>
+                      <input type="radio" id="star2-paper-10-1037-met0000814" name="rating-paper-10-1037-met0000814" value="2"><label for="star2-paper-10-1037-met0000814">★</label>
+                      <input type="radio" id="star1-paper-10-1037-met0000814" name="rating-paper-10-1037-met0000814" value="1"><label for="star1-paper-10-1037-met0000814">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Wu, Y., Radev, S., Tuerlinckx, F.</p>
+                  <p class='paper-summary'>The paper develops and tests a data augmentation approach to make amortized Bayesian inference more robust to contaminated observations when estimating cognitive model parameters, demonstrated on the drift diffusion model. It shows that training neural density estimators with Cauchy-distributed contaminants substantially improves robustness without major accuracy loss.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.47</span><span><a href='https://doi.org/10.1037/met0000814' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/met0000814</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Contaminant observations often cause problems when estimating the parameters of cognitive models. In this study, we tested and improved the robustness of parameter estimation using amortized Bayesian inference. We conducted systematic analyses in two settings: a toy example (i.e., a normal distribution with an unknown mean) and a popular cognitive model, the drift diffusion model. First, we studied the stylized sensitivity curve and the breakdown point of the estimators. Next, we proposed a simple data augmentation approach that incorporated a contamination distribution into the data-generating process during training to train robust estimators. We examined several robust estimators with different contamination distributions, and evaluated their performance and cost in terms of accuracy and efficiency loss relative to a standard estimator. Introducing contaminants from a Cauchy distribution during training significantly increases the robustness of the neural density estimator, as measured by bounded sensitivity functions and a substantially higher breakdown point. Overall, the proposed method is straightforward and practical to implement, with broad applicability in fields where outlier detection or removal is challenging. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
                 </div>
-              </div>
-            </div>
-            <a id="journal-cognition"></a><h2 class="journal-header" data-journal="Cognition" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Cognition</h2>
-            <div id="paper-10-1016-j-cognition-2026-106449" class="paper-item" data-journal="Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Frequency effects in decision-making involving loss minimization</h3>
-                <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2026-106449">
-                  <input type="radio" id="star5-paper-10-1016-j-cognition-2026-106449" name="rating-paper-10-1016-j-cognition-2026-106449" value="5"><label for="star5-paper-10-1016-j-cognition-2026-106449">★</label>
-                  <input type="radio" id="star4-paper-10-1016-j-cognition-2026-106449" name="rating-paper-10-1016-j-cognition-2026-106449" value="4"><label for="star4-paper-10-1016-j-cognition-2026-106449">★</label>
-                  <input type="radio" id="star3-paper-10-1016-j-cognition-2026-106449" name="rating-paper-10-1016-j-cognition-2026-106449" value="3"><label for="star3-paper-10-1016-j-cognition-2026-106449">★</label>
-                  <input type="radio" id="star2-paper-10-1016-j-cognition-2026-106449" name="rating-paper-10-1016-j-cognition-2026-106449" value="2"><label for="star2-paper-10-1016-j-cognition-2026-106449">★</label>
-                  <input type="radio" id="star1-paper-10-1016-j-cognition-2026-106449" name="rating-paper-10-1016-j-cognition-2026-106449" value="1"><label for="star1-paper-10-1016-j-cognition-2026-106449">★</label>
+                <a id="journal-psychology-pnas"></a><h3 class="journal-header" data-group="psychology-pnas">PNAS</h3>
+                <div id="paper-10-1073-pnas-2509612123" class="paper-item paper" data-field="psychology" data-group="psychology-pnas">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">15</span>Resolving Feynman’s restaurant problem reveals optimal solutions and human strategies</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1073-pnas-2509612123">
+                      <input type="radio" id="star5-paper-10-1073-pnas-2509612123" name="rating-paper-10-1073-pnas-2509612123" value="5"><label for="star5-paper-10-1073-pnas-2509612123">★</label>
+                      <input type="radio" id="star4-paper-10-1073-pnas-2509612123" name="rating-paper-10-1073-pnas-2509612123" value="4"><label for="star4-paper-10-1073-pnas-2509612123">★</label>
+                      <input type="radio" id="star3-paper-10-1073-pnas-2509612123" name="rating-paper-10-1073-pnas-2509612123" value="3"><label for="star3-paper-10-1073-pnas-2509612123">★</label>
+                      <input type="radio" id="star2-paper-10-1073-pnas-2509612123" name="rating-paper-10-1073-pnas-2509612123" value="2"><label for="star2-paper-10-1073-pnas-2509612123">★</label>
+                      <input type="radio" id="star1-paper-10-1073-pnas-2509612123" name="rating-paper-10-1073-pnas-2509612123" value="1"><label for="star1-paper-10-1073-pnas-2509612123">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Christian, B., Russek, E., Griffiths, T.</p>
+                  <p class='paper-summary'>This paper deciphers and solves Feynman&#39;s restaurant problem (an explore-exploit optimal stopping task), proves optimality of decreasing switching thresholds, and tests human behavior in a preregistered experiment showing people use near-linear thresholds sensitive to the underlying quality distribution but explore more than predicted. It bridges normative optimal stopping theory with descriptive human decision-making strategies under uncertainty.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.41</span><span><a href='https://doi.org/10.1073/pnas.2509612123' target='_blank' rel='noopener noreferrer'>doi.org/10.1073/pnas.2509612123</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>In the 1970s, physicist Richard Feynman turned lunch with a friend into a math problem—how to optimize dish selection over multiple meals—but his handwritten notes remained a mystery for decades. Here we present the fully deciphered problem and solution, prove its optimality, generalize it to related problems, and compare the results to human behavior. The optimal policy specifies decreasing thresholds for switching from exploring new dishes to exploiting the best, with thresholds varying based on the distribution of the quality of dishes. We connect these results to the existing psychological literature on optimal stopping problems, which has explored close variants on Feynman’s problem, and use our generalization of the solution to explore how the underlying distribution of the quality of the options influences people’s choices. A preregistered experiment with 2,520 participants shows that people adopt thresholds that decrease linearly with the proportion of trials remaining, consistent with the observation of linear thresholds in other optimal stopping problems. However, we show that people tend to explore more than predicted by linear thresholds, and that different distributions of quality result in thresholds with the same slope but different intercepts. These results indicate that people adapt linear thresholds used in optimal stopping tasks in a way that is sensitive to the underlying distribution—a simple strategy that we show is nearly as effective as Feynman’s solution.</div>
                 </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper investigates how frequency information affects decision-making processes when people are trying to minimize losses, exploring a domain closely tied to loss aversion and probability/frequency representation in risky choice.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Worthy, D., Hu, M.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.55</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.cognition.2026.106449' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.cognition.2026.106449</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
+                <a id="journal-psychology-memory-cognition"></a><h3 class="journal-header" data-group="psychology-memory-cognition">Memory &amp; Cognition</h3>
+                <div id="paper-10-3758-s13421-026-01905-2" class="paper-item paper" data-field="psychology" data-group="psychology-memory-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">16</span>Thinking longer versus thinking better: Deliberation versus association</h4>
+                    <div class="star-rating" data-paper-id="paper-10-3758-s13421-026-01905-2">
+                      <input type="radio" id="star5-paper-10-3758-s13421-026-01905-2" name="rating-paper-10-3758-s13421-026-01905-2" value="5"><label for="star5-paper-10-3758-s13421-026-01905-2">★</label>
+                      <input type="radio" id="star4-paper-10-3758-s13421-026-01905-2" name="rating-paper-10-3758-s13421-026-01905-2" value="4"><label for="star4-paper-10-3758-s13421-026-01905-2">★</label>
+                      <input type="radio" id="star3-paper-10-3758-s13421-026-01905-2" name="rating-paper-10-3758-s13421-026-01905-2" value="3"><label for="star3-paper-10-3758-s13421-026-01905-2">★</label>
+                      <input type="radio" id="star2-paper-10-3758-s13421-026-01905-2" name="rating-paper-10-3758-s13421-026-01905-2" value="2"><label for="star2-paper-10-3758-s13421-026-01905-2">★</label>
+                      <input type="radio" id="star1-paper-10-3758-s13421-026-01905-2" name="rating-paper-10-3758-s13421-026-01905-2" value="1"><label for="star1-paper-10-3758-s13421-026-01905-2">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Markovits, H., Bergeron, E., Gagnon-St-Pierre, E.</p>
+                  <p class='paper-summary'>The paper examines the distinction between deliberation (thinking longer) and association (thinking better/differently), likely exploring how these different cognitive modes influence decision outcomes and response times.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.38</span><span><a href='https://doi.org/10.3758/s13421-026-01905-2' target='_blank' rel='noopener noreferrer'>doi.org/10.3758/s13421-026-01905-2</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
                 </div>
-              </div>
-            </div>
-            
-            <div id="paper-10-1016-j-cognition-2026-106442" class="paper-item" data-journal="Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Context-dependent effects of branches in decisions under risk</h3>
-                <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2026-106442">
-                  <input type="radio" id="star5-paper-10-1016-j-cognition-2026-106442" name="rating-paper-10-1016-j-cognition-2026-106442" value="5"><label for="star5-paper-10-1016-j-cognition-2026-106442">★</label>
-                  <input type="radio" id="star4-paper-10-1016-j-cognition-2026-106442" name="rating-paper-10-1016-j-cognition-2026-106442" value="4"><label for="star4-paper-10-1016-j-cognition-2026-106442">★</label>
-                  <input type="radio" id="star3-paper-10-1016-j-cognition-2026-106442" name="rating-paper-10-1016-j-cognition-2026-106442" value="3"><label for="star3-paper-10-1016-j-cognition-2026-106442">★</label>
-                  <input type="radio" id="star2-paper-10-1016-j-cognition-2026-106442" name="rating-paper-10-1016-j-cognition-2026-106442" value="2"><label for="star2-paper-10-1016-j-cognition-2026-106442">★</label>
-                  <input type="radio" id="star1-paper-10-1016-j-cognition-2026-106442" name="rating-paper-10-1016-j-cognition-2026-106442" value="1"><label for="star1-paper-10-1016-j-cognition-2026-106442">★</label>
+                
+                <div id="paper-10-3758-s13421-026-01904-3" class="paper-item paper" data-field="psychology" data-group="psychology-memory-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">17</span>The hidden threat: Attending to passive risks heightens fear and risk perception</h4>
+                    <div class="star-rating" data-paper-id="paper-10-3758-s13421-026-01904-3">
+                      <input type="radio" id="star5-paper-10-3758-s13421-026-01904-3" name="rating-paper-10-3758-s13421-026-01904-3" value="5"><label for="star5-paper-10-3758-s13421-026-01904-3">★</label>
+                      <input type="radio" id="star4-paper-10-3758-s13421-026-01904-3" name="rating-paper-10-3758-s13421-026-01904-3" value="4"><label for="star4-paper-10-3758-s13421-026-01904-3">★</label>
+                      <input type="radio" id="star3-paper-10-3758-s13421-026-01904-3" name="rating-paper-10-3758-s13421-026-01904-3" value="3"><label for="star3-paper-10-3758-s13421-026-01904-3">★</label>
+                      <input type="radio" id="star2-paper-10-3758-s13421-026-01904-3" name="rating-paper-10-3758-s13421-026-01904-3" value="2"><label for="star2-paper-10-3758-s13421-026-01904-3">★</label>
+                      <input type="radio" id="star1-paper-10-3758-s13421-026-01904-3" name="rating-paper-10-3758-s13421-026-01904-3" value="1"><label for="star1-paper-10-3758-s13421-026-01904-3">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Krava, L., Carmeli, R., Bereby-Meyer, Y.</p>
+                  <p class='paper-summary'>This paper examines how directing attention toward passive (vs. active) risks affects fear responses and risk perception. It links attentional focus to subjective risk evaluation, relevant to both risk perception research and attention-allocation effects on judgment.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.36</span><span><a href='https://doi.org/10.3758/s13421-026-01904-3' target='_blank' rel='noopener noreferrer'>doi.org/10.3758/s13421-026-01904-3</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
                 </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper investigates how the branching structure or context of risky options affects decisions under risk, examining context-dependent shifts in risk preferences. It likely explores how presenting lotteries with different branch structures changes how people evaluate and choose among risky options.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Evangelidis, I.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.55</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.cognition.2026.106442' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.cognition.2026.106442</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
+                <a id="field-neuroscience"></a><h2 class="field-header" data-field="neuroscience" style="color:#3d3a78"><span class="rn">III</span><span class="ft">Neuroscience</span><span class="fc">1 paper</span></h2><a id="journal-neuroscience-plos-computational-biology"></a><h3 class="journal-header" data-group="neuroscience-plos-computational-biology">PLOS Computational Biology</h3>
+                <div id="paper-10-1371-journal-pcbi-1014356" class="paper-item paper" data-field="neuroscience" data-group="neuroscience-plos-computational-biology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">18</span>Catecholamine precursor modulation of human exploration: Evidence from a large gender-balanced sample</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1371-journal-pcbi-1014356">
+                      <input type="radio" id="star5-paper-10-1371-journal-pcbi-1014356" name="rating-paper-10-1371-journal-pcbi-1014356" value="5"><label for="star5-paper-10-1371-journal-pcbi-1014356">★</label>
+                      <input type="radio" id="star4-paper-10-1371-journal-pcbi-1014356" name="rating-paper-10-1371-journal-pcbi-1014356" value="4"><label for="star4-paper-10-1371-journal-pcbi-1014356">★</label>
+                      <input type="radio" id="star3-paper-10-1371-journal-pcbi-1014356" name="rating-paper-10-1371-journal-pcbi-1014356" value="3"><label for="star3-paper-10-1371-journal-pcbi-1014356">★</label>
+                      <input type="radio" id="star2-paper-10-1371-journal-pcbi-1014356" name="rating-paper-10-1371-journal-pcbi-1014356" value="2"><label for="star2-paper-10-1371-journal-pcbi-1014356">★</label>
+                      <input type="radio" id="star1-paper-10-1371-journal-pcbi-1014356" name="rating-paper-10-1371-journal-pcbi-1014356" value="1"><label for="star1-paper-10-1371-journal-pcbi-1014356">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Brands, A., Knauth, K., Mathar, D., Roedder, T., Lisner, K., Peters, J.</p>
+                  <p class='paper-summary'>This study investigates how the catecholamine precursor Tyrosine affects reinforcement learning and exploration-exploitation trade-offs in a within-subjects design, finding that Tyrosine improves performance by increasing value-driven exploitation and reducing directed exploration, as revealed through computational modeling.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.49</span><span><a href='https://doi.org/10.1371/journal.pcbi.1014356' target='_blank' rel='noopener noreferrer'>doi.org/10.1371/journal.pcbi.1014356</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>The catecholamine precursor Tyrosine has been linked to improved cognitive performance, but investigations into decision-making and reinforcement learning processes known to be under catecholamine control are sparse. We examined the impact of a single dose of Tyrosine (2g) on reinforcement learning and exploration in a large (n = 63) gender-balanced sample in a within-subjects preregistered study. Reinforcement learning performance was significantly improved under Tyrosine. Based on previous work, we preregistered the hypotheses that Tyrosine would reduce directed exploration, response times, and physiological arousal. However, neither response times nor physiological arousal revealed the predicted reductions. Computational modelling using an established pre-registered reinforcement learning model revealed that the performance improvement under Tyrosine was due to an increase value-driven exploitation, without affecting directed exploration. Non-preregistered modelling analyses then revealed that accounting for higher-order perseveration substantially improved model fit, and substantiated the observation of increased value-driven exploitation under Tyrosine. Furthermore, it revealed reliable reductions in directed exploration and value-independent perseveration under Tyrosine. Tyrosine thus improved reinforcement learning performance by stabilizing choice patterns in the service of optimizing reward accumulation, modulating several computational mechanisms thought to be under catecholamine control.</div>
                 </div>
-              </div>
-            </div>
-            
-            <div id="paper-10-1016-j-cognition-2026-106447" class="paper-item" data-journal="Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Delaying reward feedback does not increase the influence of information on attentional priority in visual search</h3>
-                <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2026-106447">
-                  <input type="radio" id="star5-paper-10-1016-j-cognition-2026-106447" name="rating-paper-10-1016-j-cognition-2026-106447" value="5"><label for="star5-paper-10-1016-j-cognition-2026-106447">★</label>
-                  <input type="radio" id="star4-paper-10-1016-j-cognition-2026-106447" name="rating-paper-10-1016-j-cognition-2026-106447" value="4"><label for="star4-paper-10-1016-j-cognition-2026-106447">★</label>
-                  <input type="radio" id="star3-paper-10-1016-j-cognition-2026-106447" name="rating-paper-10-1016-j-cognition-2026-106447" value="3"><label for="star3-paper-10-1016-j-cognition-2026-106447">★</label>
-                  <input type="radio" id="star2-paper-10-1016-j-cognition-2026-106447" name="rating-paper-10-1016-j-cognition-2026-106447" value="2"><label for="star2-paper-10-1016-j-cognition-2026-106447">★</label>
-                  <input type="radio" id="star1-paper-10-1016-j-cognition-2026-106447" name="rating-paper-10-1016-j-cognition-2026-106447" value="1"><label for="star1-paper-10-1016-j-cognition-2026-106447">★</label>
-                </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>Using eye-tracking in visual search tasks, this paper examines whether uncertain or diagnostic reward cues capture attention more strongly, finding robust prioritization of uncertain stimuli regardless of reward feedback delay, and interpreting this as automatic exploratory attention for learning.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Chow, J., Garner, K., Pearson, D., Theeuwes, J., Le Pelley, M.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.53</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.cognition.2026.106447' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.cognition.2026.106447</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Demonstrations of information-seeking behaviour suggest that attention often acts in an exploitative way, prioritising stimuli that provide diagnostic information about upcoming events over stimuli associated with uncertainty. However, recent evidence from studies of attentional capture in visual search show an opposite pattern: automatic prioritisation of items associated with reward uncertainty over diagnostic stimuli. We hypothesise that this uncertainty-modulated attentional capture (UMAC) effect reflects &#39;attention for learning&#39;: that is, exploration of potential sources of new information. Here we investigated whether UMAC arises because immediate provision of reward feedback in prior studies rendered advance information redundant, attenuating exploitation of diagnostic items and promoting exploration. Accordingly, increasing the duration of anticipated uncertainty (and hence the value of advance information that allows us to escape uncertainty earlier) should promote prioritisation of diagnostic cues and lead to patterns of attentional exploitation. In two eye-tracking experiments, we compared attentional capture by a cue providing diagnostic reward information and a cue signalling uncertain reward, while manipulating the delay between response and feedback (i.e., the duration of anticipated uncertainty that advance information could forestall). We found a UMAC effect in all conditions: regardless of response-feedback delay, uncertain stimuli were more likely to capture attention than diagnostic stimuli. These results suggest that prioritisation of uncertainty is a robust pattern of behaviour in this task. Synthesising current and previous findings, we suggest that different modes of attentional information-seeking may reflect qualitative task differences, with exploration operating at an implicit, automatic level, and exploitation resulting from top-down, volitional processes.</span>
-                </div>
-              </div>
-            </div>
-            
-            <div id="paper-10-1016-j-cognition-2026-106438" class="paper-item" data-journal="Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">A cognitive fallacy in a fish? Glass catfish, like humans, make sub-optimal choices in the Monty Hall dilemma</h3>
-                <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2026-106438">
-                  <input type="radio" id="star5-paper-10-1016-j-cognition-2026-106438" name="rating-paper-10-1016-j-cognition-2026-106438" value="5"><label for="star5-paper-10-1016-j-cognition-2026-106438">★</label>
-                  <input type="radio" id="star4-paper-10-1016-j-cognition-2026-106438" name="rating-paper-10-1016-j-cognition-2026-106438" value="4"><label for="star4-paper-10-1016-j-cognition-2026-106438">★</label>
-                  <input type="radio" id="star3-paper-10-1016-j-cognition-2026-106438" name="rating-paper-10-1016-j-cognition-2026-106438" value="3"><label for="star3-paper-10-1016-j-cognition-2026-106438">★</label>
-                  <input type="radio" id="star2-paper-10-1016-j-cognition-2026-106438" name="rating-paper-10-1016-j-cognition-2026-106438" value="2"><label for="star2-paper-10-1016-j-cognition-2026-106438">★</label>
-                  <input type="radio" id="star1-paper-10-1016-j-cognition-2026-106438" name="rating-paper-10-1016-j-cognition-2026-106438" value="1"><label for="star1-paper-10-1016-j-cognition-2026-106438">★</label>
-                </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This study shows that glass catfish, like humans, fail to switch choices in the Monty Hall dilemma despite switching being the statistically superior strategy, suggesting that the cognitive bias of sticking with initial choices under conditioned probability scenarios may be phylogenetically widespread.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Agrillo, C., Pecunioso, A.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.47</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1016/j.cognition.2026.106438' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1016/j.cognition.2026.106438</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Exploring cognitive fallacies is a key pursuit for neuroscientists as they offer a unique window into the foundations of how we think and make decisions. The Monty Hall dilemma (MHD) is a probability puzzle in which a person is offered a choice among three doors, behind one of which is a prize. After the person selects one door, the remaining door without the prize is revealed. The person is now given the option to either keep their original choice or switch to the other door. Most people stick with the initial choice, even though switching would offer a higher chance of winning. Here, we observed that a distantly related species, such as fish, shows a human-like behavior in the MHD, as they consistently maintained their first option. Our study suggests that the mechanisms behind misjudging two-stage decision-making involving conditioned probabilities may also be shared by smaller, non-cortical brains.</span>
-                </div>
-              </div>
-            </div>
-            <a id="journal-journal-of-behavioral-decision-making"></a><h2 class="journal-header" data-journal="Journal of Behavioral Decision Making" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Journal of Behavioral Decision Making</h2>
-            <div id="paper-10-1002-bdm-70086" class="paper-item" data-journal="Journal of Behavioral Decision Making" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Adjustment of Adolescents and Young Adults to the Level of Risk in Ambiguous Risk‐Taking Situation</h3>
-                <div class="star-rating" data-paper-id="paper-10-1002-bdm-70086">
-                  <input type="radio" id="star5-paper-10-1002-bdm-70086" name="rating-paper-10-1002-bdm-70086" value="5"><label for="star5-paper-10-1002-bdm-70086">★</label>
-                  <input type="radio" id="star4-paper-10-1002-bdm-70086" name="rating-paper-10-1002-bdm-70086" value="4"><label for="star4-paper-10-1002-bdm-70086">★</label>
-                  <input type="radio" id="star3-paper-10-1002-bdm-70086" name="rating-paper-10-1002-bdm-70086" value="3"><label for="star3-paper-10-1002-bdm-70086">★</label>
-                  <input type="radio" id="star2-paper-10-1002-bdm-70086" name="rating-paper-10-1002-bdm-70086" value="2"><label for="star2-paper-10-1002-bdm-70086">★</label>
-                  <input type="radio" id="star1-paper-10-1002-bdm-70086" name="rating-paper-10-1002-bdm-70086" value="1"><label for="star1-paper-10-1002-bdm-70086">★</label>
-                </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This study investigates how adolescents and young adults adjust their risk-taking behavior through feedback learning in ambiguous situations with varying levels of loss probability, finding that younger adolescents explore more but adjust less optimally in high-risk conditions.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Moncel, C., Dauvier, B., Guiller, T., Osmont, A.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.55</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1002/bdm.70086' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1002/bdm.70086</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">ABSTRACT Adolescent risk‐taking generally occurs in ambiguous situations where decisions must rely on experiential learning. Although adolescence is characterized by heightened exploration in such situations, this does not systematically lead to optimal risk adjustment based on feedback learning. This study examines initial exploration and risk adjustment through feedback in ambiguous situations. The Risk Learning Card Task (RLCT), distinguishing three levels of risk (low, medium, and high probability of loss), was used to assess risk‐taking in ambiguous situations by adolescents ( N = 285, aged 10–17 years, M = 13.39, SD = 1.63, 45.96% female) and young adults ( N = 162, aged 18–25 years, M = 19.10, SD = 1.29, 70.99% female). Generalized additive mixed models (GAMM), considering age as a continuous variable, revealed that (1) the youngest adolescents showed the highest level of exploration, (2) a majority of participants exhibited a correct explicit risk level estimation regardless of age (i.e., they were able to estimate risk levels at the end of the task), (3) the younger the participants were, the less risk they took and the more points they earned in the low‐risk condition; the more risk they took, the fewer points they earned in the high‐risk situation. Thus, adolescents&#39; adjustment is more optimal in low‐risk situations and less optimal in high‐risk situations.</span>
-                </div>
-              </div>
-            </div>
-            <a id="journal-pnas"></a><h2 class="journal-header" data-journal="PNAS" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">PNAS</h2>
-            <div id="paper-10-1073-pnas-2537030123" class="paper-item" data-journal="PNAS" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">AI agents are sensitive to nudges</h3>
-                <div class="star-rating" data-paper-id="paper-10-1073-pnas-2537030123">
-                  <input type="radio" id="star5-paper-10-1073-pnas-2537030123" name="rating-paper-10-1073-pnas-2537030123" value="5"><label for="star5-paper-10-1073-pnas-2537030123">★</label>
-                  <input type="radio" id="star4-paper-10-1073-pnas-2537030123" name="rating-paper-10-1073-pnas-2537030123" value="4"><label for="star4-paper-10-1073-pnas-2537030123">★</label>
-                  <input type="radio" id="star3-paper-10-1073-pnas-2537030123" name="rating-paper-10-1073-pnas-2537030123" value="3"><label for="star3-paper-10-1073-pnas-2537030123">★</label>
-                  <input type="radio" id="star2-paper-10-1073-pnas-2537030123" name="rating-paper-10-1073-pnas-2537030123" value="2"><label for="star2-paper-10-1073-pnas-2537030123">★</label>
-                  <input type="radio" id="star1-paper-10-1073-pnas-2537030123" name="rating-paper-10-1073-pnas-2537030123" value="1"><label for="star1-paper-10-1073-pnas-2537030123">★</label>
-                </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper tests how leading LLMs respond to various choice architecture interventions (defaults, nudges, information highlighting) and finds they are far more sensitive to these manipulations than humans, sometimes acquiring excessive information or ignoring it entirely. The study uses a resource-rational model of human choice as a normative baseline and highlights safety concerns about behavioral brittleness in LLM agents.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Cherep, M., Maes, P., Singh, N.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.5</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1073/pnas.2537030123' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1073/pnas.2537030123</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Large language models (LLMs) are increasingly deployed as autonomous agents that make choices and use tools on behalf of users. Yet, we have limited evidence about how their decisions are shaped by their environment. We adapt a human decision-making task to test leading LLMs under four forms of choice architecture: defaults, suggestions, information highlighting, and “optimal” nudges derived from a resource-rational model of human choice. We treat human behavior as a baseline for predictable sensitivity to such interventions. Across models and prompting strategies, LLMs often depart substantially from this baseline. They sometimes pay excessive costs to acquire information, sometimes ignore available information, and, most crucially, are far more responsive to nudges than humans, such that weak cues that slightly shift human behavior have larger effects on model choices, toward both better and worse payoff outcomes. Chain-of-thought prompting and in-context human data do not reliably stabilize behavior. Recent reasoning-optimized LLMs can, in some configurations, restore more human-level sensitivity to nudges, but do so inconsistently and at substantial computational cost. These results point to an important and largely neglected safety concern: LLM agents can be behaviorally brittle under subtle changes in choice architecture, even in the absence of adversarial settings.</span>
-                </div>
-              </div>
-            </div>
-            
-            <div id="paper-10-1073-pnas-2509612123" class="paper-item" data-journal="PNAS" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Resolving Feynman’s restaurant problem reveals optimal solutions and human strategies</h3>
-                <div class="star-rating" data-paper-id="paper-10-1073-pnas-2509612123">
-                  <input type="radio" id="star5-paper-10-1073-pnas-2509612123" name="rating-paper-10-1073-pnas-2509612123" value="5"><label for="star5-paper-10-1073-pnas-2509612123">★</label>
-                  <input type="radio" id="star4-paper-10-1073-pnas-2509612123" name="rating-paper-10-1073-pnas-2509612123" value="4"><label for="star4-paper-10-1073-pnas-2509612123">★</label>
-                  <input type="radio" id="star3-paper-10-1073-pnas-2509612123" name="rating-paper-10-1073-pnas-2509612123" value="3"><label for="star3-paper-10-1073-pnas-2509612123">★</label>
-                  <input type="radio" id="star2-paper-10-1073-pnas-2509612123" name="rating-paper-10-1073-pnas-2509612123" value="2"><label for="star2-paper-10-1073-pnas-2509612123">★</label>
-                  <input type="radio" id="star1-paper-10-1073-pnas-2509612123" name="rating-paper-10-1073-pnas-2509612123" value="1"><label for="star1-paper-10-1073-pnas-2509612123">★</label>
-                </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper deciphers and solves Feynman&#39;s restaurant problem (an explore-exploit optimal stopping task), proves optimality of decreasing switching thresholds, and tests human behavior in a preregistered experiment showing people use near-linear thresholds sensitive to the underlying quality distribution but explore more than predicted. It bridges normative optimal stopping theory with descriptive human decision-making strategies under uncertainty.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Christian, B., Russek, E., Griffiths, T.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.41</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1073/pnas.2509612123' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1073/pnas.2509612123</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">In the 1970s, physicist Richard Feynman turned lunch with a friend into a math problem—how to optimize dish selection over multiple meals—but his handwritten notes remained a mystery for decades. Here we present the fully deciphered problem and solution, prove its optimality, generalize it to related problems, and compare the results to human behavior. The optimal policy specifies decreasing thresholds for switching from exploring new dishes to exploiting the best, with thresholds varying based on the distribution of the quality of dishes. We connect these results to the existing psychological literature on optimal stopping problems, which has explored close variants on Feynman’s problem, and use our generalization of the solution to explore how the underlying distribution of the quality of the options influences people’s choices. A preregistered experiment with 2,520 participants shows that people adopt thresholds that decrease linearly with the proportion of trials remaining, consistent with the observation of linear thresholds in other optimal stopping problems. However, we show that people tend to explore more than predicted by linear thresholds, and that different distributions of quality result in thresholds with the same slope but different intercepts. These results indicate that people adapt linear thresholds used in optimal stopping tasks in a way that is sensitive to the underlying distribution—a simple strategy that we show is nearly as effective as Feynman’s solution.</span>
-                </div>
-              </div>
-            </div>
-            <a id="journal-plos-computational-biology"></a><h2 class="journal-header" data-journal="PLOS Computational Biology" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">PLOS Computational Biology</h2>
-            <div id="paper-10-1371-journal-pcbi-1014356" class="paper-item" data-journal="PLOS Computational Biology" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Catecholamine precursor modulation of human exploration: Evidence from a large gender-balanced sample</h3>
-                <div class="star-rating" data-paper-id="paper-10-1371-journal-pcbi-1014356">
-                  <input type="radio" id="star5-paper-10-1371-journal-pcbi-1014356" name="rating-paper-10-1371-journal-pcbi-1014356" value="5"><label for="star5-paper-10-1371-journal-pcbi-1014356">★</label>
-                  <input type="radio" id="star4-paper-10-1371-journal-pcbi-1014356" name="rating-paper-10-1371-journal-pcbi-1014356" value="4"><label for="star4-paper-10-1371-journal-pcbi-1014356">★</label>
-                  <input type="radio" id="star3-paper-10-1371-journal-pcbi-1014356" name="rating-paper-10-1371-journal-pcbi-1014356" value="3"><label for="star3-paper-10-1371-journal-pcbi-1014356">★</label>
-                  <input type="radio" id="star2-paper-10-1371-journal-pcbi-1014356" name="rating-paper-10-1371-journal-pcbi-1014356" value="2"><label for="star2-paper-10-1371-journal-pcbi-1014356">★</label>
-                  <input type="radio" id="star1-paper-10-1371-journal-pcbi-1014356" name="rating-paper-10-1371-journal-pcbi-1014356" value="1"><label for="star1-paper-10-1371-journal-pcbi-1014356">★</label>
-                </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This study investigates how the catecholamine precursor Tyrosine affects reinforcement learning and exploration-exploitation trade-offs in a within-subjects design, finding that Tyrosine improves performance by increasing value-driven exploitation and reducing directed exploration, as revealed through computational modeling.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Brands, A., Knauth, K., Mathar, D., Roedder, T., Lisner, K., Peters, J.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.49</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1371/journal.pcbi.1014356' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1371/journal.pcbi.1014356</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">The catecholamine precursor Tyrosine has been linked to improved cognitive performance, but investigations into decision-making and reinforcement learning processes known to be under catecholamine control are sparse. We examined the impact of a single dose of Tyrosine (2g) on reinforcement learning and exploration in a large (n = 63) gender-balanced sample in a within-subjects preregistered study. Reinforcement learning performance was significantly improved under Tyrosine. Based on previous work, we preregistered the hypotheses that Tyrosine would reduce directed exploration, response times, and physiological arousal. However, neither response times nor physiological arousal revealed the predicted reductions. Computational modelling using an established pre-registered reinforcement learning model revealed that the performance improvement under Tyrosine was due to an increase value-driven exploitation, without affecting directed exploration. Non-preregistered modelling analyses then revealed that accounting for higher-order perseveration substantially improved model fit, and substantiated the observation of increased value-driven exploitation under Tyrosine. Furthermore, it revealed reliable reductions in directed exploration and value-independent perseveration under Tyrosine. Tyrosine thus improved reinforcement learning performance by stabilizing choice patterns in the service of optimizing reward accumulation, modulating several computational mechanisms thought to be under catecholamine control.</span>
-                </div>
-              </div>
-            </div>
-            <a id="journal-psychological-methods"></a><h2 class="journal-header" data-journal="Psychological Methods" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Psychological Methods</h2>
-            <div id="paper-10-1037-met0000814" class="paper-item" data-journal="Psychological Methods" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Testing and improving the robustness of amortized bayesian inference for cognitive models.</h3>
-                <div class="star-rating" data-paper-id="paper-10-1037-met0000814">
-                  <input type="radio" id="star5-paper-10-1037-met0000814" name="rating-paper-10-1037-met0000814" value="5"><label for="star5-paper-10-1037-met0000814">★</label>
-                  <input type="radio" id="star4-paper-10-1037-met0000814" name="rating-paper-10-1037-met0000814" value="4"><label for="star4-paper-10-1037-met0000814">★</label>
-                  <input type="radio" id="star3-paper-10-1037-met0000814" name="rating-paper-10-1037-met0000814" value="3"><label for="star3-paper-10-1037-met0000814">★</label>
-                  <input type="radio" id="star2-paper-10-1037-met0000814" name="rating-paper-10-1037-met0000814" value="2"><label for="star2-paper-10-1037-met0000814">★</label>
-                  <input type="radio" id="star1-paper-10-1037-met0000814" name="rating-paper-10-1037-met0000814" value="1"><label for="star1-paper-10-1037-met0000814">★</label>
-                </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper develops and tests a data augmentation approach to make amortized Bayesian inference more robust to contaminated observations when estimating cognitive model parameters, demonstrated on the drift diffusion model. It shows that training neural density estimators with Cauchy-distributed contaminants substantially improves robustness without major accuracy loss.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Wu, Y., Radev, S., Tuerlinckx, F.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.47</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/met0000814' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/met0000814</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Contaminant observations often cause problems when estimating the parameters of cognitive models. In this study, we tested and improved the robustness of parameter estimation using amortized Bayesian inference. We conducted systematic analyses in two settings: a toy example (i.e., a normal distribution with an unknown mean) and a popular cognitive model, the drift diffusion model. First, we studied the stylized sensitivity curve and the breakdown point of the estimators. Next, we proposed a simple data augmentation approach that incorporated a contamination distribution into the data-generating process during training to train robust estimators. We examined several robust estimators with different contamination distributions, and evaluated their performance and cost in terms of accuracy and efficiency loss relative to a standard estimator. Introducing contaminants from a Cauchy distribution during training significantly increases the robustness of the neural density estimator, as measured by bounded sensitivity functions and a substantially higher breakdown point. Overall, the proposed method is straightforward and practical to implement, with broad applicability in fields where outlier detection or removal is challenging. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
-                </div>
-              </div>
-            </div>
-            <a id="journal-memory-cognition"></a><h2 class="journal-header" data-journal="Memory & Cognition" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Memory &amp; Cognition</h2>
-            <div id="paper-10-3758-s13421-026-01905-2" class="paper-item" data-journal="Memory & Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Thinking longer versus thinking better: Deliberation versus association</h3>
-                <div class="star-rating" data-paper-id="paper-10-3758-s13421-026-01905-2">
-                  <input type="radio" id="star5-paper-10-3758-s13421-026-01905-2" name="rating-paper-10-3758-s13421-026-01905-2" value="5"><label for="star5-paper-10-3758-s13421-026-01905-2">★</label>
-                  <input type="radio" id="star4-paper-10-3758-s13421-026-01905-2" name="rating-paper-10-3758-s13421-026-01905-2" value="4"><label for="star4-paper-10-3758-s13421-026-01905-2">★</label>
-                  <input type="radio" id="star3-paper-10-3758-s13421-026-01905-2" name="rating-paper-10-3758-s13421-026-01905-2" value="3"><label for="star3-paper-10-3758-s13421-026-01905-2">★</label>
-                  <input type="radio" id="star2-paper-10-3758-s13421-026-01905-2" name="rating-paper-10-3758-s13421-026-01905-2" value="2"><label for="star2-paper-10-3758-s13421-026-01905-2">★</label>
-                  <input type="radio" id="star1-paper-10-3758-s13421-026-01905-2" name="rating-paper-10-3758-s13421-026-01905-2" value="1"><label for="star1-paper-10-3758-s13421-026-01905-2">★</label>
-                </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper examines the distinction between deliberation (thinking longer) and association (thinking better/differently), likely exploring how these different cognitive modes influence decision outcomes and response times.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Markovits, H., Bergeron, E., Gagnon-St-Pierre, E.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.38</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.3758/s13421-026-01905-2' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.3758/s13421-026-01905-2</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
-                </div>
-              </div>
-            </div>
-            
-            <div id="paper-10-3758-s13421-026-01904-3" class="paper-item" data-journal="Memory & Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">The hidden threat: Attending to passive risks heightens fear and risk perception</h3>
-                <div class="star-rating" data-paper-id="paper-10-3758-s13421-026-01904-3">
-                  <input type="radio" id="star5-paper-10-3758-s13421-026-01904-3" name="rating-paper-10-3758-s13421-026-01904-3" value="5"><label for="star5-paper-10-3758-s13421-026-01904-3">★</label>
-                  <input type="radio" id="star4-paper-10-3758-s13421-026-01904-3" name="rating-paper-10-3758-s13421-026-01904-3" value="4"><label for="star4-paper-10-3758-s13421-026-01904-3">★</label>
-                  <input type="radio" id="star3-paper-10-3758-s13421-026-01904-3" name="rating-paper-10-3758-s13421-026-01904-3" value="3"><label for="star3-paper-10-3758-s13421-026-01904-3">★</label>
-                  <input type="radio" id="star2-paper-10-3758-s13421-026-01904-3" name="rating-paper-10-3758-s13421-026-01904-3" value="2"><label for="star2-paper-10-3758-s13421-026-01904-3">★</label>
-                  <input type="radio" id="star1-paper-10-3758-s13421-026-01904-3" name="rating-paper-10-3758-s13421-026-01904-3" value="1"><label for="star1-paper-10-3758-s13421-026-01904-3">★</label>
-                </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper examines how directing attention toward passive (vs. active) risks affects fear responses and risk perception. It links attentional focus to subjective risk evaluation, relevant to both risk perception research and attention-allocation effects on judgment.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Krava, L., Carmeli, R., Bereby-Meyer, Y.</div>
-                <div><b>Published:</b> 2026-06</div>
-                <div><b>Relevance Score:</b> 0.36</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.3758/s13421-026-01904-3' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.3758/s13421-026-01904-3</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
-                </div>
-              </div>
-            </div>
-            
+                
       </div>
       <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
       <script>
@@ -502,37 +498,45 @@
           isFilterActive = !isFilterActive;
           const btn = document.getElementById('filter-btn');
           const papers = document.querySelectorAll('.paper-item');
-          const headers = document.querySelectorAll('.journal-header');
+          const journalHeaders = document.querySelectorAll('.journal-header');
+          const fieldHeaders = document.querySelectorAll('.field-header');
 
           if (isFilterActive) {
-            btn.style.background = '#1e3a8a';
+            btn.style.background = '#0b4a6f';
             btn.style.color = '#ffffff';
-            btn.innerHTML = '✨ Showing Top Picks (4★+)';
+            btn.style.borderColor = '#0b4a6f';
+            btn.innerHTML = '★ Showing top picks (4★+)';
 
-            headers.forEach(header => {
-              const journal = header.getAttribute('data-journal');
-              const journalPapers = document.querySelectorAll(`.paper-item[data-journal="${journal}"]`);
-              let hasTopPick = false;
+            // Show/hide papers by rating.
+            papers.forEach(paper => {
+              const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+              paper.style.display = parseInt(rating) >= 4 ? 'block' : 'none';
+            });
 
-              journalPapers.forEach(paper => {
-                const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
-                if (parseInt(rating) >= 4) {
-                  paper.style.display = 'block';
-                  hasTopPick = true;
-                } else {
-                  paper.style.display = 'none';
-                }
-              });
+            // Hide journal sub-headers whose papers are all filtered out.
+            journalHeaders.forEach(header => {
+              const group = header.getAttribute('data-group');
+              const groupPapers = document.querySelectorAll(`.paper-item[data-group="${group}"]`);
+              const anyVisible = Array.from(groupPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
 
-              header.style.display = hasTopPick ? 'block' : 'none';
+            // Hide field headers whose whole section is filtered out.
+            fieldHeaders.forEach(header => {
+              const field = header.getAttribute('data-field');
+              const fieldPapers = document.querySelectorAll(`.paper-item[data-field="${field}"]`);
+              const anyVisible = Array.from(fieldPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
             });
           } else {
-            btn.style.background = '#ffffff';
-            btn.style.color = '#374151';
-            btn.innerHTML = '⭐ Show Top Picks (4★+)';
-            
+            btn.style.background = 'transparent';
+            btn.style.color = '#4c525a';
+            btn.style.borderColor = '#cfc8b9';
+            btn.innerHTML = '★ Show top picks (4★+)';
+
             papers.forEach(p => p.style.display = 'block');
-            headers.forEach(h => h.style.display = 'block');
+            journalHeaders.forEach(h => h.style.display = 'block');
+            fieldHeaders.forEach(h => h.style.display = 'block');
           }
         }
 

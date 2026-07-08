@@ -3,229 +3,291 @@
     <html lang="en">
     <head>
       <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
       <link rel="stylesheet" href="../assets/site.css">
       <style>
-        .star-rating {
-          display: inline-flex;
-          flex-direction: row-reverse;
-          gap: 4px;
+        :root {
+          --paper:#fffdf9; --page:#efece5; --ink:#23272c; --ink-soft:#4c525a;
+          --muted:#8b9099; --rule:#e7e2d7; --rule-strong:#cfc8b9; --accent:#0b4a6f;
         }
-        .star-rating input { display: none; }
-        .star-rating label {
-          font-size: 24px;
-          color: #e5e7eb;
-          cursor: pointer;
-          transition: color 0.1s;
+        html, body { margin:0; }
+        body {
+          background:var(--page); color:var(--ink);
+          font-family:'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+          font-size:17px; line-height:1.6;
+          -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+          padding:28px 18px 90px;
         }
+        .sans { font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif; }
+        .sheet {
+          max-width:800px; margin:0 auto; background:var(--paper);
+          padding:60px 68px 76px;
+          border:1px solid var(--rule);
+          box-shadow:0 1px 2px rgba(20,20,30,.04), 0 24px 60px rgba(30,30,45,.07);
+        }
+
+        /* ---- Masthead ---- */
+        .masthead { text-align:center; border-bottom:3px double var(--rule-strong); padding-bottom:24px; }
+        .masthead .eyebrow {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 12px;
+        }
+        .masthead h1 { margin:0; font-size:42px; font-weight:700; letter-spacing:.005em; line-height:1.08; color:#1a1d21; }
+        .masthead .meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; letter-spacing:.03em; color:var(--ink-soft); margin:14px 0 0;
+        }
+        .masthead .meta .dot { color:var(--rule-strong); margin:0 9px; }
+
+        /* ---- Toolbar ---- */
+        .toolbar { display:flex; justify-content:center; margin:18px 0 0; }
+        #filter-btn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          background:transparent; border:1px solid var(--rule-strong); color:var(--ink-soft);
+          padding:7px 15px; border-radius:2px; font-size:12px; letter-spacing:.05em;
+          cursor:pointer; transition:all .18s ease;
+        }
+        #filter-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+        /* ---- Contents (table of contents) ---- */
+        .contents { margin:34px 0 6px; }
+        .contents-title {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 20px;
+        }
+        .toc-field { margin:0 0 18px; }
+        .toc-fname { font-size:18px; font-weight:600; text-decoration:none; }
+        .toc-fname:hover { text-decoration:underline; }
+        .toc-fcount {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; color:var(--muted); margin-left:8px;
+        }
+        .toc-list { list-style:none; margin:7px 0 0; padding:0; }
+        .toc-row { display:flex; align-items:baseline; padding:2px 0; font-size:15.5px; }
+        .toc-row a { color:var(--ink-soft); text-decoration:none; white-space:nowrap; }
+        .toc-row a:hover { color:var(--accent); }
+        .toc-lead { flex:1; border-bottom:1px dotted var(--rule-strong); margin:0 9px; position:relative; top:-4px; }
+        .toc-row .n {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12.5px; color:var(--muted);
+        }
+
+        /* ---- Field section ---- */
+        .field-header {
+          display:flex; align-items:baseline; gap:15px;
+          margin:64px 0 6px; padding-bottom:10px; border-bottom:2px solid currentColor;
+        }
+        .field-header .rn { font-size:20px; font-weight:600; opacity:.5; }
+        .field-header .ft { font-size:31px; font-weight:700; letter-spacing:.005em; }
+        .field-header .fc {
+          margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.06em; opacity:.6; align-self:center;
+        }
+
+        /* ---- Journal sub-header ---- */
+        .journal-header {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; font-weight:600; letter-spacing:.19em; text-transform:uppercase;
+          color:var(--muted); margin:34px 0 2px;
+        }
+
+        /* ---- Paper entry ---- */
+        .paper { padding:22px 0 24px; border-bottom:1px solid var(--rule); }
+        .paper-head { display:flex; justify-content:space-between; align-items:flex-start; gap:22px; }
+        .paper-title { margin:0; font-size:20px; line-height:1.34; font-weight:600; color:#1c1f23; flex:1; }
+        .paper-title .pn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; font-weight:600; color:var(--muted); margin-right:9px;
+        }
+        .paper-authors { margin:8px 0 0; font-style:italic; font-size:15.5px; color:var(--ink-soft); }
+        .paper-summary { margin:11px 0 0; font-size:16px; line-height:1.58; color:var(--ink); }
+        .paper-meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.02em; color:var(--muted);
+          margin:12px 0 0; display:flex; flex-wrap:wrap; gap:8px 18px;
+        }
+        .paper-meta a { color:var(--accent); text-decoration:none; }
+        .paper-meta a:hover { text-decoration:underline; }
+        .paper-abstract {
+          margin:14px 0 0; padding:1px 0 1px 20px; border-left:2px solid var(--rule-strong);
+          font-size:14.5px; line-height:1.66; color:var(--ink-soft);
+          text-align:justify; hyphens:auto;
+        }
+        .paper-abstract .lbl {
+          display:block; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 6px;
+        }
+
+        /* ---- Star rating ---- */
+        .star-rating { display:inline-flex; flex-direction:row-reverse; gap:3px; flex-shrink:0; }
+        .star-rating input { display:none; }
+        .star-rating label { font-size:17px; color:#ded8ca; cursor:pointer; transition:color .1s; }
         .star-rating input:checked ~ label,
         .star-rating label:hover,
-        .star-rating label:hover ~ label {
-          color: #fbbf24;
-        }
-        .admin-controls {
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          z-index: 1000;
-          display: none; /* Only show locally */
-        }
+        .star-rating label:hover ~ label { color:#c19a35; }
+
+        /* ---- Admin ---- */
+        .admin-controls { position:fixed; top:20px; right:20px; z-index:1000; display:none; }
         .save-btn {
-          background: #1e3a8a;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 8px;
-          cursor: pointer;
-          font-weight: 600;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          background:var(--accent); color:#fff; border:none; padding:10px 20px;
+          border-radius:4px; cursor:pointer; font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,.15);
         }
-        @media print { .admin-controls, .star-rating { display: none !important; } }
+
+        @media print { .admin-controls, .star-rating, .toolbar { display:none !important; }
+          body { background:#fff; padding:0; } .sheet { box-shadow:none; border:none; } }
+        @media (max-width:640px) {
+          .sheet { padding:34px 22px 46px; }
+          .masthead h1 { font-size:31px; }
+          .field-header .ft { font-size:25px; }
+          .field-header .fc { display:none; }
+          .paper-head { flex-direction:column; gap:10px; }
+        }
       </style>
     </head>
-    <body style="background:#f6f7fb;padding:20px;color:#1f2937;">
+    <body>
       <div class="admin-controls" id="admin-ui">
         <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
       </div>
       <a id="top"></a>
-      <div style="max-width:900px;margin:0 auto;background:#ffffff;border-radius:14px;padding:26px;box-shadow:0 6px 18px rgba(0,0,0,0.08);border:1px solid #eef0f4;">
-        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;">
-          <div>
-            <h1 style="margin:0;font-size:26px;line-height:1.2;color:#111827;">Bi-weekly Research Digest</h1>
-            <p style="margin:8px 0 0;font-size:14px;color:#4b5563;">
-              <b>Date range:</b> 2026-03-16 → 2026-03-31<br>
-              <b>Total relevant papers:</b> 7
-            </p>
-          </div>
-          <div style="display:flex; gap:10px; align-items:center;">
-            <button id="filter-btn" onclick="toggleTopPicks()" style="background:#ffffff; border:1px solid #e5e7eb; padding:8px 16px; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; color:#374151; transition:all 0.2s;">
-              ⭐ Show Top Picks (4★+)
-            </button>
-          </div>
+      <div class="sheet">
+        <header class="masthead">
+          <p class="eyebrow">Maohua Nie · Research Digest</p>
+          <h1>Bi-weekly Research Digest</h1>
+          <p class="meta">16 Mar 2026 – 31 Mar 2026<span class="dot">◆</span>7 papers across 2 fields</p>
+        </header>
+
+        <div class="toolbar">
+          <button id="filter-btn" onclick="toggleTopPicks()">★ Show top picks (4★+)</button>
         </div>
-        <h2 style="margin:26px 0 10px;font-size:18px;border-bottom:1px solid #e5e7eb;padding-bottom:8px;color:#111827;">Summary by Journal</h2>
-        <ul style="margin:10px 0 0;padding-left:18px;color:#374151;line-height:1.7;">
-    <li><a href='#journal-psychological-review' style='text-decoration:none;color:#2563eb;'><b>Psychological Review</b></a>: 2</li><li><a href='#journal-journal-of-risk-and-uncertainty' style='text-decoration:none;color:#2563eb;'><b>Journal of Risk and Uncertainty</b></a>: 2</li><li><a href='#journal-management-science' style='text-decoration:none;color:#2563eb;'><b>Management Science</b></a>: 1</li><li><a href='#journal-journal-of-experimental-psychology-learning-memory-and-cognition' style='text-decoration:none;color:#2563eb;'><b>Journal of Experimental Psychology: Learning, Memory, and Cognition</b></a>: 1</li><li><a href='#journal-memory-cognition' style='text-decoration:none;color:#2563eb;'><b>Memory &amp; Cognition</b></a>: 1</li></ul><a id="journal-psychological-review"></a><h2 class="journal-header" data-journal="Psychological Review" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Psychological Review</h2>
-            <div id="paper-10-1037-rev0000614" class="paper-item" data-journal="Psychological Review" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">A theory of multiattribute search and choice.</h3>
-                <div class="star-rating" data-paper-id="paper-10-1037-rev0000614">
-                  <input type="radio" id="star5-paper-10-1037-rev0000614" name="rating-paper-10-1037-rev0000614" value="5"><label for="star5-paper-10-1037-rev0000614">★</label>
-                  <input type="radio" id="star4-paper-10-1037-rev0000614" name="rating-paper-10-1037-rev0000614" value="4"><label for="star4-paper-10-1037-rev0000614">★</label>
-                  <input type="radio" id="star3-paper-10-1037-rev0000614" name="rating-paper-10-1037-rev0000614" value="3"><label for="star3-paper-10-1037-rev0000614">★</label>
-                  <input type="radio" id="star2-paper-10-1037-rev0000614" name="rating-paper-10-1037-rev0000614" value="2"><label for="star2-paper-10-1037-rev0000614">★</label>
-                  <input type="radio" id="star1-paper-10-1037-rev0000614" name="rating-paper-10-1037-rev0000614" value="1"><label for="star1-paper-10-1037-rev0000614">★</label>
+
+        <nav class="contents">
+          <p class="contents-title">Contents</p>
+    <div class="toc-field"><a class="toc-fname" href="#field-economics" style="color:#1c5d54">I. Economics</a><span class="toc-fcount">3</span><ul class="toc-list"><li class="toc-row"><a href="#journal-economics-journal-of-risk-and-uncertainty">Journal of Risk and Uncertainty</a><span class="toc-lead"></span><span class="n">2</span></li><li class="toc-row"><a href="#journal-economics-management-science">Management Science</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-psychology" style="color:#8a2b3a">II. Psychology</a><span class="toc-fcount">4</span><ul class="toc-list"><li class="toc-row"><a href="#journal-psychology-psychological-review">Psychological Review</a><span class="toc-lead"></span><span class="n">2</span></li><li class="toc-row"><a href="#journal-psychology-journal-of-experimental-psychology-learning-memory-and-cognition">Journal of Experimental Psychology: Learning, Memory, and Cognition</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-memory-cognition">Memory &amp; Cognition</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div></nav><a id="field-economics"></a><h2 class="field-header" data-field="economics" style="color:#1c5d54"><span class="rn">I</span><span class="ft">Economics</span><span class="fc">3 papers</span></h2><a id="journal-economics-journal-of-risk-and-uncertainty"></a><h3 class="journal-header" data-group="economics-journal-of-risk-and-uncertainty">Journal of Risk and Uncertainty</h3>
+                <div id="paper-10-1007-s11166-026-09477-x" class="paper-item paper" data-field="economics" data-group="economics-journal-of-risk-and-uncertainty">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">1</span>Risky choices over goods</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1007-s11166-026-09477-x">
+                      <input type="radio" id="star5-paper-10-1007-s11166-026-09477-x" name="rating-paper-10-1007-s11166-026-09477-x" value="5"><label for="star5-paper-10-1007-s11166-026-09477-x">★</label>
+                      <input type="radio" id="star4-paper-10-1007-s11166-026-09477-x" name="rating-paper-10-1007-s11166-026-09477-x" value="4"><label for="star4-paper-10-1007-s11166-026-09477-x">★</label>
+                      <input type="radio" id="star3-paper-10-1007-s11166-026-09477-x" name="rating-paper-10-1007-s11166-026-09477-x" value="3"><label for="star3-paper-10-1007-s11166-026-09477-x">★</label>
+                      <input type="radio" id="star2-paper-10-1007-s11166-026-09477-x" name="rating-paper-10-1007-s11166-026-09477-x" value="2"><label for="star2-paper-10-1007-s11166-026-09477-x">★</label>
+                      <input type="radio" id="star1-paper-10-1007-s11166-026-09477-x" name="rating-paper-10-1007-s11166-026-09477-x" value="1"><label for="star1-paper-10-1007-s11166-026-09477-x">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">DeJarnette, P.</p>
+                  <p class='paper-summary'>This experiment tests whether people make different risky choices when allocating physical goods versus gift card credit, finding that credit allocations are far more likely to be riskless, suggesting the format of choice options shapes risk preferences beyond standard utility theory predictions.</p>
+                  <p class="paper-meta"><span>2026-03</span><span>Relevance 0.58</span><span><a href='https://doi.org/10.1007/s11166-026-09477-x' target='_blank' rel='noopener noreferrer'>doi.org/10.1007/s11166-026-09477-x</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>This paper examines how risk preferences differ over goods and in-kind monetary rewards, such as gift cards. I conduct an experiment in which control subjects allocate self-selected Amazon.com goods over uncertain states, whereas treated subjects allocate temporally-restricted Amazon.com credit instead. Under perfect information, I prove allocations would be theoretically identical between these groups without assumptions on utility form or risk preferences. In practice, subjects demonstrate considerable differences, with credit allocations 4 times more likely to be riskless. Using an information treatment where subjects browse Amazon.com for an extended time, I find no evidence that price or product uncertainty explains these differences. An additional experiment demonstrates these differences do not exist in a risk-free environment requiring real effort in exchange for credit or goods, further indicating the differences are not driven by uncertainty regarding the utility value of monetary credit.</div>
                 </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>The paper proposes a hierarchical Bayesian cognitive model of how people search for and attend to information in multi-attribute, multi-alternative decisions, validated through an eye-tracking experiment showing how top-down attention shapes search and choice dynamics.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Gluth, S., Deakin, J., Rieskamp, J.</div>
-                <div><b>Published:</b> 2026-03</div>
-                <div><b>Relevance Score:</b> 0.61</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/rev0000614' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/rev0000614</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Decision problems are often characterized by the presence of many choice options described by several attributes, and people need to limit how much information they search for. We propose that humans search and thereby devote attention to relevant information in an efficient and goal-directed, but not necessarily optimal, manner. Thereto, a novel hierarchical Bayesian cognitive model of information search in multiattribute and multialternative decisions is presented and tested. In the model, the search process is governed by the desire to quickly identify the option that meets the choice goal best, which in turn depends on the importance and uncertainty of information and on the accumulated evidence. The theory accounts for many established empirical findings on the interplay of attention and decision making, including the positive correlation of gaze time and choice probability as well as the preference for sampling promising choice candidates. To rigorously test a series of top-down effects of attention, we present results of a new and preregistered eye-tracking experiment on multiattribute decisions, in which the influence of bottom-up attention on visual search is minimized. Our theory accounts for various interactions of attention and choice in this experiment, while variants of it and another extant theory, which assume different search rules, fail to capture these effects. Furthermore, the theory predicts additional choice dynamics such as the dependency of decision speed on the number and overall value of options. The proposed framework provides a general approach to understanding the intricate dynamics of search and valuation mechanisms in multiattribute decisions. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
+                
+                <div id="paper-10-1007-s11166-026-09481-1" class="paper-item paper" data-field="economics" data-group="economics-journal-of-risk-and-uncertainty">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">2</span>Uncertainty (ambiguity) aversion and seeking</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1007-s11166-026-09481-1">
+                      <input type="radio" id="star5-paper-10-1007-s11166-026-09481-1" name="rating-paper-10-1007-s11166-026-09481-1" value="5"><label for="star5-paper-10-1007-s11166-026-09481-1">★</label>
+                      <input type="radio" id="star4-paper-10-1007-s11166-026-09481-1" name="rating-paper-10-1007-s11166-026-09481-1" value="4"><label for="star4-paper-10-1007-s11166-026-09481-1">★</label>
+                      <input type="radio" id="star3-paper-10-1007-s11166-026-09481-1" name="rating-paper-10-1007-s11166-026-09481-1" value="3"><label for="star3-paper-10-1007-s11166-026-09481-1">★</label>
+                      <input type="radio" id="star2-paper-10-1007-s11166-026-09481-1" name="rating-paper-10-1007-s11166-026-09481-1" value="2"><label for="star2-paper-10-1007-s11166-026-09481-1">★</label>
+                      <input type="radio" id="star1-paper-10-1007-s11166-026-09481-1" name="rating-paper-10-1007-s11166-026-09481-1" value="1"><label for="star1-paper-10-1007-s11166-026-09481-1">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">R Blavatskyy, P.</p>
+                  <p class='paper-summary'>This paper examines the psychological phenomenon of ambiguity aversion and seeking, exploring how individuals respond to situations where probabilities are unknown or imprecise. It likely covers theoretical frameworks and/or empirical evidence on how people deviate from expected utility when facing uncertainty about probabilities.</p>
+                  <p class="paper-meta"><span>2026-03</span><span>Relevance 0.46</span><span><a href='https://doi.org/10.1007/s11166-026-09481-1' target='_blank' rel='noopener noreferrer'>doi.org/10.1007/s11166-026-09481-1</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
                 </div>
-              </div>
-            </div>
-            
-            <div id="paper-10-1037-rev0000612" class="paper-item" data-journal="Psychological Review" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Cognitive constraints and reward environments jointly shape memory formation.</h3>
-                <div class="star-rating" data-paper-id="paper-10-1037-rev0000612">
-                  <input type="radio" id="star5-paper-10-1037-rev0000612" name="rating-paper-10-1037-rev0000612" value="5"><label for="star5-paper-10-1037-rev0000612">★</label>
-                  <input type="radio" id="star4-paper-10-1037-rev0000612" name="rating-paper-10-1037-rev0000612" value="4"><label for="star4-paper-10-1037-rev0000612">★</label>
-                  <input type="radio" id="star3-paper-10-1037-rev0000612" name="rating-paper-10-1037-rev0000612" value="3"><label for="star3-paper-10-1037-rev0000612">★</label>
-                  <input type="radio" id="star2-paper-10-1037-rev0000612" name="rating-paper-10-1037-rev0000612" value="2"><label for="star2-paper-10-1037-rev0000612">★</label>
-                  <input type="radio" id="star1-paper-10-1037-rev0000612" name="rating-paper-10-1037-rev0000612" value="1"><label for="star1-paper-10-1037-rev0000612">★</label>
+                <a id="journal-economics-management-science"></a><h3 class="journal-header" data-group="economics-management-science">Management Science</h3>
+                <div id="paper-10-1287-mnsc-2025-03690" class="paper-item paper" data-field="economics" data-group="economics-management-science">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">3</span>Asset Pricing in a World of Imperfect Foresight</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2025-03690">
+                      <input type="radio" id="star5-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="5"><label for="star5-paper-10-1287-mnsc-2025-03690">★</label>
+                      <input type="radio" id="star4-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="4"><label for="star4-paper-10-1287-mnsc-2025-03690">★</label>
+                      <input type="radio" id="star3-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="3"><label for="star3-paper-10-1287-mnsc-2025-03690">★</label>
+                      <input type="radio" id="star2-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="2"><label for="star2-paper-10-1287-mnsc-2025-03690">★</label>
+                      <input type="radio" id="star1-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="1"><label for="star1-paper-10-1287-mnsc-2025-03690">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Bossaerts, P., Fattinger, F., van den Bogaerde, F., Yang, W.</p>
+                  <p class='paper-summary'>This paper shows that asset prices can still reflect perfect foresight equilibria even when agents use &#39;dynamic narrow framing&#39;—ignoring retrading opportunities to simplify computation—and validates this behavioral assumption with a controlled experiment measuring both prices and individual choices.</p>
+                  <p class="paper-meta"><span>2026-03</span><span>Relevance 0.49</span><span><a href='https://doi.org/10.1287/mnsc.2025.03690' target='_blank' rel='noopener noreferrer'>doi.org/10.1287/mnsc.2025.03690</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>A key assumption of dynamic asset pricing theory is that agents have perfect foresight: for all future contingencies, they correctly foresee the corresponding equilibrium prices. Is it possible for prices to still reflect perfect foresight even if agents have imperfect foresight? We answer affirmatively, provided agents exhibit a mild form of narrow framing, which we refer to as dynamic narrow framing: while accounting for future endowments, agents ignore retrading opportunities. This behavior vastly simplifies computation of optimal choices because it obviates the need to form beliefs about future prices. Obviously, choices will generally be different, and hence, suboptimal, compared with those that obtain if agents were to optimize dynamically using perfect foresight about future prices. With a controlled experiment, we verify that our behavioral assumption explains both prices and choices. Our findings allow us to reinterpret the successes (when evaluating prices only) and failures (when evaluating prices against choices) of traditional tests of asset pricing theory on historical data from the field. This paper was accepted by Lukas Schmid, finance. Funding: P. Bossaerts acknowledges funding from the Australian Research Council [Grant DP180102284], from a R@MAP Chair at the University of Melbourne, and from The Leverhulme Trust. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2025.03690 .</div>
                 </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper proposes a parameter-free computational model explaining how reward and cognitive constraints jointly shape episodic memory encoding, showing that high-reward items don&#39;t always have memory advantages and that strategic metacognitive resource allocation drives memory formation.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Ma, S., Popov, V., Zhang, Q.</div>
-                <div><b>Published:</b> 2026-03</div>
-                <div><b>Relevance Score:</b> 0.44</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/rev0000612' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/rev0000612</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">A key adaptive feature of human episodic memory is its ability to selectively encode important information. While extensive empirical evidence supports that reward enhances memory, this monotonic relationship does not always hold, and the influence of reward on memory formation can exhibit complex patterns. To reconcile these findings, we present a computational model that considers not only how people maximize their rewards but also the cognitive constraints underlying this adaptation. Unlike previous theoretical accounts that assume a direct link between reward value and memory encoding strength, our model adaptively decides how strongly to encode each item based on the overall reward environment and its interaction with limited cognitive resources at encoding. We validated the model&#39;s predictions across three experiments, successfully explaining why high-reward items do not always have a memory advantage, how reward context influences memory, and the role of reward anticipation. Importantly, the model predictions are parameter-free. They are derived solely from optimal adaptation to a given reward environment, under cognitive constraints independently characterized by previous studies, rather than being fit to the empirical data that the model seeks to explain. These findings support that memory encoding is an active process involving metacognitive control, where limited cognitive resources are strategically allocated to maximize overall cumulative rewards, rather than a passive response to the salience of individual items. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
+                <a id="field-psychology"></a><h2 class="field-header" data-field="psychology" style="color:#8a2b3a"><span class="rn">II</span><span class="ft">Psychology</span><span class="fc">4 papers</span></h2><a id="journal-psychology-psychological-review"></a><h3 class="journal-header" data-group="psychology-psychological-review">Psychological Review</h3>
+                <div id="paper-10-1037-rev0000614" class="paper-item paper" data-field="psychology" data-group="psychology-psychological-review">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">4</span>A theory of multiattribute search and choice.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-rev0000614">
+                      <input type="radio" id="star5-paper-10-1037-rev0000614" name="rating-paper-10-1037-rev0000614" value="5"><label for="star5-paper-10-1037-rev0000614">★</label>
+                      <input type="radio" id="star4-paper-10-1037-rev0000614" name="rating-paper-10-1037-rev0000614" value="4"><label for="star4-paper-10-1037-rev0000614">★</label>
+                      <input type="radio" id="star3-paper-10-1037-rev0000614" name="rating-paper-10-1037-rev0000614" value="3"><label for="star3-paper-10-1037-rev0000614">★</label>
+                      <input type="radio" id="star2-paper-10-1037-rev0000614" name="rating-paper-10-1037-rev0000614" value="2"><label for="star2-paper-10-1037-rev0000614">★</label>
+                      <input type="radio" id="star1-paper-10-1037-rev0000614" name="rating-paper-10-1037-rev0000614" value="1"><label for="star1-paper-10-1037-rev0000614">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Gluth, S., Deakin, J., Rieskamp, J.</p>
+                  <p class='paper-summary'>The paper proposes a hierarchical Bayesian cognitive model of how people search for and attend to information in multi-attribute, multi-alternative decisions, validated through an eye-tracking experiment showing how top-down attention shapes search and choice dynamics.</p>
+                  <p class="paper-meta"><span>2026-03</span><span>Relevance 0.61</span><span><a href='https://doi.org/10.1037/rev0000614' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/rev0000614</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Decision problems are often characterized by the presence of many choice options described by several attributes, and people need to limit how much information they search for. We propose that humans search and thereby devote attention to relevant information in an efficient and goal-directed, but not necessarily optimal, manner. Thereto, a novel hierarchical Bayesian cognitive model of information search in multiattribute and multialternative decisions is presented and tested. In the model, the search process is governed by the desire to quickly identify the option that meets the choice goal best, which in turn depends on the importance and uncertainty of information and on the accumulated evidence. The theory accounts for many established empirical findings on the interplay of attention and decision making, including the positive correlation of gaze time and choice probability as well as the preference for sampling promising choice candidates. To rigorously test a series of top-down effects of attention, we present results of a new and preregistered eye-tracking experiment on multiattribute decisions, in which the influence of bottom-up attention on visual search is minimized. Our theory accounts for various interactions of attention and choice in this experiment, while variants of it and another extant theory, which assume different search rules, fail to capture these effects. Furthermore, the theory predicts additional choice dynamics such as the dependency of decision speed on the number and overall value of options. The proposed framework provides a general approach to understanding the intricate dynamics of search and valuation mechanisms in multiattribute decisions. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
                 </div>
-              </div>
-            </div>
-            <a id="journal-journal-of-risk-and-uncertainty"></a><h2 class="journal-header" data-journal="Journal of Risk and Uncertainty" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Journal of Risk and Uncertainty</h2>
-            <div id="paper-10-1007-s11166-026-09477-x" class="paper-item" data-journal="Journal of Risk and Uncertainty" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Risky choices over goods</h3>
-                <div class="star-rating" data-paper-id="paper-10-1007-s11166-026-09477-x">
-                  <input type="radio" id="star5-paper-10-1007-s11166-026-09477-x" name="rating-paper-10-1007-s11166-026-09477-x" value="5"><label for="star5-paper-10-1007-s11166-026-09477-x">★</label>
-                  <input type="radio" id="star4-paper-10-1007-s11166-026-09477-x" name="rating-paper-10-1007-s11166-026-09477-x" value="4"><label for="star4-paper-10-1007-s11166-026-09477-x">★</label>
-                  <input type="radio" id="star3-paper-10-1007-s11166-026-09477-x" name="rating-paper-10-1007-s11166-026-09477-x" value="3"><label for="star3-paper-10-1007-s11166-026-09477-x">★</label>
-                  <input type="radio" id="star2-paper-10-1007-s11166-026-09477-x" name="rating-paper-10-1007-s11166-026-09477-x" value="2"><label for="star2-paper-10-1007-s11166-026-09477-x">★</label>
-                  <input type="radio" id="star1-paper-10-1007-s11166-026-09477-x" name="rating-paper-10-1007-s11166-026-09477-x" value="1"><label for="star1-paper-10-1007-s11166-026-09477-x">★</label>
+                
+                <div id="paper-10-1037-rev0000612" class="paper-item paper" data-field="psychology" data-group="psychology-psychological-review">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">5</span>Cognitive constraints and reward environments jointly shape memory formation.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-rev0000612">
+                      <input type="radio" id="star5-paper-10-1037-rev0000612" name="rating-paper-10-1037-rev0000612" value="5"><label for="star5-paper-10-1037-rev0000612">★</label>
+                      <input type="radio" id="star4-paper-10-1037-rev0000612" name="rating-paper-10-1037-rev0000612" value="4"><label for="star4-paper-10-1037-rev0000612">★</label>
+                      <input type="radio" id="star3-paper-10-1037-rev0000612" name="rating-paper-10-1037-rev0000612" value="3"><label for="star3-paper-10-1037-rev0000612">★</label>
+                      <input type="radio" id="star2-paper-10-1037-rev0000612" name="rating-paper-10-1037-rev0000612" value="2"><label for="star2-paper-10-1037-rev0000612">★</label>
+                      <input type="radio" id="star1-paper-10-1037-rev0000612" name="rating-paper-10-1037-rev0000612" value="1"><label for="star1-paper-10-1037-rev0000612">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Ma, S., Popov, V., Zhang, Q.</p>
+                  <p class='paper-summary'>This paper proposes a parameter-free computational model explaining how reward and cognitive constraints jointly shape episodic memory encoding, showing that high-reward items don&#39;t always have memory advantages and that strategic metacognitive resource allocation drives memory formation.</p>
+                  <p class="paper-meta"><span>2026-03</span><span>Relevance 0.44</span><span><a href='https://doi.org/10.1037/rev0000612' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/rev0000612</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>A key adaptive feature of human episodic memory is its ability to selectively encode important information. While extensive empirical evidence supports that reward enhances memory, this monotonic relationship does not always hold, and the influence of reward on memory formation can exhibit complex patterns. To reconcile these findings, we present a computational model that considers not only how people maximize their rewards but also the cognitive constraints underlying this adaptation. Unlike previous theoretical accounts that assume a direct link between reward value and memory encoding strength, our model adaptively decides how strongly to encode each item based on the overall reward environment and its interaction with limited cognitive resources at encoding. We validated the model&#39;s predictions across three experiments, successfully explaining why high-reward items do not always have a memory advantage, how reward context influences memory, and the role of reward anticipation. Importantly, the model predictions are parameter-free. They are derived solely from optimal adaptation to a given reward environment, under cognitive constraints independently characterized by previous studies, rather than being fit to the empirical data that the model seeks to explain. These findings support that memory encoding is an active process involving metacognitive control, where limited cognitive resources are strategically allocated to maximize overall cumulative rewards, rather than a passive response to the salience of individual items. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
                 </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This experiment tests whether people make different risky choices when allocating physical goods versus gift card credit, finding that credit allocations are far more likely to be riskless, suggesting the format of choice options shapes risk preferences beyond standard utility theory predictions.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> DeJarnette, P.</div>
-                <div><b>Published:</b> 2026-03</div>
-                <div><b>Relevance Score:</b> 0.58</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1007/s11166-026-09477-x' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1007/s11166-026-09477-x</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">This paper examines how risk preferences differ over goods and in-kind monetary rewards, such as gift cards. I conduct an experiment in which control subjects allocate self-selected Amazon.com goods over uncertain states, whereas treated subjects allocate temporally-restricted Amazon.com credit instead. Under perfect information, I prove allocations would be theoretically identical between these groups without assumptions on utility form or risk preferences. In practice, subjects demonstrate considerable differences, with credit allocations 4 times more likely to be riskless. Using an information treatment where subjects browse Amazon.com for an extended time, I find no evidence that price or product uncertainty explains these differences. An additional experiment demonstrates these differences do not exist in a risk-free environment requiring real effort in exchange for credit or goods, further indicating the differences are not driven by uncertainty regarding the utility value of monetary credit.</span>
+                <a id="journal-psychology-journal-of-experimental-psychology-learning-memory-and-cognition"></a><h3 class="journal-header" data-group="psychology-journal-of-experimental-psychology-learning-memory-and-cognition">Journal of Experimental Psychology: Learning, Memory, and Cognition</h3>
+                <div id="paper-10-1037-xlm0001601" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-experimental-psychology-learning-memory-and-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">6</span>The role of attention in framing: How question valence attenuates attribute framing bias.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-xlm0001601">
+                      <input type="radio" id="star5-paper-10-1037-xlm0001601" name="rating-paper-10-1037-xlm0001601" value="5"><label for="star5-paper-10-1037-xlm0001601">★</label>
+                      <input type="radio" id="star4-paper-10-1037-xlm0001601" name="rating-paper-10-1037-xlm0001601" value="4"><label for="star4-paper-10-1037-xlm0001601">★</label>
+                      <input type="radio" id="star3-paper-10-1037-xlm0001601" name="rating-paper-10-1037-xlm0001601" value="3"><label for="star3-paper-10-1037-xlm0001601">★</label>
+                      <input type="radio" id="star2-paper-10-1037-xlm0001601" name="rating-paper-10-1037-xlm0001601" value="2"><label for="star2-paper-10-1037-xlm0001601">★</label>
+                      <input type="radio" id="star1-paper-10-1037-xlm0001601" name="rating-paper-10-1037-xlm0001601" value="1"><label for="star1-paper-10-1037-xlm0001601">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Barokas, G., Gamliel, E., Kreiner, H.</p>
+                  <p class='paper-summary'>This paper examines how question valence (positive vs. negative wording) attenuates attribute framing bias in evaluations, finding that conflicting question valence shifts attention to complementary information and reduces the bias, especially for graphical displays. The authors propose attentional mechanisms as the underlying process driving these framing effects.</p>
+                  <p class="paper-meta"><span>2026-03</span><span>Relevance 0.38</span><span><a href='https://doi.org/10.1037/xlm0001601' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/xlm0001601</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>The term attribute framing bias refers to individuals&#39; tendency to evaluate objects or events more favorably when they are framed positively (e.g., &quot;75% success&quot;) than when the same information is framed negatively (e.g., &quot;25% failure&quot;). Previous findings show that individuals evaluate information more favorably when asked questions with positive valence (e.g., &quot;how good?&quot;) compared with questions with negative valence (e.g., &quot;how bad?&quot;). The current article examines whether and to what extent question valence attenuates attribute framing bias when information is displayed in text and graphs. Three experiments consistently show a significant effect of attribute framing with more favorable evaluations for positive compared with negative framing, and an effect of question valence with more favorable evaluations for positive compared with negative question valence. Critically, while question valence reduced attribute framing bias for textual presentation, it eliminated attribute framing bias when the information was presented graphically. We propose that attentional mechanisms account for these findings. Specifically, attribute framing bias reflects an attention shift toward the positive or negative frame presented explicitly in the scenario, while neglecting the implicit complementary information. A question with conflicting valence shifts attention to the implicit information, consequently reducing the bias. The attenuating effect of question valence is stronger and eliminates the bias, when information is presented graphically because the complementary attribute is visually available. We discuss the implications of using question valence to mitigate framing effects and biases in judgment and decision making. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
                 </div>
-              </div>
-            </div>
-            
-            <div id="paper-10-1007-s11166-026-09481-1" class="paper-item" data-journal="Journal of Risk and Uncertainty" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Uncertainty (ambiguity) aversion and seeking</h3>
-                <div class="star-rating" data-paper-id="paper-10-1007-s11166-026-09481-1">
-                  <input type="radio" id="star5-paper-10-1007-s11166-026-09481-1" name="rating-paper-10-1007-s11166-026-09481-1" value="5"><label for="star5-paper-10-1007-s11166-026-09481-1">★</label>
-                  <input type="radio" id="star4-paper-10-1007-s11166-026-09481-1" name="rating-paper-10-1007-s11166-026-09481-1" value="4"><label for="star4-paper-10-1007-s11166-026-09481-1">★</label>
-                  <input type="radio" id="star3-paper-10-1007-s11166-026-09481-1" name="rating-paper-10-1007-s11166-026-09481-1" value="3"><label for="star3-paper-10-1007-s11166-026-09481-1">★</label>
-                  <input type="radio" id="star2-paper-10-1007-s11166-026-09481-1" name="rating-paper-10-1007-s11166-026-09481-1" value="2"><label for="star2-paper-10-1007-s11166-026-09481-1">★</label>
-                  <input type="radio" id="star1-paper-10-1007-s11166-026-09481-1" name="rating-paper-10-1007-s11166-026-09481-1" value="1"><label for="star1-paper-10-1007-s11166-026-09481-1">★</label>
+                <a id="journal-psychology-memory-cognition"></a><h3 class="journal-header" data-group="psychology-memory-cognition">Memory &amp; Cognition</h3>
+                <div id="paper-10-3758-s13421-025-01781-2" class="paper-item paper" data-field="psychology" data-group="psychology-memory-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">7</span>Different sources of the numerical comparison size effect</h4>
+                    <div class="star-rating" data-paper-id="paper-10-3758-s13421-025-01781-2">
+                      <input type="radio" id="star5-paper-10-3758-s13421-025-01781-2" name="rating-paper-10-3758-s13421-025-01781-2" value="5"><label for="star5-paper-10-3758-s13421-025-01781-2">★</label>
+                      <input type="radio" id="star4-paper-10-3758-s13421-025-01781-2" name="rating-paper-10-3758-s13421-025-01781-2" value="4"><label for="star4-paper-10-3758-s13421-025-01781-2">★</label>
+                      <input type="radio" id="star3-paper-10-3758-s13421-025-01781-2" name="rating-paper-10-3758-s13421-025-01781-2" value="3"><label for="star3-paper-10-3758-s13421-025-01781-2">★</label>
+                      <input type="radio" id="star2-paper-10-3758-s13421-025-01781-2" name="rating-paper-10-3758-s13421-025-01781-2" value="2"><label for="star2-paper-10-3758-s13421-025-01781-2">★</label>
+                      <input type="radio" id="star1-paper-10-3758-s13421-025-01781-2" name="rating-paper-10-3758-s13421-025-01781-2" value="1"><label for="star1-paper-10-3758-s13421-025-01781-2">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Krajcsi, A., Kojouharova, P.</p>
+                  <p class='paper-summary'>This study investigates how symbolic vs. nonsymbolic number comparison tasks produce numerical distance and size effects, finding through drift diffusion model parameter recovery that the size effect has multiple distinct cognitive generators, including decision threshold adjustment rather than purely task difficulty.</p>
+                  <p class="paper-meta"><span>2026-03</span><span>Relevance 0.35</span><span><a href='https://doi.org/10.3758/s13421-025-01781-2' target='_blank' rel='noopener noreferrer'>doi.org/10.3758/s13421-025-01781-2</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract In symbolic number comparison tasks, the numerical distance and size effects are largely influenced by the statistical properties of the stimuli. Here, we tested whether nonsymbolic number comparison is also sensitive to the statistical features of the stimuli. We found that unlike in the symbolic comparison task, in the nonsymbolic comparison task, the distance effect was mainly influenced by the values and not by the statistics of the stimuli. We also found that while the size effect was modified by the frequency of the stimuli, the change of the size effect may not have originated in the difficulty of the task (as predicted by the psychophysical models) but in other parameters of the decision process, such as the adjustment of the decision threshold. Additionally, while the symbolic size effect change is stable throughout the session, the nonsymbolic size effect change gradually decreases. These results confirm that nonsymbolic number comparison is mainly driven by a psychophysical process; however, stimulus frequency has an additional role. The results demonstrate again that symbolic and nonsymbolic numerical stimuli are compared qualitatively differently. Diffusion model parameter recovery also demonstrated that the numerical size effect is not a single effect but can have at least three different generators.</div>
                 </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper examines the psychological phenomenon of ambiguity aversion and seeking, exploring how individuals respond to situations where probabilities are unknown or imprecise. It likely covers theoretical frameworks and/or empirical evidence on how people deviate from expected utility when facing uncertainty about probabilities.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> R Blavatskyy, P.</div>
-                <div><b>Published:</b> 2026-03</div>
-                <div><b>Relevance Score:</b> 0.46</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1007/s11166-026-09481-1' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1007/s11166-026-09481-1</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Not available.</span>
-                </div>
-              </div>
-            </div>
-            <a id="journal-management-science"></a><h2 class="journal-header" data-journal="Management Science" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Management Science</h2>
-            <div id="paper-10-1287-mnsc-2025-03690" class="paper-item" data-journal="Management Science" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Asset Pricing in a World of Imperfect Foresight</h3>
-                <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2025-03690">
-                  <input type="radio" id="star5-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="5"><label for="star5-paper-10-1287-mnsc-2025-03690">★</label>
-                  <input type="radio" id="star4-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="4"><label for="star4-paper-10-1287-mnsc-2025-03690">★</label>
-                  <input type="radio" id="star3-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="3"><label for="star3-paper-10-1287-mnsc-2025-03690">★</label>
-                  <input type="radio" id="star2-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="2"><label for="star2-paper-10-1287-mnsc-2025-03690">★</label>
-                  <input type="radio" id="star1-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="1"><label for="star1-paper-10-1287-mnsc-2025-03690">★</label>
-                </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper shows that asset prices can still reflect perfect foresight equilibria even when agents use &#39;dynamic narrow framing&#39;—ignoring retrading opportunities to simplify computation—and validates this behavioral assumption with a controlled experiment measuring both prices and individual choices.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Bossaerts, P., Fattinger, F., van den Bogaerde, F., Yang, W.</div>
-                <div><b>Published:</b> 2026-03</div>
-                <div><b>Relevance Score:</b> 0.49</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1287/mnsc.2025.03690' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1287/mnsc.2025.03690</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">A key assumption of dynamic asset pricing theory is that agents have perfect foresight: for all future contingencies, they correctly foresee the corresponding equilibrium prices. Is it possible for prices to still reflect perfect foresight even if agents have imperfect foresight? We answer affirmatively, provided agents exhibit a mild form of narrow framing, which we refer to as dynamic narrow framing: while accounting for future endowments, agents ignore retrading opportunities. This behavior vastly simplifies computation of optimal choices because it obviates the need to form beliefs about future prices. Obviously, choices will generally be different, and hence, suboptimal, compared with those that obtain if agents were to optimize dynamically using perfect foresight about future prices. With a controlled experiment, we verify that our behavioral assumption explains both prices and choices. Our findings allow us to reinterpret the successes (when evaluating prices only) and failures (when evaluating prices against choices) of traditional tests of asset pricing theory on historical data from the field. This paper was accepted by Lukas Schmid, finance. Funding: P. Bossaerts acknowledges funding from the Australian Research Council [Grant DP180102284], from a R@MAP Chair at the University of Melbourne, and from The Leverhulme Trust. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2025.03690 .</span>
-                </div>
-              </div>
-            </div>
-            <a id="journal-journal-of-experimental-psychology-learning-memory-and-cognition"></a><h2 class="journal-header" data-journal="Journal of Experimental Psychology: Learning, Memory, and Cognition" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Journal of Experimental Psychology: Learning, Memory, and Cognition</h2>
-            <div id="paper-10-1037-xlm0001601" class="paper-item" data-journal="Journal of Experimental Psychology: Learning, Memory, and Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">The role of attention in framing: How question valence attenuates attribute framing bias.</h3>
-                <div class="star-rating" data-paper-id="paper-10-1037-xlm0001601">
-                  <input type="radio" id="star5-paper-10-1037-xlm0001601" name="rating-paper-10-1037-xlm0001601" value="5"><label for="star5-paper-10-1037-xlm0001601">★</label>
-                  <input type="radio" id="star4-paper-10-1037-xlm0001601" name="rating-paper-10-1037-xlm0001601" value="4"><label for="star4-paper-10-1037-xlm0001601">★</label>
-                  <input type="radio" id="star3-paper-10-1037-xlm0001601" name="rating-paper-10-1037-xlm0001601" value="3"><label for="star3-paper-10-1037-xlm0001601">★</label>
-                  <input type="radio" id="star2-paper-10-1037-xlm0001601" name="rating-paper-10-1037-xlm0001601" value="2"><label for="star2-paper-10-1037-xlm0001601">★</label>
-                  <input type="radio" id="star1-paper-10-1037-xlm0001601" name="rating-paper-10-1037-xlm0001601" value="1"><label for="star1-paper-10-1037-xlm0001601">★</label>
-                </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This paper examines how question valence (positive vs. negative wording) attenuates attribute framing bias in evaluations, finding that conflicting question valence shifts attention to complementary information and reduces the bias, especially for graphical displays. The authors propose attentional mechanisms as the underlying process driving these framing effects.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Barokas, G., Gamliel, E., Kreiner, H.</div>
-                <div><b>Published:</b> 2026-03</div>
-                <div><b>Relevance Score:</b> 0.38</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.1037/xlm0001601' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.1037/xlm0001601</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">The term attribute framing bias refers to individuals&#39; tendency to evaluate objects or events more favorably when they are framed positively (e.g., &quot;75% success&quot;) than when the same information is framed negatively (e.g., &quot;25% failure&quot;). Previous findings show that individuals evaluate information more favorably when asked questions with positive valence (e.g., &quot;how good?&quot;) compared with questions with negative valence (e.g., &quot;how bad?&quot;). The current article examines whether and to what extent question valence attenuates attribute framing bias when information is displayed in text and graphs. Three experiments consistently show a significant effect of attribute framing with more favorable evaluations for positive compared with negative framing, and an effect of question valence with more favorable evaluations for positive compared with negative question valence. Critically, while question valence reduced attribute framing bias for textual presentation, it eliminated attribute framing bias when the information was presented graphically. We propose that attentional mechanisms account for these findings. Specifically, attribute framing bias reflects an attention shift toward the positive or negative frame presented explicitly in the scenario, while neglecting the implicit complementary information. A question with conflicting valence shifts attention to the implicit information, consequently reducing the bias. The attenuating effect of question valence is stronger and eliminates the bias, when information is presented graphically because the complementary attribute is visually available. We discuss the implications of using question valence to mitigate framing effects and biases in judgment and decision making. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</span>
-                </div>
-              </div>
-            </div>
-            <a id="journal-memory-cognition"></a><h2 class="journal-header" data-journal="Memory & Cognition" style="margin:34px 0 10px;font-size:24px;color:#b91c1c;">Memory &amp; Cognition</h2>
-            <div id="paper-10-3758-s13421-025-01781-2" class="paper-item" data-journal="Memory & Cognition" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin:14px 0 18px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-                <h3 style="margin:0 0 10px;font-size:20px;color:#111827;flex:1;">Different sources of the numerical comparison size effect</h3>
-                <div class="star-rating" data-paper-id="paper-10-3758-s13421-025-01781-2">
-                  <input type="radio" id="star5-paper-10-3758-s13421-025-01781-2" name="rating-paper-10-3758-s13421-025-01781-2" value="5"><label for="star5-paper-10-3758-s13421-025-01781-2">★</label>
-                  <input type="radio" id="star4-paper-10-3758-s13421-025-01781-2" name="rating-paper-10-3758-s13421-025-01781-2" value="4"><label for="star4-paper-10-3758-s13421-025-01781-2">★</label>
-                  <input type="radio" id="star3-paper-10-3758-s13421-025-01781-2" name="rating-paper-10-3758-s13421-025-01781-2" value="3"><label for="star3-paper-10-3758-s13421-025-01781-2">★</label>
-                  <input type="radio" id="star2-paper-10-3758-s13421-025-01781-2" name="rating-paper-10-3758-s13421-025-01781-2" value="2"><label for="star2-paper-10-3758-s13421-025-01781-2">★</label>
-                  <input type="radio" id="star1-paper-10-3758-s13421-025-01781-2" name="rating-paper-10-3758-s13421-025-01781-2" value="1"><label for="star1-paper-10-3758-s13421-025-01781-2">★</label>
-                </div>
-              </div>
-              <p style='margin:0 0 12px;font-size:14px;color:#374151;line-height:1.6;'>This study investigates how symbolic vs. nonsymbolic number comparison tasks produce numerical distance and size effects, finding through drift diffusion model parameter recovery that the size effect has multiple distinct cognitive generators, including decision threshold adjustment rather than purely task difficulty.</p>
-              <div style="font-size:13px;color:#4b5563;line-height:1.7;">
-                <div><b>Authors:</b> Krajcsi, A., Kojouharova, P.</div>
-                <div><b>Published:</b> 2026-03</div>
-                <div><b>Relevance Score:</b> 0.35</div>
-                <div style="margin-top:10px;"><b>DOI:</b> <a href='https://doi.org/10.3758/s13421-025-01781-2' target='_blank' rel='noopener noreferrer' style='color:#2563eb;text-decoration:none;'>https://doi.org/10.3758/s13421-025-01781-2</a></div>
-                <div style="margin-top:12px;padding:12px;background:#f9fafb;border:1px solid #eef0f4;border-radius:12px;">
-                  <b>Abstract:</b><br><span style="color:#374151;">Abstract In symbolic number comparison tasks, the numerical distance and size effects are largely influenced by the statistical properties of the stimuli. Here, we tested whether nonsymbolic number comparison is also sensitive to the statistical features of the stimuli. We found that unlike in the symbolic comparison task, in the nonsymbolic comparison task, the distance effect was mainly influenced by the values and not by the statistics of the stimuli. We also found that while the size effect was modified by the frequency of the stimuli, the change of the size effect may not have originated in the difficulty of the task (as predicted by the psychophysical models) but in other parameters of the decision process, such as the adjustment of the decision threshold. Additionally, while the symbolic size effect change is stable throughout the session, the nonsymbolic size effect change gradually decreases. These results confirm that nonsymbolic number comparison is mainly driven by a psychophysical process; however, stimulus frequency has an additional role. The results demonstrate again that symbolic and nonsymbolic numerical stimuli are compared qualitatively differently. Diffusion model parameter recovery also demonstrated that the numerical size effect is not a single effect but can have at least three different generators.</span>
-                </div>
-              </div>
-            </div>
-            
+                
       </div>
       <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
       <script>
@@ -249,37 +311,45 @@
           isFilterActive = !isFilterActive;
           const btn = document.getElementById('filter-btn');
           const papers = document.querySelectorAll('.paper-item');
-          const headers = document.querySelectorAll('.journal-header');
+          const journalHeaders = document.querySelectorAll('.journal-header');
+          const fieldHeaders = document.querySelectorAll('.field-header');
 
           if (isFilterActive) {
-            btn.style.background = '#1e3a8a';
+            btn.style.background = '#0b4a6f';
             btn.style.color = '#ffffff';
-            btn.innerHTML = '✨ Showing Top Picks (4★+)';
+            btn.style.borderColor = '#0b4a6f';
+            btn.innerHTML = '★ Showing top picks (4★+)';
 
-            headers.forEach(header => {
-              const journal = header.getAttribute('data-journal');
-              const journalPapers = document.querySelectorAll(`.paper-item[data-journal="${journal}"]`);
-              let hasTopPick = false;
+            // Show/hide papers by rating.
+            papers.forEach(paper => {
+              const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+              paper.style.display = parseInt(rating) >= 4 ? 'block' : 'none';
+            });
 
-              journalPapers.forEach(paper => {
-                const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
-                if (parseInt(rating) >= 4) {
-                  paper.style.display = 'block';
-                  hasTopPick = true;
-                } else {
-                  paper.style.display = 'none';
-                }
-              });
+            // Hide journal sub-headers whose papers are all filtered out.
+            journalHeaders.forEach(header => {
+              const group = header.getAttribute('data-group');
+              const groupPapers = document.querySelectorAll(`.paper-item[data-group="${group}"]`);
+              const anyVisible = Array.from(groupPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
 
-              header.style.display = hasTopPick ? 'block' : 'none';
+            // Hide field headers whose whole section is filtered out.
+            fieldHeaders.forEach(header => {
+              const field = header.getAttribute('data-field');
+              const fieldPapers = document.querySelectorAll(`.paper-item[data-field="${field}"]`);
+              const anyVisible = Array.from(fieldPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
             });
           } else {
-            btn.style.background = '#ffffff';
-            btn.style.color = '#374151';
-            btn.innerHTML = '⭐ Show Top Picks (4★+)';
-            
+            btn.style.background = 'transparent';
+            btn.style.color = '#4c525a';
+            btn.style.borderColor = '#cfc8b9';
+            btn.innerHTML = '★ Show top picks (4★+)';
+
             papers.forEach(p => p.style.display = 'block');
-            headers.forEach(h => h.style.display = 'block');
+            journalHeaders.forEach(h => h.style.display = 'block');
+            fieldHeaders.forEach(h => h.style.display = 'block');
           }
         }
 
