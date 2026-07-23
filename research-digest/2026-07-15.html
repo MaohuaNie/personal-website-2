@@ -1,0 +1,488 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+      <link rel="stylesheet" href="../assets/site.css">
+      <style>
+        :root {
+          --paper:#fffdf9; --page:#efece5; --ink:#23272c; --ink-soft:#4c525a;
+          --muted:#8b9099; --rule:#e7e2d7; --rule-strong:#cfc8b9; --accent:#0b4a6f;
+        }
+        html, body { margin:0; }
+        body {
+          background:var(--page); color:var(--ink);
+          font-family:'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+          font-size:17px; line-height:1.6;
+          -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+          padding:28px 18px 90px;
+        }
+        .sans { font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif; }
+        .sheet {
+          max-width:800px; margin:0 auto; background:var(--paper);
+          padding:60px 68px 76px;
+          border:1px solid var(--rule);
+          box-shadow:0 1px 2px rgba(20,20,30,.04), 0 24px 60px rgba(30,30,45,.07);
+        }
+
+        /* ---- Masthead ---- */
+        .masthead { text-align:center; border-bottom:3px double var(--rule-strong); padding-bottom:24px; }
+        .masthead .eyebrow {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 12px;
+        }
+        .masthead h1 { margin:0; font-size:42px; font-weight:700; letter-spacing:.005em; line-height:1.08; color:#1a1d21; }
+        .masthead .meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; letter-spacing:.03em; color:var(--ink-soft); margin:14px 0 0;
+        }
+        .masthead .meta .dot { color:var(--rule-strong); margin:0 9px; }
+
+        /* ---- Toolbar ---- */
+        .toolbar { display:flex; justify-content:center; margin:18px 0 0; }
+        #filter-btn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          background:transparent; border:1px solid var(--rule-strong); color:var(--ink-soft);
+          padding:7px 15px; border-radius:2px; font-size:12px; letter-spacing:.05em;
+          cursor:pointer; transition:all .18s ease;
+        }
+        #filter-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+        /* ---- Contents (table of contents) ---- */
+        .contents { margin:34px 0 6px; }
+        .contents-title {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 20px;
+        }
+        .toc-field { margin:0 0 18px; }
+        .toc-fname { font-size:18px; font-weight:600; text-decoration:none; }
+        .toc-fname:hover { text-decoration:underline; }
+        .toc-fcount {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; color:var(--muted); margin-left:8px;
+        }
+        .toc-list { list-style:none; margin:7px 0 0; padding:0; }
+        .toc-row { display:flex; align-items:baseline; padding:2px 0; font-size:15.5px; }
+        .toc-row a { color:var(--ink-soft); text-decoration:none; white-space:nowrap; }
+        .toc-row a:hover { color:var(--accent); }
+        .toc-lead { flex:1; border-bottom:1px dotted var(--rule-strong); margin:0 9px; position:relative; top:-4px; }
+        .toc-row .n {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12.5px; color:var(--muted);
+        }
+
+        /* ---- Field section ---- */
+        .field-header {
+          display:flex; align-items:baseline; gap:15px;
+          margin:64px 0 6px; padding-bottom:10px; border-bottom:2px solid currentColor;
+        }
+        .field-header .rn { font-size:20px; font-weight:600; opacity:.5; }
+        .field-header .ft { font-size:31px; font-weight:700; letter-spacing:.005em; }
+        .field-header .fc {
+          margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.06em; opacity:.6; align-self:center;
+        }
+
+        /* ---- Journal sub-header ---- */
+        .journal-header {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; font-weight:600; letter-spacing:.19em; text-transform:uppercase;
+          color:var(--muted); margin:34px 0 2px;
+        }
+
+        /* ---- Paper entry ---- */
+        .paper { padding:22px 0 24px; border-bottom:1px solid var(--rule); }
+        .paper-head { display:flex; justify-content:space-between; align-items:flex-start; gap:22px; }
+        .paper-title { margin:0; font-size:20px; line-height:1.34; font-weight:600; color:#1c1f23; flex:1; }
+        .paper-title .pn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; font-weight:600; color:var(--muted); margin-right:9px;
+        }
+        .paper-authors { margin:8px 0 0; font-style:italic; font-size:15.5px; color:var(--ink-soft); }
+        .paper-summary { margin:11px 0 0; font-size:16px; line-height:1.58; color:var(--ink); }
+        .paper-meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.02em; color:var(--muted);
+          margin:12px 0 0; display:flex; flex-wrap:wrap; gap:8px 18px;
+        }
+        .paper-meta a { color:var(--accent); text-decoration:none; }
+        .paper-meta a:hover { text-decoration:underline; }
+        .paper-abstract {
+          margin:14px 0 0; padding:1px 0 1px 20px; border-left:2px solid var(--rule-strong);
+          font-size:14.5px; line-height:1.66; color:var(--ink-soft);
+          text-align:justify; hyphens:auto;
+        }
+        .paper-abstract .lbl {
+          display:block; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 6px;
+        }
+
+        /* ---- Star rating ---- */
+        .star-rating { display:inline-flex; flex-direction:row-reverse; gap:3px; flex-shrink:0; }
+        .star-rating input { display:none; }
+        .star-rating label { font-size:17px; color:#ded8ca; cursor:pointer; transition:color .1s; }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label { color:#c19a35; }
+
+        /* ---- Admin ---- */
+        .admin-controls { position:fixed; top:20px; right:20px; z-index:1000; display:none; }
+        .save-btn {
+          background:var(--accent); color:#fff; border:none; padding:10px 20px;
+          border-radius:4px; cursor:pointer; font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,.15);
+        }
+
+        @media print { .admin-controls, .star-rating, .toolbar { display:none !important; }
+          body { background:#fff; padding:0; } .sheet { box-shadow:none; border:none; } }
+        @media (max-width:640px) {
+          .sheet { padding:34px 22px 46px; }
+          .masthead h1 { font-size:31px; }
+          .field-header .ft { font-size:25px; }
+          .field-header .fc { display:none; }
+          .paper-head { flex-direction:column; gap:10px; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="admin-controls" id="admin-ui">
+        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
+      </div>
+      <a id="top"></a>
+      <div class="sheet">
+        <header class="masthead">
+          <p class="eyebrow">Maohua Nie · Research Digest</p>
+          <h1>Bi-weekly Research Digest</h1>
+          <p class="meta">01 Jul 2026 – 15 Jul 2026<span class="dot">◆</span>13 papers across 3 fields</p>
+        </header>
+
+        <div class="toolbar">
+          <button id="filter-btn" onclick="toggleTopPicks()">★ Show top picks (4★+)</button>
+        </div>
+
+        <nav class="contents">
+          <p class="contents-title">Contents</p>
+    <div class="toc-field"><a class="toc-fname" href="#field-economics" style="color:#1c5d54">I. Economics</a><span class="toc-fcount">2</span><ul class="toc-list"><li class="toc-row"><a href="#journal-economics-theory-and-decision">Theory and Decision</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-economics-journal-of-risk-and-uncertainty">Journal of Risk and Uncertainty</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-psychology" style="color:#8a2b3a">II. Psychology</a><span class="toc-fcount">9</span><ul class="toc-list"><li class="toc-row"><a href="#journal-psychology-journal-of-experimental-psychology-learning-memory-and-cognition">Journal of Experimental Psychology: Learning, Memory, and Cognition</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-jep-general">JEP: General</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-psychological-review">Psychological Review</a><span class="toc-lead"></span><span class="n">2</span></li><li class="toc-row"><a href="#journal-psychology-trends-in-cognitive-sciences">Trends in Cognitive Sciences</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-cognitive-psychology">Cognitive Psychology</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-cognition">Cognition</a><span class="toc-lead"></span><span class="n">2</span></li><li class="toc-row"><a href="#journal-psychology-plos-computational-biology">PLOS Computational Biology</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-neuroscience" style="color:#3d3a78">III. Neuroscience</a><span class="toc-fcount">2</span><ul class="toc-list"><li class="toc-row"><a href="#journal-neuroscience-nature-communications">Nature Communications</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-neuroscience-elife">eLife</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div></nav><a id="field-economics"></a><h2 class="field-header" data-field="economics" style="color:#1c5d54"><span class="rn">I</span><span class="ft">Economics</span><span class="fc">2 papers</span></h2><a id="journal-economics-theory-and-decision"></a><h3 class="journal-header" data-group="economics-theory-and-decision">Theory and Decision</h3>
+                <div id="paper-10-1007-s11238-026-10146-3" class="paper-item paper" data-field="economics" data-group="economics-theory-and-decision">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">1</span>Uncertain quality valuations: when do risk attitudes matter?</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1007-s11238-026-10146-3">
+                      <input type="radio" id="star5-paper-10-1007-s11238-026-10146-3" name="rating-paper-10-1007-s11238-026-10146-3" value="5"><label for="star5-paper-10-1007-s11238-026-10146-3">★</label>
+                      <input type="radio" id="star4-paper-10-1007-s11238-026-10146-3" name="rating-paper-10-1007-s11238-026-10146-3" value="4"><label for="star4-paper-10-1007-s11238-026-10146-3">★</label>
+                      <input type="radio" id="star3-paper-10-1007-s11238-026-10146-3" name="rating-paper-10-1007-s11238-026-10146-3" value="3"><label for="star3-paper-10-1007-s11238-026-10146-3">★</label>
+                      <input type="radio" id="star2-paper-10-1007-s11238-026-10146-3" name="rating-paper-10-1007-s11238-026-10146-3" value="2"><label for="star2-paper-10-1007-s11238-026-10146-3">★</label>
+                      <input type="radio" id="star1-paper-10-1007-s11238-026-10146-3" name="rating-paper-10-1007-s11238-026-10146-3" value="1"><label for="star1-paper-10-1007-s11238-026-10146-3">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Georgantzis, N., Agnoli, L., Charters, S., Dubois, M., Tisserand, J., Vasileiou, E.</p>
+                  <p class='paper-summary'>This paper investigates how uncertainty about product or option quality affects valuations and when individual risk attitudes play a meaningful role in those evaluations. It likely explores the conditions under which risk preferences shape willingness-to-pay or choice under quality uncertainty.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.5</span><span><a href='https://doi.org/10.1007/s11238-026-10146-3' target='_blank' rel='noopener noreferrer'>doi.org/10.1007/s11238-026-10146-3</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="journal-economics-journal-of-risk-and-uncertainty"></a><h3 class="journal-header" data-group="economics-journal-of-risk-and-uncertainty">Journal of Risk and Uncertainty</h3>
+                <div id="paper-10-1007-s11166-026-09494-w" class="paper-item paper" data-field="economics" data-group="economics-journal-of-risk-and-uncertainty">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">2</span>An axiomatization of separable prospect theory</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1007-s11166-026-09494-w">
+                      <input type="radio" id="star5-paper-10-1007-s11166-026-09494-w" name="rating-paper-10-1007-s11166-026-09494-w" value="5"><label for="star5-paper-10-1007-s11166-026-09494-w">★</label>
+                      <input type="radio" id="star4-paper-10-1007-s11166-026-09494-w" name="rating-paper-10-1007-s11166-026-09494-w" value="4"><label for="star4-paper-10-1007-s11166-026-09494-w">★</label>
+                      <input type="radio" id="star3-paper-10-1007-s11166-026-09494-w" name="rating-paper-10-1007-s11166-026-09494-w" value="3"><label for="star3-paper-10-1007-s11166-026-09494-w">★</label>
+                      <input type="radio" id="star2-paper-10-1007-s11166-026-09494-w" name="rating-paper-10-1007-s11166-026-09494-w" value="2"><label for="star2-paper-10-1007-s11166-026-09494-w">★</label>
+                      <input type="radio" id="star1-paper-10-1007-s11166-026-09494-w" name="rating-paper-10-1007-s11166-026-09494-w" value="1"><label for="star1-paper-10-1007-s11166-026-09494-w">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Mononen, L.</p>
+                  <p class='paper-summary'>This paper axiomatizes separable prospect theory (SPT) under risk, showing how it differs from cumulative prospect theory (CPT) in terms of tree dependence and rank-independent trade-off consistency, thereby clarifying the behavioral content and empirical testability of SPT.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.48</span><span><a href='https://doi.org/10.1007/s11166-026-09494-w' target='_blank' rel='noopener noreferrer'>doi.org/10.1007/s11166-026-09494-w</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract Separable prospect theory (SPT) remains widely used, but unlike cumulative prospect theory (CPT) it lacks a full axiomatization under risk. This paper provides that characterization. The main result shows that SPT and CPT differ along two observable dimensions. First, SPT allows preferences to depend on the induced probability tree: splitting or coalescing branches may change valuation because monotonicity and continuity are imposed only within a fixed tree. Second, SPT requires rank-independent trade-off consistency, so equivalent prize trade-offs must be evaluated the same way across probabilities, ranks, and surrounding prizes. CPT reverses those commitments: it rules out tree dependence but permits rank dependence. The axiomatization therefore clarifies the behavioral content of SPT, sharpens its distinction from CPT, and identifies the empirical tests that can discriminate between the two models.</div>
+                </div>
+                <a id="field-psychology"></a><h2 class="field-header" data-field="psychology" style="color:#8a2b3a"><span class="rn">II</span><span class="ft">Psychology</span><span class="fc">9 papers</span></h2><a id="journal-psychology-journal-of-experimental-psychology-learning-memory-and-cognition"></a><h3 class="journal-header" data-group="psychology-journal-of-experimental-psychology-learning-memory-and-cognition">Journal of Experimental Psychology: Learning, Memory, and Cognition</h3>
+                <div id="paper-10-1037-xlm0001532" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-experimental-psychology-learning-memory-and-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">3</span>Decisions are based on less information than metacognitive judgments in multialternative contexts.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-xlm0001532">
+                      <input type="radio" id="star5-paper-10-1037-xlm0001532" name="rating-paper-10-1037-xlm0001532" value="5"><label for="star5-paper-10-1037-xlm0001532">★</label>
+                      <input type="radio" id="star4-paper-10-1037-xlm0001532" name="rating-paper-10-1037-xlm0001532" value="4"><label for="star4-paper-10-1037-xlm0001532">★</label>
+                      <input type="radio" id="star3-paper-10-1037-xlm0001532" name="rating-paper-10-1037-xlm0001532" value="3"><label for="star3-paper-10-1037-xlm0001532">★</label>
+                      <input type="radio" id="star2-paper-10-1037-xlm0001532" name="rating-paper-10-1037-xlm0001532" value="2"><label for="star2-paper-10-1037-xlm0001532">★</label>
+                      <input type="radio" id="star1-paper-10-1037-xlm0001532" name="rating-paper-10-1037-xlm0001532" value="1"><label for="star1-paper-10-1037-xlm0001532">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Comay, N., Solovey, G., Barttfeld, P.</p>
+                  <p class='paper-summary'>Using a second-guess paradigm and computational modeling across multiple experiments, this paper shows that decision systems access noisier evidence from unchosen alternatives than metacognitive systems do, revealing a dissociation between decision making and metacognition in multi-alternative choice.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.61</span><span><a href='https://doi.org/10.1037/xlm0001532' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/xlm0001532</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Humans often face decisions between multiple alternatives. In these contexts, some evidence suggests that only the alternative with the highest evidence is represented by the decision system. However, other findings indicate that unchosen alternatives&#39; information remains available for decision computations. To evaluate how much information from unchosen alternatives is accessible by the decision system, we employed a second-guess paradigm: When participants selected an incorrect alternative, they were given a second opportunity to make a new choice. By fitting computational models to data from two preregistered experiments involving four (Experiment 1) and 12 (Experiment 2) alternatives, we found evidence for an intermediate position: After the first decision is made, noise corrupts the evidence from the initially unchosen options, suggesting that the decision system cannot access all the sensory evidence available to perform a second decision. We extended this finding by fitting the models to two previously published data sets involving different stimuli and numbers of alternatives (six and three) and found concordant evidence. In addition, we also evaluated the amount of information accessible by the metacognitive system, responsible for monitoring our behavior and reflecting upon the correctness of our decisions. We found that incorporating a separate channel of evidence unaffected by noise for metacognitive computations improves model fitting, suggesting that the decision system accesses less evidence than the metacognitive system. These results reconcile previous conflicting findings in multialternative decisions and highlight a dissociation between decision making and metacognition, offering new insights into the fundamental constraints of decision processes and the relative robustness of metacognitive evaluations. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+                </div>
+                <a id="journal-psychology-jep-general"></a><h3 class="journal-header" data-group="psychology-jep-general">JEP: General</h3>
+                <div id="paper-10-1037-xge0001941" class="paper-item paper" data-field="psychology" data-group="psychology-jep-general">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">4</span>Sequential information preferences in uncertain decision making.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-xge0001941">
+                      <input type="radio" id="star5-paper-10-1037-xge0001941" name="rating-paper-10-1037-xge0001941" value="5"><label for="star5-paper-10-1037-xge0001941">★</label>
+                      <input type="radio" id="star4-paper-10-1037-xge0001941" name="rating-paper-10-1037-xge0001941" value="4"><label for="star4-paper-10-1037-xge0001941">★</label>
+                      <input type="radio" id="star3-paper-10-1037-xge0001941" name="rating-paper-10-1037-xge0001941" value="3"><label for="star3-paper-10-1037-xge0001941">★</label>
+                      <input type="radio" id="star2-paper-10-1037-xge0001941" name="rating-paper-10-1037-xge0001941" value="2"><label for="star2-paper-10-1037-xge0001941">★</label>
+                      <input type="radio" id="star1-paper-10-1037-xge0001941" name="rating-paper-10-1037-xge0001941" value="1"><label for="star1-paper-10-1037-xge0001941">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Karmarkar, U., Clithero, J., Raffaelli, C.</p>
+                  <p class='paper-summary'>Across multiple large samples, this paper shows that most people prefer to consider risks before rewards when making uncertain decisions, and that this sequential information preference is linked to ambiguity sensitivity and predicts downstream information-seeking behavior, choice processes, and choice outcomes.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.6</span><span><a href='https://doi.org/10.1037/xge0001941' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/xge0001941</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>= 6,709 adult participants from in-person and online pools), we demonstrate that a majority of people prefer to consider risks before rewards. This preference is associated with individual sensitivity to economic ambiguity, but not a general need for structure. We further show that self-selected sequences are useful not only for predicting information-seeking behavior in financial and marketplace contexts but also for predicting downstream behavior in terms of choice process and choice outcomes. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+                </div>
+                <a id="journal-psychology-psychological-review"></a><h3 class="journal-header" data-group="psychology-psychological-review">Psychological Review</h3>
+                <div id="paper-10-1037-rev0000594" class="paper-item paper" data-field="psychology" data-group="psychology-psychological-review">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">5</span>Cognitive mechanisms of subjective value in multiattribute pricing.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-rev0000594">
+                      <input type="radio" id="star5-paper-10-1037-rev0000594" name="rating-paper-10-1037-rev0000594" value="5"><label for="star5-paper-10-1037-rev0000594">★</label>
+                      <input type="radio" id="star4-paper-10-1037-rev0000594" name="rating-paper-10-1037-rev0000594" value="4"><label for="star4-paper-10-1037-rev0000594">★</label>
+                      <input type="radio" id="star3-paper-10-1037-rev0000594" name="rating-paper-10-1037-rev0000594" value="3"><label for="star3-paper-10-1037-rev0000594">★</label>
+                      <input type="radio" id="star2-paper-10-1037-rev0000594" name="rating-paper-10-1037-rev0000594" value="2"><label for="star2-paper-10-1037-rev0000594">★</label>
+                      <input type="radio" id="star1-paper-10-1037-rev0000594" name="rating-paper-10-1037-rev0000594" value="1"><label for="star1-paper-10-1037-rev0000594">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Fitch, A., Kvam, P.</p>
+                  <p class='paper-summary'>This paper investigates the cognitive mechanisms underlying subjective value in multiattribute pricing tasks, using individual-level computational models to examine how constructs like risk aversion, delay discounting, anchoring, and payoff sensitivity differ between pricing and choice elicitation procedures.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.56</span><span><a href='https://doi.org/10.1037/rev0000594' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/rev0000594</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>joint models, where all data from an individual are modeled using parameters and mechanisms that are specific to their best fitting model structure. While mechanisms like delay discounting and risk aversion are common to both models, our results suggest that anchoring and payoff sensitivity diverged between pricing and choice. Extensive differences across elicitation procedures indicate that a common representation of value may remain elusive. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+                </div>
+                
+                <div id="paper-10-1037-rev0000587" class="paper-item paper" data-field="psychology" data-group="psychology-psychological-review">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">6</span>Within-alternative processing supports transitivity of preferences in multiattribute choice.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-rev0000587">
+                      <input type="radio" id="star5-paper-10-1037-rev0000587" name="rating-paper-10-1037-rev0000587" value="5"><label for="star5-paper-10-1037-rev0000587">★</label>
+                      <input type="radio" id="star4-paper-10-1037-rev0000587" name="rating-paper-10-1037-rev0000587" value="4"><label for="star4-paper-10-1037-rev0000587">★</label>
+                      <input type="radio" id="star3-paper-10-1037-rev0000587" name="rating-paper-10-1037-rev0000587" value="3"><label for="star3-paper-10-1037-rev0000587">★</label>
+                      <input type="radio" id="star2-paper-10-1037-rev0000587" name="rating-paper-10-1037-rev0000587" value="2"><label for="star2-paper-10-1037-rev0000587">★</label>
+                      <input type="radio" id="star1-paper-10-1037-rev0000587" name="rating-paper-10-1037-rev0000587" value="1"><label for="star1-paper-10-1037-rev0000587">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Pessach, G., Tsetsos, K., Regenwetter, M., Usher, M.</p>
+                  <p class='paper-summary'>The paper examines when and why people violate transitivity of preferences in multiattribute choice, using probabilistic cognitive heuristic models and experiments that manipulate how information is presented, finding that within-alternative processing strongly supports transitive preferences.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.51</span><span><a href='https://doi.org/10.1037/rev0000587' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/rev0000587</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Transitivity of preference (ToP) is a central axiom of rational choice theory. While violating ToP is rare and subject to debate, there have been reports of such violations (Tsetsos et al., 2016a; Tversky, 1969, but see Iverson &amp; Falmagne, 1985; Regenwetter et al., 2011). If humans indeed violate ToP, an important challenge is understanding the conditions and mechanisms that promote either transitive or intransitive preferences. Here, we report the presence of ToP violations using a data analysis method that was prescribed as statistically adequate (Regenwetter et al., 2011), and an experimental design where each choice is presented on a single visual display to avoid artifacts that can be associated with sequential presentation and aggregation across choice stimuli. We introduce two cognitive heuristics that predict certain violations of ToP and we translate them into probabilistic choice models. Then, in three experiments (one of which is a preregistered replication), we evaluate violations of ToP and we assess the models that predict such violations. We find that, despite pervasive individual differences, the ToP adherence rate is much enhanced when the task was presented in a fashion that facilitates within-alternative integration. We also find that the proposed heuristic models successfully explain those ToP violations that do occur. These findings shed light on the conditions and cognitive mechanisms that support ToP. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+                </div>
+                <a id="journal-psychology-trends-in-cognitive-sciences"></a><h3 class="journal-header" data-group="psychology-trends-in-cognitive-sciences">Trends in Cognitive Sciences</h3>
+                <div id="paper-10-1016-j-tics-2026-04-010" class="paper-item paper" data-field="psychology" data-group="psychology-trends-in-cognitive-sciences">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">7</span>Rhythmic sampling of decision alternatives through attention</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-tics-2026-04-010">
+                      <input type="radio" id="star5-paper-10-1016-j-tics-2026-04-010" name="rating-paper-10-1016-j-tics-2026-04-010" value="5"><label for="star5-paper-10-1016-j-tics-2026-04-010">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-tics-2026-04-010" name="rating-paper-10-1016-j-tics-2026-04-010" value="4"><label for="star4-paper-10-1016-j-tics-2026-04-010">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-tics-2026-04-010" name="rating-paper-10-1016-j-tics-2026-04-010" value="3"><label for="star3-paper-10-1016-j-tics-2026-04-010">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-tics-2026-04-010" name="rating-paper-10-1016-j-tics-2026-04-010" value="2"><label for="star2-paper-10-1016-j-tics-2026-04-010">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-tics-2026-04-010" name="rating-paper-10-1016-j-tics-2026-04-010" value="1"><label for="star1-paper-10-1016-j-tics-2026-04-010">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Valizadeh, A.</p>
+                  <p class='paper-summary'>The paper investigates how attention oscillates or cycles through decision alternatives during deliberation, likely linking these rhythmic attentional patterns to choice behavior and decision processes.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.54</span><span><a href='https://doi.org/10.1016/j.tics.2026.04.010' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.tics.2026.04.010</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="journal-psychology-cognitive-psychology"></a><h3 class="journal-header" data-group="psychology-cognitive-psychology">Cognitive Psychology</h3>
+                <div id="paper-10-1016-j-cogpsych-2026-101818" class="paper-item paper" data-field="psychology" data-group="psychology-cognitive-psychology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">8</span>Separating decision and motor contributions to behavioral biases induced by manipulating stimulus probability</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-cogpsych-2026-101818">
+                      <input type="radio" id="star5-paper-10-1016-j-cogpsych-2026-101818" name="rating-paper-10-1016-j-cogpsych-2026-101818" value="5"><label for="star5-paper-10-1016-j-cogpsych-2026-101818">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-cogpsych-2026-101818" name="rating-paper-10-1016-j-cogpsych-2026-101818" value="4"><label for="star4-paper-10-1016-j-cogpsych-2026-101818">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-cogpsych-2026-101818" name="rating-paper-10-1016-j-cogpsych-2026-101818" value="3"><label for="star3-paper-10-1016-j-cogpsych-2026-101818">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-cogpsych-2026-101818" name="rating-paper-10-1016-j-cogpsych-2026-101818" value="2"><label for="star2-paper-10-1016-j-cogpsych-2026-101818">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-cogpsych-2026-101818" name="rating-paper-10-1016-j-cogpsych-2026-101818" value="1"><label for="star1-paper-10-1016-j-cogpsych-2026-101818">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Dendauw, E., Logan, G., Schall, J., Gajdos Preuss, T., Servant, M.</p>
+                  <p class='paper-summary'>Using EMG recordings and a gated cascade diffusion model during a random dot motion task, the paper separates decision-stage from motor-stage contributions to the behavioral biases induced by manipulating stimulus probability, finding that probability shifts both the rate of evidence accumulation and an urgency signal at the motor preparation level.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.54</span><span><a href='https://doi.org/10.1016/j.cogpsych.2026.101818' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.cogpsych.2026.101818</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Stimulus probability manipulations typically increase the proportion of responses associated with the more likely stimulus and reduce response times, especially when stimulus discriminability is low. Sequential sampling models primarily attribute these asymmetries to shifts in the starting point of evidence accumulation, but possible modulations at the motor execution stage and their links to upstream processing remain poorly understood. To address this gap, we conducted electromyographic recordings of muscle activity during a random dot motion task with manual responses, varying stimulus probability and stimulus discriminability. We then used a computational framework linking decision and motor processes, the gated cascade diffusion model, to account for behavior and muscle activity. Stimulus probability strongly modulated the time from stimulus onset to response-related muscle activation: on correct trials, muscle onsets occurred earlier for expected than unexpected stimuli, whereas this pattern reversed on incorrect trials. By contrast, it had little impact on the time from muscle activation to response completion. Stimulus probability also modulated subthreshold muscle activations: when the first activation occurred in the response channel, accuracy was higher for expected than unexpected stimuli, whereas this effect reversed when the first activation occurred in the opposite channel. The model accounted for these effects through an additive bias to the rate of evidence accumulation that favored expected stimuli, and an evidence-independent urgency signal at the motor preparation level that was engaged earlier for the response alternative linked to expected stimuli. These analyses advance our understanding of how stimulus probability influences processing across the decision-motor cascade.</div>
+                </div>
+                <a id="journal-psychology-cognition"></a><h3 class="journal-header" data-group="psychology-cognition">Cognition</h3>
+                <div id="paper-10-1016-j-cognition-2026-106508" class="paper-item paper" data-field="psychology" data-group="psychology-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">9</span>The inferred value of unchosen options spreads to related items in memory</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2026-106508">
+                      <input type="radio" id="star5-paper-10-1016-j-cognition-2026-106508" name="rating-paper-10-1016-j-cognition-2026-106508" value="5"><label for="star5-paper-10-1016-j-cognition-2026-106508">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-cognition-2026-106508" name="rating-paper-10-1016-j-cognition-2026-106508" value="4"><label for="star4-paper-10-1016-j-cognition-2026-106508">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-cognition-2026-106508" name="rating-paper-10-1016-j-cognition-2026-106508" value="3"><label for="star3-paper-10-1016-j-cognition-2026-106508">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-cognition-2026-106508" name="rating-paper-10-1016-j-cognition-2026-106508" value="2"><label for="star2-paper-10-1016-j-cognition-2026-106508">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-cognition-2026-106508" name="rating-paper-10-1016-j-cognition-2026-106508" value="1"><label for="star1-paper-10-1016-j-cognition-2026-106508">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Wang, Z., Li, X., Bakkour, A.</p>
+                  <p class='paper-summary'>This study shows that inferred values of unchosen options (derived via counterfactual reasoning) generalize to semantically related novel items in memory, demonstrating that memory-mediated value spreading applies not only to directly experienced rewards but also to counterfactually inferred ones. Participants were more or less likely to choose novel items from the same category as an unchosen option depending on the inferred value of that unchosen option.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.49</span><span><a href='https://doi.org/10.1016/j.cognition.2026.106508' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.cognition.2026.106508</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Counterfactual thinking — considering what could have come of choosing the other path — can facilitate inference. Previous studies have demonstrated that memory and decision making interact to shape the inferred value of unchosen options. Indeed, when an individual chooses an option and it turns out to be good, the alternative is often inferred to have lower value, even though the outcome associated with the unchosen option is never experienced. The current study investigated whether these inferred values followed some of the same memory-mediated rules as values formed through direct experience. For example, much is known about how directly experienced reward value spreads to related items in memory. Is the same true for inferred values? Our findings demonstrate that yes, participants generalize inferred values of unchosen options to novel items within the same semantic category. Specifically, participants were more likely to choose or avoid novel items from the same category as an unchosen option that had been paired with a valuable or non-valuable chosen item, respectively. These findings advance our understanding of how counterfactual thinking aids inference formation and interacts with memory to guide adaptive behavior in novel contexts. • The value of an unchosen option is inferred to be positive if the outcome of a choice is poor. • The inferred value of an unchosen option spreads to items semantically similar to it. • Memory interacts with counterfactual reasoning to allow inferences and guide choice.</div>
+                </div>
+                
+                <div id="paper-10-1016-j-cognition-2026-106490" class="paper-item paper" data-field="psychology" data-group="psychology-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">10</span>Stimulus reliability but not boundary distance manipulations violate the folded-X pattern of confidence</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2026-106490">
+                      <input type="radio" id="star5-paper-10-1016-j-cognition-2026-106490" name="rating-paper-10-1016-j-cognition-2026-106490" value="5"><label for="star5-paper-10-1016-j-cognition-2026-106490">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-cognition-2026-106490" name="rating-paper-10-1016-j-cognition-2026-106490" value="4"><label for="star4-paper-10-1016-j-cognition-2026-106490">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-cognition-2026-106490" name="rating-paper-10-1016-j-cognition-2026-106490" value="3"><label for="star3-paper-10-1016-j-cognition-2026-106490">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-cognition-2026-106490" name="rating-paper-10-1016-j-cognition-2026-106490" value="2"><label for="star2-paper-10-1016-j-cognition-2026-106490">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-cognition-2026-106490" name="rating-paper-10-1016-j-cognition-2026-106490" value="1"><label for="star1-paper-10-1016-j-cognition-2026-106490">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Xue, K., Fung, H., Rahnev, D.</p>
+                  <p class='paper-summary'>This study examines why different stimulus manipulations produce different confidence-accuracy patterns (folded-X vs. double-increase) in perceptual decisions, finding that stimulus reliability and boundary distance have dissociable effects on confidence and response times that cannot be captured by artificial neural networks. The results suggest human confidence involves mechanisms beyond simple statistical task properties.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.42</span><span><a href='https://doi.org/10.1016/j.cognition.2026.106490' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.cognition.2026.106490</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>The folded-X pattern has been identified as a critical signature of confidence: as conditions become easier, confidence increases for correct trials but decreases for error trials. However, recent work has identified violations of the folded-X pattern where easier conditions lead to increased confidence for both correct and error trials (double-increase pattern). Nevertheless, it remains unclear which stimulus manipulations produce each pattern. Here we test the hypothesis that the double-increase pattern emerges for manipulations of the quality of the sensory input (stimulus reliability), whereas the folded-X pattern emerges for manipulations of the distance between the relevant sensory feature and the decision boundary (boundary distance). Across two experiments (N = 78) using orientation judgment with either Gabor patches or moving dots, we first replicate previous findings that boundary distance manipulations have a stronger effect on accuracy whereas stimulus reliability manipulations have a stronger effect on confidence. Critically, boundary distance manipulations produced the classic folded-X pattern, whereas stimulus reliability manipulations yielded the double-increase pattern. Artificial neural networks (ANNs) trained on the same tasks exhibited folded-X patterns for both manipulations, suggesting that human confidence judgments do not simply reflect the statistical nature of the task and stimuli. Reaction time (RT) patterns largely mirrored confidence, though with some notable exceptions, underscoring both the utility and limitations of RT as a confidence proxy. These results demonstrate that different stimulus manipulations have dissociable effects on the signatures of confidence and suggest that human confidence is influenced by mechanisms nor present in standard ANNs.</div>
+                </div>
+                <a id="journal-psychology-plos-computational-biology"></a><h3 class="journal-header" data-group="psychology-plos-computational-biology">PLOS Computational Biology</h3>
+                <div id="paper-10-1371-journal-pcbi-1014481" class="paper-item paper" data-field="psychology" data-group="psychology-plos-computational-biology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">11</span>cpm: A python library for theory-driven modelling in computational psychiatry</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1371-journal-pcbi-1014481">
+                      <input type="radio" id="star5-paper-10-1371-journal-pcbi-1014481" name="rating-paper-10-1371-journal-pcbi-1014481" value="5"><label for="star5-paper-10-1371-journal-pcbi-1014481">★</label>
+                      <input type="radio" id="star4-paper-10-1371-journal-pcbi-1014481" name="rating-paper-10-1371-journal-pcbi-1014481" value="4"><label for="star4-paper-10-1371-journal-pcbi-1014481">★</label>
+                      <input type="radio" id="star3-paper-10-1371-journal-pcbi-1014481" name="rating-paper-10-1371-journal-pcbi-1014481" value="3"><label for="star3-paper-10-1371-journal-pcbi-1014481">★</label>
+                      <input type="radio" id="star2-paper-10-1371-journal-pcbi-1014481" name="rating-paper-10-1371-journal-pcbi-1014481" value="2"><label for="star2-paper-10-1371-journal-pcbi-1014481">★</label>
+                      <input type="radio" id="star1-paper-10-1371-journal-pcbi-1014481" name="rating-paper-10-1371-journal-pcbi-1014481" value="1"><label for="star1-paper-10-1371-journal-pcbi-1014481">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Dome, L., Hezemans, F., Kadri, K., Wagner, B., Webb, A., Hauser, T.</p>
+                  <p class='paper-summary'>The cpm Python library is a modular computational modelling toolbox for psychiatry and cognitive science, covering risky decision-making, learning, and perceptual tasks using models such as reinforcement learning and Bayesian estimation techniques.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.42</span><span><a href='https://doi.org/10.1371/journal.pcbi.1014481' target='_blank' rel='noopener noreferrer'>doi.org/10.1371/journal.pcbi.1014481</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>The Computational Psychiatry Modelling ( cpm ) toolbox is a Python library for theory-driven modelling in computational psychiatry and cognitive (neuro-)science. cpm integrates a wide range of established approaches into a single framework. It is designed to be accessible to both expert and non-expert modellers in order to conduct cutting-edge computational modelling, while adhering to best practices. The toolbox provides a flexible, modular architecture that adjusts to different needs. It covers a wide range of problems (such as risky decision-making, reward/punishment learning, perceptual metacognition), models (including those based on associative, reinforcement learning, and signal detection theories), and methods (such as hierarchical parameter estimation using empirical and variational Bayesian techniques). Such a customisable toolbox aims to lower the barrier for beginners and to facilitate access to advanced modelling approaches in psychiatry and beyond.</div>
+                </div>
+                <a id="field-neuroscience"></a><h2 class="field-header" data-field="neuroscience" style="color:#3d3a78"><span class="rn">III</span><span class="ft">Neuroscience</span><span class="fc">2 papers</span></h2><a id="journal-neuroscience-nature-communications"></a><h3 class="journal-header" data-group="neuroscience-nature-communications">Nature Communications</h3>
+                <div id="paper-10-1038-s41467-026-75265-5" class="paper-item paper" data-field="neuroscience" data-group="neuroscience-nature-communications">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">12</span>Closed-loop readout of anterior insula high-gamma activity steers value-based decisions</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1038-s41467-026-75265-5">
+                      <input type="radio" id="star5-paper-10-1038-s41467-026-75265-5" name="rating-paper-10-1038-s41467-026-75265-5" value="5"><label for="star5-paper-10-1038-s41467-026-75265-5">★</label>
+                      <input type="radio" id="star4-paper-10-1038-s41467-026-75265-5" name="rating-paper-10-1038-s41467-026-75265-5" value="4"><label for="star4-paper-10-1038-s41467-026-75265-5">★</label>
+                      <input type="radio" id="star3-paper-10-1038-s41467-026-75265-5" name="rating-paper-10-1038-s41467-026-75265-5" value="3"><label for="star3-paper-10-1038-s41467-026-75265-5">★</label>
+                      <input type="radio" id="star2-paper-10-1038-s41467-026-75265-5" name="rating-paper-10-1038-s41467-026-75265-5" value="2"><label for="star2-paper-10-1038-s41467-026-75265-5">★</label>
+                      <input type="radio" id="star1-paper-10-1038-s41467-026-75265-5" name="rating-paper-10-1038-s41467-026-75265-5" value="1"><label for="star1-paper-10-1038-s41467-026-75265-5">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Baratin, C., Pessiglione, M., Kahane, P., Robin, A., Minotti, L., Becq, G., Bastin, J.</p>
+                  <p class='paper-summary'>Using a closed-loop intracranial BCI, the authors show that spontaneous high-gamma activity in the anterior insula prior to offer presentation biases accept/reject decisions involving trade-offs between pleasant and unpleasant attributes, demonstrating that intrinsic neural states causally contribute to human choice variability.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.51</span><span><a href='https://doi.org/10.1038/s41467-026-75265-5' target='_blank' rel='noopener noreferrer'>doi.org/10.1038/s41467-026-75265-5</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>The decision-making field has long attempted to understand the origins of human choice variability. A potential source of variability lies in spontaneous fluctuations of ongoing neural activity, which may influence behavior across several cognitive domains. Here, we developed a closed-loop intracranial brain-computer interface that detects transient fluctuations of broadband gamma activity (BGA, 70–150 Hz) to trigger stimulus presentations contingent on high or low neural states. Using this approach, we examined how spontaneous activity in the anterior insula influences accept/reject decisions involving multi-attribute offers combining pleasant and unpleasant components. Offers preceded by high BGA in the anterior insula were associated with a transient post-offer suppression in anterior insula activity, which biased decisions toward accepting an unpleasant item in exchange for a pleasant one in hypothetical multi-attribute choices. These findings demonstrate that sub-second endogenous neural fluctuations directly modulate choice behavior, challenging current neuro-computational models by emphasizing the critical role of intrinsic brain states in shaping decision variability. Using a closed-loop intracranial brain–computer interface, the authors demonstrate that spontaneous neural fluctuations can causally shape value-based decisions, highlighting the role of ongoing brain activity in human choice variability.</div>
+                </div>
+                <a id="journal-neuroscience-elife"></a><h3 class="journal-header" data-group="neuroscience-elife">eLife</h3>
+                <div id="paper-10-7554-elife-109622" class="paper-item paper" data-field="neuroscience" data-group="neuroscience-elife">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">13</span>Distinct involvements of the subthalamic nucleus subpopulations in reward-biased decision-making in monkeys</h4>
+                    <div class="star-rating" data-paper-id="paper-10-7554-elife-109622">
+                      <input type="radio" id="star5-paper-10-7554-elife-109622" name="rating-paper-10-7554-elife-109622" value="5"><label for="star5-paper-10-7554-elife-109622">★</label>
+                      <input type="radio" id="star4-paper-10-7554-elife-109622" name="rating-paper-10-7554-elife-109622" value="4"><label for="star4-paper-10-7554-elife-109622">★</label>
+                      <input type="radio" id="star3-paper-10-7554-elife-109622" name="rating-paper-10-7554-elife-109622" value="3"><label for="star3-paper-10-7554-elife-109622">★</label>
+                      <input type="radio" id="star2-paper-10-7554-elife-109622" name="rating-paper-10-7554-elife-109622" value="2"><label for="star2-paper-10-7554-elife-109622">★</label>
+                      <input type="radio" id="star1-paper-10-7554-elife-109622" name="rating-paper-10-7554-elife-109622" value="1"><label for="star1-paper-10-7554-elife-109622">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Branam, K., Gold, J., Ding, L.</p>
+                  <p class='paper-summary'>This study identifies distinct STN neuron subpopulations in monkeys that differentially contribute to reward-biased perceptual decisions, mapping their activity onto drift-diffusion model components (decision variable, decision bound, non-decision processes) and decision evaluation signals like reward expectation and accuracy.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.46</span><span><a href='https://doi.org/10.7554/elife.109622' target='_blank' rel='noopener noreferrer'>doi.org/10.7554/elife.109622</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>The subthalamic nucleus (STN) is a part of the indirect and hyperdirect pathways in the basal ganglia (BG) and has been implicated in movement control, impulsivity, and decision-making. We recently demonstrated that, for perceptual decisions, the STN includes at least three subpopulations of neurons with different decision-related activity patterns (Branam et al., 2024). Here, we show that, for decisions that require both perceptual and reward-based processing, many STN neurons are sensitive to both sensory evidence and reward expectations. Within a drift-diffusion framework, three STN subpopulations show different relationships to model components reflecting the formation of the decision variable, dynamics of the decision bound, and non-decision-related processes. Many STN neurons also represent quantities related to decision evaluation, including choice accuracy and reward expectation. These results help to further delineate the multiple roles that STN plays in forming and evaluating complex decisions that combine multiple sources of information.</div>
+                </div>
+                
+      </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+      <script>
+        let isFilterActive = false;
+
+        // Only show admin controls and allow editing if running locally (file://)
+        if (window.location.protocol === 'file:') {
+          document.getElementById('admin-ui').style.display = 'block';
+        } else {
+          // Disable all radio buttons if not local
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.disabled = true;
+          });
+          // Add a style to make the stars non-interactive
+          const style = document.createElement('style');
+          style.innerHTML = '.star-rating { pointer-events: none; }';
+          document.head.appendChild(style);
+        }
+
+        function toggleTopPicks() {
+          isFilterActive = !isFilterActive;
+          const btn = document.getElementById('filter-btn');
+          const papers = document.querySelectorAll('.paper-item');
+          const journalHeaders = document.querySelectorAll('.journal-header');
+          const fieldHeaders = document.querySelectorAll('.field-header');
+
+          if (isFilterActive) {
+            btn.style.background = '#0b4a6f';
+            btn.style.color = '#ffffff';
+            btn.style.borderColor = '#0b4a6f';
+            btn.innerHTML = '★ Showing top picks (4★+)';
+
+            // Show/hide papers by rating.
+            papers.forEach(paper => {
+              const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+              paper.style.display = parseInt(rating) >= 4 ? 'block' : 'none';
+            });
+
+            // Hide journal sub-headers whose papers are all filtered out.
+            journalHeaders.forEach(header => {
+              const group = header.getAttribute('data-group');
+              const groupPapers = document.querySelectorAll(`.paper-item[data-group="${group}"]`);
+              const anyVisible = Array.from(groupPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+
+            // Hide field headers whose whole section is filtered out.
+            fieldHeaders.forEach(header => {
+              const field = header.getAttribute('data-field');
+              const fieldPapers = document.querySelectorAll(`.paper-item[data-field="${field}"]`);
+              const anyVisible = Array.from(fieldPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+          } else {
+            btn.style.background = 'transparent';
+            btn.style.color = '#4c525a';
+            btn.style.borderColor = '#cfc8b9';
+            btn.innerHTML = '★ Show top picks (4★+)';
+
+            papers.forEach(p => p.style.display = 'block');
+            journalHeaders.forEach(h => h.style.display = 'block');
+            fieldHeaders.forEach(h => h.style.display = 'block');
+          }
+        }
+
+        function savePage() {
+          // Reset filter before saving so all papers are visible in the source
+          if (isFilterActive) toggleTopPicks();
+
+          // Remove the Save button and admin UI from the saved HTML
+          const adminUI = document.getElementById('admin-ui');
+          adminUI.style.display = 'none';
+          
+          // Update the checked attribute of radio buttons based on their current state
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            if (radio.checked) {
+              radio.setAttribute('checked', 'checked');
+            } else {
+              radio.removeAttribute('checked');
+            }
+          });
+
+          const htmlContent = document.documentElement.outerHTML;
+          const blob = new Blob([htmlContent], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = window.location.pathname.split('/').pop() || 'digest.html';
+          a.click();
+          
+          // Show admin UI again
+          adminUI.style.display = 'block';
+        }
+      </script>
+    </body>
+    </html>
+    

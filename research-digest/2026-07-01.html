@@ -1,0 +1,420 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+      <link rel="stylesheet" href="../assets/site.css">
+      <style>
+        :root {
+          --paper:#fffdf9; --page:#efece5; --ink:#23272c; --ink-soft:#4c525a;
+          --muted:#8b9099; --rule:#e7e2d7; --rule-strong:#cfc8b9; --accent:#0b4a6f;
+        }
+        html, body { margin:0; }
+        body {
+          background:var(--page); color:var(--ink);
+          font-family:'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+          font-size:17px; line-height:1.6;
+          -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+          padding:28px 18px 90px;
+        }
+        .sans { font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif; }
+        .sheet {
+          max-width:800px; margin:0 auto; background:var(--paper);
+          padding:60px 68px 76px;
+          border:1px solid var(--rule);
+          box-shadow:0 1px 2px rgba(20,20,30,.04), 0 24px 60px rgba(30,30,45,.07);
+        }
+
+        /* ---- Masthead ---- */
+        .masthead { text-align:center; border-bottom:3px double var(--rule-strong); padding-bottom:24px; }
+        .masthead .eyebrow {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 12px;
+        }
+        .masthead h1 { margin:0; font-size:42px; font-weight:700; letter-spacing:.005em; line-height:1.08; color:#1a1d21; }
+        .masthead .meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; letter-spacing:.03em; color:var(--ink-soft); margin:14px 0 0;
+        }
+        .masthead .meta .dot { color:var(--rule-strong); margin:0 9px; }
+
+        /* ---- Toolbar ---- */
+        .toolbar { display:flex; justify-content:center; margin:18px 0 0; }
+        #filter-btn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          background:transparent; border:1px solid var(--rule-strong); color:var(--ink-soft);
+          padding:7px 15px; border-radius:2px; font-size:12px; letter-spacing:.05em;
+          cursor:pointer; transition:all .18s ease;
+        }
+        #filter-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+        /* ---- Contents (table of contents) ---- */
+        .contents { margin:34px 0 6px; }
+        .contents-title {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 20px;
+        }
+        .toc-field { margin:0 0 18px; }
+        .toc-fname { font-size:18px; font-weight:600; text-decoration:none; }
+        .toc-fname:hover { text-decoration:underline; }
+        .toc-fcount {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; color:var(--muted); margin-left:8px;
+        }
+        .toc-list { list-style:none; margin:7px 0 0; padding:0; }
+        .toc-row { display:flex; align-items:baseline; padding:2px 0; font-size:15.5px; }
+        .toc-row a { color:var(--ink-soft); text-decoration:none; white-space:nowrap; }
+        .toc-row a:hover { color:var(--accent); }
+        .toc-lead { flex:1; border-bottom:1px dotted var(--rule-strong); margin:0 9px; position:relative; top:-4px; }
+        .toc-row .n {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12.5px; color:var(--muted);
+        }
+
+        /* ---- Field section ---- */
+        .field-header {
+          display:flex; align-items:baseline; gap:15px;
+          margin:64px 0 6px; padding-bottom:10px; border-bottom:2px solid currentColor;
+        }
+        .field-header .rn { font-size:20px; font-weight:600; opacity:.5; }
+        .field-header .ft { font-size:31px; font-weight:700; letter-spacing:.005em; }
+        .field-header .fc {
+          margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.06em; opacity:.6; align-self:center;
+        }
+
+        /* ---- Journal sub-header ---- */
+        .journal-header {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; font-weight:600; letter-spacing:.19em; text-transform:uppercase;
+          color:var(--muted); margin:34px 0 2px;
+        }
+
+        /* ---- Paper entry ---- */
+        .paper { padding:22px 0 24px; border-bottom:1px solid var(--rule); }
+        .paper-head { display:flex; justify-content:space-between; align-items:flex-start; gap:22px; }
+        .paper-title { margin:0; font-size:20px; line-height:1.34; font-weight:600; color:#1c1f23; flex:1; }
+        .paper-title .pn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; font-weight:600; color:var(--muted); margin-right:9px;
+        }
+        .paper-authors { margin:8px 0 0; font-style:italic; font-size:15.5px; color:var(--ink-soft); }
+        .paper-summary { margin:11px 0 0; font-size:16px; line-height:1.58; color:var(--ink); }
+        .paper-meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.02em; color:var(--muted);
+          margin:12px 0 0; display:flex; flex-wrap:wrap; gap:8px 18px;
+        }
+        .paper-meta a { color:var(--accent); text-decoration:none; }
+        .paper-meta a:hover { text-decoration:underline; }
+        .paper-abstract {
+          margin:14px 0 0; padding:1px 0 1px 20px; border-left:2px solid var(--rule-strong);
+          font-size:14.5px; line-height:1.66; color:var(--ink-soft);
+          text-align:justify; hyphens:auto;
+        }
+        .paper-abstract .lbl {
+          display:block; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 6px;
+        }
+
+        /* ---- Star rating ---- */
+        .star-rating { display:inline-flex; flex-direction:row-reverse; gap:3px; flex-shrink:0; }
+        .star-rating input { display:none; }
+        .star-rating label { font-size:17px; color:#ded8ca; cursor:pointer; transition:color .1s; }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label { color:#c19a35; }
+
+        /* ---- Admin ---- */
+        .admin-controls { position:fixed; top:20px; right:20px; z-index:1000; display:none; }
+        .save-btn {
+          background:var(--accent); color:#fff; border:none; padding:10px 20px;
+          border-radius:4px; cursor:pointer; font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,.15);
+        }
+
+        @media print { .admin-controls, .star-rating, .toolbar { display:none !important; }
+          body { background:#fff; padding:0; } .sheet { box-shadow:none; border:none; } }
+        @media (max-width:640px) {
+          .sheet { padding:34px 22px 46px; }
+          .masthead h1 { font-size:31px; }
+          .field-header .ft { font-size:25px; }
+          .field-header .fc { display:none; }
+          .paper-head { flex-direction:column; gap:10px; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="admin-controls" id="admin-ui">
+        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
+      </div>
+      <a id="top"></a>
+      <div class="sheet">
+        <header class="masthead">
+          <p class="eyebrow">Maohua Nie · Research Digest</p>
+          <h1>Bi-weekly Research Digest</h1>
+          <p class="meta">16 Jun 2026 – 30 Jun 2026<span class="dot">◆</span>9 papers across 3 fields</p>
+        </header>
+
+        <div class="toolbar">
+          <button id="filter-btn" onclick="toggleTopPicks()">★ Show top picks (4★+)</button>
+        </div>
+
+        <nav class="contents">
+          <p class="contents-title">Contents</p>
+    <div class="toc-field"><a class="toc-fname" href="#field-economics" style="color:#1c5d54">I. Economics</a><span class="toc-fcount">3</span><ul class="toc-list"><li class="toc-row"><a href="#journal-economics-journal-of-risk-and-uncertainty">Journal of Risk and Uncertainty</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-economics-theory-and-decision">Theory and Decision</a><span class="toc-lead"></span><span class="n">2</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-psychology" style="color:#8a2b3a">II. Psychology</a><span class="toc-fcount">4</span><ul class="toc-list"><li class="toc-row"><a href="#journal-psychology-pnas">PNAS</a><span class="toc-lead"></span><span class="n">2</span></li><li class="toc-row"><a href="#journal-psychology-psychological-methods">Psychological Methods</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-plos-computational-biology">PLOS Computational Biology</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-neuroscience" style="color:#3d3a78">III. Neuroscience</a><span class="toc-fcount">2</span><ul class="toc-list"><li class="toc-row"><a href="#journal-neuroscience-nature-neuroscience">Nature Neuroscience</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-neuroscience-nature-communications">Nature Communications</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div></nav><a id="field-economics"></a><h2 class="field-header" data-field="economics" style="color:#1c5d54"><span class="rn">I</span><span class="ft">Economics</span><span class="fc">3 papers</span></h2><a id="journal-economics-journal-of-risk-and-uncertainty"></a><h3 class="journal-header" data-group="economics-journal-of-risk-and-uncertainty">Journal of Risk and Uncertainty</h3>
+                <div id="paper-10-1007-s11166-026-09495-9" class="paper-item paper" data-field="economics" data-group="economics-journal-of-risk-and-uncertainty">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">1</span>Do unto others: A theory and experimental test of interpersonal preference factors in decision making under uncertainty</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1007-s11166-026-09495-9">
+                      <input type="radio" id="star5-paper-10-1007-s11166-026-09495-9" name="rating-paper-10-1007-s11166-026-09495-9" value="5"><label for="star5-paper-10-1007-s11166-026-09495-9">★</label>
+                      <input type="radio" id="star4-paper-10-1007-s11166-026-09495-9" name="rating-paper-10-1007-s11166-026-09495-9" value="4"><label for="star4-paper-10-1007-s11166-026-09495-9">★</label>
+                      <input type="radio" id="star3-paper-10-1007-s11166-026-09495-9" name="rating-paper-10-1007-s11166-026-09495-9" value="3"><label for="star3-paper-10-1007-s11166-026-09495-9">★</label>
+                      <input type="radio" id="star2-paper-10-1007-s11166-026-09495-9" name="rating-paper-10-1007-s11166-026-09495-9" value="2"><label for="star2-paper-10-1007-s11166-026-09495-9">★</label>
+                      <input type="radio" id="star1-paper-10-1007-s11166-026-09495-9" name="rating-paper-10-1007-s11166-026-09495-9" value="1"><label for="star1-paper-10-1007-s11166-026-09495-9">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Berg, J., Rietz, T.</p>
+                  <p class='paper-summary'>The paper develops and tests a utility model that adds altruism, malice, fairness, and competitiveness to standard risk preferences, showing that apparent instability in risk preferences across institutions can be explained by stable underlying interpersonal preferences rather than true preference shifts.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.64</span><span><a href='https://doi.org/10.1007/s11166-026-09495-9' target='_blank' rel='noopener noreferrer'>doi.org/10.1007/s11166-026-09495-9</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract We investigate how interpersonal preferences influence decision making under uncertainty. Classical models assume agents maximize expected utility based solely on their own payoffs, yet experimental evidence often shows apparent instability in risk preferences across institutions. We propose and test a utility framework that incorporates altruism, malice, fairness, and competitiveness alongside risk attitudes. Using five choice tasks that hold own-payoff risk constant while varying effects on another participant’s payoffs, we isolate interpersonal factors from the institutional setting and strategic uncertainty. Results show that while average choices align with risk-neutral predictions, individual choices exhibit three systematic patterns: subjects tend to be altruistic and fairness-seeking, malicious and distinction-seeking, or neutral on both dimensions. These findings explain apparent shifts in risk preferences across institutions even when underlying preferences are stable. This highlights the importance of interpersonal considerations in models of choice under uncertainty.</div>
+                </div>
+                <a id="journal-economics-theory-and-decision"></a><h3 class="journal-header" data-group="economics-theory-and-decision">Theory and Decision</h3>
+                <div id="paper-10-1007-s11238-026-10144-5" class="paper-item paper" data-field="economics" data-group="economics-theory-and-decision">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">2</span>The many faces of confidence: sensitivity and meta-confidence in economic decision-making</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1007-s11238-026-10144-5">
+                      <input type="radio" id="star5-paper-10-1007-s11238-026-10144-5" name="rating-paper-10-1007-s11238-026-10144-5" value="5"><label for="star5-paper-10-1007-s11238-026-10144-5">★</label>
+                      <input type="radio" id="star4-paper-10-1007-s11238-026-10144-5" name="rating-paper-10-1007-s11238-026-10144-5" value="4"><label for="star4-paper-10-1007-s11238-026-10144-5">★</label>
+                      <input type="radio" id="star3-paper-10-1007-s11238-026-10144-5" name="rating-paper-10-1007-s11238-026-10144-5" value="3"><label for="star3-paper-10-1007-s11238-026-10144-5">★</label>
+                      <input type="radio" id="star2-paper-10-1007-s11238-026-10144-5" name="rating-paper-10-1007-s11238-026-10144-5" value="2"><label for="star2-paper-10-1007-s11238-026-10144-5">★</label>
+                      <input type="radio" id="star1-paper-10-1007-s11238-026-10144-5" name="rating-paper-10-1007-s11238-026-10144-5" value="1"><label for="star1-paper-10-1007-s11238-026-10144-5">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Cavalan, Q.</p>
+                  <p class='paper-summary'>The paper investigates different facets of confidence (sensitivity and meta-confidence) in the context of economic decisions, likely exploring how subjective confidence relates to choice quality and decision processes.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.46</span><span><a href='https://doi.org/10.1007/s11238-026-10144-5' target='_blank' rel='noopener noreferrer'>doi.org/10.1007/s11238-026-10144-5</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                
+                <div id="paper-10-1007-s11238-026-10133-8" class="paper-item paper" data-field="economics" data-group="economics-theory-and-decision">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">3</span>Endogenous ambiguity under commodification of probabilistic information</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1007-s11238-026-10133-8">
+                      <input type="radio" id="star5-paper-10-1007-s11238-026-10133-8" name="rating-paper-10-1007-s11238-026-10133-8" value="5"><label for="star5-paper-10-1007-s11238-026-10133-8">★</label>
+                      <input type="radio" id="star4-paper-10-1007-s11238-026-10133-8" name="rating-paper-10-1007-s11238-026-10133-8" value="4"><label for="star4-paper-10-1007-s11238-026-10133-8">★</label>
+                      <input type="radio" id="star3-paper-10-1007-s11238-026-10133-8" name="rating-paper-10-1007-s11238-026-10133-8" value="3"><label for="star3-paper-10-1007-s11238-026-10133-8">★</label>
+                      <input type="radio" id="star2-paper-10-1007-s11238-026-10133-8" name="rating-paper-10-1007-s11238-026-10133-8" value="2"><label for="star2-paper-10-1007-s11238-026-10133-8">★</label>
+                      <input type="radio" id="star1-paper-10-1007-s11238-026-10133-8" name="rating-paper-10-1007-s11238-026-10133-8" value="1"><label for="star1-paper-10-1007-s11238-026-10133-8">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Beißner, P., Khan, M.</p>
+                  <p class='paper-summary'>The paper examines how ambiguity arises endogenously when probabilistic information is commodified, exploring the implications for decision making under uncertainty.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.42</span><span><a href='https://doi.org/10.1007/s11238-026-10133-8' target='_blank' rel='noopener noreferrer'>doi.org/10.1007/s11238-026-10133-8</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="field-psychology"></a><h2 class="field-header" data-field="psychology" style="color:#8a2b3a"><span class="rn">II</span><span class="ft">Psychology</span><span class="fc">4 papers</span></h2><a id="journal-psychology-pnas"></a><h3 class="journal-header" data-group="psychology-pnas">PNAS</h3>
+                <div id="paper-10-1073-pnas-2602570123" class="paper-item paper" data-field="psychology" data-group="psychology-pnas">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">4</span>Linking compromise and responsibility attribution to risky decision-making in dyadic foraging</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1073-pnas-2602570123">
+                      <input type="radio" id="star5-paper-10-1073-pnas-2602570123" name="rating-paper-10-1073-pnas-2602570123" value="5"><label for="star5-paper-10-1073-pnas-2602570123">★</label>
+                      <input type="radio" id="star4-paper-10-1073-pnas-2602570123" name="rating-paper-10-1073-pnas-2602570123" value="4"><label for="star4-paper-10-1073-pnas-2602570123">★</label>
+                      <input type="radio" id="star3-paper-10-1073-pnas-2602570123" name="rating-paper-10-1073-pnas-2602570123" value="3"><label for="star3-paper-10-1073-pnas-2602570123">★</label>
+                      <input type="radio" id="star2-paper-10-1073-pnas-2602570123" name="rating-paper-10-1073-pnas-2602570123" value="2"><label for="star2-paper-10-1073-pnas-2602570123">★</label>
+                      <input type="radio" id="star1-paper-10-1073-pnas-2602570123" name="rating-paper-10-1073-pnas-2602570123" value="1"><label for="star1-paper-10-1073-pnas-2602570123">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Deng, W., Garg, K., Mobbs, D.</p>
+                  <p class='paper-summary'>This paper introduces a dyadic foraging task where pairs of participants make joint risky decisions, finding that people tend to compromise under diverging risk preferences, with RL modeling explaining compromise as preference integration and egocentric biases characterizing responsibility attributions for shared outcomes. It links individual risk preferences, computational processes, and social metacognition in collaborative risky choice.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.57</span><span><a href='https://doi.org/10.1073/pnas.2602570123' target='_blank' rel='noopener noreferrer'>doi.org/10.1073/pnas.2602570123</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>From hunting to financial planning, many decisions are made under risk and alongside social partners whose decisions and outcomes are coupled with our own. Joint decision-making can create challenges, such as navigating conflicting risk preferences, evaluating each other’s actions, and deciding whether to compromise. Yet when and why people compromise, how they evaluate each other’s responsibilities during joint decision-making, and the computational and psychological underpinnings of these processes remain unclear. We introduce a dyadic foraging paradigm designed to capture diverse risk preferences, where two participants jointly choose between locations that yield rewards but carry risks and evaluate each other’s responsibility for shared outcomes. Across two studies (exploratory N = 250, confirmatory N = 514), people tended to compromise rather than counteract their partner, especially under diverging risk preferences and when compromise was reciprocated. Computationally, compromise was explained by a reinforcement learning model showing that individuals integrate their preferences with that of their partner. Responsibility attributions exhibited egocentric biases—with participants claiming more credit for wins than blame for losses—and these biases were associated with individual differences in compromise behavior. The interplay between individual differences in risk and responsibility attribution further shaped coordination patterns. Finally, we show that compromising improved performance for risk-averse individuals, increased desirability as a social partner, and led to more favorable responsibility attributions, suggesting multiple benefits of compromising. By linking decisions about risk–reward trade-offs to metacognitive judgments about responsibility, our study reveals the social and cognitive processes underlying compromise in risky foraging and, more broadly, in collaborative contexts with conflicting preferences.</div>
+                </div>
+                
+                <div id="paper-10-1073-pnas-2526798123" class="paper-item paper" data-field="psychology" data-group="psychology-pnas">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">5</span>Large language models accurately identify decision reasons in verbal reports</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1073-pnas-2526798123">
+                      <input type="radio" id="star5-paper-10-1073-pnas-2526798123" name="rating-paper-10-1073-pnas-2526798123" value="5"><label for="star5-paper-10-1073-pnas-2526798123">★</label>
+                      <input type="radio" id="star4-paper-10-1073-pnas-2526798123" name="rating-paper-10-1073-pnas-2526798123" value="4"><label for="star4-paper-10-1073-pnas-2526798123">★</label>
+                      <input type="radio" id="star3-paper-10-1073-pnas-2526798123" name="rating-paper-10-1073-pnas-2526798123" value="3"><label for="star3-paper-10-1073-pnas-2526798123">★</label>
+                      <input type="radio" id="star2-paper-10-1073-pnas-2526798123" name="rating-paper-10-1073-pnas-2526798123" value="2"><label for="star2-paper-10-1073-pnas-2526798123">★</label>
+                      <input type="radio" id="star1-paper-10-1073-pnas-2526798123" name="rating-paper-10-1073-pnas-2526798123" value="1"><label for="star1-paper-10-1073-pnas-2526798123">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Fuławka, K., Hertwig, R., Wulff, D.</p>
+                  <p class='paper-summary'>The paper uses large language models to analyze verbal reports from participants choosing between monetary lotteries, showing that articulated decision reasons accurately predict choices, vary with problem structure more than individual differences, and yield representations competitive with established computational models. It argues verbal reports are a rich process-level data source that can improve context-sensitive models of risky decision making.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.52</span><span><a href='https://doi.org/10.1073/pnas.2526798123' target='_blank' rel='noopener noreferrer'>doi.org/10.1073/pnas.2526798123</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Understanding the reasons behind human choices under risk is a central goal of decision scientists, but traditional methods relying on behavioral data are limited by strict invariance assumptions. We introduce a scalable analytical framework using large language models (LLMs) to analyze verbal reports and identify articulated reasons for choice between monetary lotteries. A validated LLM accurately identified predefined decision reasons in participants’ free-text reports, aligning with their actual choices in 95% of trials. Our analysis reveals that the reasons behind people’s decisions vary systematically and are driven more by the structure of the choice problem than by individual differences. Crucially, reasons identified from verbal reports yield more parsimonious and informative representations of decision processes compared to those inferred from choices alone; furthermore, problem-specific reason profiles achieve out-of-sample prediction accuracy that is competitive with established computational models. This work demonstrates that verbal reports are a rich data source and our analytical framework can unlock their potential, delivering results that challenge the field’s foundational invariance assumptions and pave the way for more context-sensitive and interpretable models of human decision making.</div>
+                </div>
+                <a id="journal-psychology-psychological-methods"></a><h3 class="journal-header" data-group="psychology-psychological-methods">Psychological Methods</h3>
+                <div id="paper-10-1037-met0000842" class="paper-item paper" data-field="psychology" data-group="psychology-psychological-methods">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">6</span>Scaling cognitive modeling to big data: A deep learning approach to studying individual differences in evidence accumulation model parameters.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-met0000842">
+                      <input type="radio" id="star5-paper-10-1037-met0000842" name="rating-paper-10-1037-met0000842" value="5"><label for="star5-paper-10-1037-met0000842">★</label>
+                      <input type="radio" id="star4-paper-10-1037-met0000842" name="rating-paper-10-1037-met0000842" value="4"><label for="star4-paper-10-1037-met0000842">★</label>
+                      <input type="radio" id="star3-paper-10-1037-met0000842" name="rating-paper-10-1037-met0000842" value="3"><label for="star3-paper-10-1037-met0000842">★</label>
+                      <input type="radio" id="star2-paper-10-1037-met0000842" name="rating-paper-10-1037-met0000842" value="2"><label for="star2-paper-10-1037-met0000842">★</label>
+                      <input type="radio" id="star1-paper-10-1037-met0000842" name="rating-paper-10-1037-met0000842" value="1"><label for="star1-paper-10-1037-met0000842">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">von Krause, M., Radev, S.</p>
+                  <p class='paper-summary'>The authors develop a scalable, amortized Bayesian workflow using neural networks to estimate drift diffusion model parameters from a massive IAT dataset (N &gt; 5 million), revealing small but consistent associations between latent cognitive parameters and socioeconomic variables, with trial-by-trial drift variability emerging as the strongest predictor.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.51</span><span><a href='https://doi.org/10.1037/met0000842' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/met0000842</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Recent advances in Bayesian modeling and deep learning have enabled scalable estimationof cognitive process models. In this paper, we present a fully Bayesian workflow thatleverages amortized inference with neural networks to rapidly estimate individualparameters and compare models from big behavioral data. Using data from a large onlineimplicit association test (IAT) sample (N &amp;amp;gt; 5, 000, 000), we investigate how latentparameters, such as drift rate, boundary separation, non-decision times, and theirvariabilities, relate to key socioeconomic variables. Our exploratory findings reveal smallbut consistent associations of cognitive parameters with socioeconomic covariates. Notably,trial-by-trial variability in drift rate, often ignored in prior work, emerged as the strongestpredictor across all socioeconomic covariates. Our primary contribution lies in illustratinghow deep learning-based Bayesian estimation and model comparison can be applied tomine robust insights from large and noisy behavioral datasets. We discuss limitations andimplications for modeling individual differences in large-scale datasets and provide an openpipeline for future use. This work exemplifies how the emerging field of behavioral datascience can extend cognitive modeling to new domains and support data-driven hypothesisgeneration targeting the cognitive underpinnings of individual differences</div>
+                </div>
+                <a id="journal-psychology-plos-computational-biology"></a><h3 class="journal-header" data-group="psychology-plos-computational-biology">PLOS Computational Biology</h3>
+                <div id="paper-10-1371-journal-pcbi-1014459" class="paper-item paper" data-field="psychology" data-group="psychology-plos-computational-biology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">7</span>Delayed reward information is underweighted in reinforcement learning with dispersed feedback</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1371-journal-pcbi-1014459">
+                      <input type="radio" id="star5-paper-10-1371-journal-pcbi-1014459" name="rating-paper-10-1371-journal-pcbi-1014459" value="5"><label for="star5-paper-10-1371-journal-pcbi-1014459">★</label>
+                      <input type="radio" id="star4-paper-10-1371-journal-pcbi-1014459" name="rating-paper-10-1371-journal-pcbi-1014459" value="4"><label for="star4-paper-10-1371-journal-pcbi-1014459">★</label>
+                      <input type="radio" id="star3-paper-10-1371-journal-pcbi-1014459" name="rating-paper-10-1371-journal-pcbi-1014459" value="3"><label for="star3-paper-10-1371-journal-pcbi-1014459">★</label>
+                      <input type="radio" id="star2-paper-10-1371-journal-pcbi-1014459" name="rating-paper-10-1371-journal-pcbi-1014459" value="2"><label for="star2-paper-10-1371-journal-pcbi-1014459">★</label>
+                      <input type="radio" id="star1-paper-10-1371-journal-pcbi-1014459" name="rating-paper-10-1371-journal-pcbi-1014459" value="1"><label for="star1-paper-10-1371-journal-pcbi-1014459">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Cotet, M., Poensgen, D., Krajbich, I.</p>
+                  <p class='paper-summary'>Participants learning from choices with both immediate and delayed reward feedback systematically overweight immediate feedback, even when it is objectively uninformative, and eye-tracking data provide mixed evidence on whether attentional bias (dwell time) explains the behavioral bias.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.46</span><span><a href='https://doi.org/10.1371/journal.pcbi.1014459' target='_blank' rel='noopener noreferrer'>doi.org/10.1371/journal.pcbi.1014459</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Learning is fundamental to adaptive behavior. In the typical learning task, each action is associated with only one outcome, which could be immediate or delayed. However, actions often have multiple consequences that unfold over time. Here, we used behavioral and eye-tracking experiments to study how people learn when their choices yield both immediate and delayed reward information. Importantly, the rewards themselves were all delivered at the end of the study so there was no reason to weight immediate and delayed reward information differently. Instead, we found that our subjects overweighted immediate reward information. Moreover, this bias increased over the course of the experiment and was still present when learning from others’ choices. The gaze data reveal mixed evidence that subjects looked more at immediate vs. delayed feedback, and across subjects, the relative dwell proportion did not predict the behavioral bias. Our results indicate that people prioritize not just immediate rewards, but immediate reward information. Unlike temporal discounting, this form of impatience is a clear mistake and leads to objectively worse outcomes.</div>
+                </div>
+                <a id="field-neuroscience"></a><h2 class="field-header" data-field="neuroscience" style="color:#3d3a78"><span class="rn">III</span><span class="ft">Neuroscience</span><span class="fc">2 papers</span></h2><a id="journal-neuroscience-nature-neuroscience"></a><h3 class="journal-header" data-group="neuroscience-nature-neuroscience">Nature Neuroscience</h3>
+                <div id="paper-10-1038-s41593-026-02342-9" class="paper-item paper" data-field="neuroscience" data-group="neuroscience-nature-neuroscience">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">8</span>Interpretable abstractions of artificial neural networks predict behavior and neural activity during human information gathering</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1038-s41593-026-02342-9">
+                      <input type="radio" id="star5-paper-10-1038-s41593-026-02342-9" name="rating-paper-10-1038-s41593-026-02342-9" value="5"><label for="star5-paper-10-1038-s41593-026-02342-9">★</label>
+                      <input type="radio" id="star4-paper-10-1038-s41593-026-02342-9" name="rating-paper-10-1038-s41593-026-02342-9" value="4"><label for="star4-paper-10-1038-s41593-026-02342-9">★</label>
+                      <input type="radio" id="star3-paper-10-1038-s41593-026-02342-9" name="rating-paper-10-1038-s41593-026-02342-9" value="3"><label for="star3-paper-10-1038-s41593-026-02342-9">★</label>
+                      <input type="radio" id="star2-paper-10-1038-s41593-026-02342-9" name="rating-paper-10-1038-s41593-026-02342-9" value="2"><label for="star2-paper-10-1038-s41593-026-02342-9">★</label>
+                      <input type="radio" id="star1-paper-10-1038-s41593-026-02342-9" name="rating-paper-10-1038-s41593-026-02342-9" value="1"><label for="star1-paper-10-1038-s41593-026-02342-9">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">D’Ambrogio, S., Grohn, J., Khalighinejad, N., Mattar, M., Hunt, L., Rushworth, M.</p>
+                  <p class='paper-summary'>The paper combines artificial neural networks with symbolic regression to derive an interpretable model of how humans evaluate information during decisions, finding that people seek informational symmetry across options rather than minimizing uncertainty option by option; 7T fMRI reveals that VTA, ACC, and anterior insula encode value-of-information computations supporting this behavior.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.54</span><span><a href='https://doi.org/10.1038/s41593-026-02342-9' target='_blank' rel='noopener noreferrer'>doi.org/10.1038/s41593-026-02342-9</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract Humans and other animals are driven to acquire information about opportunities in their environments, yet how they evaluate what is worth learning remains unclear. Here we combine artificial neural networks with symbolic regression to extract an expressive yet interpretable model that specifies how human participants evaluate decision-relevant information during choice. The recovered function depends primarily on the relative evidence accumulated across options rather than absolute uncertainty about each, revealing that participants seek information symmetry across alternatives rather than minimizing uncertainty option by option. This account outperforms standard models of uncertainty-based exploration and generalizes to an independent dataset. Using ultrahigh-field (7T) functional magnetic resonance imaging optimized for midbrain and brainstem, we simultaneously measured activity across five neuromodulatory nuclei and two cortical regions. Ventral tegmental area activity showed opposed coding of information and selection values, a pattern suited to arbitrating between sampling and choosing, and anterior cingulate cortex and anterior insula tracked value-of-information computations.</div>
+                </div>
+                <a id="journal-neuroscience-nature-communications"></a><h3 class="journal-header" data-group="neuroscience-nature-communications">Nature Communications</h3>
+                <div id="paper-10-1038-s41467-026-74462-6" class="paper-item paper" data-field="neuroscience" data-group="neuroscience-nature-communications">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">9</span>Neural similarity between choice options predicts group-level context effects</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1038-s41467-026-74462-6">
+                      <input type="radio" id="star5-paper-10-1038-s41467-026-74462-6" name="rating-paper-10-1038-s41467-026-74462-6" value="5"><label for="star5-paper-10-1038-s41467-026-74462-6">★</label>
+                      <input type="radio" id="star4-paper-10-1038-s41467-026-74462-6" name="rating-paper-10-1038-s41467-026-74462-6" value="4"><label for="star4-paper-10-1038-s41467-026-74462-6">★</label>
+                      <input type="radio" id="star3-paper-10-1038-s41467-026-74462-6" name="rating-paper-10-1038-s41467-026-74462-6" value="3"><label for="star3-paper-10-1038-s41467-026-74462-6">★</label>
+                      <input type="radio" id="star2-paper-10-1038-s41467-026-74462-6" name="rating-paper-10-1038-s41467-026-74462-6" value="2"><label for="star2-paper-10-1038-s41467-026-74462-6">★</label>
+                      <input type="radio" id="star1-paper-10-1038-s41467-026-74462-6" name="rating-paper-10-1038-s41467-026-74462-6" value="1"><label for="star1-paper-10-1038-s41467-026-74462-6">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Madar, A., Zemer, T., Tavor, I., Levy, D.</p>
+                  <p class='paper-summary'>This study uses fMRI-derived neural similarity between lottery options to predict choice context effects (e.g., attraction, compromise effects), showing that neural representations capture latent attributes beyond explicit numerical ones and improve predictions of choice behavior compared to traditional models.</p>
+                  <p class="paper-meta"><span>2026-06</span><span>Relevance 0.53</span><span><a href='https://doi.org/10.1038/s41467-026-74462-6' target='_blank' rel='noopener noreferrer'>doi.org/10.1038/s41467-026-74462-6</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Choices are affected by the context of available alternatives, a phenomenon termed choice context effects. Current models of context effects require options to be described by two explicit numerical attributes. However, decision-makers might represent these options by additional latent attributes, which are hard to define a-priori. We propose to use participants’ neural representations to access the full attribute set they consider and predict context effects without modelling any explicit attributes. We first estimated the context effects elicited by lotteries using a behavioral sample. Then we recruited two fMRI samples with preregistered design to estimate the neural representations of each lottery without the context of choice. We predicted the context effects using only the similarity in neural representations between the individual lotteries, improving both out-of-sample and in-sample predictions compared to traditional methods. These neural representations encoded a mixture of explicit and latent attributes, previously inaccessible to researchers using only behavioral methods. Madar et al. show that neural representations of choice options predict how context shifts decisions. By leveraging the brain’s feature encoding, previously inaccessible to decision researchers, they improve predictions of well-known choice biases.</div>
+                </div>
+                
+      </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+      <script>
+        let isFilterActive = false;
+
+        // Only show admin controls and allow editing if running locally (file://)
+        if (window.location.protocol === 'file:') {
+          document.getElementById('admin-ui').style.display = 'block';
+        } else {
+          // Disable all radio buttons if not local
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.disabled = true;
+          });
+          // Add a style to make the stars non-interactive
+          const style = document.createElement('style');
+          style.innerHTML = '.star-rating { pointer-events: none; }';
+          document.head.appendChild(style);
+        }
+
+        function toggleTopPicks() {
+          isFilterActive = !isFilterActive;
+          const btn = document.getElementById('filter-btn');
+          const papers = document.querySelectorAll('.paper-item');
+          const journalHeaders = document.querySelectorAll('.journal-header');
+          const fieldHeaders = document.querySelectorAll('.field-header');
+
+          if (isFilterActive) {
+            btn.style.background = '#0b4a6f';
+            btn.style.color = '#ffffff';
+            btn.style.borderColor = '#0b4a6f';
+            btn.innerHTML = '★ Showing top picks (4★+)';
+
+            // Show/hide papers by rating.
+            papers.forEach(paper => {
+              const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+              paper.style.display = parseInt(rating) >= 4 ? 'block' : 'none';
+            });
+
+            // Hide journal sub-headers whose papers are all filtered out.
+            journalHeaders.forEach(header => {
+              const group = header.getAttribute('data-group');
+              const groupPapers = document.querySelectorAll(`.paper-item[data-group="${group}"]`);
+              const anyVisible = Array.from(groupPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+
+            // Hide field headers whose whole section is filtered out.
+            fieldHeaders.forEach(header => {
+              const field = header.getAttribute('data-field');
+              const fieldPapers = document.querySelectorAll(`.paper-item[data-field="${field}"]`);
+              const anyVisible = Array.from(fieldPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+          } else {
+            btn.style.background = 'transparent';
+            btn.style.color = '#4c525a';
+            btn.style.borderColor = '#cfc8b9';
+            btn.innerHTML = '★ Show top picks (4★+)';
+
+            papers.forEach(p => p.style.display = 'block');
+            journalHeaders.forEach(h => h.style.display = 'block');
+            fieldHeaders.forEach(h => h.style.display = 'block');
+          }
+        }
+
+        function savePage() {
+          // Reset filter before saving so all papers are visible in the source
+          if (isFilterActive) toggleTopPicks();
+
+          // Remove the Save button and admin UI from the saved HTML
+          const adminUI = document.getElementById('admin-ui');
+          adminUI.style.display = 'none';
+          
+          // Update the checked attribute of radio buttons based on their current state
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            if (radio.checked) {
+              radio.setAttribute('checked', 'checked');
+            } else {
+              radio.removeAttribute('checked');
+            }
+          });
+
+          const htmlContent = document.documentElement.outerHTML;
+          const blob = new Blob([htmlContent], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = window.location.pathname.split('/').pop() || 'digest.html';
+          a.click();
+          
+          // Show admin UI again
+          adminUI.style.display = 'block';
+        }
+      </script>
+    </body>
+    </html>
+    
