@@ -55,7 +55,11 @@ JOURNALS = [
     {"name": "The Quarterly Journal of Economics", "issn": "0033-5533"},
     {"name": "Journal of Economic Behavior & Organization", "issn": "0167-2681"},
     {"name": "Experimental Economics", "issn": "1386-4157"},
-    {"name": "Journal of Behavioral and Experimental Economics", "issn": "2214-8043"},
+    {"name": "Econometrica", "issn": "0012-9682"},
+    {"name": "Journal of Political Economy", "issn": "0022-3808"},
+    {"name": "Review of Economic Studies", "issn": "0034-6527"},
+    {"name": "Economic Journal", "issn": "0013-0133"},
+    {"name": "Games and Economic Behavior", "issn": "0899-8256"},
     {"name": "Theory and Decision", "issn": "0040-5833"},
     {"name": "Nature Neuroscience", "issn": "1097-6256"},
     {"name": "Neuron", "issn": "0896-6273"},
@@ -73,7 +77,7 @@ ELSEVIER_ISSNS = {
     "0167-4870",  # Journal of Economic Psychology
     "0022-2496",  # Journal of Mathematical Psychology
     "0167-2681",  # Journal of Economic Behavior & Organization
-    "2214-8043",  # Journal of Behavioral and Experimental Economics
+    "0899-8256",  # Games and Economic Behavior
     "0896-6273",  # Neuron
 }
 
