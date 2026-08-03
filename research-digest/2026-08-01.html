@@ -1,0 +1,488 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+      <link rel="stylesheet" href="../assets/site.css">
+      <style>
+        :root {
+          --paper:#fffdf9; --page:#efece5; --ink:#23272c; --ink-soft:#4c525a;
+          --muted:#8b9099; --rule:#e7e2d7; --rule-strong:#cfc8b9; --accent:#0b4a6f;
+        }
+        html, body { margin:0; }
+        body {
+          background:var(--page); color:var(--ink);
+          font-family:'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+          font-size:17px; line-height:1.6;
+          -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+          padding:28px 18px 90px;
+        }
+        .sans { font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif; }
+        .sheet {
+          max-width:800px; margin:0 auto; background:var(--paper);
+          padding:60px 68px 76px;
+          border:1px solid var(--rule);
+          box-shadow:0 1px 2px rgba(20,20,30,.04), 0 24px 60px rgba(30,30,45,.07);
+        }
+
+        /* ---- Masthead ---- */
+        .masthead { text-align:center; border-bottom:3px double var(--rule-strong); padding-bottom:24px; }
+        .masthead .eyebrow {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 12px;
+        }
+        .masthead h1 { margin:0; font-size:42px; font-weight:700; letter-spacing:.005em; line-height:1.08; color:#1a1d21; }
+        .masthead .meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; letter-spacing:.03em; color:var(--ink-soft); margin:14px 0 0;
+        }
+        .masthead .meta .dot { color:var(--rule-strong); margin:0 9px; }
+
+        /* ---- Toolbar ---- */
+        .toolbar { display:flex; justify-content:center; margin:18px 0 0; }
+        #filter-btn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          background:transparent; border:1px solid var(--rule-strong); color:var(--ink-soft);
+          padding:7px 15px; border-radius:2px; font-size:12px; letter-spacing:.05em;
+          cursor:pointer; transition:all .18s ease;
+        }
+        #filter-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+        /* ---- Contents (table of contents) ---- */
+        .contents { margin:34px 0 6px; }
+        .contents-title {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 20px;
+        }
+        .toc-field { margin:0 0 18px; }
+        .toc-fname { font-size:18px; font-weight:600; text-decoration:none; }
+        .toc-fname:hover { text-decoration:underline; }
+        .toc-fcount {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; color:var(--muted); margin-left:8px;
+        }
+        .toc-list { list-style:none; margin:7px 0 0; padding:0; }
+        .toc-row { display:flex; align-items:baseline; padding:2px 0; font-size:15.5px; }
+        .toc-row a { color:var(--ink-soft); text-decoration:none; white-space:nowrap; }
+        .toc-row a:hover { color:var(--accent); }
+        .toc-lead { flex:1; border-bottom:1px dotted var(--rule-strong); margin:0 9px; position:relative; top:-4px; }
+        .toc-row .n {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12.5px; color:var(--muted);
+        }
+
+        /* ---- Field section ---- */
+        .field-header {
+          display:flex; align-items:baseline; gap:15px;
+          margin:64px 0 6px; padding-bottom:10px; border-bottom:2px solid currentColor;
+        }
+        .field-header .rn { font-size:20px; font-weight:600; opacity:.5; }
+        .field-header .ft { font-size:31px; font-weight:700; letter-spacing:.005em; }
+        .field-header .fc {
+          margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.06em; opacity:.6; align-self:center;
+        }
+
+        /* ---- Journal sub-header ---- */
+        .journal-header {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; font-weight:600; letter-spacing:.19em; text-transform:uppercase;
+          color:var(--muted); margin:34px 0 2px;
+        }
+
+        /* ---- Paper entry ---- */
+        .paper { padding:22px 0 24px; border-bottom:1px solid var(--rule); }
+        .paper-head { display:flex; justify-content:space-between; align-items:flex-start; gap:22px; }
+        .paper-title { margin:0; font-size:20px; line-height:1.34; font-weight:600; color:#1c1f23; flex:1; }
+        .paper-title .pn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; font-weight:600; color:var(--muted); margin-right:9px;
+        }
+        .paper-authors { margin:8px 0 0; font-style:italic; font-size:15.5px; color:var(--ink-soft); }
+        .paper-summary { margin:11px 0 0; font-size:16px; line-height:1.58; color:var(--ink); }
+        .paper-meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.02em; color:var(--muted);
+          margin:12px 0 0; display:flex; flex-wrap:wrap; gap:8px 18px;
+        }
+        .paper-meta a { color:var(--accent); text-decoration:none; }
+        .paper-meta a:hover { text-decoration:underline; }
+        .paper-abstract {
+          margin:14px 0 0; padding:1px 0 1px 20px; border-left:2px solid var(--rule-strong);
+          font-size:14.5px; line-height:1.66; color:var(--ink-soft);
+          text-align:justify; hyphens:auto;
+        }
+        .paper-abstract .lbl {
+          display:block; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 6px;
+        }
+
+        /* ---- Star rating ---- */
+        .star-rating { display:inline-flex; flex-direction:row-reverse; gap:3px; flex-shrink:0; }
+        .star-rating input { display:none; }
+        .star-rating label { font-size:17px; color:#ded8ca; cursor:pointer; transition:color .1s; }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label { color:#c19a35; }
+
+        /* ---- Admin ---- */
+        .admin-controls { position:fixed; top:20px; right:20px; z-index:1000; display:none; }
+        .save-btn {
+          background:var(--accent); color:#fff; border:none; padding:10px 20px;
+          border-radius:4px; cursor:pointer; font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,.15);
+        }
+
+        @media print { .admin-controls, .star-rating, .toolbar { display:none !important; }
+          body { background:#fff; padding:0; } .sheet { box-shadow:none; border:none; } }
+        @media (max-width:640px) {
+          .sheet { padding:34px 22px 46px; }
+          .masthead h1 { font-size:31px; }
+          .field-header .ft { font-size:25px; }
+          .field-header .fc { display:none; }
+          .paper-head { flex-direction:column; gap:10px; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="admin-controls" id="admin-ui">
+        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
+      </div>
+      <a id="top"></a>
+      <div class="sheet">
+        <header class="masthead">
+          <p class="eyebrow">Maohua Nie · Research Digest</p>
+          <h1>Bi-weekly Research Digest</h1>
+          <p class="meta">16 Jul 2026 – 31 Jul 2026<span class="dot">◆</span>13 papers across 2 fields</p>
+        </header>
+
+        <div class="toolbar">
+          <button id="filter-btn" onclick="toggleTopPicks()">★ Show top picks (4★+)</button>
+        </div>
+
+        <nav class="contents">
+          <p class="contents-title">Contents</p>
+    <div class="toc-field"><a class="toc-fname" href="#field-economics" style="color:#1c5d54">I. Economics</a><span class="toc-fcount">4</span><ul class="toc-list"><li class="toc-row"><a href="#journal-economics-plos-computational-biology">PLOS Computational Biology</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-economics-psychological-review">Psychological Review</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-economics-journal-of-risk-and-uncertainty">Journal of Risk and Uncertainty</a><span class="toc-lead"></span><span class="n">2</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-psychology" style="color:#8a2b3a">II. Psychology</a><span class="toc-fcount">9</span><ul class="toc-list"><li class="toc-row"><a href="#journal-psychology-journal-of-behavioral-decision-making">Journal of Behavioral Decision Making</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-elife">eLife</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-psychological-review">Psychological Review</a><span class="toc-lead"></span><span class="n">3</span></li><li class="toc-row"><a href="#journal-psychology-nature-communications">Nature Communications</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-pnas">PNAS</a><span class="toc-lead"></span><span class="n">2</span></li><li class="toc-row"><a href="#journal-psychology-psychonomic-bulletin-review">Psychonomic Bulletin &amp; Review</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div></nav><a id="field-economics"></a><h2 class="field-header" data-field="economics" style="color:#1c5d54"><span class="rn">I</span><span class="ft">Economics</span><span class="fc">4 papers</span></h2><a id="journal-economics-plos-computational-biology"></a><h3 class="journal-header" data-group="economics-plos-computational-biology">PLOS Computational Biology</h3>
+                <div id="paper-10-1371-journal-pcbi-1014409" class="paper-item paper" data-field="economics" data-group="economics-plos-computational-biology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">1</span>Ergodicity transformations predict human decision-making under risk</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1371-journal-pcbi-1014409">
+                      <input type="radio" id="star5-paper-10-1371-journal-pcbi-1014409" name="rating-paper-10-1371-journal-pcbi-1014409" value="5"><label for="star5-paper-10-1371-journal-pcbi-1014409">★</label>
+                      <input type="radio" id="star4-paper-10-1371-journal-pcbi-1014409" name="rating-paper-10-1371-journal-pcbi-1014409" value="4"><label for="star4-paper-10-1371-journal-pcbi-1014409">★</label>
+                      <input type="radio" id="star3-paper-10-1371-journal-pcbi-1014409" name="rating-paper-10-1371-journal-pcbi-1014409" value="3"><label for="star3-paper-10-1371-journal-pcbi-1014409">★</label>
+                      <input type="radio" id="star2-paper-10-1371-journal-pcbi-1014409" name="rating-paper-10-1371-journal-pcbi-1014409" value="2"><label for="star2-paper-10-1371-journal-pcbi-1014409">★</label>
+                      <input type="radio" id="star1-paper-10-1371-journal-pcbi-1014409" name="rating-paper-10-1371-journal-pcbi-1014409" value="1"><label for="star1-paper-10-1371-journal-pcbi-1014409">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Skjold, B., Steinkamp, S., Connaughton, C., Hulme, O., Peters, O.</p>
+                  <p class='paper-summary'>The study tests whether human participants&#39; utility functions adapt to different wealth dynamics (ergodicity transformations) in a consequential risky decision-making experiment, finding via Bayesian modeling that behavior aligns closely with the growth-optimal theoretical predictions.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.66</span><span><a href='https://doi.org/10.1371/journal.pcbi.1014409' target='_blank' rel='noopener noreferrer'>doi.org/10.1371/journal.pcbi.1014409</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Decision theories commonly model human behavior as maximizing the expected value of a utility function. This function may vary from one person to another but is assumed to be stable over time. Recent theoretical developments demonstrate that these assumptions are generally incompatible with growing wealth at the fastest rate. Growth optimality requires utility functions to mirror ergodicity transformations and adapt to the dynamic environment. We exposed human participants to different wealth dynamics in a consequential risky decision-making experiment. Via Bayesian modelling, we estimated utility functions separately for each dynamic. Pre-registered analyses revealed strong evidence supporting the quantitative predictions of the ergodicity model. Our study provides evidence that human risk-taking can adapt quickly to the dynamical context, in ways that align closely to the theoretical optimum for maximizing wealth over time.</div>
+                </div>
+                <a id="journal-economics-psychological-review"></a><h3 class="journal-header" data-group="economics-psychological-review">Psychological Review</h3>
+                <div id="paper-10-1037-rev0000644" class="paper-item paper" data-field="economics" data-group="economics-psychological-review">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">2</span>Talking the talk, not walking the walk: The coevolution of overconfidence and loss aversion.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-rev0000644">
+                      <input type="radio" id="star5-paper-10-1037-rev0000644" name="rating-paper-10-1037-rev0000644" value="5"><label for="star5-paper-10-1037-rev0000644">★</label>
+                      <input type="radio" id="star4-paper-10-1037-rev0000644" name="rating-paper-10-1037-rev0000644" value="4"><label for="star4-paper-10-1037-rev0000644">★</label>
+                      <input type="radio" id="star3-paper-10-1037-rev0000644" name="rating-paper-10-1037-rev0000644" value="3"><label for="star3-paper-10-1037-rev0000644">★</label>
+                      <input type="radio" id="star2-paper-10-1037-rev0000644" name="rating-paper-10-1037-rev0000644" value="2"><label for="star2-paper-10-1037-rev0000644">★</label>
+                      <input type="radio" id="star1-paper-10-1037-rev0000644" name="rating-paper-10-1037-rev0000644" value="1"><label for="star1-paper-10-1037-rev0000644">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Dawson, C., de Meza, D.</p>
+                  <p class='paper-summary'>The paper proposes an evolutionary signaling theory to explain the coexistence of overconfidence and loss aversion, arguing that hardwired overconfidence credibly signals ability while loss aversion partially offsets its decision costs without undermining its signaling value. It challenges the view that eliminating both biases would improve individual outcomes.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.48</span><span><a href='https://doi.org/10.1037/rev0000644' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/rev0000644</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>A puzzle for evolutionary theory is the existence of two seemingly offsetting behavioral &quot;biases,&quot; overconfidence and loss aversion. Overconfidence is a call to action, while loss aversion curbs initiative. The most prominent evolutionary explanation of overconfidence, proposed by Trivers (1976), is that self-deceit arises to better deceive others. Missing from this account is why sincere messages are believed, especially given the widespread prevalence of self-deception. Moreover, if overconfidence is adaptive, why is it at least partially canceled by loss aversion? We propose a signaling theory according to which the role of self-deception is to better inform others. Since the decision error associated with high self-belief is less burdensome for the more able, and the benefit of being perceived as able increases with ability, hardwired overconfidence is a credible signal of true ability. Evidence supports this interpretation. A further implication of signaling is that loss aversion is part of the equilibrium. It partially ameliorates the decision costs of overconfidence, but as it is usually hidden, it does not eliminate its signaling role. &quot;Biases&quot; are thus symbiotic-the payoff to agents from an integrated set of biases is higher than would be the case in their absence. From this perspective, Kahneman&#39;s advice that individuals eliminate both overconfidence and loss aversion is poorly founded. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+                </div>
+                <a id="journal-economics-journal-of-risk-and-uncertainty"></a><h3 class="journal-header" data-group="economics-journal-of-risk-and-uncertainty">Journal of Risk and Uncertainty</h3>
+                <div id="paper-10-1007-s11166-026-09503-y" class="paper-item paper" data-field="economics" data-group="economics-journal-of-risk-and-uncertainty">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">3</span>Rational inattention: The interplay of stakes and prior beliefs in a laboratory study</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1007-s11166-026-09503-y">
+                      <input type="radio" id="star5-paper-10-1007-s11166-026-09503-y" name="rating-paper-10-1007-s11166-026-09503-y" value="5"><label for="star5-paper-10-1007-s11166-026-09503-y">★</label>
+                      <input type="radio" id="star4-paper-10-1007-s11166-026-09503-y" name="rating-paper-10-1007-s11166-026-09503-y" value="4"><label for="star4-paper-10-1007-s11166-026-09503-y">★</label>
+                      <input type="radio" id="star3-paper-10-1007-s11166-026-09503-y" name="rating-paper-10-1007-s11166-026-09503-y" value="3"><label for="star3-paper-10-1007-s11166-026-09503-y">★</label>
+                      <input type="radio" id="star2-paper-10-1007-s11166-026-09503-y" name="rating-paper-10-1007-s11166-026-09503-y" value="2"><label for="star2-paper-10-1007-s11166-026-09503-y">★</label>
+                      <input type="radio" id="star1-paper-10-1007-s11166-026-09503-y" name="rating-paper-10-1007-s11166-026-09503-y" value="1"><label for="star1-paper-10-1007-s11166-026-09503-y">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Wang, Z.</p>
+                  <p class='paper-summary'>A laboratory study examining how decision makers allocate attention based on the stakes of a decision and their prior beliefs, testing predictions from rational inattention theory. This bridges economic models of information acquisition with cognitive process-level evidence.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.43</span><span><a href='https://doi.org/10.1007/s11166-026-09503-y' target='_blank' rel='noopener noreferrer'>doi.org/10.1007/s11166-026-09503-y</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                
+                <div id="paper-10-1007-s11166-026-09500-1" class="paper-item paper" data-field="economics" data-group="economics-journal-of-risk-and-uncertainty">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">4</span>A parsimonious probability weighting function</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1007-s11166-026-09500-1">
+                      <input type="radio" id="star5-paper-10-1007-s11166-026-09500-1" name="rating-paper-10-1007-s11166-026-09500-1" value="5"><label for="star5-paper-10-1007-s11166-026-09500-1">★</label>
+                      <input type="radio" id="star4-paper-10-1007-s11166-026-09500-1" name="rating-paper-10-1007-s11166-026-09500-1" value="4"><label for="star4-paper-10-1007-s11166-026-09500-1">★</label>
+                      <input type="radio" id="star3-paper-10-1007-s11166-026-09500-1" name="rating-paper-10-1007-s11166-026-09500-1" value="3"><label for="star3-paper-10-1007-s11166-026-09500-1">★</label>
+                      <input type="radio" id="star2-paper-10-1007-s11166-026-09500-1" name="rating-paper-10-1007-s11166-026-09500-1" value="2"><label for="star2-paper-10-1007-s11166-026-09500-1">★</label>
+                      <input type="radio" id="star1-paper-10-1007-s11166-026-09500-1" name="rating-paper-10-1007-s11166-026-09500-1" value="1"><label for="star1-paper-10-1007-s11166-026-09500-1">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Blavatskyy, P.</p>
+                  <p class='paper-summary'>The paper proposes a parsimonious functional form for probability weighting, likely offering a simpler or better-fitting characterization of how people distort probabilities in risky choice.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.3</span><span><a href='https://doi.org/10.1007/s11166-026-09500-1' target='_blank' rel='noopener noreferrer'>doi.org/10.1007/s11166-026-09500-1</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="field-psychology"></a><h2 class="field-header" data-field="psychology" style="color:#8a2b3a"><span class="rn">II</span><span class="ft">Psychology</span><span class="fc">9 papers</span></h2><a id="journal-psychology-journal-of-behavioral-decision-making"></a><h3 class="journal-header" data-group="psychology-journal-of-behavioral-decision-making">Journal of Behavioral Decision Making</h3>
+                <div id="paper-10-1002-bdm-70087" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-behavioral-decision-making">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">5</span>Dissociations of Cognitive Control and Reward Sensitivity on Decision‐Making Under Uncertainty in Adolescents: Insights From Computational Modeling</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1002-bdm-70087">
+                      <input type="radio" id="star5-paper-10-1002-bdm-70087" name="rating-paper-10-1002-bdm-70087" value="5"><label for="star5-paper-10-1002-bdm-70087">★</label>
+                      <input type="radio" id="star4-paper-10-1002-bdm-70087" name="rating-paper-10-1002-bdm-70087" value="4"><label for="star4-paper-10-1002-bdm-70087">★</label>
+                      <input type="radio" id="star3-paper-10-1002-bdm-70087" name="rating-paper-10-1002-bdm-70087" value="3"><label for="star3-paper-10-1002-bdm-70087">★</label>
+                      <input type="radio" id="star2-paper-10-1002-bdm-70087" name="rating-paper-10-1002-bdm-70087" value="2"><label for="star2-paper-10-1002-bdm-70087">★</label>
+                      <input type="radio" id="star1-paper-10-1002-bdm-70087" name="rating-paper-10-1002-bdm-70087" value="1"><label for="star1-paper-10-1002-bdm-70087">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Li, D., Zeng, H., Sui, X.</p>
+                  <p class='paper-summary'>This study uses computational modeling and a longitudinal design to examine how cognitive control and reward sensitivity separately influence adolescent decision making under ambiguity and risk (via the Iowa Gambling Task), revealing dissociable effects on latent parameters such as loss aversion and outcome sensitivity across ambiguous versus risky decision stages.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.65</span><span><a href='https://doi.org/10.1002/bdm.70087' target='_blank' rel='noopener noreferrer'>doi.org/10.1002/bdm.70087</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>ABSTRACT This study examined the dissociable effects of cognitive control and reward sensitivity on adolescents&#39; decision‐making under ambiguity and risk by using the Iowa Gambling Task (IGT). Computational modeling was used to illuminate the underlying mechanisms. A two‐wave longitudinal design was employed with 339 early adolescents ( M = 13.38 years at baseline, T1) who completed three cognitive tasks—the Stroop (cognitive control), Monetary Incentive Delay (reward sensitivity), and IGT (uncertain decision‐making) tasks—all at T1 and one‐year follow‐up (T2). IGT performance was decomposed into latent cognitive parameters (learning rate, outcome sensitivity, loss aversion, and response consistency) using the Prospect Valence Learning Delta model separately for the early stage (first 40 trials, predominantly ambiguous) and late stage (last 60 trials, predominantly risky) of the IGT. Controlling for sex and age, cross‐lagged panel models revealed that poorer cognitive control longitudinally predicted better late‐stage IGT performance (β = 0.13). At the cross‐sectional level, reward sensitivity was positively associated with early‐stage IGT performance ( r = 0.15). Computational modeling revealed that reward sensitivity positively longitudinally predicted greater loss aversion during the early stage of the IGT (β = 0.13), whereas poorer cognitive control negatively longitudinally predicted outcome sensitivity during the late stage of the IGT (β = −0.13). These findings confirm a developmental dissociation in adolescent&#39;s decision‐making under uncertainty. Reward sensitivity facilitates effective encoding of trial feedback during the early stage of the IGT, whereas cognitive control underpins adaptive late‐stage IGT performance via stable value‐based choices. Computational modeling uncovered latent decision processes obscured by traditional behavioral metrics, advancing the understanding of dual‐system dynamics in adolescent decision‐making and informing targeted interventions such as cognitive control training for risk‐laden contexts and emotion regulation for ambiguous decision environments.</div>
+                </div>
+                <a id="journal-psychology-elife"></a><h3 class="journal-header" data-group="psychology-elife">eLife</h3>
+                <div id="paper-10-7554-elife-110729" class="paper-item paper" data-field="psychology" data-group="psychology-elife">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">6</span>Behavioral signatures of post-decisional attention in preferential choice</h4>
+                    <div class="star-rating" data-paper-id="paper-10-7554-elife-110729">
+                      <input type="radio" id="star5-paper-10-7554-elife-110729" name="rating-paper-10-7554-elife-110729" value="5"><label for="star5-paper-10-7554-elife-110729">★</label>
+                      <input type="radio" id="star4-paper-10-7554-elife-110729" name="rating-paper-10-7554-elife-110729" value="4"><label for="star4-paper-10-7554-elife-110729">★</label>
+                      <input type="radio" id="star3-paper-10-7554-elife-110729" name="rating-paper-10-7554-elife-110729" value="3"><label for="star3-paper-10-7554-elife-110729">★</label>
+                      <input type="radio" id="star2-paper-10-7554-elife-110729" name="rating-paper-10-7554-elife-110729" value="2"><label for="star2-paper-10-7554-elife-110729">★</label>
+                      <input type="radio" id="star1-paper-10-7554-elife-110729" name="rating-paper-10-7554-elife-110729" value="1"><label for="star1-paper-10-7554-elife-110729">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Zylberberg, A., Krajbich, I., Shadlen, M.</p>
+                  <p class='paper-summary'>The paper reanalyzes food-choice eye-tracking datasets to test whether attention causally biases decisions (as in the aDDM) or instead reflects post-decisional processes, finding mixed evidence and concluding that pre-choice gaze captures both decisional and post-decisional signals.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.65</span><span><a href='https://doi.org/10.7554/elife.110729' target='_blank' rel='noopener noreferrer'>doi.org/10.7554/elife.110729</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Attention plays a key role in decision-making by directing limited cognitive resources to relevant information. It has been proposed that attention also biases the decision process, due to a multiplicative interaction between attention and subjective value (e.g., Krajbich et al., 2010). We tested two predictions of models that posit a causal multiplicative effect of attention on decision formation: (i) the last fixation should be more informative about the choice when the overall value of the alternatives is high, and (ii) more attention should be directed to the chosen option when choices conflict with stated preferences than when they do not. Reanalyzing several datasets from a food-choice task, we found no evidence supporting these predictions. An alternative model where attention reflects choices after the decision has completed explains key observations, including the last-fixation bias, the gaze-cascade effect, and the effect of the overall value of the alternatives on response times. However, this model does not fully account for the association between dwell time and choice. We conclude that gaze behavior prior to the choice report likely reflects both decisional and post-decisional processes.</div>
+                </div>
+                <a id="journal-psychology-psychological-review"></a><h3 class="journal-header" data-group="psychology-psychological-review">Psychological Review</h3>
+                <div id="paper-10-1037-rev0000633" class="paper-item paper" data-field="psychology" data-group="psychology-psychological-review">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">7</span>Risk matters less when options are apples-to-oranges: The translate-and-accommodate model.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-rev0000633">
+                      <input type="radio" id="star5-paper-10-1037-rev0000633" name="rating-paper-10-1037-rev0000633" value="5"><label for="star5-paper-10-1037-rev0000633">★</label>
+                      <input type="radio" id="star4-paper-10-1037-rev0000633" name="rating-paper-10-1037-rev0000633" value="4"><label for="star4-paper-10-1037-rev0000633">★</label>
+                      <input type="radio" id="star3-paper-10-1037-rev0000633" name="rating-paper-10-1037-rev0000633" value="3"><label for="star3-paper-10-1037-rev0000633">★</label>
+                      <input type="radio" id="star2-paper-10-1037-rev0000633" name="rating-paper-10-1037-rev0000633" value="2"><label for="star2-paper-10-1037-rev0000633">★</label>
+                      <input type="radio" id="star1-paper-10-1037-rev0000633" name="rating-paper-10-1037-rev0000633" value="1"><label for="star1-paper-10-1037-rev0000633">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Weingarten, E., Rottenstreich, Y., Wu, G.</p>
+                  <p class='paper-summary'>This paper investigates how risk aversion differs when comparing options within the same domain (&#39;apples-to-apples&#39;) versus across different domains (&#39;apples-to-oranges&#39;), finding systematic insensitivity to risk in crossmodal choices and proposing a formal translate-and-accommodate model to explain these patterns.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.62</span><span><a href='https://doi.org/10.1037/rev0000633' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/rev0000633</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Risk aversion for moderate-likelihood gains is perhaps the best-known stylized fact from decision research. Though studies documenting it have focused on decisions involving money, such behavior is presumed to prevail very generally, across diverse domains. We investigate the validity of this generalization by contrasting two types of decisions. In unimodal choices, outcomes are &quot;apples-to-apples.&quot; Consider choosing between sure and uncertain monetary payoffs, or between sure receipt of a product and a chance at several units of it. In crossmodal choices, outcomes are &quot;apples-to-oranges.&quot; Consider choosing between sure receipt of one product and uncertain receipt of a disparate product. We observe two patterns by which risk matters less crossmodally, contrary to straightforward generalizations. First, relative to unimodal preferences involving actuarially fair risky options, corresponding crossmodal preferences exhibit less risk aversion. Second, crossmodal preferences vary less across risk levels: As the likelihood and subjective value of a risky option&#39;s outcomes become increasingly unfavorable (favorable), people do not exhibit as much additional distaste (appetite) for it. These patterns of insensitivity engender an interaction: relative to unimodal settings, crossmodal settings yield less aversion to unfavorable and fair risk but more aversion to favorable risk. To explain this interaction, we present the translate-and-accommodate model, in which unimodal preferences follow standard accounts, but crossmodal preferences reflect processes of (a) deterministic translation and (b) risk accommodation. The translate-and-accommodate model also explains the uncertainty effect and related patterns of seemingly bizarre, dominated choices. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+                </div>
+                
+                <div id="paper-10-1037-rev0000635" class="paper-item paper" data-field="psychology" data-group="psychology-psychological-review">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">8</span>A comparison of single and multiple diffusion process models of continuous-outcome decision making.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-rev0000635">
+                      <input type="radio" id="star5-paper-10-1037-rev0000635" name="rating-paper-10-1037-rev0000635" value="5"><label for="star5-paper-10-1037-rev0000635">★</label>
+                      <input type="radio" id="star4-paper-10-1037-rev0000635" name="rating-paper-10-1037-rev0000635" value="4"><label for="star4-paper-10-1037-rev0000635">★</label>
+                      <input type="radio" id="star3-paper-10-1037-rev0000635" name="rating-paper-10-1037-rev0000635" value="3"><label for="star3-paper-10-1037-rev0000635">★</label>
+                      <input type="radio" id="star2-paper-10-1037-rev0000635" name="rating-paper-10-1037-rev0000635" value="2"><label for="star2-paper-10-1037-rev0000635">★</label>
+                      <input type="radio" id="star1-paper-10-1037-rev0000635" name="rating-paper-10-1037-rev0000635" value="1"><label for="star1-paper-10-1037-rev0000635">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Smith, P., Garrett, P., Feuerriegel, D., Yook, J., Lilburn, S.</p>
+                  <p class='paper-summary'>The paper compares two diffusion process models (circular and spatially continuous) extended to continuous-outcome decision tasks, evaluating their ability to account for joint distributions of response errors and response times across perceptual tasks.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.6</span><span><a href='https://doi.org/10.1037/rev0000635' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/rev0000635</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Continuous-outcome decision tasks, in which responses are made on continuous scales, are increasingly used to characterize the processes involved in speeded decision making. These tasks yield entire distributions of response errors rather than just error proportions. Two diffusion process models of continuous-outcome decisions have recently been proposed, the circular diffusion model, and the spatially continuous diffusion model, which generalize the two main classes of diffusion process models of two-choice decisions to continuous spaces. The circular diffusion model, which generalizes the two-boundary Wiener model, assumes evidence is accumulated by a two-dimensional Wiener process with a vector-valued drift rate on the interior of a disk, whose bounding circle represents the decision criterion. The spatially continuous diffusion model, which generalizes the class of multiple accumulator models, assumes evidence is accumulated by a Gaussian random process with a function-valued drift rate to a criterion. We compared the ability of the models to account for the distributions of errors and response times on three perceptual tasks that manipulated both the kind and the amount of evidence entering the decision process, which produced qualitatively different patterns of response times and errors. Despite some differences in their predicted joint distributions, both models generally provided good accounts of performance in all three tasks. Our findings reinforce and extend findings from two-choice studies showing that diffusive evidence processes and not model architecture are the main determinants of successful model performance, and show the theoretical unity of diffusion models across different domains. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+                </div>
+                
+                <div id="paper-10-1037-rev0000638" class="paper-item paper" data-field="psychology" data-group="psychology-psychological-review">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">9</span>Inferring the causes of noise from binary outcomes: A normative theory of learning under uncertainty.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-rev0000638">
+                      <input type="radio" id="star5-paper-10-1037-rev0000638" name="rating-paper-10-1037-rev0000638" value="5"><label for="star5-paper-10-1037-rev0000638">★</label>
+                      <input type="radio" id="star4-paper-10-1037-rev0000638" name="rating-paper-10-1037-rev0000638" value="4"><label for="star4-paper-10-1037-rev0000638">★</label>
+                      <input type="radio" id="star3-paper-10-1037-rev0000638" name="rating-paper-10-1037-rev0000638" value="3"><label for="star3-paper-10-1037-rev0000638">★</label>
+                      <input type="radio" id="star2-paper-10-1037-rev0000638" name="rating-paper-10-1037-rev0000638" value="2"><label for="star2-paper-10-1037-rev0000638">★</label>
+                      <input type="radio" id="star1-paper-10-1037-rev0000638" name="rating-paper-10-1037-rev0000638" value="1"><label for="star1-paper-10-1037-rev0000638">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Fang, X., Piray, P.</p>
+                  <p class='paper-summary'>This paper presents a normative Bayesian framework (hidden Markov model + particle filtering) for inferring volatility versus stochasticity from binary outcomes, validated in a probabilistic reversal-learning task showing that humans adjust learning rates in line with model predictions under different noise conditions.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.49</span><span><a href='https://doi.org/10.1037/rev0000638' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/rev0000638</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Inferring the true cause of noise-distinguishing between volatility (environmental change) and stochasticity (outcome randomness)-is essential for learning in noisy environments. While most studies rely on binary outcomes, previous models are designed for continuous outcome and use ad hoc approximations to handle binary data, introducing theoretical inconsistencies and interpretational issues. Here, we develop a normative framework for inferring the causes of noise from binary feedback that remains faithful to the discrete nature of the generative process and underlying statistical structure. First, we establish a generative model using a state space approach tailored for binary outcomes and derive the corresponding hidden Markov model inference procedure. Second, we introduce a computational model combining the hidden Markov model with particle filtering to simultaneously infer volatility and stochasticity from binary outcomes. Third, we validate predictions through a 2 × 2 probabilistic reversal-learning task with human participants, systematically manipulating both noise parameters. Results show that participants adjust their learning rates consistent with model predictions, increasing learning rates under volatile conditions and decreasing them under high stochasticity. Our theoretical and experimental results offer a principled approach for dissociating volatility and stochasticity from binary outcomes, providing insights into learning processes relevant to typical cognition and psychiatric conditions. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+                </div>
+                <a id="journal-psychology-nature-communications"></a><h3 class="journal-header" data-group="psychology-nature-communications">Nature Communications</h3>
+                <div id="paper-10-1038-s41467-026-75773-4" class="paper-item paper" data-field="psychology" data-group="psychology-nature-communications">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">10</span>Foraging models explain human exploration in uncertain tasks</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1038-s41467-026-75773-4">
+                      <input type="radio" id="star5-paper-10-1038-s41467-026-75773-4" name="rating-paper-10-1038-s41467-026-75773-4" value="5"><label for="star5-paper-10-1038-s41467-026-75773-4">★</label>
+                      <input type="radio" id="star4-paper-10-1038-s41467-026-75773-4" name="rating-paper-10-1038-s41467-026-75773-4" value="4"><label for="star4-paper-10-1038-s41467-026-75773-4">★</label>
+                      <input type="radio" id="star3-paper-10-1038-s41467-026-75773-4" name="rating-paper-10-1038-s41467-026-75773-4" value="3"><label for="star3-paper-10-1038-s41467-026-75773-4">★</label>
+                      <input type="radio" id="star2-paper-10-1038-s41467-026-75773-4" name="rating-paper-10-1038-s41467-026-75773-4" value="2"><label for="star2-paper-10-1038-s41467-026-75773-4">★</label>
+                      <input type="radio" id="star1-paper-10-1038-s41467-026-75773-4" name="rating-paper-10-1038-s41467-026-75773-4" value="1"><label for="star1-paper-10-1038-s41467-026-75773-4">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Zid, M., Laurie, V., Ramírez-Ruiz, J., Lavigne-Champagne, A., Shourkeshti, A., Harrell, D., Herman, A., Ebitz, R.</p>
+                  <p class='paper-summary'>This paper tests whether humans use compare-to-threshold (foraging-style) computations rather than compare-alternative computations in uncertain decision tasks, finding that a foraging reinforcement-learning model better fits behavior, choice repetition, and out-of-sample prediction than standard RL models.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.59</span><span><a href='https://doi.org/10.1038/s41467-026-75773-4' target='_blank' rel='noopener noreferrer'>doi.org/10.1038/s41467-026-75773-4</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract Different fields have fundamentally different models of how decisions are made. Psychology and neuroscience tend to assume that decisions are made by calculating and comparing the values of all options. In ethology, conversely, decisions tend to be binary regardless of the number of options: Decision-makers calculate the value of continuing to exploit some option and explore only when this value drops below a threshold. Because these fields use incompatible methods, it remains unclear which view better describes human decision-making. We find that humans use compare-to-threshold computations even in classic compare-alternative tasks. Because the reinforcement-learning models typically used in the cognitive and brain sciences depend on compare-alternative computations, we also develop a compare-to-threshold foraging model. Compared to previous models, the foraging model better fits participant behavior, predicts the tendency to repeat choices, and predicts held-out participants that were almost impossible under traditional compare-alternative models. These results suggest that humans use compare-to-threshold computations in more environments than were previously known.</div>
+                </div>
+                <a id="journal-psychology-pnas"></a><h3 class="journal-header" data-group="psychology-pnas">PNAS</h3>
+                <div id="paper-10-1073-pnas-2525494123" class="paper-item paper" data-field="psychology" data-group="psychology-pnas">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">11</span>Developmental changes in memory structure and precision alter the use of retrieved episodes during decisions for reward</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1073-pnas-2525494123">
+                      <input type="radio" id="star5-paper-10-1073-pnas-2525494123" name="rating-paper-10-1073-pnas-2525494123" value="5"><label for="star5-paper-10-1073-pnas-2525494123">★</label>
+                      <input type="radio" id="star4-paper-10-1073-pnas-2525494123" name="rating-paper-10-1073-pnas-2525494123" value="4"><label for="star4-paper-10-1073-pnas-2525494123">★</label>
+                      <input type="radio" id="star3-paper-10-1073-pnas-2525494123" name="rating-paper-10-1073-pnas-2525494123" value="3"><label for="star3-paper-10-1073-pnas-2525494123">★</label>
+                      <input type="radio" id="star2-paper-10-1073-pnas-2525494123" name="rating-paper-10-1073-pnas-2525494123" value="2"><label for="star2-paper-10-1073-pnas-2525494123">★</label>
+                      <input type="radio" id="star1-paper-10-1073-pnas-2525494123" name="rating-paper-10-1073-pnas-2525494123" value="1"><label for="star1-paper-10-1073-pnas-2525494123">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Harhen, N., Bornstein, A., Hartley, C.</p>
+                  <p class='paper-summary'>This developmental study examines how episodic memory sampling guides reward-based decisions across ages 8–25, finding that memory precision and contextual structure predict individual differences in how past episodes bias choices and forward planning.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.54</span><span><a href='https://doi.org/10.1073/pnas.2525494123' target='_blank' rel='noopener noreferrer'>doi.org/10.1073/pnas.2525494123</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Most widely studied option evaluation strategies rely on knowledge accumulated across repeated experiences. But how should options be evaluated in unfamiliar environments, in which knowledge is sparse? In these situations, how do decision makers make efficient use of limited past experience to guide their choices? One possible strategy is episodic sampling, in which a decision maker retrieves a small number of past decisions from memory to estimate the value of present options. By virtue of their age, children and adolescents have less experience than adults, making episodic sampling a particularly useful strategy for them. At the same time, the effectiveness of episodic sampling derives from memory’s precision and context sensitivity—properties that continue to develop into adolescence and young adulthood. This tension raises a key question: are developmental differences in episodic memory associated with differences in episodic sampling? To address this question, 106 participants, ages 8 to 25, completed a 2-d choice task that dissociated the influence of a single episodic memory from the influence of multiple episodes sharing a common context. At all ages, single episodes biased choices. But, only adults were sensitive to the broader evoked context. Further clarifying the relationship between episodic memory and decision making, differences in memory precision predicted differences in episodic sampling, even after taking into account age, while episodic sampling, in turn, accounted for individual differences in forward planning. Together, these findings suggest that episodic memory guides decision making throughout development, but the character of its influence evolves as memory becomes more precise and richly structured.</div>
+                </div>
+                
+                <div id="paper-10-1073-pnas-2612367123" class="paper-item paper" data-field="psychology" data-group="psychology-pnas">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">12</span>Response duration tracks confidence</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1073-pnas-2612367123">
+                      <input type="radio" id="star5-paper-10-1073-pnas-2612367123" name="rating-paper-10-1073-pnas-2612367123" value="5"><label for="star5-paper-10-1073-pnas-2612367123">★</label>
+                      <input type="radio" id="star4-paper-10-1073-pnas-2612367123" name="rating-paper-10-1073-pnas-2612367123" value="4"><label for="star4-paper-10-1073-pnas-2612367123">★</label>
+                      <input type="radio" id="star3-paper-10-1073-pnas-2612367123" name="rating-paper-10-1073-pnas-2612367123" value="3"><label for="star3-paper-10-1073-pnas-2612367123">★</label>
+                      <input type="radio" id="star2-paper-10-1073-pnas-2612367123" name="rating-paper-10-1073-pnas-2612367123" value="2"><label for="star2-paper-10-1073-pnas-2612367123">★</label>
+                      <input type="radio" id="star1-paper-10-1073-pnas-2612367123" name="rating-paper-10-1073-pnas-2612367123" value="1"><label for="star1-paper-10-1073-pnas-2612367123">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Zhou, H., Goh, R., Phillips, I., Firestone, C.</p>
+                  <p class='paper-summary'>This paper shows that how long a key is held down (response duration) predicts subjective confidence across perceptual and cognitive tasks, independently of response initiation time, suggesting response duration is an additional informative measure of cognitive processing. The findings offer a new behavioral tool for studying confidence and decision quality.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.43</span><span><a href='https://doi.org/10.1073/pnas.2612367123' target='_blank' rel='noopener noreferrer'>doi.org/10.1073/pnas.2612367123</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>The timing of behavioral responses is among the most robust signatures of cognitive processing—with easier, more accurate, and more confident judgments typically made more quickly. But which aspects of response timing carry these signals? Whereas the time taken to initiate a response (e.g., the interval between stimulus onset and keypress) is one of the most popular and informative measures in experimental psychology, another aspect of response timing is its duration (e.g., how long the key is held down before being released). Here, across three preregistered experiments spanning perceptual and higher-cognitive tasks, we demonstrate that response duration reliably predicts subjective confidence, over and above response initiation time. When detecting faces (Experiment 1), judging motion coherence (Experiment 2), and answering trivia questions (Experiment 3), subjects held down a response key longer during trials in which they subsequently reported lower confidence in their judgments, as if making these judgments in a tentative fashion. In all cases, response duration accounted for variance in confidence that was not predicted by response initiation time. Our results suggest that response duration itself carries independent information about cognitive processing, advancing a useful and ubiquitously available tool to complement traditional response time measures in the study of cognition.</div>
+                </div>
+                <a id="journal-psychology-psychonomic-bulletin-review"></a><h3 class="journal-header" data-group="psychology-psychonomic-bulletin-review">Psychonomic Bulletin &amp; Review</h3>
+                <div id="paper-10-3758-s13423-026-02970-z" class="paper-item paper" data-field="psychology" data-group="psychology-psychonomic-bulletin-review">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">13</span>Trade-offs between remembering and online evaluation in retrospective evaluation</h4>
+                    <div class="star-rating" data-paper-id="paper-10-3758-s13423-026-02970-z">
+                      <input type="radio" id="star5-paper-10-3758-s13423-026-02970-z" name="rating-paper-10-3758-s13423-026-02970-z" value="5"><label for="star5-paper-10-3758-s13423-026-02970-z">★</label>
+                      <input type="radio" id="star4-paper-10-3758-s13423-026-02970-z" name="rating-paper-10-3758-s13423-026-02970-z" value="4"><label for="star4-paper-10-3758-s13423-026-02970-z">★</label>
+                      <input type="radio" id="star3-paper-10-3758-s13423-026-02970-z" name="rating-paper-10-3758-s13423-026-02970-z" value="3"><label for="star3-paper-10-3758-s13423-026-02970-z">★</label>
+                      <input type="radio" id="star2-paper-10-3758-s13423-026-02970-z" name="rating-paper-10-3758-s13423-026-02970-z" value="2"><label for="star2-paper-10-3758-s13423-026-02970-z">★</label>
+                      <input type="radio" id="star1-paper-10-3758-s13423-026-02970-z" name="rating-paper-10-3758-s13423-026-02970-z" value="1"><label for="star1-paper-10-3758-s13423-026-02970-z">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Mason, A., Ward, G., Brown, G., Farrell, S.</p>
+                  <p class='paper-summary'>This paper investigates how people trade off memory encoding versus online evaluation when making retrospective willingness-to-pay judgments about sequences of monetary values, finding that dual-task attempts lead to performance decrements and suboptimal resource allocation relative to a pure memory strategy.</p>
+                  <p class="paper-meta"><span>2026-07</span><span>Relevance 0.46</span><span><a href='https://doi.org/10.3758/s13423-026-02970-z' target='_blank' rel='noopener noreferrer'>doi.org/10.3758/s13423-026-02970-z</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract This paper examines the trade-off between remembering and online evaluation in retrospective judgments. In two experiments, we compared conditions where participants performed only one task (evaluation or recall) versus both tasks, with task expectancy manipulated through pre-cueing or post-cueing. Participants ( N =139 and N =262) viewed sequences of numbers representing monetary values and were asked to either recall the numbers or evaluate the sequence through willingness-to-pay judgments. Results showed that when both tasks were potential (Experiment 1) or actual (Experiment 2) candidates to be cued, one or the other task showed a decrement in performance, indicative of some dual-task cost. Strikingly, simulations revealed that participants would have performed better had they focused solely on memory encoding during presentation rather than attempting dual-task processing. These findings suggest that people do not optimally allocate cognitive resources between competing processes during retrospective evaluation, and may attempt to deploy multiple specialized strategies even where a memory-based strategy would be effective overall.</div>
+                </div>
+                
+      </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+      <script>
+        let isFilterActive = false;
+
+        // Only show admin controls and allow editing if running locally (file://)
+        if (window.location.protocol === 'file:') {
+          document.getElementById('admin-ui').style.display = 'block';
+        } else {
+          // Disable all radio buttons if not local
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.disabled = true;
+          });
+          // Add a style to make the stars non-interactive
+          const style = document.createElement('style');
+          style.innerHTML = '.star-rating { pointer-events: none; }';
+          document.head.appendChild(style);
+        }
+
+        function toggleTopPicks() {
+          isFilterActive = !isFilterActive;
+          const btn = document.getElementById('filter-btn');
+          const papers = document.querySelectorAll('.paper-item');
+          const journalHeaders = document.querySelectorAll('.journal-header');
+          const fieldHeaders = document.querySelectorAll('.field-header');
+
+          if (isFilterActive) {
+            btn.style.background = '#0b4a6f';
+            btn.style.color = '#ffffff';
+            btn.style.borderColor = '#0b4a6f';
+            btn.innerHTML = '★ Showing top picks (4★+)';
+
+            // Show/hide papers by rating.
+            papers.forEach(paper => {
+              const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+              paper.style.display = parseInt(rating) >= 4 ? 'block' : 'none';
+            });
+
+            // Hide journal sub-headers whose papers are all filtered out.
+            journalHeaders.forEach(header => {
+              const group = header.getAttribute('data-group');
+              const groupPapers = document.querySelectorAll(`.paper-item[data-group="${group}"]`);
+              const anyVisible = Array.from(groupPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+
+            // Hide field headers whose whole section is filtered out.
+            fieldHeaders.forEach(header => {
+              const field = header.getAttribute('data-field');
+              const fieldPapers = document.querySelectorAll(`.paper-item[data-field="${field}"]`);
+              const anyVisible = Array.from(fieldPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+          } else {
+            btn.style.background = 'transparent';
+            btn.style.color = '#4c525a';
+            btn.style.borderColor = '#cfc8b9';
+            btn.innerHTML = '★ Show top picks (4★+)';
+
+            papers.forEach(p => p.style.display = 'block');
+            journalHeaders.forEach(h => h.style.display = 'block');
+            fieldHeaders.forEach(h => h.style.display = 'block');
+          }
+        }
+
+        function savePage() {
+          // Reset filter before saving so all papers are visible in the source
+          if (isFilterActive) toggleTopPicks();
+
+          // Remove the Save button and admin UI from the saved HTML
+          const adminUI = document.getElementById('admin-ui');
+          adminUI.style.display = 'none';
+          
+          // Update the checked attribute of radio buttons based on their current state
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            if (radio.checked) {
+              radio.setAttribute('checked', 'checked');
+            } else {
+              radio.removeAttribute('checked');
+            }
+          });
+
+          const htmlContent = document.documentElement.outerHTML;
+          const blob = new Blob([htmlContent], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = window.location.pathname.split('/').pop() || 'digest.html';
+          a.click();
+          
+          // Show admin UI again
+          adminUI.style.display = 'block';
+        }
+      </script>
+    </body>
+    </html>
+    
