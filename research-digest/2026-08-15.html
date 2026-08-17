@@ -1,0 +1,539 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+      <link rel="stylesheet" href="../assets/site.css">
+      <style>
+        :root {
+          --paper:#fffdf9; --page:#efece5; --ink:#23272c; --ink-soft:#4c525a;
+          --muted:#8b9099; --rule:#e7e2d7; --rule-strong:#cfc8b9; --accent:#0b4a6f;
+        }
+        html, body { margin:0; }
+        body {
+          background:var(--page); color:var(--ink);
+          font-family:'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+          font-size:17px; line-height:1.6;
+          -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+          padding:28px 18px 90px;
+        }
+        .sans { font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif; }
+        .sheet {
+          max-width:800px; margin:0 auto; background:var(--paper);
+          padding:60px 68px 76px;
+          border:1px solid var(--rule);
+          box-shadow:0 1px 2px rgba(20,20,30,.04), 0 24px 60px rgba(30,30,45,.07);
+        }
+
+        /* ---- Masthead ---- */
+        .masthead { text-align:center; border-bottom:3px double var(--rule-strong); padding-bottom:24px; }
+        .masthead .eyebrow {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 12px;
+        }
+        .masthead h1 { margin:0; font-size:42px; font-weight:700; letter-spacing:.005em; line-height:1.08; color:#1a1d21; }
+        .masthead .meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; letter-spacing:.03em; color:var(--ink-soft); margin:14px 0 0;
+        }
+        .masthead .meta .dot { color:var(--rule-strong); margin:0 9px; }
+
+        /* ---- Toolbar ---- */
+        .toolbar { display:flex; justify-content:center; margin:18px 0 0; }
+        #filter-btn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          background:transparent; border:1px solid var(--rule-strong); color:var(--ink-soft);
+          padding:7px 15px; border-radius:2px; font-size:12px; letter-spacing:.05em;
+          cursor:pointer; transition:all .18s ease;
+        }
+        #filter-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+        /* ---- Contents (table of contents) ---- */
+        .contents { margin:34px 0 6px; }
+        .contents-title {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 20px;
+        }
+        .toc-field { margin:0 0 18px; }
+        .toc-fname { font-size:18px; font-weight:600; text-decoration:none; }
+        .toc-fname:hover { text-decoration:underline; }
+        .toc-fcount {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; color:var(--muted); margin-left:8px;
+        }
+        .toc-list { list-style:none; margin:7px 0 0; padding:0; }
+        .toc-row { display:flex; align-items:baseline; padding:2px 0; font-size:15.5px; }
+        .toc-row a { color:var(--ink-soft); text-decoration:none; white-space:nowrap; }
+        .toc-row a:hover { color:var(--accent); }
+        .toc-lead { flex:1; border-bottom:1px dotted var(--rule-strong); margin:0 9px; position:relative; top:-4px; }
+        .toc-row .n {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12.5px; color:var(--muted);
+        }
+
+        /* ---- Field section ---- */
+        .field-header {
+          display:flex; align-items:baseline; gap:15px;
+          margin:64px 0 6px; padding-bottom:10px; border-bottom:2px solid currentColor;
+        }
+        .field-header .rn { font-size:20px; font-weight:600; opacity:.5; }
+        .field-header .ft { font-size:31px; font-weight:700; letter-spacing:.005em; }
+        .field-header .fc {
+          margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.06em; opacity:.6; align-self:center;
+        }
+
+        /* ---- Journal sub-header ---- */
+        .journal-header {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; font-weight:600; letter-spacing:.19em; text-transform:uppercase;
+          color:var(--muted); margin:34px 0 2px;
+        }
+
+        /* ---- Paper entry ---- */
+        .paper { padding:22px 0 24px; border-bottom:1px solid var(--rule); }
+        .paper-head { display:flex; justify-content:space-between; align-items:flex-start; gap:22px; }
+        .paper-title { margin:0; font-size:20px; line-height:1.34; font-weight:600; color:#1c1f23; flex:1; }
+        .paper-title .pn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; font-weight:600; color:var(--muted); margin-right:9px;
+        }
+        .paper-authors { margin:8px 0 0; font-style:italic; font-size:15.5px; color:var(--ink-soft); }
+        .paper-summary { margin:11px 0 0; font-size:16px; line-height:1.58; color:var(--ink); }
+        .paper-meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.02em; color:var(--muted);
+          margin:12px 0 0; display:flex; flex-wrap:wrap; gap:8px 18px;
+        }
+        .paper-meta a { color:var(--accent); text-decoration:none; }
+        .paper-meta a:hover { text-decoration:underline; }
+        .paper-abstract {
+          margin:14px 0 0; padding:1px 0 1px 20px; border-left:2px solid var(--rule-strong);
+          font-size:14.5px; line-height:1.66; color:var(--ink-soft);
+          text-align:justify; hyphens:auto;
+        }
+        .paper-abstract .lbl {
+          display:block; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 6px;
+        }
+
+        /* ---- Star rating ---- */
+        .star-rating { display:inline-flex; flex-direction:row-reverse; gap:3px; flex-shrink:0; }
+        .star-rating input { display:none; }
+        .star-rating label { font-size:17px; color:#ded8ca; cursor:pointer; transition:color .1s; }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label { color:#c19a35; }
+
+        /* ---- Admin ---- */
+        .admin-controls { position:fixed; top:20px; right:20px; z-index:1000; display:none; }
+        .save-btn {
+          background:var(--accent); color:#fff; border:none; padding:10px 20px;
+          border-radius:4px; cursor:pointer; font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,.15);
+        }
+
+        @media print { .admin-controls, .star-rating, .toolbar { display:none !important; }
+          body { background:#fff; padding:0; } .sheet { box-shadow:none; border:none; } }
+        @media (max-width:640px) {
+          .sheet { padding:34px 22px 46px; }
+          .masthead h1 { font-size:31px; }
+          .field-header .ft { font-size:25px; }
+          .field-header .fc { display:none; }
+          .paper-head { flex-direction:column; gap:10px; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="admin-controls" id="admin-ui">
+        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
+      </div>
+      <a id="top"></a>
+      <div class="sheet">
+        <header class="masthead">
+          <p class="eyebrow">Maohua Nie · Research Digest</p>
+          <h1>Bi-weekly Research Digest</h1>
+          <p class="meta">01 Aug 2026 – 15 Aug 2026<span class="dot">◆</span>16 papers across 3 fields</p>
+        </header>
+
+        <div class="toolbar">
+          <button id="filter-btn" onclick="toggleTopPicks()">★ Show top picks (4★+)</button>
+        </div>
+
+        <nav class="contents">
+          <p class="contents-title">Contents</p>
+    <div class="toc-field"><a class="toc-fname" href="#field-economics" style="color:#1c5d54">I. Economics</a><span class="toc-fcount">5</span><ul class="toc-list"><li class="toc-row"><a href="#journal-economics-theory-and-decision">Theory and Decision</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-economics-journal-of-risk-and-uncertainty">Journal of Risk and Uncertainty</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-economics-journal-of-economic-behavior-organization">Journal of Economic Behavior &amp; Organization</a><span class="toc-lead"></span><span class="n">2</span></li><li class="toc-row"><a href="#journal-economics-management-science">Management Science</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-psychology" style="color:#8a2b3a">II. Psychology</a><span class="toc-fcount">9</span><ul class="toc-list"><li class="toc-row"><a href="#journal-psychology-trends-in-cognitive-sciences">Trends in Cognitive Sciences</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-journal-of-behavioral-decision-making">Journal of Behavioral Decision Making</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-journal-of-mathematical-psychology">Journal of Mathematical Psychology</a><span class="toc-lead"></span><span class="n">3</span></li><li class="toc-row"><a href="#journal-psychology-elife">eLife</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-nature-communications">Nature Communications</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-plos-computational-biology">PLOS Computational Biology</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-memory-cognition">Memory &amp; Cognition</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-neuroscience" style="color:#3d3a78">III. Neuroscience</a><span class="toc-fcount">2</span><ul class="toc-list"><li class="toc-row"><a href="#journal-neuroscience-nature-communications">Nature Communications</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-neuroscience-journal-of-economic-behavior-organization">Journal of Economic Behavior &amp; Organization</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div></nav><a id="field-economics"></a><h2 class="field-header" data-field="economics" style="color:#1c5d54"><span class="rn">I</span><span class="ft">Economics</span><span class="fc">5 papers</span></h2><a id="journal-economics-theory-and-decision"></a><h3 class="journal-header" data-group="economics-theory-and-decision">Theory and Decision</h3>
+                <div id="paper-10-1007-s11238-026-10155-2" class="paper-item paper" data-field="economics" data-group="economics-theory-and-decision">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">1</span>Introduction to the Special Issue on Dynamic Decision Theory</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1007-s11238-026-10155-2">
+                      <input type="radio" id="star5-paper-10-1007-s11238-026-10155-2" name="rating-paper-10-1007-s11238-026-10155-2" value="5"><label for="star5-paper-10-1007-s11238-026-10155-2">★</label>
+                      <input type="radio" id="star4-paper-10-1007-s11238-026-10155-2" name="rating-paper-10-1007-s11238-026-10155-2" value="4"><label for="star4-paper-10-1007-s11238-026-10155-2">★</label>
+                      <input type="radio" id="star3-paper-10-1007-s11238-026-10155-2" name="rating-paper-10-1007-s11238-026-10155-2" value="3"><label for="star3-paper-10-1007-s11238-026-10155-2">★</label>
+                      <input type="radio" id="star2-paper-10-1007-s11238-026-10155-2" name="rating-paper-10-1007-s11238-026-10155-2" value="2"><label for="star2-paper-10-1007-s11238-026-10155-2">★</label>
+                      <input type="radio" id="star1-paper-10-1007-s11238-026-10155-2" name="rating-paper-10-1007-s11238-026-10155-2" value="1"><label for="star1-paper-10-1007-s11238-026-10155-2">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Spohn, W., Rothfus, G., Radzvilas, M.</p>
+                  <p class='paper-summary'>This is an introductory editorial to a special issue dedicated to dynamic decision theory, likely overviewing theoretical and empirical contributions on how decisions unfold over time under risk and uncertainty.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.52</span><span><a href='https://doi.org/10.1007/s11238-026-10155-2' target='_blank' rel='noopener noreferrer'>doi.org/10.1007/s11238-026-10155-2</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="journal-economics-journal-of-risk-and-uncertainty"></a><h3 class="journal-header" data-group="economics-journal-of-risk-and-uncertainty">Journal of Risk and Uncertainty</h3>
+                <div id="paper-10-1007-s11166-026-09506-9" class="paper-item paper" data-field="economics" data-group="economics-journal-of-risk-and-uncertainty">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">2</span>Identity-based risk and time preference predictions</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1007-s11166-026-09506-9">
+                      <input type="radio" id="star5-paper-10-1007-s11166-026-09506-9" name="rating-paper-10-1007-s11166-026-09506-9" value="5"><label for="star5-paper-10-1007-s11166-026-09506-9">★</label>
+                      <input type="radio" id="star4-paper-10-1007-s11166-026-09506-9" name="rating-paper-10-1007-s11166-026-09506-9" value="4"><label for="star4-paper-10-1007-s11166-026-09506-9">★</label>
+                      <input type="radio" id="star3-paper-10-1007-s11166-026-09506-9" name="rating-paper-10-1007-s11166-026-09506-9" value="3"><label for="star3-paper-10-1007-s11166-026-09506-9">★</label>
+                      <input type="radio" id="star2-paper-10-1007-s11166-026-09506-9" name="rating-paper-10-1007-s11166-026-09506-9" value="2"><label for="star2-paper-10-1007-s11166-026-09506-9">★</label>
+                      <input type="radio" id="star1-paper-10-1007-s11166-026-09506-9" name="rating-paper-10-1007-s11166-026-09506-9" value="1"><label for="star1-paper-10-1007-s11166-026-09506-9">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Burke, N., Cameron, M.</p>
+                  <p class='paper-summary'>The paper examines how social identity influences predictions about individuals&#39; risk and time preferences, touching on individual-level preference formation and decision making.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.47</span><span><a href='https://doi.org/10.1007/s11166-026-09506-9' target='_blank' rel='noopener noreferrer'>doi.org/10.1007/s11166-026-09506-9</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="journal-economics-journal-of-economic-behavior-organization"></a><h3 class="journal-header" data-group="economics-journal-of-economic-behavior-organization">Journal of Economic Behavior &amp; Organization</h3>
+                <div id="paper-10-1016-j-jebo-2026-107624" class="paper-item paper" data-field="economics" data-group="economics-journal-of-economic-behavior-organization">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">3</span>On the stability of social risk preferences for health and wealth</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-jebo-2026-107624">
+                      <input type="radio" id="star5-paper-10-1016-j-jebo-2026-107624" name="rating-paper-10-1016-j-jebo-2026-107624" value="5"><label for="star5-paper-10-1016-j-jebo-2026-107624">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-jebo-2026-107624" name="rating-paper-10-1016-j-jebo-2026-107624" value="4"><label for="star4-paper-10-1016-j-jebo-2026-107624">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-jebo-2026-107624" name="rating-paper-10-1016-j-jebo-2026-107624" value="3"><label for="star3-paper-10-1016-j-jebo-2026-107624">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-jebo-2026-107624" name="rating-paper-10-1016-j-jebo-2026-107624" value="2"><label for="star2-paper-10-1016-j-jebo-2026-107624">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-jebo-2026-107624" name="rating-paper-10-1016-j-jebo-2026-107624" value="1"><label for="star1-paper-10-1016-j-jebo-2026-107624">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Attema, A., L’Haridon, O., van de Kuilen, G.</p>
+                  <p class='paper-summary'>The paper investigates whether social risk preferences related to health and wealth outcomes are stable, examining how individuals evaluate and compare risky options across different domains.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.47</span><span><a href='https://doi.org/10.1016/j.jebo.2026.107624' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.jebo.2026.107624</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>International audience</div>
+                </div>
+                
+                <div id="paper-10-1016-j-jebo-2026-107632" class="paper-item paper" data-field="economics" data-group="economics-journal-of-economic-behavior-organization">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">4</span>Deliberate stochastic choice: A mouse-tracking experiment</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-jebo-2026-107632">
+                      <input type="radio" id="star5-paper-10-1016-j-jebo-2026-107632" name="rating-paper-10-1016-j-jebo-2026-107632" value="5"><label for="star5-paper-10-1016-j-jebo-2026-107632">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-jebo-2026-107632" name="rating-paper-10-1016-j-jebo-2026-107632" value="4"><label for="star4-paper-10-1016-j-jebo-2026-107632">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-jebo-2026-107632" name="rating-paper-10-1016-j-jebo-2026-107632" value="3"><label for="star3-paper-10-1016-j-jebo-2026-107632">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-jebo-2026-107632" name="rating-paper-10-1016-j-jebo-2026-107632" value="2"><label for="star2-paper-10-1016-j-jebo-2026-107632">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-jebo-2026-107632" name="rating-paper-10-1016-j-jebo-2026-107632" value="1"><label for="star1-paper-10-1016-j-jebo-2026-107632">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Adamo, M., Coricelli, G.</p>
+                  <p class='paper-summary'>The paper uses mouse-tracking to study how people deliberate when making stochastic (probabilistic) choices, providing process-level evidence about the cognitive dynamics underlying decisions under uncertainty.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.45</span><span><a href='https://doi.org/10.1016/j.jebo.2026.107632' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.jebo.2026.107632</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="journal-economics-management-science"></a><h3 class="journal-header" data-group="economics-management-science">Management Science</h3>
+                <div id="paper-10-1287-mnsc-2023-01558" class="paper-item paper" data-field="economics" data-group="economics-management-science">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">5</span>Nonadditivity of Subjective Expectations over Different Time Intervals</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2023-01558">
+                      <input type="radio" id="star5-paper-10-1287-mnsc-2023-01558" name="rating-paper-10-1287-mnsc-2023-01558" value="5"><label for="star5-paper-10-1287-mnsc-2023-01558">★</label>
+                      <input type="radio" id="star4-paper-10-1287-mnsc-2023-01558" name="rating-paper-10-1287-mnsc-2023-01558" value="4"><label for="star4-paper-10-1287-mnsc-2023-01558">★</label>
+                      <input type="radio" id="star3-paper-10-1287-mnsc-2023-01558" name="rating-paper-10-1287-mnsc-2023-01558" value="3"><label for="star3-paper-10-1287-mnsc-2023-01558">★</label>
+                      <input type="radio" id="star2-paper-10-1287-mnsc-2023-01558" name="rating-paper-10-1287-mnsc-2023-01558" value="2"><label for="star2-paper-10-1287-mnsc-2023-01558">★</label>
+                      <input type="radio" id="star1-paper-10-1287-mnsc-2023-01558" name="rating-paper-10-1287-mnsc-2023-01558" value="1"><label for="star1-paper-10-1287-mnsc-2023-01558">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Haan, P., Sun, C., Sunde, U., Weizsäcker, G.</p>
+                  <p class='paper-summary'>This paper finds that people&#39;s subjective expectations about economic variables (e.g., stock prices) over long time horizons are subadditive relative to summed short-horizon expectations, consistent with a model of distorted time perception, and that this bias correlates with real financial investment behavior.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.44</span><span><a href='https://doi.org/10.1287/mnsc.2023.01558' target='_blank' rel='noopener noreferrer'>doi.org/10.1287/mnsc.2023.01558</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>We examine the additivity of expectations over different time intervals. For example, when asked about 10-year stock price growth, survey respondents report an expected change that is not equal to, but closer to zero than, the sum of their expectations over two shorter time intervals that cover the same 10 years. Such subadditivity, which we also find in expectations for other economic variables, is irrational, as it cannot stem from aggregating short-term expectations. Model estimates show that the pattern is consistent with a time perception where shorter time intervals have a proportionally larger weight. We also find that the respondents’ degree of additivity is correlated with making larger financial investments. This paper was accepted by Manel Baucells, behavioral economics and decision analysis. Funding: This work was supported by Deutsche Forschungsgemeinschaft (the German Science Foundation) via CRC TRR 190 [Grant 280092119]. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2023.01558 .</div>
+                </div>
+                <a id="field-psychology"></a><h2 class="field-header" data-field="psychology" style="color:#8a2b3a"><span class="rn">II</span><span class="ft">Psychology</span><span class="fc">9 papers</span></h2><a id="journal-psychology-trends-in-cognitive-sciences"></a><h3 class="journal-header" data-group="psychology-trends-in-cognitive-sciences">Trends in Cognitive Sciences</h3>
+                <div id="paper-10-1016-j-tics-2026-07-003" class="paper-item paper" data-field="psychology" data-group="psychology-trends-in-cognitive-sciences">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">6</span>Toward a psychology of real-life decision-making</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-tics-2026-07-003">
+                      <input type="radio" id="star5-paper-10-1016-j-tics-2026-07-003" name="rating-paper-10-1016-j-tics-2026-07-003" value="5"><label for="star5-paper-10-1016-j-tics-2026-07-003">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-tics-2026-07-003" name="rating-paper-10-1016-j-tics-2026-07-003" value="4"><label for="star4-paper-10-1016-j-tics-2026-07-003">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-tics-2026-07-003" name="rating-paper-10-1016-j-tics-2026-07-003" value="3"><label for="star3-paper-10-1016-j-tics-2026-07-003">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-tics-2026-07-003" name="rating-paper-10-1016-j-tics-2026-07-003" value="2"><label for="star2-paper-10-1016-j-tics-2026-07-003">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-tics-2026-07-003" name="rating-paper-10-1016-j-tics-2026-07-003" value="1"><label for="star1-paper-10-1016-j-tics-2026-07-003">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Schakowski, A., Deffner, D., Kavelaars, M., Haux, L., Kuroda, K., Dhellemmes, F., Kurvers, R.</p>
+                  <p class='paper-summary'>This paper reviews tracking technologies and statistical tools and proposes a framework for studying real-life decision-making at a process level using high-resolution spatiotemporal data, bridging the gap between lab-based cognitive mechanisms and naturalistic behavior.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.63</span><span><a href='https://doi.org/10.1016/j.tics.2026.07.003' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.tics.2026.07.003</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Understanding human decision-making processes in everyday life is a central, yet rarely addressed, challenge in psychology. Either real-life complexity is reduced by isolating specific aspects of decision-making in highly constrained experimental settings, yielding insights into specific cognitive mechanisms under idealized conditions, or decision-making is studied in real-life contexts, using high-level descriptions of behavior that do not afford fine-grained, process-level insights. Bridging this gap poses a challenge of both measurement and inference. Recent advances in high-resolution tracking technologies provide novel solutions to many measurement challenges but are rarely integrated with formal psychological theory. In this article, we review tracking technologies and statistical tools, proposing a cognitive-computational framework that uses high-resolution spatiotemporal data to investigate the mechanisms of real-life decision-making in a theory-driven manner.</div>
+                </div>
+                <a id="journal-psychology-journal-of-behavioral-decision-making"></a><h3 class="journal-header" data-group="psychology-journal-of-behavioral-decision-making">Journal of Behavioral Decision Making</h3>
+                <div id="paper-10-1002-bdm-70088" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-behavioral-decision-making">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">7</span>Catch and Spawn: An Angling Risk Task for Decreasing Risk Contexts</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1002-bdm-70088">
+                      <input type="radio" id="star5-paper-10-1002-bdm-70088" name="rating-paper-10-1002-bdm-70088" value="5"><label for="star5-paper-10-1002-bdm-70088">★</label>
+                      <input type="radio" id="star4-paper-10-1002-bdm-70088" name="rating-paper-10-1002-bdm-70088" value="4"><label for="star4-paper-10-1002-bdm-70088">★</label>
+                      <input type="radio" id="star3-paper-10-1002-bdm-70088" name="rating-paper-10-1002-bdm-70088" value="3"><label for="star3-paper-10-1002-bdm-70088">★</label>
+                      <input type="radio" id="star2-paper-10-1002-bdm-70088" name="rating-paper-10-1002-bdm-70088" value="2"><label for="star2-paper-10-1002-bdm-70088">★</label>
+                      <input type="radio" id="star1-paper-10-1002-bdm-70088" name="rating-paper-10-1002-bdm-70088" value="1"><label for="star1-paper-10-1002-bdm-70088">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Güney, Ş., Kapadia, K., Tang, Y., John, R.</p>
+                  <p class='paper-summary'>This study investigates how behavior on behavioral risk-taking tasks (Angling Risk Task variants and BART) changes when risk decreases over time versus increases, and whether sensitivity to these changes depends on knowing the outcome probabilities (risk vs. ambiguity). Results show participants take more actions under decreasing risk when probabilities are known, but are more cautious and less sensitive under ambiguity, challenging the idea that such tasks measure a single domain-general risk preference.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.57</span><span><a href='https://doi.org/10.1002/bdm.70088' target='_blank' rel='noopener noreferrer'>doi.org/10.1002/bdm.70088</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>ABSTRACT Behavioral Measures of Risk Taking (BMRT), such as the Balloon Analogue Risk Task (BART) and the Angling Risk Task (ART), are widely used to assess risk‐taking propensity, yet most of the existing literature focuses on environments in which risk increases over time. The present study examines how behavior changes when risk instead decreases, and whether sensitivity to such changes depends on the availability of probabilistic information. Participants ( N = 272) completed three versions of the ART in which risk increased, remained constant, or decreased, under conditions where outcome probabilities were either known (“ Sunny ”) or unknown/ambiguous (“ Cloudy ”), followed by the BART. Censored mixed‐effects Bayesian regression models were used to analyze the data. Participants took more actions in decreasing‐risk environments than in constant‐ or increasing‐risk environments, particularly when the reduction in risk was explicitly known. Under ambiguity, however, participants were more cautious and showed little sensitivity to improvement in the environment. Correlations across tasks also depended on information. The ART and the BART showed stronger and more consistent associations in the Sunny condition than in the Cloudy condition. These findings suggest that performance on BMRT reflects sensitivity to the structure of the decision environment, particularly to improvements in risk and the availability of information about probabilities, and that BMRT summary scores should not be interpreted as direct measures of a single, domain‐general risk‐taking propensity or risk preference.</div>
+                </div>
+                <a id="journal-psychology-journal-of-mathematical-psychology"></a><h3 class="journal-header" data-group="psychology-journal-of-mathematical-psychology">Journal of Mathematical Psychology</h3>
+                <div id="paper-10-1016-j-jmp-2026-103011" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-mathematical-psychology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">8</span>A systematic empirical comparison of active inference and reinforcement learning models in accounting for decision-making under uncertainty</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-jmp-2026-103011">
+                      <input type="radio" id="star5-paper-10-1016-j-jmp-2026-103011" name="rating-paper-10-1016-j-jmp-2026-103011" value="5"><label for="star5-paper-10-1016-j-jmp-2026-103011">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-jmp-2026-103011" name="rating-paper-10-1016-j-jmp-2026-103011" value="4"><label for="star4-paper-10-1016-j-jmp-2026-103011">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-jmp-2026-103011" name="rating-paper-10-1016-j-jmp-2026-103011" value="3"><label for="star3-paper-10-1016-j-jmp-2026-103011">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-jmp-2026-103011" name="rating-paper-10-1016-j-jmp-2026-103011" value="2"><label for="star2-paper-10-1016-j-jmp-2026-103011">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-jmp-2026-103011" name="rating-paper-10-1016-j-jmp-2026-103011" value="1"><label for="star1-paper-10-1016-j-jmp-2026-103011">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Chou, K., Hakimi, N., Hsu, T., Smith, R.</p>
+                  <p class='paper-summary'>The paper systematically and empirically compares active inference and reinforcement learning frameworks as computational accounts of decision-making under uncertainty. It evaluates how well each model explains observed choice behavior in uncertain environments.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.54</span><span><a href='https://doi.org/10.1016/j.jmp.2026.103011' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.jmp.2026.103011</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                
+                <div id="paper-10-1016-j-jmp-2026-103004" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-mathematical-psychology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">9</span>Time-averaged drift approximations are inconsistent for inference in drift diffusion models</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-jmp-2026-103004">
+                      <input type="radio" id="star5-paper-10-1016-j-jmp-2026-103004" name="rating-paper-10-1016-j-jmp-2026-103004" value="5"><label for="star5-paper-10-1016-j-jmp-2026-103004">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-jmp-2026-103004" name="rating-paper-10-1016-j-jmp-2026-103004" value="4"><label for="star4-paper-10-1016-j-jmp-2026-103004">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-jmp-2026-103004" name="rating-paper-10-1016-j-jmp-2026-103004" value="3"><label for="star3-paper-10-1016-j-jmp-2026-103004">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-jmp-2026-103004" name="rating-paper-10-1016-j-jmp-2026-103004" value="2"><label for="star2-paper-10-1016-j-jmp-2026-103004">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-jmp-2026-103004" name="rating-paper-10-1016-j-jmp-2026-103004" value="1"><label for="star1-paper-10-1016-j-jmp-2026-103004">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Liu, S., Fengler, A., Frank, M., Harrison, M.</p>
+                  <p class='paper-summary'>The paper proves that the time-averaged drift approximation (TADA), commonly used for fast likelihood inference in drift diffusion models, is statistically inconsistent and systematically misestimates parameters, including attentional effects in the attentional DDM (aDDM). The authors provide mathematical proof and numerical demonstrations showing this leads to false conclusions about how attention influences decision making.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.48</span><span><a href='https://doi.org/10.1016/j.jmp.2026.103004' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.jmp.2026.103004</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Drift diffusion models (DDMs) have found widespread use in computational neuroscience, cognitive science, mathematical psychology as well as other fields. They model evidence accumulation in simple decision tasks as a stochastic process drifting towards decision barriers. In models where the drift is both time-varying within a trial and variable across trials, the high computational cost for accurate likelihood evaluation has often led to the use of a computationally convenient surrogate for parameter inference, the time-averaged drift approximation (TADA). In each trial, TADA assumes that the time-varying drift rate can be replaced by its temporal average throughout the trial. This approach enables fast parameter inference using analytical likelihood formulas for DDMs with constant drift. In this work, we show that such an estimator is inconsistent: it does not converge to the true drift, posing a risk of biasing scientific conclusions when parameter estimates are obtained by TADA and similar approximations. We provide an elementary proof of this inconsistency in what is perhaps the simplest possible setting: a Brownian motion with piecewise constant drift hitting a one-sided upper boundary. Furthermore, numerical examples based on an attentional DDM (aDDM) show that using TADA leads to systematic misestimation of attentional effects in decision making and can lead to false conclusions in scientific hypothesis testing.</div>
+                </div>
+                
+                <div id="paper-10-1016-j-jmp-2026-102994" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-mathematical-psychology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">10</span>Deciding by quantum-like belief morphing or hopping?Its application to multi-agent response influence</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-jmp-2026-102994">
+                      <input type="radio" id="star5-paper-10-1016-j-jmp-2026-102994" name="rating-paper-10-1016-j-jmp-2026-102994" value="5"><label for="star5-paper-10-1016-j-jmp-2026-102994">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-jmp-2026-102994" name="rating-paper-10-1016-j-jmp-2026-102994" value="4"><label for="star4-paper-10-1016-j-jmp-2026-102994">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-jmp-2026-102994" name="rating-paper-10-1016-j-jmp-2026-102994" value="3"><label for="star3-paper-10-1016-j-jmp-2026-102994">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-jmp-2026-102994" name="rating-paper-10-1016-j-jmp-2026-102994" value="2"><label for="star2-paper-10-1016-j-jmp-2026-102994">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-jmp-2026-102994" name="rating-paper-10-1016-j-jmp-2026-102994" value="1"><label for="star1-paper-10-1016-j-jmp-2026-102994">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Broekaert, J., Hancock, T., Hafiz, F., Hess, S., Torre, D.</p>
+                  <p class='paper-summary'>The paper applies quantum-like probabilistic models to decision making, examining how beliefs morph or hop during deliberation and how this applies to multi-agent response influence. It uses quantum cognition as a formal framework for understanding judgment and choice processes.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.37</span><span><a href='https://doi.org/10.1016/j.jmp.2026.102994' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.jmp.2026.102994</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="journal-psychology-elife"></a><h3 class="journal-header" data-group="psychology-elife">eLife</h3>
+                <div id="paper-10-7554-elife-108002" class="paper-item paper" data-field="psychology" data-group="psychology-elife">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">11</span>Mood computational mechanisms underlying increased risk behavior in adolescent suicidal patients</h4>
+                    <div class="star-rating" data-paper-id="paper-10-7554-elife-108002">
+                      <input type="radio" id="star5-paper-10-7554-elife-108002" name="rating-paper-10-7554-elife-108002" value="5"><label for="star5-paper-10-7554-elife-108002">★</label>
+                      <input type="radio" id="star4-paper-10-7554-elife-108002" name="rating-paper-10-7554-elife-108002" value="4"><label for="star4-paper-10-7554-elife-108002">★</label>
+                      <input type="radio" id="star3-paper-10-7554-elife-108002" name="rating-paper-10-7554-elife-108002" value="3"><label for="star3-paper-10-7554-elife-108002">★</label>
+                      <input type="radio" id="star2-paper-10-7554-elife-108002" name="rating-paper-10-7554-elife-108002" value="2"><label for="star2-paper-10-7554-elife-108002">★</label>
+                      <input type="radio" id="star1-paper-10-7554-elife-108002" name="rating-paper-10-7554-elife-108002" value="1"><label for="star1-paper-10-7554-elife-108002">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Wang, Z., Nan, T., Lu, F., Yue, Y., Cai, X., He, Z., Luo, Y., Wang, T., Blain, B.</p>
+                  <p class='paper-summary'>This study uses prospect-theory-based computational modeling to identify cognitive and affective mechanisms underlying elevated risk-taking in adolescent suicidal patients, finding that an elevated approach parameter and reduced mood sensitivity to certain rewards drive greater gambling behavior in this clinical group.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.54</span><span><a href='https://doi.org/10.7554/elife.108002' target='_blank' rel='noopener noreferrer'>doi.org/10.7554/elife.108002</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Suicidal thoughts and behaviors (STB) are among the leading causes of death worldwide. Although previous research has consistently documented elevated risk-taking in individuals with STB and identified mood disturbances as central features of suicidality, the precise cognitive and affective computational mechanisms underlying this increased risky behavior remain poorly understood. Here, 83 adolescent inpatients with affective disorders—including 58 patients with STB (S + ) and 25 without STB (S − )—and 118 age- and sex-matched healthy controls (HC) completed a decision-making task involving choices between certain and gamble options, alongside momentary mood ratings. Behavioral analyses showed that S + exhibited greater risk-taking than both S − and HC. Computational modeling of choice behavior using a prospect-theory framework augmented with value-insensitive approach–avoidance parameters indicated that this increase in risky behavior was specifically driven by an elevated approach parameter in S + . In addition, mood-model analyses revealed reduced sensitivity to certain rewards in S + relative to S − and HC. Importantly, these computational signatures predicted suicidal symptom severity and showed generalizability in an independent general-population sample ( n = 747). In S + , lower mood sensitivity to certain rewards was associated with greater gambling, providing a computational affective account of increased risk-taking in STB. These findings remained robust after adjusting for demographic, clinical, and medication-related variables. Overall, our study identifies cognitive and affective computational mechanisms contributing to elevated risk-taking in STB and highlights their potential relevance for the early identification and prevention of suicidality.</div>
+                </div>
+                <a id="journal-psychology-nature-communications"></a><h3 class="journal-header" data-group="psychology-nature-communications">Nature Communications</h3>
+                <div id="paper-10-1038-s41467-026-76297-7" class="paper-item paper" data-field="psychology" data-group="psychology-nature-communications">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">12</span>Automatic value learning results in counterproductive human behavior</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1038-s41467-026-76297-7">
+                      <input type="radio" id="star5-paper-10-1038-s41467-026-76297-7" name="rating-paper-10-1038-s41467-026-76297-7" value="5"><label for="star5-paper-10-1038-s41467-026-76297-7">★</label>
+                      <input type="radio" id="star4-paper-10-1038-s41467-026-76297-7" name="rating-paper-10-1038-s41467-026-76297-7" value="4"><label for="star4-paper-10-1038-s41467-026-76297-7">★</label>
+                      <input type="radio" id="star3-paper-10-1038-s41467-026-76297-7" name="rating-paper-10-1038-s41467-026-76297-7" value="3"><label for="star3-paper-10-1038-s41467-026-76297-7">★</label>
+                      <input type="radio" id="star2-paper-10-1038-s41467-026-76297-7" name="rating-paper-10-1038-s41467-026-76297-7" value="2"><label for="star2-paper-10-1038-s41467-026-76297-7">★</label>
+                      <input type="radio" id="star1-paper-10-1038-s41467-026-76297-7" name="rating-paper-10-1038-s41467-026-76297-7" value="1"><label for="star1-paper-10-1038-s41467-026-76297-7">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Ben-Artzi, I., Pereg, M., Luria, R., Moran, R., Shahar, N.</p>
+                  <p class='paper-summary'>This paper demonstrates that value learning occurs automatically for irrelevant action features, leading to suboptimal choices even when participants explicitly know those features are non-predictive of reward; working memory capacity moderates this outcome-irrelevant learning effect.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.53</span><span><a href='https://doi.org/10.1038/s41467-026-76297-7' target='_blank' rel='noopener noreferrer'>doi.org/10.1038/s41467-026-76297-7</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract Humans are adept at accurately estimating the value of available choices from accumulated experience. However, cognitive processing also incorporates irrelevant information during deliberation, undermining decision accuracy. Here, we show that credit assignment operates automatically, allowing irrelevant action features to acquire value and impair choice behavior. Across four preregistered experiments ( N = 504, 158, 195, 319) and a re-analysis of previously published data ( N = 50), we examine outcome-irrelevant learning to spatial-motor and visual action features under conditions of explicit instruction and extensive training. In all cases, automatic value updating persists even when participants clearly understood which features were non-predictive of reward, and reliance on these irrelevant values led to suboptimal choices. Moreover, working memory capacity, known as a key regulatory resource, predicts the magnitude of this automatic outcome-irrelevant learning. Collectively, our results broaden the concept of automatic cognitive processing beyond the selective-attention literature to encompass reinforcement learning mechanisms.</div>
+                </div>
+                <a id="journal-psychology-plos-computational-biology"></a><h3 class="journal-header" data-group="psychology-plos-computational-biology">PLOS Computational Biology</h3>
+                <div id="paper-10-1371-journal-pcbi-1014585" class="paper-item paper" data-field="psychology" data-group="psychology-plos-computational-biology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">13</span>Decoding behavior with minimal and interpretable agent models</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1371-journal-pcbi-1014585">
+                      <input type="radio" id="star5-paper-10-1371-journal-pcbi-1014585" name="rating-paper-10-1371-journal-pcbi-1014585" value="5"><label for="star5-paper-10-1371-journal-pcbi-1014585">★</label>
+                      <input type="radio" id="star4-paper-10-1371-journal-pcbi-1014585" name="rating-paper-10-1371-journal-pcbi-1014585" value="4"><label for="star4-paper-10-1371-journal-pcbi-1014585">★</label>
+                      <input type="radio" id="star3-paper-10-1371-journal-pcbi-1014585" name="rating-paper-10-1371-journal-pcbi-1014585" value="3"><label for="star3-paper-10-1371-journal-pcbi-1014585">★</label>
+                      <input type="radio" id="star2-paper-10-1371-journal-pcbi-1014585" name="rating-paper-10-1371-journal-pcbi-1014585" value="2"><label for="star2-paper-10-1371-journal-pcbi-1014585">★</label>
+                      <input type="radio" id="star1-paper-10-1371-journal-pcbi-1014585" name="rating-paper-10-1371-journal-pcbi-1014585" value="1"><label for="star1-paper-10-1371-journal-pcbi-1014585">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Nicoletti, G., Celani, A.</p>
+                  <p class='paper-summary'>The paper introduces a method to infer interpretable agent models (recurrent discrete-state dynamics) from behavioral data alone, validated on synthetic agents and experimental data from rats doing evidence accumulation and mice deciding under uncertainty in changing environments. The approach aims to reveal the computational mechanisms underlying decision-making without prior knowledge of internal mechanisms.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.5</span><span><a href='https://doi.org/10.1371/journal.pcbi.1014585' target='_blank' rel='noopener noreferrer'>doi.org/10.1371/journal.pcbi.1014585</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Understanding how living organisms process sensory information from their surroundings and translate it into decisions is a fundamental problem across biological scales – from biochemical signalling in single-cells to neural computations in animal brains. In this work, we address this challenge by introducing a method to reconstruct general decision processes directly from behavioral observations alone. Our approach is applicable to any biological agent and does not require prior knowledge of its internal mechanisms or its environment. Our agent model is defined by a recurrent dynamics over a discrete set of internal states which encode and process sensory information, and dictate which actions to execute. We validate our method on synthetic agents and demonstrate that we can exactly recover the agent’s behavior for non-trivial tasks. Then, we infer agent models from experimental data of rats performing evidence accumulation and of mice making decisions under uncertainty and in changing environments. In both cases, very few internal states suffice to reproduce the observed behavior with high accuracy. Crucially, the immediate interpretability of the inferred dynamics allows to understand the computational process underlying decision-making.</div>
+                </div>
+                <a id="journal-psychology-memory-cognition"></a><h3 class="journal-header" data-group="psychology-memory-cognition">Memory &amp; Cognition</h3>
+                <div id="paper-10-3758-s13421-026-01929-8" class="paper-item paper" data-field="psychology" data-group="psychology-memory-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">14</span>Quantifying the effects of prospective memory and ongoing task difficulty on capacity sharing and cognitive control</h4>
+                    <div class="star-rating" data-paper-id="paper-10-3758-s13421-026-01929-8">
+                      <input type="radio" id="star5-paper-10-3758-s13421-026-01929-8" name="rating-paper-10-3758-s13421-026-01929-8" value="5"><label for="star5-paper-10-3758-s13421-026-01929-8">★</label>
+                      <input type="radio" id="star4-paper-10-3758-s13421-026-01929-8" name="rating-paper-10-3758-s13421-026-01929-8" value="4"><label for="star4-paper-10-3758-s13421-026-01929-8">★</label>
+                      <input type="radio" id="star3-paper-10-3758-s13421-026-01929-8" name="rating-paper-10-3758-s13421-026-01929-8" value="3"><label for="star3-paper-10-3758-s13421-026-01929-8">★</label>
+                      <input type="radio" id="star2-paper-10-3758-s13421-026-01929-8" name="rating-paper-10-3758-s13421-026-01929-8" value="2"><label for="star2-paper-10-3758-s13421-026-01929-8">★</label>
+                      <input type="radio" id="star1-paper-10-3758-s13421-026-01929-8" name="rating-paper-10-3758-s13421-026-01929-8" value="1"><label for="star1-paper-10-3758-s13421-026-01929-8">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Boag, R., Strickland, L., Heathcote, A., Loft, S.</p>
+                  <p class='paper-summary'>This study uses a cognitive process model (PMDC) applied to an air-traffic control task to quantify how people allocate limited cognitive capacity and adjust decision thresholds when managing prospective memory alongside ongoing task demands of varying difficulty. It finds distinct roles for capacity sharing and cognitive control in adapting to dual-task complexity.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.46</span><span><a href='https://doi.org/10.3758/s13421-026-01929-8' target='_blank' rel='noopener noreferrer'>doi.org/10.3758/s13421-026-01929-8</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract This study examines how individuals adapt to varying levels of prospective memory (PM) and ongoing-task difficulty in a cognitively demanding task environment. PM – the ability to remember and execute delayed intentions while engaged in other tasks – depends on flexible allocation of limited-capacity cognitive resources and strategic cognitive control. Prior research has rarely manipulated both PM and ongoing-task difficulty within the same study, has typically used relatively undemanding tasks that unlikely exceed human capacity to manage them, and has often relied on aggregate performance measures that cannot disentangle capacity sharing from cognitive control. To address these limitations, we orthogonally manipulated PM and ongoing-task difficulty within subjects using a demanding air-traffic control task and applied Prospective Memory Decision Control – a cognitive process model that jointly quantifies individuals’ capacity allocation and cognitive control strategies. As PM difficulty increased, participants reallocated cognitive capacity from the ongoing task to the PM task and adopted a cognitive control strategy that favoured PM: raising decision thresholds for ongoing responses and lowering them for PM responses. By contrast, increased ongoing-task difficulty impaired information processing quality for both tasks (i.e., reduced signal-to-noise ratio) and led participants to lower PM thresholds without changing thresholds for the ongoing task. These findings provide model-based evidence consistent with distinct contributions of capacity sharing and cognitive control within the PMDC framework and illustrate the value of formal modelling in a demanding PM setting. Key Points • Successful prospective memory (PM) requires an ability to concurrently manage PM and ongoing task demands. • We present and test a cognitive model that explains how individuals use selective attention (capacity) and cognitive control to adapt to changes in PM and ongoing-task difficulty in a demanding air traffic control task paradigm. • Individuals adapt to increased PM difficulty by reallocating (sharing) cognitive capacity from the ongoing task to the PM task, and by adopting a decision-control strategy favourable to PM responding. • Increased ongoing-task difficulty reduced the quality (signal-to-noise ratio) of information processing for both tasks (i.e., reduced/shared capacity). • Successful adaptation to PM and ongoing-task difficulty can rely upon capacity sharing and the strategic use of cognitive countermeasures.</div>
+                </div>
+                <a id="field-neuroscience"></a><h2 class="field-header" data-field="neuroscience" style="color:#3d3a78"><span class="rn">III</span><span class="ft">Neuroscience</span><span class="fc">2 papers</span></h2><a id="journal-neuroscience-nature-communications"></a><h3 class="journal-header" data-group="neuroscience-nature-communications">Nature Communications</h3>
+                <div id="paper-10-1038-s41467-026-76593-2" class="paper-item paper" data-field="neuroscience" data-group="neuroscience-nature-communications">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">15</span>Complementary and opponent value signals in the human brain support choosing the best and avoiding the worst</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1038-s41467-026-76593-2">
+                      <input type="radio" id="star5-paper-10-1038-s41467-026-76593-2" name="rating-paper-10-1038-s41467-026-76593-2" value="5"><label for="star5-paper-10-1038-s41467-026-76593-2">★</label>
+                      <input type="radio" id="star4-paper-10-1038-s41467-026-76593-2" name="rating-paper-10-1038-s41467-026-76593-2" value="4"><label for="star4-paper-10-1038-s41467-026-76593-2">★</label>
+                      <input type="radio" id="star3-paper-10-1038-s41467-026-76593-2" name="rating-paper-10-1038-s41467-026-76593-2" value="3"><label for="star3-paper-10-1038-s41467-026-76593-2">★</label>
+                      <input type="radio" id="star2-paper-10-1038-s41467-026-76593-2" name="rating-paper-10-1038-s41467-026-76593-2" value="2"><label for="star2-paper-10-1038-s41467-026-76593-2">★</label>
+                      <input type="radio" id="star1-paper-10-1038-s41467-026-76593-2" name="rating-paper-10-1038-s41467-026-76593-2" value="1"><label for="star1-paper-10-1038-s41467-026-76593-2">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Baratin, C., Lopez-Persem, A., Kahane, P., Minotti, L., Hammer, J., Marusič, P., Nica, A., Rheims, S., Maillard, L., Denuelle, M., Barbeau, E., Chanteloup-Forêt, B., Pessiglione, M., Becq, G., Bastin, J.</p>
+                  <p class='paper-summary'>Using intracranial recordings, the paper shows that vmPFC tracks pleasant item values and anterior insula tracks unpleasant item values during rating and choice, revealing complementary neural systems that guide value-based decisions across different contexts and frames.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.46</span><span><a href='https://doi.org/10.1038/s41467-026-76593-2' target='_blank' rel='noopener noreferrer'>doi.org/10.1038/s41467-026-76593-2</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Whether the brain encodes the subjective value of pleasant and unpleasant situations via a single integrated circuit or through distinct pathways remains unresolved. How such signals guide choice across contexts also remains unclear. To address these questions, we recorded intracerebral activity from participants who rated pleasant and unpleasant scenarios and then made binary choices across domains and frames. Ventromedial prefrontal cortex (vmPFC) broadband gamma activity (BGA, 50–150 Hz) tracked the value of pleasant items during rating and choice, correlating positively with the most pleasant item irrespective of choice frame. Similarly, anterior insula (aIns) BGA tracked the value of unpleasant items during rating and choice, correlating negatively with the most unpleasant item irrespective of choice frame. Relative value signals in the vmPFC and aIns diverged most strongly when item domain and choice frame conflicted. These findings reveal complementary neural systems for pleasant and unpleasant valuation and their role in value-based choices. Intracranial recordings reveal complementary and opponent value signals in ventromedial prefrontal cortex and anterior insula that encode pleasant and unpleasant value and guide human choice.</div>
+                </div>
+                <a id="journal-neuroscience-journal-of-economic-behavior-organization"></a><h3 class="journal-header" data-group="neuroscience-journal-of-economic-behavior-organization">Journal of Economic Behavior &amp; Organization</h3>
+                <div id="paper-10-1016-j-jebo-2026-107671" class="paper-item paper" data-field="neuroscience" data-group="neuroscience-journal-of-economic-behavior-organization">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">16</span>The affective cost of spending: neuroeconomic and experimental evidence on the pain of paying</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-jebo-2026-107671">
+                      <input type="radio" id="star5-paper-10-1016-j-jebo-2026-107671" name="rating-paper-10-1016-j-jebo-2026-107671" value="5"><label for="star5-paper-10-1016-j-jebo-2026-107671">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-jebo-2026-107671" name="rating-paper-10-1016-j-jebo-2026-107671" value="4"><label for="star4-paper-10-1016-j-jebo-2026-107671">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-jebo-2026-107671" name="rating-paper-10-1016-j-jebo-2026-107671" value="3"><label for="star3-paper-10-1016-j-jebo-2026-107671">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-jebo-2026-107671" name="rating-paper-10-1016-j-jebo-2026-107671" value="2"><label for="star2-paper-10-1016-j-jebo-2026-107671">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-jebo-2026-107671" name="rating-paper-10-1016-j-jebo-2026-107671" value="1"><label for="star1-paper-10-1016-j-jebo-2026-107671">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Robitaille, N., Plassmann, H., Mazar, N., Lindner, A.</p>
+                  <p class='paper-summary'>This paper uses fMRI and a reverse-placebo paradigm to show that spending money activates affective (but not somatosensory) pain circuits in the brain, and that manipulating perceived affective pain causally influences willingness to pay, providing neural and behavioral evidence for the &#39;pain of paying&#39; construct in consumer decision making.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.43</span><span><a href='https://doi.org/10.1016/j.jebo.2026.107671' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.jebo.2026.107671</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>The metaphor of &quot;pain of paying&quot; has shaped behavioral economics for decades, yet direct evidence that spending money elicits literal pain remains elusive. Building on Camerer et al.&#39;s (2005) neuroeconomic framework, we present converging evidence from two studies demonstrating that payment decisions activate affective pain-processing circuits. In a correlational pilot study, we use fMRI during incentive-compatible purchase decisions to show that activity in the anterior insula—a key region in affective pain processing—correlates parametrically with price magnitude. Critically, we find that paying with money activates affective but not somatosensory pain networks in the brain, whereas paying with electric shocks activates both. In the main study, we establish causality through a novel reverse-placebo paradigm in which participants believed they had taken pain-modulating drugs. Only affective pain enhancing placebos influenced valuation: participants given affective pain “enhancers” exhibited higher willingness to pay than those given affective “relievers,” though neither condition differed significantly from the untreated control. These findings provide the first causal evidence that the pain of paying constitutes a genuine affective experience that shapes economic valuation. We discuss implications for models of consumer choice, mental accounting, and behavioral policy interventions aimed at improving financial decision-making.</div>
+                </div>
+                
+      </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+      <script>
+        let isFilterActive = false;
+
+        // Only show admin controls and allow editing if running locally (file://)
+        if (window.location.protocol === 'file:') {
+          document.getElementById('admin-ui').style.display = 'block';
+        } else {
+          // Disable all radio buttons if not local
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.disabled = true;
+          });
+          // Add a style to make the stars non-interactive
+          const style = document.createElement('style');
+          style.innerHTML = '.star-rating { pointer-events: none; }';
+          document.head.appendChild(style);
+        }
+
+        function toggleTopPicks() {
+          isFilterActive = !isFilterActive;
+          const btn = document.getElementById('filter-btn');
+          const papers = document.querySelectorAll('.paper-item');
+          const journalHeaders = document.querySelectorAll('.journal-header');
+          const fieldHeaders = document.querySelectorAll('.field-header');
+
+          if (isFilterActive) {
+            btn.style.background = '#0b4a6f';
+            btn.style.color = '#ffffff';
+            btn.style.borderColor = '#0b4a6f';
+            btn.innerHTML = '★ Showing top picks (4★+)';
+
+            // Show/hide papers by rating.
+            papers.forEach(paper => {
+              const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+              paper.style.display = parseInt(rating) >= 4 ? 'block' : 'none';
+            });
+
+            // Hide journal sub-headers whose papers are all filtered out.
+            journalHeaders.forEach(header => {
+              const group = header.getAttribute('data-group');
+              const groupPapers = document.querySelectorAll(`.paper-item[data-group="${group}"]`);
+              const anyVisible = Array.from(groupPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+
+            // Hide field headers whose whole section is filtered out.
+            fieldHeaders.forEach(header => {
+              const field = header.getAttribute('data-field');
+              const fieldPapers = document.querySelectorAll(`.paper-item[data-field="${field}"]`);
+              const anyVisible = Array.from(fieldPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+          } else {
+            btn.style.background = 'transparent';
+            btn.style.color = '#4c525a';
+            btn.style.borderColor = '#cfc8b9';
+            btn.innerHTML = '★ Show top picks (4★+)';
+
+            papers.forEach(p => p.style.display = 'block');
+            journalHeaders.forEach(h => h.style.display = 'block');
+            fieldHeaders.forEach(h => h.style.display = 'block');
+          }
+        }
+
+        function savePage() {
+          // Reset filter before saving so all papers are visible in the source
+          if (isFilterActive) toggleTopPicks();
+
+          // Remove the Save button and admin UI from the saved HTML
+          const adminUI = document.getElementById('admin-ui');
+          adminUI.style.display = 'none';
+          
+          // Update the checked attribute of radio buttons based on their current state
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            if (radio.checked) {
+              radio.setAttribute('checked', 'checked');
+            } else {
+              radio.removeAttribute('checked');
+            }
+          });
+
+          const htmlContent = document.documentElement.outerHTML;
+          const blob = new Blob([htmlContent], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = window.location.pathname.split('/').pop() || 'digest.html';
+          a.click();
+          
+          // Show admin UI again
+          adminUI.style.display = 'block';
+        }
+      </script>
+    </body>
+    </html>
+    
