@@ -1,0 +1,403 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+      <link rel="stylesheet" href="../assets/site.css">
+      <style>
+        :root {
+          --paper:#fffdf9; --page:#efece5; --ink:#23272c; --ink-soft:#4c525a;
+          --muted:#8b9099; --rule:#e7e2d7; --rule-strong:#cfc8b9; --accent:#0b4a6f;
+        }
+        html, body { margin:0; }
+        body {
+          background:var(--page); color:var(--ink);
+          font-family:'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+          font-size:17px; line-height:1.6;
+          -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+          padding:28px 18px 90px;
+        }
+        .sans { font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif; }
+        .sheet {
+          max-width:800px; margin:0 auto; background:var(--paper);
+          padding:60px 68px 76px;
+          border:1px solid var(--rule);
+          box-shadow:0 1px 2px rgba(20,20,30,.04), 0 24px 60px rgba(30,30,45,.07);
+        }
+
+        /* ---- Masthead ---- */
+        .masthead { text-align:center; border-bottom:3px double var(--rule-strong); padding-bottom:24px; }
+        .masthead .eyebrow {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 12px;
+        }
+        .masthead h1 { margin:0; font-size:42px; font-weight:700; letter-spacing:.005em; line-height:1.08; color:#1a1d21; }
+        .masthead .meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; letter-spacing:.03em; color:var(--ink-soft); margin:14px 0 0;
+        }
+        .masthead .meta .dot { color:var(--rule-strong); margin:0 9px; }
+
+        /* ---- Toolbar ---- */
+        .toolbar { display:flex; justify-content:center; margin:18px 0 0; }
+        #filter-btn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          background:transparent; border:1px solid var(--rule-strong); color:var(--ink-soft);
+          padding:7px 15px; border-radius:2px; font-size:12px; letter-spacing:.05em;
+          cursor:pointer; transition:all .18s ease;
+        }
+        #filter-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+        /* ---- Contents (table of contents) ---- */
+        .contents { margin:34px 0 6px; }
+        .contents-title {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 20px;
+        }
+        .toc-field { margin:0 0 18px; }
+        .toc-fname { font-size:18px; font-weight:600; text-decoration:none; }
+        .toc-fname:hover { text-decoration:underline; }
+        .toc-fcount {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; color:var(--muted); margin-left:8px;
+        }
+        .toc-list { list-style:none; margin:7px 0 0; padding:0; }
+        .toc-row { display:flex; align-items:baseline; padding:2px 0; font-size:15.5px; }
+        .toc-row a { color:var(--ink-soft); text-decoration:none; white-space:nowrap; }
+        .toc-row a:hover { color:var(--accent); }
+        .toc-lead { flex:1; border-bottom:1px dotted var(--rule-strong); margin:0 9px; position:relative; top:-4px; }
+        .toc-row .n {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12.5px; color:var(--muted);
+        }
+
+        /* ---- Field section ---- */
+        .field-header {
+          display:flex; align-items:baseline; gap:15px;
+          margin:64px 0 6px; padding-bottom:10px; border-bottom:2px solid currentColor;
+        }
+        .field-header .rn { font-size:20px; font-weight:600; opacity:.5; }
+        .field-header .ft { font-size:31px; font-weight:700; letter-spacing:.005em; }
+        .field-header .fc {
+          margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.06em; opacity:.6; align-self:center;
+        }
+
+        /* ---- Journal sub-header ---- */
+        .journal-header {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; font-weight:600; letter-spacing:.19em; text-transform:uppercase;
+          color:var(--muted); margin:34px 0 2px;
+        }
+
+        /* ---- Paper entry ---- */
+        .paper { padding:22px 0 24px; border-bottom:1px solid var(--rule); }
+        .paper-head { display:flex; justify-content:space-between; align-items:flex-start; gap:22px; }
+        .paper-title { margin:0; font-size:20px; line-height:1.34; font-weight:600; color:#1c1f23; flex:1; }
+        .paper-title .pn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; font-weight:600; color:var(--muted); margin-right:9px;
+        }
+        .paper-authors { margin:8px 0 0; font-style:italic; font-size:15.5px; color:var(--ink-soft); }
+        .paper-summary { margin:11px 0 0; font-size:16px; line-height:1.58; color:var(--ink); }
+        .paper-meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.02em; color:var(--muted);
+          margin:12px 0 0; display:flex; flex-wrap:wrap; gap:8px 18px;
+        }
+        .paper-meta a { color:var(--accent); text-decoration:none; }
+        .paper-meta a:hover { text-decoration:underline; }
+        .paper-abstract {
+          margin:14px 0 0; padding:1px 0 1px 20px; border-left:2px solid var(--rule-strong);
+          font-size:14.5px; line-height:1.66; color:var(--ink-soft);
+          text-align:justify; hyphens:auto;
+        }
+        .paper-abstract .lbl {
+          display:block; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 6px;
+        }
+
+        /* ---- Star rating ---- */
+        .star-rating { display:inline-flex; flex-direction:row-reverse; gap:3px; flex-shrink:0; }
+        .star-rating input { display:none; }
+        .star-rating label { font-size:17px; color:#ded8ca; cursor:pointer; transition:color .1s; }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label { color:#c19a35; }
+
+        /* ---- Admin ---- */
+        .admin-controls { position:fixed; top:20px; right:20px; z-index:1000; display:none; }
+        .save-btn {
+          background:var(--accent); color:#fff; border:none; padding:10px 20px;
+          border-radius:4px; cursor:pointer; font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,.15);
+        }
+
+        @media print { .admin-controls, .star-rating, .toolbar { display:none !important; }
+          body { background:#fff; padding:0; } .sheet { box-shadow:none; border:none; } }
+        @media (max-width:640px) {
+          .sheet { padding:34px 22px 46px; }
+          .masthead h1 { font-size:31px; }
+          .field-header .ft { font-size:25px; }
+          .field-header .fc { display:none; }
+          .paper-head { flex-direction:column; gap:10px; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="admin-controls" id="admin-ui">
+        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
+      </div>
+      <a id="top"></a>
+      <div class="sheet">
+        <header class="masthead">
+          <p class="eyebrow">Maohua Nie · Research Digest</p>
+          <h1>Bi-weekly Research Digest</h1>
+          <p class="meta">16 Aug 2026 – 31 Aug 2026<span class="dot">◆</span>8 papers across 3 fields</p>
+        </header>
+
+        <div class="toolbar">
+          <button id="filter-btn" onclick="toggleTopPicks()">★ Show top picks (4★+)</button>
+        </div>
+
+        <nav class="contents">
+          <p class="contents-title">Contents</p>
+    <div class="toc-field"><a class="toc-fname" href="#field-economics" style="color:#1c5d54">I. Economics</a><span class="toc-fcount">3</span><ul class="toc-list"><li class="toc-row"><a href="#journal-economics-management-science">Management Science</a><span class="toc-lead"></span><span class="n">2</span></li><li class="toc-row"><a href="#journal-economics-journal-of-political-economy">Journal of Political Economy</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-psychology" style="color:#8a2b3a">II. Psychology</a><span class="toc-fcount">3</span><ul class="toc-list"><li class="toc-row"><a href="#journal-psychology-psychonomic-bulletin-review">Psychonomic Bulletin &amp; Review</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-plos-computational-biology">PLOS Computational Biology</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-nature-human-behaviour">Nature Human Behaviour</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-neuroscience" style="color:#3d3a78">III. Neuroscience</a><span class="toc-fcount">2</span><ul class="toc-list"><li class="toc-row"><a href="#journal-neuroscience-elife">eLife</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-neuroscience-pnas">PNAS</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div></nav><a id="field-economics"></a><h2 class="field-header" data-field="economics" style="color:#1c5d54"><span class="rn">I</span><span class="ft">Economics</span><span class="fc">3 papers</span></h2><a id="journal-economics-management-science"></a><h3 class="journal-header" data-group="economics-management-science">Management Science</h3>
+                <div id="paper-10-1287-mnsc-2025-00669" class="paper-item paper" data-field="economics" data-group="economics-management-science">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">1</span>An Analysis of Heritability in Preferences Using Behavioral Models of Decision Making</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2025-00669">
+                      <input type="radio" id="star5-paper-10-1287-mnsc-2025-00669" name="rating-paper-10-1287-mnsc-2025-00669" value="5"><label for="star5-paper-10-1287-mnsc-2025-00669">★</label>
+                      <input type="radio" id="star4-paper-10-1287-mnsc-2025-00669" name="rating-paper-10-1287-mnsc-2025-00669" value="4"><label for="star4-paper-10-1287-mnsc-2025-00669">★</label>
+                      <input type="radio" id="star3-paper-10-1287-mnsc-2025-00669" name="rating-paper-10-1287-mnsc-2025-00669" value="3"><label for="star3-paper-10-1287-mnsc-2025-00669">★</label>
+                      <input type="radio" id="star2-paper-10-1287-mnsc-2025-00669" name="rating-paper-10-1287-mnsc-2025-00669" value="2"><label for="star2-paper-10-1287-mnsc-2025-00669">★</label>
+                      <input type="radio" id="star1-paper-10-1287-mnsc-2025-00669" name="rating-paper-10-1287-mnsc-2025-00669" value="1"><label for="star1-paper-10-1287-mnsc-2025-00669">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Kettlewell, N., Tymula, A., Yoo, H.</p>
+                  <p class='paper-summary'>This paper uses a large-scale twin study combined with structural econometric models to estimate the heritability of latent risk, uncertainty, and time preference parameters, finding stronger genetic influences than previously reported and showing that proxy measures overstate environmental factors.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.57</span><span><a href='https://doi.org/10.1287/mnsc.2025.00669' target='_blank' rel='noopener noreferrer'>doi.org/10.1287/mnsc.2025.00669</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>We investigate the heritability of risk, uncertainty, and time preferences using a large-scale field experiment with adult twins, complemented by a comprehensive meta-analysis of prior studies. Our research introduces a novel empirical approach that integrates behavioral genetics with structural econometrics, enabling us to directly quantify the heritability of latent preference parameters in behavioral models of decision making, without relying on observed proxies. Our incentive-compatible experiment is the first to simultaneously elicit all three types of preferences within the same individuals in a twin study. Our findings reveal a stronger genetic influence on risk and uncertainty preferences than previously reported. We demonstrate that conventional proxy measures for preferences and simplified structural models tend to overstate the influence of unique environmental factors. These results help contextualize preference heterogeneity as a driver of persistent differences in decision making across individuals, leaders, and organizations. This paper was accepted by Aurélien Baillon, behavioral economics and decision analysis. Funding: Support from the University of Technology Sydney and from the Australian Government through the Australian Research Council’s Centre of Excellence for Children and Families over the Life Course [Project IDs CE140100027 and CE200100025] is gratefully acknowledged. This research was facilitated through access to Twins Research Australia, a national resource supported by the National Health &amp;amp; Medical Research Council since 1981, administered by the University of Melbourne. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2025.00669 .</div>
+                </div>
+                
+                <div id="paper-10-1287-mnsc-2023-00913" class="paper-item paper" data-field="economics" data-group="economics-management-science">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">2</span>Why Context Influences Preferences Elicited with Willingness to Pay Less Than Preferences Elicited with Choice</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2023-00913">
+                      <input type="radio" id="star5-paper-10-1287-mnsc-2023-00913" name="rating-paper-10-1287-mnsc-2023-00913" value="5"><label for="star5-paper-10-1287-mnsc-2023-00913">★</label>
+                      <input type="radio" id="star4-paper-10-1287-mnsc-2023-00913" name="rating-paper-10-1287-mnsc-2023-00913" value="4"><label for="star4-paper-10-1287-mnsc-2023-00913">★</label>
+                      <input type="radio" id="star3-paper-10-1287-mnsc-2023-00913" name="rating-paper-10-1287-mnsc-2023-00913" value="3"><label for="star3-paper-10-1287-mnsc-2023-00913">★</label>
+                      <input type="radio" id="star2-paper-10-1287-mnsc-2023-00913" name="rating-paper-10-1287-mnsc-2023-00913" value="2"><label for="star2-paper-10-1287-mnsc-2023-00913">★</label>
+                      <input type="radio" id="star1-paper-10-1287-mnsc-2023-00913" name="rating-paper-10-1287-mnsc-2023-00913" value="1"><label for="star1-paper-10-1287-mnsc-2023-00913">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Lee, C., Mazar, N., Morewedge, C.</p>
+                  <p class='paper-summary'>This paper investigates why context effects (framing, attraction, intertemporal tradeoffs) are weaker when preferences are elicited via willingness-to-pay/accept versus choice, arguing that monetary elicitations trigger comparisons to external market standards that dampen local context influences. Across 22 studies with various goods including lotteries, the authors find systematic support for this boundary condition on preference construction.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.52</span><span><a href='https://doi.org/10.1287/mnsc.2023.00913' target='_blank' rel='noopener noreferrer'>doi.org/10.1287/mnsc.2023.00913</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Normative theories assume that people have stable preferences across logically equivalent decision contexts. Preference reversals, cases where preferred options vary across decision contexts, violate this assumption and suggest that preferences are constructed during the decision-making process. We contribute to this literature by identifying a boundary condition for these context effects. We theorize that monetary preference elicitations, such as willingness to pay (WTP) and willingness to accept (WTA), evoke comparisons to external out-of-context standards, such as the market price of similar goods. These out-of-context comparisons should weaken the influence of the local context. Our theory predicts that context effects will be weaker for (1) monetary versus nonmonetary preference elicitations (e.g., WTP/WTA versus choice) and when (2) options differ on attributes highly correlated with market prices of similar goods and services. Across 22 studies, we find support for these predictions using three canonical decision context effects (intertemporal tradeoffs, framing effects, and attraction effects), incentive-compatible and stated preferences, and different response formats (binary, continuous, and mixed). Preferences for a wide range of goods and services—including baked goods, apartments, and lotteries—exhibit these patterns. Our theory explains substantial variance in context effects and offers testable predictions for when context effects will arise in research and practice. This paper was accepted by George Wu, behavioral economics and decision analysis. Funding: This work was supported by Connaught Fund. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2023.00913 .</div>
+                </div>
+                <a id="journal-economics-journal-of-political-economy"></a><h3 class="journal-header" data-group="economics-journal-of-political-economy">Journal of Political Economy</h3>
+                <div id="paper-10-1086-743896" class="paper-item paper" data-field="economics" data-group="economics-journal-of-political-economy">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">3</span>Connecting Common Ratio and Common Consequence Preferences</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1086-743896">
+                      <input type="radio" id="star5-paper-10-1086-743896" name="rating-paper-10-1086-743896" value="5"><label for="star5-paper-10-1086-743896">★</label>
+                      <input type="radio" id="star4-paper-10-1086-743896" name="rating-paper-10-1086-743896" value="4"><label for="star4-paper-10-1086-743896">★</label>
+                      <input type="radio" id="star3-paper-10-1086-743896" name="rating-paper-10-1086-743896" value="3"><label for="star3-paper-10-1086-743896">★</label>
+                      <input type="radio" id="star2-paper-10-1086-743896" name="rating-paper-10-1086-743896" value="2"><label for="star2-paper-10-1086-743896">★</label>
+                      <input type="radio" id="star1-paper-10-1086-743896" name="rating-paper-10-1086-743896" value="1"><label for="star1-paper-10-1086-743896">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">McGranaghan, C., Nielsen, K., O&#39;Donoghue, T., Somerville, J., Sprenger, C.</p>
+                  <p class='paper-summary'>The paper explores the relationship between common ratio and common consequence preference patterns, two foundational phenomena that violate expected utility theory and illuminate how people weight probabilities and outcomes in risky choices.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.39</span><span><a href='https://doi.org/10.1086/743896' target='_blank' rel='noopener noreferrer'>doi.org/10.1086/743896</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="field-psychology"></a><h2 class="field-header" data-field="psychology" style="color:#8a2b3a"><span class="rn">II</span><span class="ft">Psychology</span><span class="fc">3 papers</span></h2><a id="journal-psychology-psychonomic-bulletin-review"></a><h3 class="journal-header" data-group="psychology-psychonomic-bulletin-review">Psychonomic Bulletin &amp; Review</h3>
+                <div id="paper-10-3758-s13423-026-02992-7" class="paper-item paper" data-field="psychology" data-group="psychology-psychonomic-bulletin-review">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">4</span>Dissociating the relationship between time perception and decisions to delay gratification</h4>
+                    <div class="star-rating" data-paper-id="paper-10-3758-s13423-026-02992-7">
+                      <input type="radio" id="star5-paper-10-3758-s13423-026-02992-7" name="rating-paper-10-3758-s13423-026-02992-7" value="5"><label for="star5-paper-10-3758-s13423-026-02992-7">★</label>
+                      <input type="radio" id="star4-paper-10-3758-s13423-026-02992-7" name="rating-paper-10-3758-s13423-026-02992-7" value="4"><label for="star4-paper-10-3758-s13423-026-02992-7">★</label>
+                      <input type="radio" id="star3-paper-10-3758-s13423-026-02992-7" name="rating-paper-10-3758-s13423-026-02992-7" value="3"><label for="star3-paper-10-3758-s13423-026-02992-7">★</label>
+                      <input type="radio" id="star2-paper-10-3758-s13423-026-02992-7" name="rating-paper-10-3758-s13423-026-02992-7" value="2"><label for="star2-paper-10-3758-s13423-026-02992-7">★</label>
+                      <input type="radio" id="star1-paper-10-3758-s13423-026-02992-7" name="rating-paper-10-3758-s13423-026-02992-7" value="1"><label for="star1-paper-10-3758-s13423-026-02992-7">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">George, I., Moll, M., Read, R., Stealey, H., Elston, T.</p>
+                  <p class='paper-summary'>This study tests whether individual differences in time perception explain differences in delay discounting across 226 participants, finding no such relationship and concluding that time perception and temporal decision-making reflect dissociable cognitive processes with standard discounting measures showing limited ecological validity.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.51</span><span><a href='https://doi.org/10.3758/s13423-026-02992-7' target='_blank' rel='noopener noreferrer'>doi.org/10.3758/s13423-026-02992-7</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract The ability to forgo an immediate reward in favor of a larger, later one is central to healthy decision-making–—yet some people struggle to delay gratification. A prominent theory proposes that people with faster internal clocks experience delays as subjectively longer and more costly, leading them to discount future rewards more steeply. Here, we test this theory’s central prediction by asking whether individual differences in time perception can explain individual differences in temporal decision-making. We recruited 226 participants to complete tasks measuring time perception and delay sensitivity across experiential and hypothetical decisions. We found no relationship between time perception and temporal decision-making. We also found that survey and task-based measures of temporal discounting are unrelated and that neither measure predicts real-world timing-related behaviors. Our findings indicate that time perception and temporal decision-making derive from dissociable cognitive processes and that standard laboratory measures of discounting have limited ecological validity. We suggest that foraging paradigms, which embed time–reward trade-offs in naturalistic behavioral contexts offer a promising path toward more ecologically valid and mechanistically tractable approaches to understanding how the brain trades off time and reward during decision-making.</div>
+                </div>
+                <a id="journal-psychology-plos-computational-biology"></a><h3 class="journal-header" data-group="psychology-plos-computational-biology">PLOS Computational Biology</h3>
+                <div id="paper-10-1371-journal-pcbi-1014667" class="paper-item paper" data-field="psychology" data-group="psychology-plos-computational-biology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">5</span>The perils of omitting omissions when modeling evidence accumulation</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1371-journal-pcbi-1014667">
+                      <input type="radio" id="star5-paper-10-1371-journal-pcbi-1014667" name="rating-paper-10-1371-journal-pcbi-1014667" value="5"><label for="star5-paper-10-1371-journal-pcbi-1014667">★</label>
+                      <input type="radio" id="star4-paper-10-1371-journal-pcbi-1014667" name="rating-paper-10-1371-journal-pcbi-1014667" value="4"><label for="star4-paper-10-1371-journal-pcbi-1014667">★</label>
+                      <input type="radio" id="star3-paper-10-1371-journal-pcbi-1014667" name="rating-paper-10-1371-journal-pcbi-1014667" value="3"><label for="star3-paper-10-1371-journal-pcbi-1014667">★</label>
+                      <input type="radio" id="star2-paper-10-1371-journal-pcbi-1014667" name="rating-paper-10-1371-journal-pcbi-1014667" value="2"><label for="star2-paper-10-1371-journal-pcbi-1014667">★</label>
+                      <input type="radio" id="star1-paper-10-1371-journal-pcbi-1014667" name="rating-paper-10-1371-journal-pcbi-1014667" value="1"><label for="star1-paper-10-1371-journal-pcbi-1014667">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Leng, X., Fengler, A., Shenhav, A., Frank, M.</p>
+                  <p class='paper-summary'>This paper demonstrates that omitting no-response trials (omissions) from sequential sampling model analyses causes biased parameter estimates, and proposes likelihood-free inference methods to jointly model observed responses and omissions for improved inference. The work has direct implications for the reliability of computational models of choice and response-time behavior.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.49</span><span><a href='https://doi.org/10.1371/journal.pcbi.1014667' target='_blank' rel='noopener noreferrer'>doi.org/10.1371/journal.pcbi.1014667</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Response deadlines are commonly imposed in decision-making research to incentivize speedy decisions and sustained attention. This procedure frequently leads to a proportion of trials in which no response is made, and these omissions are often simply removed from the data during analysis. Here we show that this seemingly trivial assumption is in fact quite consequential for parameter estimation. We propose that omissions should instead be treated as observations to inform inference of the underlying generative process that led to their occurrence. Using new tools from likelihood-free inference applicable to a broad class of sequential sampling models (SSMs), we enable fast computation of omission probability without explicit integration, and clarify the degree to which omitting omissions – even in seemingly benign settings – can lead researchers astray. We explore this phenomenon in the setting of SSMs with constant and time-varying boundaries, and show that parameter recovery is improved by incorporating a model of omission probability. We show that the benefits of modeling omission probability are distinct from benefits gained from past approaches of modeling attentional lapses to account for these omissions. Our findings shine a light on the consequences of omitting omission in modeling choice behavior with SSMs, and demonstrate how joint modeling of observed and omitted data can improve parameter inference and therefore the reliability of downstream scientific conclusions.</div>
+                </div>
+                <a id="journal-psychology-nature-human-behaviour"></a><h3 class="journal-header" data-group="psychology-nature-human-behaviour">Nature Human Behaviour</h3>
+                <div id="paper-10-1038-s41562-026-02544-y" class="paper-item paper" data-field="psychology" data-group="psychology-nature-human-behaviour">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">6</span>Trial-by-trial fluctuations in decision criterion shape confidence</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1038-s41562-026-02544-y">
+                      <input type="radio" id="star5-paper-10-1038-s41562-026-02544-y" name="rating-paper-10-1038-s41562-026-02544-y" value="5"><label for="star5-paper-10-1038-s41562-026-02544-y">★</label>
+                      <input type="radio" id="star4-paper-10-1038-s41562-026-02544-y" name="rating-paper-10-1038-s41562-026-02544-y" value="4"><label for="star4-paper-10-1038-s41562-026-02544-y">★</label>
+                      <input type="radio" id="star3-paper-10-1038-s41562-026-02544-y" name="rating-paper-10-1038-s41562-026-02544-y" value="3"><label for="star3-paper-10-1038-s41562-026-02544-y">★</label>
+                      <input type="radio" id="star2-paper-10-1038-s41562-026-02544-y" name="rating-paper-10-1038-s41562-026-02544-y" value="2"><label for="star2-paper-10-1038-s41562-026-02544-y">★</label>
+                      <input type="radio" id="star1-paper-10-1038-s41562-026-02544-y" name="rating-paper-10-1038-s41562-026-02544-y" value="1"><label for="star1-paper-10-1038-s41562-026-02544-y">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Vloeberghs, R., Navarrete Orejudo, L., Urai, A., Desender, K.</p>
+                  <p class='paper-summary'>The paper investigates how fluctuations in decision criteria across trials influence confidence judgments, likely using computational or formal modeling approaches relevant to evidence accumulation and metacognition in decision making.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.46</span><span><a href='https://doi.org/10.1038/s41562-026-02544-y' target='_blank' rel='noopener noreferrer'>doi.org/10.1038/s41562-026-02544-y</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="field-neuroscience"></a><h2 class="field-header" data-field="neuroscience" style="color:#3d3a78"><span class="rn">III</span><span class="ft">Neuroscience</span><span class="fc">2 papers</span></h2><a id="journal-neuroscience-elife"></a><h3 class="journal-header" data-group="neuroscience-elife">eLife</h3>
+                <div id="paper-10-7554-elife-103846" class="paper-item paper" data-field="neuroscience" data-group="neuroscience-elife">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">7</span>Overt visual attention modulates decision-related signals in the frontal cortex</h4>
+                    <div class="star-rating" data-paper-id="paper-10-7554-elife-103846">
+                      <input type="radio" id="star5-paper-10-7554-elife-103846" name="rating-paper-10-7554-elife-103846" value="5"><label for="star5-paper-10-7554-elife-103846">★</label>
+                      <input type="radio" id="star4-paper-10-7554-elife-103846" name="rating-paper-10-7554-elife-103846" value="4"><label for="star4-paper-10-7554-elife-103846">★</label>
+                      <input type="radio" id="star3-paper-10-7554-elife-103846" name="rating-paper-10-7554-elife-103846" value="3"><label for="star3-paper-10-7554-elife-103846">★</label>
+                      <input type="radio" id="star2-paper-10-7554-elife-103846" name="rating-paper-10-7554-elife-103846" value="2"><label for="star2-paper-10-7554-elife-103846">★</label>
+                      <input type="radio" id="star1-paper-10-7554-elife-103846" name="rating-paper-10-7554-elife-103846" value="1"><label for="star1-paper-10-7554-elife-103846">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Shevlin, B., Gwinn, R., Makwana, A., Krajbich, I.</p>
+                  <p class='paper-summary'>Using simultaneous eye-tracking and fMRI during food-lottery decisions, the authors show that gaze amplifies accumulated-value signals in pre-SMA and dlPFC, providing neural evidence that visual attention shapes decision variables in a gaze-weighted evidence accumulation framework.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.56</span><span><a href='https://doi.org/10.7554/elife.103846' target='_blank' rel='noopener noreferrer'>doi.org/10.7554/elife.103846</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>When indicating a preference between two options, decision makers are thought to compare and accumulate evidence in an attention-guided process. Little is known about this process’s neural substrates or how visual attention affects the representations of accumulated evidence. We conducted a simultaneous eye-tracking and fMRI experiment in which human subjects gradually learnt about the value of two food-lotteries. With this design, we were able to extend decisions over a prolonged time-course, manipulate the temporal onset of evidence, and therefore, dissociate sampled and accumulated evidence. We observed inconsistent correlations of both sampled and accumulated evidence with activity in the ventromedial prefrontal cortex (vmPFC), the ventral striatum, and the intraparietal sulcus (IPS), and more consistent correlations of accumulated evidence with activity in the dorsolateral prefrontal cortex (dlPFC) and pre-supplementary motor area (pre-SMA). We also found that more gaze on an option increased its choice probability and that gaze consistently amplified accumulated-value signals above and beyond the non-gaze-modulated signals in the pre-SMA and partially in the dlPFC, providing novel evidence that visual attention has lasting effects on decision variables and suggesting that activity in the pre-SMA and dlPFC reflects gaze-weighted accumulated evidence. These results shed new light on the neural mechanisms underlying gaze-driven decision processes.</div>
+                </div>
+                <a id="journal-neuroscience-pnas"></a><h3 class="journal-header" data-group="neuroscience-pnas">PNAS</h3>
+                <div id="paper-10-1073-pnas-2532908123" class="paper-item paper" data-field="neuroscience" data-group="neuroscience-pnas">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">8</span>Interactive representations of power and status signals in learning social hierarchies</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1073-pnas-2532908123">
+                      <input type="radio" id="star5-paper-10-1073-pnas-2532908123" name="rating-paper-10-1073-pnas-2532908123" value="5"><label for="star5-paper-10-1073-pnas-2532908123">★</label>
+                      <input type="radio" id="star4-paper-10-1073-pnas-2532908123" name="rating-paper-10-1073-pnas-2532908123" value="4"><label for="star4-paper-10-1073-pnas-2532908123">★</label>
+                      <input type="radio" id="star3-paper-10-1073-pnas-2532908123" name="rating-paper-10-1073-pnas-2532908123" value="3"><label for="star3-paper-10-1073-pnas-2532908123">★</label>
+                      <input type="radio" id="star2-paper-10-1073-pnas-2532908123" name="rating-paper-10-1073-pnas-2532908123" value="2"><label for="star2-paper-10-1073-pnas-2532908123">★</label>
+                      <input type="radio" id="star1-paper-10-1073-pnas-2532908123" name="rating-paper-10-1073-pnas-2532908123" value="1"><label for="star1-paper-10-1073-pnas-2532908123">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Feng, C., Liu, F., Yang, B., Derrington, E., Luo, Y., Qu, C., Dreher, J.</p>
+                  <p class='paper-summary'>Using fMRI and computational modeling, the paper investigates how individuals learn others&#39; status and power from social feedback and how these signals shape advice-taking and response biases in a risky choice task, finding partially separable neural representations in mPFC and amygdala.</p>
+                  <p class="paper-meta"><span>2026-08</span><span>Relevance 0.52</span><span><a href='https://doi.org/10.1073/pnas.2532908123' target='_blank' rel='noopener noreferrer'>doi.org/10.1073/pnas.2532908123</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Social hierarchies, which organize our social relationships, have heterogeneous effects on choice behavior. Two central dimensions of social hierarchies, status, which is earned through recognition of competence, and power, which is the capacity to control the outcomes of others, may contribute to different behavioral profiles. Yet, the neurocomputational processes by which status- and power-related signals are learned based on social feedback, and influence subsequent decision-making, remain unclear. Here, we combine functional neuroimaging with computational modeling to examine how individuals acquire knowledge about others’ status and power, and how these learned hierarchy signals shape social influence on advice-taking during a risky choice task. We found that the medial prefrontal cortex covaried with status estimates, whereas the amygdala covaried with power estimates. Moreover, estimates in one dimension influenced choices in the other during learning. This indicates interactions between status and power signals, with retrosplenial cortex activity associated with hierarchy signals beyond immediate choice demands. Finally, status broadly modulated response biases toward both safe and risky advice, whereas power primarily increased bias toward safe advice. These findings characterize how experimentally instantiated status and power signals are learned and influence risky decision-making, indicating partially separable yet interactive representations of these hierarchy signals.</div>
+                </div>
+                
+      </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+      <script>
+        let isFilterActive = false;
+
+        // Only show admin controls and allow editing if running locally (file://)
+        if (window.location.protocol === 'file:') {
+          document.getElementById('admin-ui').style.display = 'block';
+        } else {
+          // Disable all radio buttons if not local
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.disabled = true;
+          });
+          // Add a style to make the stars non-interactive
+          const style = document.createElement('style');
+          style.innerHTML = '.star-rating { pointer-events: none; }';
+          document.head.appendChild(style);
+        }
+
+        function toggleTopPicks() {
+          isFilterActive = !isFilterActive;
+          const btn = document.getElementById('filter-btn');
+          const papers = document.querySelectorAll('.paper-item');
+          const journalHeaders = document.querySelectorAll('.journal-header');
+          const fieldHeaders = document.querySelectorAll('.field-header');
+
+          if (isFilterActive) {
+            btn.style.background = '#0b4a6f';
+            btn.style.color = '#ffffff';
+            btn.style.borderColor = '#0b4a6f';
+            btn.innerHTML = '★ Showing top picks (4★+)';
+
+            // Show/hide papers by rating.
+            papers.forEach(paper => {
+              const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+              paper.style.display = parseInt(rating) >= 4 ? 'block' : 'none';
+            });
+
+            // Hide journal sub-headers whose papers are all filtered out.
+            journalHeaders.forEach(header => {
+              const group = header.getAttribute('data-group');
+              const groupPapers = document.querySelectorAll(`.paper-item[data-group="${group}"]`);
+              const anyVisible = Array.from(groupPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+
+            // Hide field headers whose whole section is filtered out.
+            fieldHeaders.forEach(header => {
+              const field = header.getAttribute('data-field');
+              const fieldPapers = document.querySelectorAll(`.paper-item[data-field="${field}"]`);
+              const anyVisible = Array.from(fieldPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+          } else {
+            btn.style.background = 'transparent';
+            btn.style.color = '#4c525a';
+            btn.style.borderColor = '#cfc8b9';
+            btn.innerHTML = '★ Show top picks (4★+)';
+
+            papers.forEach(p => p.style.display = 'block');
+            journalHeaders.forEach(h => h.style.display = 'block');
+            fieldHeaders.forEach(h => h.style.display = 'block');
+          }
+        }
+
+        function savePage() {
+          // Reset filter before saving so all papers are visible in the source
+          if (isFilterActive) toggleTopPicks();
+
+          // Remove the Save button and admin UI from the saved HTML
+          const adminUI = document.getElementById('admin-ui');
+          adminUI.style.display = 'none';
+          
+          // Update the checked attribute of radio buttons based on their current state
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            if (radio.checked) {
+              radio.setAttribute('checked', 'checked');
+            } else {
+              radio.removeAttribute('checked');
+            }
+          });
+
+          const htmlContent = document.documentElement.outerHTML;
+          const blob = new Blob([htmlContent], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = window.location.pathname.split('/').pop() || 'digest.html';
+          a.click();
+          
+          // Show admin UI again
+          adminUI.style.display = 'block';
+        }
+      </script>
+    </body>
+    </html>
+    
