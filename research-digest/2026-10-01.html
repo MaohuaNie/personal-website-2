@@ -1,0 +1,420 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+      <link rel="stylesheet" href="../assets/site.css">
+      <style>
+        :root {
+          --paper:#fffdf9; --page:#efece5; --ink:#23272c; --ink-soft:#4c525a;
+          --muted:#8b9099; --rule:#e7e2d7; --rule-strong:#cfc8b9; --accent:#0b4a6f;
+        }
+        html, body { margin:0; }
+        body {
+          background:var(--page); color:var(--ink);
+          font-family:'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+          font-size:17px; line-height:1.6;
+          -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+          padding:28px 18px 90px;
+        }
+        .sans { font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif; }
+        .sheet {
+          max-width:800px; margin:0 auto; background:var(--paper);
+          padding:60px 68px 76px;
+          border:1px solid var(--rule);
+          box-shadow:0 1px 2px rgba(20,20,30,.04), 0 24px 60px rgba(30,30,45,.07);
+        }
+
+        /* ---- Masthead ---- */
+        .masthead { text-align:center; border-bottom:3px double var(--rule-strong); padding-bottom:24px; }
+        .masthead .eyebrow {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 12px;
+        }
+        .masthead h1 { margin:0; font-size:42px; font-weight:700; letter-spacing:.005em; line-height:1.08; color:#1a1d21; }
+        .masthead .meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; letter-spacing:.03em; color:var(--ink-soft); margin:14px 0 0;
+        }
+        .masthead .meta .dot { color:var(--rule-strong); margin:0 9px; }
+
+        /* ---- Toolbar ---- */
+        .toolbar { display:flex; justify-content:center; margin:18px 0 0; }
+        #filter-btn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          background:transparent; border:1px solid var(--rule-strong); color:var(--ink-soft);
+          padding:7px 15px; border-radius:2px; font-size:12px; letter-spacing:.05em;
+          cursor:pointer; transition:all .18s ease;
+        }
+        #filter-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+        /* ---- Contents (table of contents) ---- */
+        .contents { margin:34px 0 6px; }
+        .contents-title {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 20px;
+        }
+        .toc-field { margin:0 0 18px; }
+        .toc-fname { font-size:18px; font-weight:600; text-decoration:none; }
+        .toc-fname:hover { text-decoration:underline; }
+        .toc-fcount {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; color:var(--muted); margin-left:8px;
+        }
+        .toc-list { list-style:none; margin:7px 0 0; padding:0; }
+        .toc-row { display:flex; align-items:baseline; padding:2px 0; font-size:15.5px; }
+        .toc-row a { color:var(--ink-soft); text-decoration:none; white-space:nowrap; }
+        .toc-row a:hover { color:var(--accent); }
+        .toc-lead { flex:1; border-bottom:1px dotted var(--rule-strong); margin:0 9px; position:relative; top:-4px; }
+        .toc-row .n {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12.5px; color:var(--muted);
+        }
+
+        /* ---- Field section ---- */
+        .field-header {
+          display:flex; align-items:baseline; gap:15px;
+          margin:64px 0 6px; padding-bottom:10px; border-bottom:2px solid currentColor;
+        }
+        .field-header .rn { font-size:20px; font-weight:600; opacity:.5; }
+        .field-header .ft { font-size:31px; font-weight:700; letter-spacing:.005em; }
+        .field-header .fc {
+          margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.06em; opacity:.6; align-self:center;
+        }
+
+        /* ---- Journal sub-header ---- */
+        .journal-header {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; font-weight:600; letter-spacing:.19em; text-transform:uppercase;
+          color:var(--muted); margin:34px 0 2px;
+        }
+
+        /* ---- Paper entry ---- */
+        .paper { padding:22px 0 24px; border-bottom:1px solid var(--rule); }
+        .paper-head { display:flex; justify-content:space-between; align-items:flex-start; gap:22px; }
+        .paper-title { margin:0; font-size:20px; line-height:1.34; font-weight:600; color:#1c1f23; flex:1; }
+        .paper-title .pn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; font-weight:600; color:var(--muted); margin-right:9px;
+        }
+        .paper-authors { margin:8px 0 0; font-style:italic; font-size:15.5px; color:var(--ink-soft); }
+        .paper-summary { margin:11px 0 0; font-size:16px; line-height:1.58; color:var(--ink); }
+        .paper-meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.02em; color:var(--muted);
+          margin:12px 0 0; display:flex; flex-wrap:wrap; gap:8px 18px;
+        }
+        .paper-meta a { color:var(--accent); text-decoration:none; }
+        .paper-meta a:hover { text-decoration:underline; }
+        .paper-abstract {
+          margin:14px 0 0; padding:1px 0 1px 20px; border-left:2px solid var(--rule-strong);
+          font-size:14.5px; line-height:1.66; color:var(--ink-soft);
+          text-align:justify; hyphens:auto;
+        }
+        .paper-abstract .lbl {
+          display:block; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 6px;
+        }
+
+        /* ---- Star rating ---- */
+        .star-rating { display:inline-flex; flex-direction:row-reverse; gap:3px; flex-shrink:0; }
+        .star-rating input { display:none; }
+        .star-rating label { font-size:17px; color:#ded8ca; cursor:pointer; transition:color .1s; }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label { color:#c19a35; }
+
+        /* ---- Admin ---- */
+        .admin-controls { position:fixed; top:20px; right:20px; z-index:1000; display:none; }
+        .save-btn {
+          background:var(--accent); color:#fff; border:none; padding:10px 20px;
+          border-radius:4px; cursor:pointer; font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,.15);
+        }
+
+        @media print { .admin-controls, .star-rating, .toolbar { display:none !important; }
+          body { background:#fff; padding:0; } .sheet { box-shadow:none; border:none; } }
+        @media (max-width:640px) {
+          .sheet { padding:34px 22px 46px; }
+          .masthead h1 { font-size:31px; }
+          .field-header .ft { font-size:25px; }
+          .field-header .fc { display:none; }
+          .paper-head { flex-direction:column; gap:10px; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="admin-controls" id="admin-ui">
+        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
+      </div>
+      <a id="top"></a>
+      <div class="sheet">
+        <header class="masthead">
+          <p class="eyebrow">Maohua Nie · Research Digest</p>
+          <h1>Bi-weekly Research Digest</h1>
+          <p class="meta">16 Sep 2026 – 30 Sep 2026<span class="dot">◆</span>9 papers across 2 fields</p>
+        </header>
+
+        <div class="toolbar">
+          <button id="filter-btn" onclick="toggleTopPicks()">★ Show top picks (4★+)</button>
+        </div>
+
+        <nav class="contents">
+          <p class="contents-title">Contents</p>
+    <div class="toc-field"><a class="toc-fname" href="#field-economics" style="color:#1c5d54">I. Economics</a><span class="toc-fcount">2</span><ul class="toc-list"><li class="toc-row"><a href="#journal-economics-experimental-economics">Experimental Economics</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-economics-management-science">Management Science</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-psychology" style="color:#8a2b3a">II. Psychology</a><span class="toc-fcount">7</span><ul class="toc-list"><li class="toc-row"><a href="#journal-psychology-plos-computational-biology">PLOS Computational Biology</a><span class="toc-lead"></span><span class="n">3</span></li><li class="toc-row"><a href="#journal-psychology-pnas">PNAS</a><span class="toc-lead"></span><span class="n">2</span></li><li class="toc-row"><a href="#journal-psychology-journal-of-behavioral-decision-making">Journal of Behavioral Decision Making</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-nature-communications">Nature Communications</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div></nav><a id="field-economics"></a><h2 class="field-header" data-field="economics" style="color:#1c5d54"><span class="rn">I</span><span class="ft">Economics</span><span class="fc">2 papers</span></h2><a id="journal-economics-experimental-economics"></a><h3 class="journal-header" data-group="economics-experimental-economics">Experimental Economics</h3>
+                <div id="paper-10-1017-eec-2026-10057" class="paper-item paper" data-field="economics" data-group="economics-experimental-economics">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">1</span>Recovering subjective probability distributions: a Bayesian approach</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1017-eec-2026-10057">
+                      <input type="radio" id="star5-paper-10-1017-eec-2026-10057" name="rating-paper-10-1017-eec-2026-10057" value="5"><label for="star5-paper-10-1017-eec-2026-10057">★</label>
+                      <input type="radio" id="star4-paper-10-1017-eec-2026-10057" name="rating-paper-10-1017-eec-2026-10057" value="4"><label for="star4-paper-10-1017-eec-2026-10057">★</label>
+                      <input type="radio" id="star3-paper-10-1017-eec-2026-10057" name="rating-paper-10-1017-eec-2026-10057" value="3"><label for="star3-paper-10-1017-eec-2026-10057">★</label>
+                      <input type="radio" id="star2-paper-10-1017-eec-2026-10057" name="rating-paper-10-1017-eec-2026-10057" value="2"><label for="star2-paper-10-1017-eec-2026-10057">★</label>
+                      <input type="radio" id="star1-paper-10-1017-eec-2026-10057" name="rating-paper-10-1017-eec-2026-10057" value="1"><label for="star1-paper-10-1017-eec-2026-10057">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Harrison, G., Monroe, B., Ulm, E.</p>
+                  <p class='paper-summary'>This paper develops a Bayesian econometric method to recover latent subjective probability distributions from proper scoring rule reports, accounting for probability distortions under Rank Dependent Utility theory and Expected Utility Theory. It demonstrates how individual-level belief distributions can be identified even when decision makers distort probabilities into decision weights.</p>
+                  <p class="paper-meta"><span>2026-09</span><span>Relevance 0.48</span><span><a href='https://doi.org/10.1017/eec.2026.10057' target='_blank' rel='noopener noreferrer'>doi.org/10.1017/eec.2026.10057</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract An individual reports subjective beliefs over continuous events using a proper scoring rule, such as the Quadratic Scoring Rule. Under mild additional assumptions, it is known that these reports reflect latent subjective beliefs if the individual is risk neutral. We demonstrate how to fully recover latent subjective beliefs if the individual is known to distort probabilities into decision weights using Rank Dependent Utility theory, and generalize all results for the complete class of proper scoring rules. As an immediate corollary, we can then exactly recover latent subjective beliefs using Expected Utility Theory. Using Bayesian econometric methods, we demonstrate how to recover belief distributions for individuals, and illustrate these results by recovering belief distributions about the “competitiveness” of individuals and the addictiveness of smoking. These results significantly widen the domain of applicability of proper scoring rules for eliciting latent subjective belief distributions.</div>
+                </div>
+                <a id="journal-economics-management-science"></a><h3 class="journal-header" data-group="economics-management-science">Management Science</h3>
+                <div id="paper-10-1287-mnsc-2024-08449" class="paper-item paper" data-field="economics" data-group="economics-management-science">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">2</span>Beyond Value: On the Role of Symmetry in Demand for Information</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2024-08449">
+                      <input type="radio" id="star5-paper-10-1287-mnsc-2024-08449" name="rating-paper-10-1287-mnsc-2024-08449" value="5"><label for="star5-paper-10-1287-mnsc-2024-08449">★</label>
+                      <input type="radio" id="star4-paper-10-1287-mnsc-2024-08449" name="rating-paper-10-1287-mnsc-2024-08449" value="4"><label for="star4-paper-10-1287-mnsc-2024-08449">★</label>
+                      <input type="radio" id="star3-paper-10-1287-mnsc-2024-08449" name="rating-paper-10-1287-mnsc-2024-08449" value="3"><label for="star3-paper-10-1287-mnsc-2024-08449">★</label>
+                      <input type="radio" id="star2-paper-10-1287-mnsc-2024-08449" name="rating-paper-10-1287-mnsc-2024-08449" value="2"><label for="star2-paper-10-1287-mnsc-2024-08449">★</label>
+                      <input type="radio" id="star1-paper-10-1287-mnsc-2024-08449" name="rating-paper-10-1287-mnsc-2024-08449" value="1"><label for="star1-paper-10-1287-mnsc-2024-08449">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Llorente-Saguer, A., Oliveros, S., Zultan, R.</p>
+                  <p class='paper-summary'>This experimental study investigates how people choose between symmetric and asymmetric information sources, finding a systematic bias toward symmetric sources that persists even among higher-ability individuals and is not explained by subjective beliefs. It contributes to understanding how people evaluate and select information under uncertainty beyond purely instrumental motives.</p>
+                  <p class="paper-meta"><span>2026-09</span><span>Relevance 0.44</span><span><a href='https://doi.org/10.1287/mnsc.2024.08449' target='_blank' rel='noopener noreferrer'>doi.org/10.1287/mnsc.2024.08449</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>We study demand for symmetric and asymmetric information sources in the laboratory. Although participants respond to incentives and instrumental considerations, they exhibit a systematic bias towards symmetric sources. These patterns persist among individuals with higher cognitive abilities and better task comprehension, and they are not accounted for by their elicited subjective beliefs. This paper was accepted by Dorothea Kübler, behavioural economics and decision analysis. Funding: This project was supported by a British Academy/Leverhulme Small Research [Grant SG171679]. R. Z. acknowledges support from the Israel Science Foundation [Grant 524/24]. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2024.08449 .</div>
+                </div>
+                <a id="field-psychology"></a><h2 class="field-header" data-field="psychology" style="color:#8a2b3a"><span class="rn">II</span><span class="ft">Psychology</span><span class="fc">7 papers</span></h2><a id="journal-psychology-plos-computational-biology"></a><h3 class="journal-header" data-group="psychology-plos-computational-biology">PLOS Computational Biology</h3>
+                <div id="paper-10-1371-journal-pcbi-1014793" class="paper-item paper" data-field="psychology" data-group="psychology-plos-computational-biology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">3</span>Context-dependent feature modulation shapes human decision policies in approach–avoidance conflicts</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1371-journal-pcbi-1014793">
+                      <input type="radio" id="star5-paper-10-1371-journal-pcbi-1014793" name="rating-paper-10-1371-journal-pcbi-1014793" value="5"><label for="star5-paper-10-1371-journal-pcbi-1014793">★</label>
+                      <input type="radio" id="star4-paper-10-1371-journal-pcbi-1014793" name="rating-paper-10-1371-journal-pcbi-1014793" value="4"><label for="star4-paper-10-1371-journal-pcbi-1014793">★</label>
+                      <input type="radio" id="star3-paper-10-1371-journal-pcbi-1014793" name="rating-paper-10-1371-journal-pcbi-1014793" value="3"><label for="star3-paper-10-1371-journal-pcbi-1014793">★</label>
+                      <input type="radio" id="star2-paper-10-1371-journal-pcbi-1014793" name="rating-paper-10-1371-journal-pcbi-1014793" value="2"><label for="star2-paper-10-1371-journal-pcbi-1014793">★</label>
+                      <input type="radio" id="star1-paper-10-1371-journal-pcbi-1014793" name="rating-paper-10-1371-journal-pcbi-1014793" value="1"><label for="star1-paper-10-1371-journal-pcbi-1014793">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Golowin, S., Duncan, N., Shaikh, F., Korn, C.</p>
+                  <p class='paper-summary'>Participants made sequential binary choices involving trade-offs between probabilistic rewards and predation threats; hierarchical Bayesian models revealed that avoidance contexts reduced reliance on reward probability and increased alignment with optimal (MDP-derived) value signals, suggesting context-dependent reweighting of decision features rather than discrete strategy shifts.</p>
+                  <p class="paper-meta"><span>2026-09</span><span>Relevance 0.65</span><span><a href='https://doi.org/10.1371/journal.pcbi.1014793' target='_blank' rel='noopener noreferrer'>doi.org/10.1371/journal.pcbi.1014793</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Sequential decisions often involve trade-offs between immediate rewards and future risks, particularly in approach–avoidance contexts. While such behavior is commonly framed in terms of optimization principles, it remains unclear how decision processes adapt across contexts. We developed a sequential foraging task in which participants made binary choices under probabilistic reward and predation risk (threat). The design dissociated reward probability from threat and enabled formal comparison of decision-relevant features (e.g., reward and threat probabilities), a multi-feature policy, and a mathematically optimal policy derived from a fully observable Markov Decision Process. Crucially, the task included two implicitly signaled conditions – approach and avoidance – that differed in how reward and threat information jointly shaped the optimal policy. In both conditions, higher reward probabilities were associated with higher predation risk. However, the balance between these competing factors differed across environments, creating contexts in which the optimal policy either favored approaching or avoiding the higher-threat option. Behavior was analyzed using hierarchical Bayesian models capturing both individual decision features and optimal action values, as well as their modulation by task context. Avoidance contexts selectively altered the weighting of decision features, with reduced reliance on reward probability. In addition, choices showed evidence for increased alignment with optimal state–action values, even after accounting for heuristic features within a shared model. This indicates that behavior more strongly reflected the value structure of the environment under avoidance, consistent with enhanced integration of decision-relevant features. These findings suggest that adaptive behavior in sequential decision-making arises from context-dependent feature reweighting alongside increased alignment with integrated value signals. This provides a parsimonious account of how humans adjust decision-making under threat, without requiring assumptions about discrete strategy shifts.</div>
+                </div>
+                
+                <div id="paper-10-1371-journal-pcbi-1014796" class="paper-item paper" data-field="psychology" data-group="psychology-plos-computational-biology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">4</span>Modeling decision dynamics disentangles working memory, cognitive control and reinforcement learning and reveals clinical differences</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1371-journal-pcbi-1014796">
+                      <input type="radio" id="star5-paper-10-1371-journal-pcbi-1014796" name="rating-paper-10-1371-journal-pcbi-1014796" value="5"><label for="star5-paper-10-1371-journal-pcbi-1014796">★</label>
+                      <input type="radio" id="star4-paper-10-1371-journal-pcbi-1014796" name="rating-paper-10-1371-journal-pcbi-1014796" value="4"><label for="star4-paper-10-1371-journal-pcbi-1014796">★</label>
+                      <input type="radio" id="star3-paper-10-1371-journal-pcbi-1014796" name="rating-paper-10-1371-journal-pcbi-1014796" value="3"><label for="star3-paper-10-1371-journal-pcbi-1014796">★</label>
+                      <input type="radio" id="star2-paper-10-1371-journal-pcbi-1014796" name="rating-paper-10-1371-journal-pcbi-1014796" value="2"><label for="star2-paper-10-1371-journal-pcbi-1014796">★</label>
+                      <input type="radio" id="star1-paper-10-1371-journal-pcbi-1014796" name="rating-paper-10-1371-journal-pcbi-1014796" value="1"><label for="star1-paper-10-1371-journal-pcbi-1014796">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Bera, K., Fengler, A., Boudewyn, M., Carter, C., Erickson, M., Gold, J., Luck, S., Ragland, J., Yonelinas, A., MacDonald III, A., Barch, D., Frank, M.</p>
+                  <p class='paper-summary'>The paper develops a computational model that jointly fits choice and response-time data to separate working memory, cognitive control, and reinforcement learning contributions to decision making, improving parameter recovery and revealing clinical deficits in schizophrenia masked by choice-only models.</p>
+                  <p class="paper-meta"><span>2026-09</span><span>Relevance 0.61</span><span><a href='https://doi.org/10.1371/journal.pcbi.1014796' target='_blank' rel='noopener noreferrer'>doi.org/10.1371/journal.pcbi.1014796</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Various neurocognitive processes contribute to reinforcement learning (RL) and decision making, requiring careful task designs and computational modeling to disentangle them. People rely on capacity-limited working memory (WM) to rapidly and flexibly adapt behavior during learning, together with slower incremental RL processes that support robust long-term retention. The RLWM paradigm was developed to isolate these contributions by manipulating WM demands during learning. Empirical and computational advances support the separability of such processes, but only imperfectly, because a given choice can often equally be attributed to use of WM vs. RL. Here, we show that jointly modeling decision dynamics – accounting not only for choices but also response time distributions, together with hierarchical Bayesian parameter estimation – improves the ability to disentangle separable learning and cognitive control processes. Despite added complexity, models with decision dynamics improved parameter recovery and yielded accurate out-of-sample prediction for choices in a held-out test phase after learning. In contrast, models fit only to choices produced an inflation of RL learning rates and failed the out-of-sample test. Moreover, joint modeling also revealed a novel neurocognitive process by which participants proactively widen decision boundaries to increase response caution under increased WM load. Applying our model to patients with schizophrenia revealed a deficit in proactive control mechanisms as well as slowed incremental RL, which were masked by previous choice-only models, while replicating previously established WM deficits. In summary, we show how joint modeling enables accurate, model-based and mechanism-oriented computational phenotyping of psychopathologies.</div>
+                </div>
+                
+                <div id="paper-10-1371-journal-pcbi-1014723" class="paper-item paper" data-field="psychology" data-group="psychology-plos-computational-biology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">5</span>Deterministic dynamics of distributional multi-agent reinforcement learning</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1371-journal-pcbi-1014723">
+                      <input type="radio" id="star5-paper-10-1371-journal-pcbi-1014723" name="rating-paper-10-1371-journal-pcbi-1014723" value="5"><label for="star5-paper-10-1371-journal-pcbi-1014723">★</label>
+                      <input type="radio" id="star4-paper-10-1371-journal-pcbi-1014723" name="rating-paper-10-1371-journal-pcbi-1014723" value="4"><label for="star4-paper-10-1371-journal-pcbi-1014723">★</label>
+                      <input type="radio" id="star3-paper-10-1371-journal-pcbi-1014723" name="rating-paper-10-1371-journal-pcbi-1014723" value="3"><label for="star3-paper-10-1371-journal-pcbi-1014723">★</label>
+                      <input type="radio" id="star2-paper-10-1371-journal-pcbi-1014723" name="rating-paper-10-1371-journal-pcbi-1014723" value="2"><label for="star2-paper-10-1371-journal-pcbi-1014723">★</label>
+                      <input type="radio" id="star1-paper-10-1371-journal-pcbi-1014723" name="rating-paper-10-1371-journal-pcbi-1014723" value="1"><label for="star1-paper-10-1371-journal-pcbi-1014723">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Bergerot, C., Romanczuk, P., Barfuss, W.</p>
+                  <p class='paper-summary'>The paper derives deterministic dynamics of distributional multi-agent reinforcement learning to unify accounts of the optimism heuristic across bandit choice, social coordination, and risky choice, revealing how return discretization and temporal discounting interact to produce choice hysteresis and suboptimal stable strategies. It bridges neuroscience and psychology by linking neural distributional coding to observable individual choice patterns.</p>
+                  <p class="paper-meta"><span>2026-09</span><span>Relevance 0.56</span><span><a href='https://doi.org/10.1371/journal.pcbi.1014723' target='_blank' rel='noopener noreferrer'>doi.org/10.1371/journal.pcbi.1014723</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Understanding how cognition shapes behavior across contexts remains a fundamental challenge for many disciplines. In particular, for the optimism heuristic–i.e., the tendency to overweight positive (relative to negative) information–knowledge remains fragmented, with models developed in specific domains in isolation. Here, we present a unifying computational framework by deriving the deterministic dynamics of distributional multi-agent reinforcement learning. Our approach discretizes return distributions through a finite set of neurons, consistent with recent empirical findings on distributional coding in the brain. We validate our framework by reproducing established results across three iconic domains spanning individual bandit choice under resource variability, social coordination, and risky choice. Beyond validation, we uncover novel interactions among optimism, return discretization, and temporal discounting. Specifically, we identify conditions under which return discretization generates choice hysteresis and, in extreme parameter regimes, inescapable perseveration. We further reveal “individual dilemmas”: circumstances where agents gravitate toward suboptimal yet stable strategies, offering a mechanistic explanation for incoherent choice patterns. Our framework bridges neuroscience, psychology, and collective behavior, enabling empirically testable hypotheses about how cognitive biases propagate from individual cognition to social outcomes in complex environments.</div>
+                </div>
+                <a id="journal-psychology-pnas"></a><h3 class="journal-header" data-group="psychology-pnas">PNAS</h3>
+                <div id="paper-10-1073-pnas-2603674123" class="paper-item paper" data-field="psychology" data-group="psychology-pnas">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">6</span>Dynamic attribute activation explains gaze biases in choice</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1073-pnas-2603674123">
+                      <input type="radio" id="star5-paper-10-1073-pnas-2603674123" name="rating-paper-10-1073-pnas-2603674123" value="5"><label for="star5-paper-10-1073-pnas-2603674123">★</label>
+                      <input type="radio" id="star4-paper-10-1073-pnas-2603674123" name="rating-paper-10-1073-pnas-2603674123" value="4"><label for="star4-paper-10-1073-pnas-2603674123">★</label>
+                      <input type="radio" id="star3-paper-10-1073-pnas-2603674123" name="rating-paper-10-1073-pnas-2603674123" value="3"><label for="star3-paper-10-1073-pnas-2603674123">★</label>
+                      <input type="radio" id="star2-paper-10-1073-pnas-2603674123" name="rating-paper-10-1073-pnas-2603674123" value="2"><label for="star2-paper-10-1073-pnas-2603674123">★</label>
+                      <input type="radio" id="star1-paper-10-1073-pnas-2603674123" name="rating-paper-10-1073-pnas-2603674123" value="1"><label for="star1-paper-10-1073-pnas-2603674123">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Yang, X., Bhatia, S.</p>
+                  <p class='paper-summary'>The paper uses eye-tracking combined with think-aloud protocols to show that visual attention influences choice by activating attributes of the attended option, with the valence of activated attributes depending on contextual factors like desirability and goals. A computational model of gaze-driven attribute activation is proposed that generalizes existing attentional choice models and predicts which attributes come to mind during deliberation.</p>
+                  <p class="paper-meta"><span>2026-09</span><span>Relevance 0.55</span><span><a href='https://doi.org/10.1073/pnas.2603674123' target='_blank' rel='noopener noreferrer'>doi.org/10.1073/pnas.2603674123</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>People tend to choose the options they look at more. Prior work explains this effect by assuming that visual attention increases preference for the attended option. However, it remains unclear why looking at an option increases its preference and when this relationship is weakened. Using an experimental paradigm that combines eye-tracking and a think-aloud protocol, we provide evidence that visual attention shapes preference by activating attributes associated with the attended option. Critically, the content of these activated attributes depends on contextual factors such as stimulus desirability and behavioral goals. In standard choice settings, where the goal is to choose the preferred option, visual attention primarily activates positive attributes. In contrast, when these contextual factors are incongruent, activated attributes become less positive, reducing the influence of visual attention on choice. To account for these patterns, we propose a computational model of gaze-driven attribute activation. Our model subsumes existing theories as special cases, and uniquely predicts which attributes are brought to mind by gaze and how they shape downstream decisions. Together, our work offers a mechanistic explanation of a fundamental driver of choice as well as its boundary conditions.</div>
+                </div>
+                
+                <div id="paper-10-1073-pnas-2613113123" class="paper-item paper" data-field="psychology" data-group="psychology-pnas">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">7</span>Classifying strategy use in multiattribute subjective choice: Application to conjoint experiments in political science</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1073-pnas-2613113123">
+                      <input type="radio" id="star5-paper-10-1073-pnas-2613113123" name="rating-paper-10-1073-pnas-2613113123" value="5"><label for="star5-paper-10-1073-pnas-2613113123">★</label>
+                      <input type="radio" id="star4-paper-10-1073-pnas-2613113123" name="rating-paper-10-1073-pnas-2613113123" value="4"><label for="star4-paper-10-1073-pnas-2613113123">★</label>
+                      <input type="radio" id="star3-paper-10-1073-pnas-2613113123" name="rating-paper-10-1073-pnas-2613113123" value="3"><label for="star3-paper-10-1073-pnas-2613113123">★</label>
+                      <input type="radio" id="star2-paper-10-1073-pnas-2613113123" name="rating-paper-10-1073-pnas-2613113123" value="2"><label for="star2-paper-10-1073-pnas-2613113123">★</label>
+                      <input type="radio" id="star1-paper-10-1073-pnas-2613113123" name="rating-paper-10-1073-pnas-2613113123" value="1"><label for="star1-paper-10-1073-pnas-2613113123">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Banavar, N., Bansak, K.</p>
+                  <p class='paper-summary'>The authors develop a Bayesian cognitive model to classify individual-level decision strategies in conjoint (multiattribute) choice experiments, finding that simple heuristics dominate and that complexity manipulations shift strategy use across political domains.</p>
+                  <p class="paper-meta"><span>2026-09</span><span>Relevance 0.54</span><span><a href='https://doi.org/10.1073/pnas.2613113123' target='_blank' rel='noopener noreferrer'>doi.org/10.1073/pnas.2613113123</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Conjoint experiments are extensively used across multiple disciplines to make inferences about preferences over multiattribute alternatives. Much previous research has analyzed the importance of attributes at the aggregate level. Here, we focus on understanding individual-level behavior and, specifically, on strategy use. We present a Bayesian cognitive model of strategy use that performs attribute weight inference (how important an attribute is), attribute level inference (which value of the attribute is favored), and latent-mixture inference to classify strategy use among well-established strategies in cognitive science. We then validate and apply our model to two conjoint experiments ( N = 3,762) focusing on three political domains (attitudes toward immigrants, political candidates, and climate policy). We find that the simplest heuristic strategy is the highest probability in all conditions and that approximately 67–76% of subjects are classified as using different strategies depending on the political domain. Our model additionally highlights how aggregate-level inference on the weight of an attribute can be meaningfully decomposed by individual differences in strategy use and preferences over attributes. In addition, our experiments include a set of experimental design manipulations that increase different dimensions of complexity and show their impact on strategy classification.</div>
+                </div>
+                <a id="journal-psychology-journal-of-behavioral-decision-making"></a><h3 class="journal-header" data-group="psychology-journal-of-behavioral-decision-making">Journal of Behavioral Decision Making</h3>
+                <div id="paper-10-1002-bdm-70093" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-behavioral-decision-making">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">8</span>Selective Social Information Sampling as a Mechanism Contributing to Age Differences in Risk‐Taking Propensity</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1002-bdm-70093">
+                      <input type="radio" id="star5-paper-10-1002-bdm-70093" name="rating-paper-10-1002-bdm-70093" value="5"><label for="star5-paper-10-1002-bdm-70093">★</label>
+                      <input type="radio" id="star4-paper-10-1002-bdm-70093" name="rating-paper-10-1002-bdm-70093" value="4"><label for="star4-paper-10-1002-bdm-70093">★</label>
+                      <input type="radio" id="star3-paper-10-1002-bdm-70093" name="rating-paper-10-1002-bdm-70093" value="3"><label for="star3-paper-10-1002-bdm-70093">★</label>
+                      <input type="radio" id="star2-paper-10-1002-bdm-70093" name="rating-paper-10-1002-bdm-70093" value="2"><label for="star2-paper-10-1002-bdm-70093">★</label>
+                      <input type="radio" id="star1-paper-10-1002-bdm-70093" name="rating-paper-10-1002-bdm-70093" value="1"><label for="star1-paper-10-1002-bdm-70093">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Rolison, J., Danwitz, L., Kinner, J., Gorlo, J., Demir, M., von Helversen, B.</p>
+                  <p class='paper-summary'>This paper examines how selective sampling of social information from same-age others contributes to age-related differences in risk-taking propensity across financial and recreational domains. Three experiments show that preferential information seeking from similar-age recommenders exposes older and younger adults to different valence experiences, driving divergent risk attitudes.</p>
+                  <p class="paper-meta"><span>2026-09</span><span>Relevance 0.5</span><span><a href='https://doi.org/10.1002/bdm.70093' target='_blank' rel='noopener noreferrer'>doi.org/10.1002/bdm.70093</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>ABSTRACT A wealth of research indicates that the propensity to take risks declines with advancing age. Theoretical accounts of age‐related differences in risk‐taking propensity center on developmental changes, namely, age‐related changes in goal orientation and cognitive and biological functioning. The current research identifies a person&#39;s social environment as another factor in shaping risk‐taking propensity across the lifetime. In three experiments, we investigated how the social information people seek and receive from others about risky activities shapes their risk‐taking propensity. In a novel decision task, participants received descriptions of the experiences of others (i.e., recommenders) to inform their evaluations of risky activities (in the financial and recreational domains; e.g., a 1‐day stand‐up paddling trip). We manipulated the valence of descriptions provided by younger and older recommenders (e.g., “I felt safe” [positive] and “I did not enjoy it as I felt unsafe” [negative]). In Experiment 1, younger and older participants preferentially sought the experiences of others who were a similar age to themselves. These preferential tendencies led to age‐related differences in risk‐taking propensity due to exposure to the valence of descriptions of experiences provided by others. We also tested for differential weighting of social information according to recommender age in the recreational (Experiment 2a) and financial (Experiment 2b) domains. Of the two mechanisms examined, selective sampling of social information from same‐age others, rather than differential sensitivity to social information, received the strongest support as a mechanism of age‐related differences in risk‐taking propensity. However, where differential sensitivity to social information occurred within domains, it suggested that younger and older adults draw on age‐related stereotypes (e.g., related to physical abilities) to weigh the social information received from others. Together, our findings identify selective exposure to age‐relevant social information as a mechanism through which social influence can contribute to age differences in risk‐taking propensity.</div>
+                </div>
+                <a id="journal-psychology-nature-communications"></a><h3 class="journal-header" data-group="psychology-nature-communications">Nature Communications</h3>
+                <div id="paper-10-1038-s41467-026-78023-9" class="paper-item paper" data-field="psychology" data-group="psychology-nature-communications">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">9</span>Environmental stochasticity reduces human planning effort</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1038-s41467-026-78023-9">
+                      <input type="radio" id="star5-paper-10-1038-s41467-026-78023-9" name="rating-paper-10-1038-s41467-026-78023-9" value="5"><label for="star5-paper-10-1038-s41467-026-78023-9">★</label>
+                      <input type="radio" id="star4-paper-10-1038-s41467-026-78023-9" name="rating-paper-10-1038-s41467-026-78023-9" value="4"><label for="star4-paper-10-1038-s41467-026-78023-9">★</label>
+                      <input type="radio" id="star3-paper-10-1038-s41467-026-78023-9" name="rating-paper-10-1038-s41467-026-78023-9" value="3"><label for="star3-paper-10-1038-s41467-026-78023-9">★</label>
+                      <input type="radio" id="star2-paper-10-1038-s41467-026-78023-9" name="rating-paper-10-1038-s41467-026-78023-9" value="2"><label for="star2-paper-10-1038-s41467-026-78023-9">★</label>
+                      <input type="radio" id="star1-paper-10-1038-s41467-026-78023-9" name="rating-paper-10-1038-s41467-026-78023-9" value="1"><label for="star1-paper-10-1038-s41467-026-78023-9">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Lei, J., Olieslagers, J., Arfaei, N., Lin, D., Ma, W.</p>
+                  <p class='paper-summary'>This study examines how environmental stochasticity (reliability, volatility, controllability) affects human planning effort in a sequential decision task, finding that people reduce planning effort (indexed by response times) and adopt simpler determinizing strategies as stochasticity increases, explained through computational models of policy compression.</p>
+                  <p class="paper-meta"><span>2026-09</span><span>Relevance 0.49</span><span><a href='https://doi.org/10.1038/s41467-026-78023-9' target='_blank' rel='noopener noreferrer'>doi.org/10.1038/s41467-026-78023-9</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract The world is stochastic, making planning difficult. Despite the ubiquity of stochasticity in real-world environments, it remains an open question how people effectively balance the cognitive costs of planning against its potential benefits when faced with stochasticity. To study this, we designed a planning task where participants face one of three forms of stochasticity commonly encountered in the real world: reliability, volatility, and controllability. We find a robust pattern across all three manipulations: as stochasticity increases, people reduce their planning effort as measured by first-choice response times. To understand the processes underlying this effect, we developed several computational cognitive models to account for participants’ choices. We find that rather than calculating expected values optimally, people choose a simpler strategy, acting as if the world were deterministic, a phenomenon known as determinizing. Consistent with our response time findings, we find that people reduce their effort by decreasing their sensitivity to values with increasing stochasticity, a signature of policy compression. Our work highlights the often overlooked role of stochasticity in human planning and its impact on planning strategy and effort. Moreover, it reveals the limitations of studying stochasticity solely through single-shot decisions.</div>
+                </div>
+                
+      </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+      <script>
+        let isFilterActive = false;
+
+        // Only show admin controls and allow editing if running locally (file://)
+        if (window.location.protocol === 'file:') {
+          document.getElementById('admin-ui').style.display = 'block';
+        } else {
+          // Disable all radio buttons if not local
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.disabled = true;
+          });
+          // Add a style to make the stars non-interactive
+          const style = document.createElement('style');
+          style.innerHTML = '.star-rating { pointer-events: none; }';
+          document.head.appendChild(style);
+        }
+
+        function toggleTopPicks() {
+          isFilterActive = !isFilterActive;
+          const btn = document.getElementById('filter-btn');
+          const papers = document.querySelectorAll('.paper-item');
+          const journalHeaders = document.querySelectorAll('.journal-header');
+          const fieldHeaders = document.querySelectorAll('.field-header');
+
+          if (isFilterActive) {
+            btn.style.background = '#0b4a6f';
+            btn.style.color = '#ffffff';
+            btn.style.borderColor = '#0b4a6f';
+            btn.innerHTML = '★ Showing top picks (4★+)';
+
+            // Show/hide papers by rating.
+            papers.forEach(paper => {
+              const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+              paper.style.display = parseInt(rating) >= 4 ? 'block' : 'none';
+            });
+
+            // Hide journal sub-headers whose papers are all filtered out.
+            journalHeaders.forEach(header => {
+              const group = header.getAttribute('data-group');
+              const groupPapers = document.querySelectorAll(`.paper-item[data-group="${group}"]`);
+              const anyVisible = Array.from(groupPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+
+            // Hide field headers whose whole section is filtered out.
+            fieldHeaders.forEach(header => {
+              const field = header.getAttribute('data-field');
+              const fieldPapers = document.querySelectorAll(`.paper-item[data-field="${field}"]`);
+              const anyVisible = Array.from(fieldPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+          } else {
+            btn.style.background = 'transparent';
+            btn.style.color = '#4c525a';
+            btn.style.borderColor = '#cfc8b9';
+            btn.innerHTML = '★ Show top picks (4★+)';
+
+            papers.forEach(p => p.style.display = 'block');
+            journalHeaders.forEach(h => h.style.display = 'block');
+            fieldHeaders.forEach(h => h.style.display = 'block');
+          }
+        }
+
+        function savePage() {
+          // Reset filter before saving so all papers are visible in the source
+          if (isFilterActive) toggleTopPicks();
+
+          // Remove the Save button and admin UI from the saved HTML
+          const adminUI = document.getElementById('admin-ui');
+          adminUI.style.display = 'none';
+          
+          // Update the checked attribute of radio buttons based on their current state
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            if (radio.checked) {
+              radio.setAttribute('checked', 'checked');
+            } else {
+              radio.removeAttribute('checked');
+            }
+          });
+
+          const htmlContent = document.documentElement.outerHTML;
+          const blob = new Blob([htmlContent], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = window.location.pathname.split('/').pop() || 'digest.html';
+          a.click();
+          
+          // Show admin UI again
+          adminUI.style.display = 'block';
+        }
+      </script>
+    </body>
+    </html>
+    
