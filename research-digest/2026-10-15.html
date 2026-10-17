@@ -1,0 +1,505 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+      <link rel="stylesheet" href="../assets/site.css">
+      <style>
+        :root {
+          --paper:#fffdf9; --page:#efece5; --ink:#23272c; --ink-soft:#4c525a;
+          --muted:#8b9099; --rule:#e7e2d7; --rule-strong:#cfc8b9; --accent:#0b4a6f;
+        }
+        html, body { margin:0; }
+        body {
+          background:var(--page); color:var(--ink);
+          font-family:'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+          font-size:17px; line-height:1.6;
+          -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+          padding:28px 18px 90px;
+        }
+        .sans { font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif; }
+        .sheet {
+          max-width:800px; margin:0 auto; background:var(--paper);
+          padding:60px 68px 76px;
+          border:1px solid var(--rule);
+          box-shadow:0 1px 2px rgba(20,20,30,.04), 0 24px 60px rgba(30,30,45,.07);
+        }
+
+        /* ---- Masthead ---- */
+        .masthead { text-align:center; border-bottom:3px double var(--rule-strong); padding-bottom:24px; }
+        .masthead .eyebrow {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 12px;
+        }
+        .masthead h1 { margin:0; font-size:42px; font-weight:700; letter-spacing:.005em; line-height:1.08; color:#1a1d21; }
+        .masthead .meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; letter-spacing:.03em; color:var(--ink-soft); margin:14px 0 0;
+        }
+        .masthead .meta .dot { color:var(--rule-strong); margin:0 9px; }
+
+        /* ---- Toolbar ---- */
+        .toolbar { display:flex; justify-content:center; margin:18px 0 0; }
+        #filter-btn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          background:transparent; border:1px solid var(--rule-strong); color:var(--ink-soft);
+          padding:7px 15px; border-radius:2px; font-size:12px; letter-spacing:.05em;
+          cursor:pointer; transition:all .18s ease;
+        }
+        #filter-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+        /* ---- Contents (table of contents) ---- */
+        .contents { margin:34px 0 6px; }
+        .contents-title {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 20px;
+        }
+        .toc-field { margin:0 0 18px; }
+        .toc-fname { font-size:18px; font-weight:600; text-decoration:none; }
+        .toc-fname:hover { text-decoration:underline; }
+        .toc-fcount {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; color:var(--muted); margin-left:8px;
+        }
+        .toc-list { list-style:none; margin:7px 0 0; padding:0; }
+        .toc-row { display:flex; align-items:baseline; padding:2px 0; font-size:15.5px; }
+        .toc-row a { color:var(--ink-soft); text-decoration:none; white-space:nowrap; }
+        .toc-row a:hover { color:var(--accent); }
+        .toc-lead { flex:1; border-bottom:1px dotted var(--rule-strong); margin:0 9px; position:relative; top:-4px; }
+        .toc-row .n {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12.5px; color:var(--muted);
+        }
+
+        /* ---- Field section ---- */
+        .field-header {
+          display:flex; align-items:baseline; gap:15px;
+          margin:64px 0 6px; padding-bottom:10px; border-bottom:2px solid currentColor;
+        }
+        .field-header .rn { font-size:20px; font-weight:600; opacity:.5; }
+        .field-header .ft { font-size:31px; font-weight:700; letter-spacing:.005em; }
+        .field-header .fc {
+          margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.06em; opacity:.6; align-self:center;
+        }
+
+        /* ---- Journal sub-header ---- */
+        .journal-header {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; font-weight:600; letter-spacing:.19em; text-transform:uppercase;
+          color:var(--muted); margin:34px 0 2px;
+        }
+
+        /* ---- Paper entry ---- */
+        .paper { padding:22px 0 24px; border-bottom:1px solid var(--rule); }
+        .paper-head { display:flex; justify-content:space-between; align-items:flex-start; gap:22px; }
+        .paper-title { margin:0; font-size:20px; line-height:1.34; font-weight:600; color:#1c1f23; flex:1; }
+        .paper-title .pn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; font-weight:600; color:var(--muted); margin-right:9px;
+        }
+        .paper-authors { margin:8px 0 0; font-style:italic; font-size:15.5px; color:var(--ink-soft); }
+        .paper-summary { margin:11px 0 0; font-size:16px; line-height:1.58; color:var(--ink); }
+        .paper-meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.02em; color:var(--muted);
+          margin:12px 0 0; display:flex; flex-wrap:wrap; gap:8px 18px;
+        }
+        .paper-meta a { color:var(--accent); text-decoration:none; }
+        .paper-meta a:hover { text-decoration:underline; }
+        .paper-abstract {
+          margin:14px 0 0; padding:1px 0 1px 20px; border-left:2px solid var(--rule-strong);
+          font-size:14.5px; line-height:1.66; color:var(--ink-soft);
+          text-align:justify; hyphens:auto;
+        }
+        .paper-abstract .lbl {
+          display:block; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 6px;
+        }
+
+        /* ---- Star rating ---- */
+        .star-rating { display:inline-flex; flex-direction:row-reverse; gap:3px; flex-shrink:0; }
+        .star-rating input { display:none; }
+        .star-rating label { font-size:17px; color:#ded8ca; cursor:pointer; transition:color .1s; }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label { color:#c19a35; }
+
+        /* ---- Admin ---- */
+        .admin-controls { position:fixed; top:20px; right:20px; z-index:1000; display:none; }
+        .save-btn {
+          background:var(--accent); color:#fff; border:none; padding:10px 20px;
+          border-radius:4px; cursor:pointer; font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,.15);
+        }
+
+        @media print { .admin-controls, .star-rating, .toolbar { display:none !important; }
+          body { background:#fff; padding:0; } .sheet { box-shadow:none; border:none; } }
+        @media (max-width:640px) {
+          .sheet { padding:34px 22px 46px; }
+          .masthead h1 { font-size:31px; }
+          .field-header .ft { font-size:25px; }
+          .field-header .fc { display:none; }
+          .paper-head { flex-direction:column; gap:10px; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="admin-controls" id="admin-ui">
+        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
+      </div>
+      <a id="top"></a>
+      <div class="sheet">
+        <header class="masthead">
+          <p class="eyebrow">Maohua Nie · Research Digest</p>
+          <h1>Bi-weekly Research Digest</h1>
+          <p class="meta">01 Oct 2026 – 15 Oct 2026<span class="dot">◆</span>14 papers across 3 fields</p>
+        </header>
+
+        <div class="toolbar">
+          <button id="filter-btn" onclick="toggleTopPicks()">★ Show top picks (4★+)</button>
+        </div>
+
+        <nav class="contents">
+          <p class="contents-title">Contents</p>
+    <div class="toc-field"><a class="toc-fname" href="#field-economics" style="color:#1c5d54">I. Economics</a><span class="toc-fcount">3</span><ul class="toc-list"><li class="toc-row"><a href="#journal-economics-journal-of-economic-behavior-organization">Journal of Economic Behavior &amp; Organization</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-economics-journal-of-economic-psychology">Journal of Economic Psychology</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-economics-theory-and-decision">Theory and Decision</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-psychology" style="color:#8a2b3a">II. Psychology</a><span class="toc-fcount">10</span><ul class="toc-list"><li class="toc-row"><a href="#journal-psychology-psychological-review">Psychological Review</a><span class="toc-lead"></span><span class="n">3</span></li><li class="toc-row"><a href="#journal-psychology-cognition">Cognition</a><span class="toc-lead"></span><span class="n">2</span></li><li class="toc-row"><a href="#journal-psychology-plos-computational-biology">PLOS Computational Biology</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-pnas">PNAS</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-journal-of-economic-psychology">Journal of Economic Psychology</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-journal-of-experimental-psychology-learning-memory-and-cognition">Journal of Experimental Psychology: Learning, Memory, and Cognition</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-elife">eLife</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-neuroscience" style="color:#3d3a78">III. Neuroscience</a><span class="toc-fcount">1</span><ul class="toc-list"><li class="toc-row"><a href="#journal-neuroscience-neuron">Neuron</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div></nav><a id="field-economics"></a><h2 class="field-header" data-field="economics" style="color:#1c5d54"><span class="rn">I</span><span class="ft">Economics</span><span class="fc">3 papers</span></h2><a id="journal-economics-journal-of-economic-behavior-organization"></a><h3 class="journal-header" data-group="economics-journal-of-economic-behavior-organization">Journal of Economic Behavior &amp; Organization</h3>
+                <div id="paper-10-1016-j-jebo-2026-107730" class="paper-item paper" data-field="economics" data-group="economics-journal-of-economic-behavior-organization">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">1</span>Does slow strategizing indicate optimal behavior or uncertainty?</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-jebo-2026-107730">
+                      <input type="radio" id="star5-paper-10-1016-j-jebo-2026-107730" name="rating-paper-10-1016-j-jebo-2026-107730" value="5"><label for="star5-paper-10-1016-j-jebo-2026-107730">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-jebo-2026-107730" name="rating-paper-10-1016-j-jebo-2026-107730" value="4"><label for="star4-paper-10-1016-j-jebo-2026-107730">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-jebo-2026-107730" name="rating-paper-10-1016-j-jebo-2026-107730" value="3"><label for="star3-paper-10-1016-j-jebo-2026-107730">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-jebo-2026-107730" name="rating-paper-10-1016-j-jebo-2026-107730" value="2"><label for="star2-paper-10-1016-j-jebo-2026-107730">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-jebo-2026-107730" name="rating-paper-10-1016-j-jebo-2026-107730" value="1"><label for="star1-paper-10-1016-j-jebo-2026-107730">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Krajbich, I.</p>
+                  <p class='paper-summary'>This study examines whether slower decisions signal more optimal strategic reasoning or merely uncertainty, using p-beauty contest games of varying complexity. Results show negative correlations between response time and optimal choice, contradicting the view that slower deliberation leads to better decisions in complex settings.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.55</span><span><a href='https://doi.org/10.1016/j.jebo.2026.107730' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.jebo.2026.107730</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>In simple choice, slower decisions tend to indicate proximity to indifference and thus less predictable choice. In complex situations, some studies have argued that slower decisions indicate more reasoning and thus more optimal decisions. However, those studies rely on games where the optimal responses are debatable – they depend on agents’ beliefs or social preferences. Thus, it is unclear whether being slow is a good or bad sign. Here, we examine whether fast decisions are more or less optimal in high and low complexity, zero-sum games with dominant strategies and limited social-preference concerns. We study repeated 2-person p-beauty contests, where halfway through the experiment we switch the multiplier, changing the dominant strategy. Only 33% of subjects correctly adjusted after the switch, an indication of understanding the dominant strategy. Those who continued to play the dominant strategy showed a decrease in response time (RT) upon playing the dominant strategy, while those who later switched away from the dominant strategy did not. Contrary to the predictions for complex games, subjects exhibited negative correlations between RT and optimal choice, both in the early rounds and after the switch. Thus, we find no support for the notion that slower decisions result in better choices.</div>
+                </div>
+                <a id="journal-economics-journal-of-economic-psychology"></a><h3 class="journal-header" data-group="economics-journal-of-economic-psychology">Journal of Economic Psychology</h3>
+                <div id="paper-10-1016-j-joep-2026-102923" class="paper-item paper" data-field="economics" data-group="economics-journal-of-economic-psychology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">2</span>Hot flashes, cold feet? No evidence of a menopause effect on risk preferences</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-joep-2026-102923">
+                      <input type="radio" id="star5-paper-10-1016-j-joep-2026-102923" name="rating-paper-10-1016-j-joep-2026-102923" value="5"><label for="star5-paper-10-1016-j-joep-2026-102923">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-joep-2026-102923" name="rating-paper-10-1016-j-joep-2026-102923" value="4"><label for="star4-paper-10-1016-j-joep-2026-102923">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-joep-2026-102923" name="rating-paper-10-1016-j-joep-2026-102923" value="3"><label for="star3-paper-10-1016-j-joep-2026-102923">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-joep-2026-102923" name="rating-paper-10-1016-j-joep-2026-102923" value="2"><label for="star2-paper-10-1016-j-joep-2026-102923">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-joep-2026-102923" name="rating-paper-10-1016-j-joep-2026-102923" value="1"><label for="star1-paper-10-1016-j-joep-2026-102923">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Fornwagner, H.</p>
+                  <p class='paper-summary'>This study tests whether menopause independently affects women&#39;s risk preferences in a large online sample using incentivized lotteries, finding that apparent menopause effects on risk aversion disappear once age is controlled for.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.41</span><span><a href='https://doi.org/10.1016/j.joep.2026.102923' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.joep.2026.102923</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Menopause, a biological transition marked by the permanent cessation of menstruation, affects millions of women each year, bringing about significant physical, emotional, mental, and social changes. Yet, its potential influence on economic behavior remains largely unexplored. This study investigates whether menopause affects women’s risk preferences, using an incentivized lottery task and psychological questionnaires in a large online sample of over 1700 UK women. While menopausal participants initially appear less risk-taking than non-menopausal women, this difference vanishes once age is controlled for. Across multiple model specifications and robustness checks, menopausal status has no independent effect on investment behavior. Instead, risk aversion increases gradually with age, regardless of menopausal classification. These findings suggest that the economic implications often attributed to menopause may, in fact, reflect broader age-related trends. By disentangling the effects of age and menopausal status, this study contributes to a more precise understanding of how biological and demographic factors shape decision-making.</div>
+                </div>
+                <a id="journal-economics-theory-and-decision"></a><h3 class="journal-header" data-group="economics-theory-and-decision">Theory and Decision</h3>
+                <div id="paper-10-1007-s11238-026-10162-3" class="paper-item paper" data-field="economics" data-group="economics-theory-and-decision">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">3</span>Measuring beliefs and ambiguity attitudes in a public good game: an experimental study</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1007-s11238-026-10162-3">
+                      <input type="radio" id="star5-paper-10-1007-s11238-026-10162-3" name="rating-paper-10-1007-s11238-026-10162-3" value="5"><label for="star5-paper-10-1007-s11238-026-10162-3">★</label>
+                      <input type="radio" id="star4-paper-10-1007-s11238-026-10162-3" name="rating-paper-10-1007-s11238-026-10162-3" value="4"><label for="star4-paper-10-1007-s11238-026-10162-3">★</label>
+                      <input type="radio" id="star3-paper-10-1007-s11238-026-10162-3" name="rating-paper-10-1007-s11238-026-10162-3" value="3"><label for="star3-paper-10-1007-s11238-026-10162-3">★</label>
+                      <input type="radio" id="star2-paper-10-1007-s11238-026-10162-3" name="rating-paper-10-1007-s11238-026-10162-3" value="2"><label for="star2-paper-10-1007-s11238-026-10162-3">★</label>
+                      <input type="radio" id="star1-paper-10-1007-s11238-026-10162-3" name="rating-paper-10-1007-s11238-026-10162-3" value="1"><label for="star1-paper-10-1007-s11238-026-10162-3">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Eddai, N.</p>
+                  <p class='paper-summary'>This experimental study measures participants&#39; beliefs and attitudes toward ambiguity in the context of a public good game, examining how uncertainty shapes individual decision making in strategic settings.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.34</span><span><a href='https://doi.org/10.1007/s11238-026-10162-3' target='_blank' rel='noopener noreferrer'>doi.org/10.1007/s11238-026-10162-3</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="field-psychology"></a><h2 class="field-header" data-field="psychology" style="color:#8a2b3a"><span class="rn">II</span><span class="ft">Psychology</span><span class="fc">10 papers</span></h2><a id="journal-psychology-psychological-review"></a><h3 class="journal-header" data-group="psychology-psychological-review">Psychological Review</h3>
+                <div id="paper-10-1037-rev0000633" class="paper-item paper" data-field="psychology" data-group="psychology-psychological-review">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">4</span>Risk matters less when options are apples-to-oranges: The translate-and-accommodate model.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-rev0000633">
+                      <input type="radio" id="star5-paper-10-1037-rev0000633" name="rating-paper-10-1037-rev0000633" value="5"><label for="star5-paper-10-1037-rev0000633">★</label>
+                      <input type="radio" id="star4-paper-10-1037-rev0000633" name="rating-paper-10-1037-rev0000633" value="4"><label for="star4-paper-10-1037-rev0000633">★</label>
+                      <input type="radio" id="star3-paper-10-1037-rev0000633" name="rating-paper-10-1037-rev0000633" value="3"><label for="star3-paper-10-1037-rev0000633">★</label>
+                      <input type="radio" id="star2-paper-10-1037-rev0000633" name="rating-paper-10-1037-rev0000633" value="2"><label for="star2-paper-10-1037-rev0000633">★</label>
+                      <input type="radio" id="star1-paper-10-1037-rev0000633" name="rating-paper-10-1037-rev0000633" value="1"><label for="star1-paper-10-1037-rev0000633">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Weingarten, E., Rottenstreich, Y., Wu, G.</p>
+                  <p class='paper-summary'>The paper compares risk aversion in unimodal (same-domain) versus crossmodal (different-domain) choices, finding that risk matters less when outcomes are &#39;apples-to-oranges,&#39; and proposes the translate-and-accommodate model to explain these patterns including the uncertainty effect and dominated choices.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.62</span><span><a href='https://doi.org/10.1037/rev0000633' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/rev0000633</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Risk aversion for moderate-likelihood gains is perhaps the best-known stylized fact from decision research. Though studies documenting it have focused on decisions involving money, such behavior is presumed to prevail very generally, across diverse domains. We investigate the validity of this generalization by contrasting two types of decisions. In unimodal choices, outcomes are &quot;apples-to-apples.&quot; Consider choosing between sure and uncertain monetary payoffs, or between sure receipt of a product and a chance at several units of it. In crossmodal choices, outcomes are &quot;apples-to-oranges.&quot; Consider choosing between sure receipt of one product and uncertain receipt of a disparate product. We observe two patterns by which risk matters less crossmodally, contrary to straightforward generalizations. First, relative to unimodal preferences involving actuarially fair risky options, corresponding crossmodal preferences exhibit less risk aversion. Second, crossmodal preferences vary less across risk levels: As the likelihood and subjective value of a risky option&#39;s outcomes become increasingly unfavorable (favorable), people do not exhibit as much additional distaste (appetite) for it. These patterns of insensitivity engender an interaction: relative to unimodal settings, crossmodal settings yield less aversion to unfavorable and fair risk but more aversion to favorable risk. To explain this interaction, we present the translate-and-accommodate model, in which unimodal preferences follow standard accounts, but crossmodal preferences reflect processes of (a) deterministic translation and (b) risk accommodation. The translate-and-accommodate model also explains the uncertainty effect and related patterns of seemingly bizarre, dominated choices. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+                </div>
+                
+                <div id="paper-10-1037-rev0000609" class="paper-item paper" data-field="psychology" data-group="psychology-psychological-review">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">5</span>A diffusion-based framework for modeling systematic, time-varying cognitive processes.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-rev0000609">
+                      <input type="radio" id="star5-paper-10-1037-rev0000609" name="rating-paper-10-1037-rev0000609" value="5"><label for="star5-paper-10-1037-rev0000609">★</label>
+                      <input type="radio" id="star4-paper-10-1037-rev0000609" name="rating-paper-10-1037-rev0000609" value="4"><label for="star4-paper-10-1037-rev0000609">★</label>
+                      <input type="radio" id="star3-paper-10-1037-rev0000609" name="rating-paper-10-1037-rev0000609" value="3"><label for="star3-paper-10-1037-rev0000609">★</label>
+                      <input type="radio" id="star2-paper-10-1037-rev0000609" name="rating-paper-10-1037-rev0000609" value="2"><label for="star2-paper-10-1037-rev0000609">★</label>
+                      <input type="radio" id="star1-paper-10-1037-rev0000609" name="rating-paper-10-1037-rev0000609" value="1"><label for="star1-paper-10-1037-rev0000609">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Alister, M., Evans, N.</p>
+                  <p class='paper-summary'>This paper introduces ParAcT-DDM, a framework that allows diffusion decision model parameters (drift rate and caution threshold) to vary systematically over time (e.g., across trials or blocks), demonstrating it outperforms the standard DDM and that ignoring time-varying processes biases standard parameter estimates.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.55</span><span><a href='https://doi.org/10.1037/rev0000609' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/rev0000609</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>odel, which unifies previous modeling efforts from practice and decision-making research. Specifically, our framework models time-varying changes to diffusion decision model parameters by assuming that rather than being constant across time, their estimates follow theoretically informed time-varying (e.g., trial-varying or block-varying) functions. Focusing on two diffusion model parameters: drift rate (task efficiency) and threshold (caution), our empirical results show that ParAcT-DDM variants vastly outperform the standard diffusion model in four existing data sets, including one where participants completed a practice block before data recording began, suggesting that time-varying cognitive processes often occur in typical cognitive experiments, even when the experimental design explicitly tries to remove practice effects. Finally, we find that the existence of time-varying processes causes systematic biases in the parameter estimates of the standard diffusion model, suggesting that our ParAcT-DDM framework can be crucial to ensuring the robustness of inferences against time-varying changes, regardless of whether these changes are of direct interest. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+                </div>
+                
+                <div id="paper-10-1037-rev0000606" class="paper-item paper" data-field="psychology" data-group="psychology-psychological-review">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">6</span>Attentional dynamics explain the elusive nature of context effects.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-rev0000606">
+                      <input type="radio" id="star5-paper-10-1037-rev0000606" name="rating-paper-10-1037-rev0000606" value="5"><label for="star5-paper-10-1037-rev0000606">★</label>
+                      <input type="radio" id="star4-paper-10-1037-rev0000606" name="rating-paper-10-1037-rev0000606" value="4"><label for="star4-paper-10-1037-rev0000606">★</label>
+                      <input type="radio" id="star3-paper-10-1037-rev0000606" name="rating-paper-10-1037-rev0000606" value="3"><label for="star3-paper-10-1037-rev0000606">★</label>
+                      <input type="radio" id="star2-paper-10-1037-rev0000606" name="rating-paper-10-1037-rev0000606" value="2"><label for="star2-paper-10-1037-rev0000606">★</label>
+                      <input type="radio" id="star1-paper-10-1037-rev0000606" name="rating-paper-10-1037-rev0000606" value="1"><label for="star1-paper-10-1037-rev0000606">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Trueblood, J., Liu, Y., Murrow, M., Hayes, W., Holmes, W.</p>
+                  <p class='paper-summary'>This paper proposes a computational framework in which spatial attention processes explain context effects in multi-alternative choice, including null and reversed effects, and fits both choices and response times using a continuous approximation of the model.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.48</span><span><a href='https://doi.org/10.1037/rev0000606' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/rev0000606</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>= 887). Further, by allowing the spatial organization of information to constrain the attention process, the model can explain changes in context effects induced by display layout. We show that the model&#39;s spatial attention mechanism allows it to capture presentation order effects in a reanalysis of previously published data. Finally, we develop a continuous approximation of the full model that permits fitting of choices and response times. In summary, the proposed framework provides a new tool for understanding not only the existence of context effects in choice, but also the attentional factors that lead to null or reversed context effects. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+                </div>
+                <a id="journal-psychology-cognition"></a><h3 class="journal-header" data-group="psychology-cognition">Cognition</h3>
+                <div id="paper-10-1016-j-cognition-2026-106619" class="paper-item paper" data-field="psychology" data-group="psychology-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">7</span>Sources of imprecision in integrated value comparisons</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2026-106619">
+                      <input type="radio" id="star5-paper-10-1016-j-cognition-2026-106619" name="rating-paper-10-1016-j-cognition-2026-106619" value="5"><label for="star5-paper-10-1016-j-cognition-2026-106619">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-cognition-2026-106619" name="rating-paper-10-1016-j-cognition-2026-106619" value="4"><label for="star4-paper-10-1016-j-cognition-2026-106619">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-cognition-2026-106619" name="rating-paper-10-1016-j-cognition-2026-106619" value="3"><label for="star3-paper-10-1016-j-cognition-2026-106619">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-cognition-2026-106619" name="rating-paper-10-1016-j-cognition-2026-106619" value="2"><label for="star2-paper-10-1016-j-cognition-2026-106619">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-cognition-2026-106619" name="rating-paper-10-1016-j-cognition-2026-106619" value="1"><label for="star1-paper-10-1016-j-cognition-2026-106619">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Mezzadri, G., Woodford, M.</p>
+                  <p class='paper-summary'>The paper investigates how people compare multi-attribute options by showing that judgments rely on simultaneous, attribute-wise (framewise) comparisons rather than independent option evaluation, and fits computational models combining nonlinear value encoding and value-dependent noise to explain systematic accuracy differences and individual heterogeneity.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.57</span><span><a href='https://doi.org/10.1016/j.cognition.2026.106619' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.cognition.2026.106619</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Many everyday decisions involve integrating multiple attributes rather than comparing a single value. While normative and stochastic choice theories assume that each option is evaluated independently, evidence shows that choices can instead depend on attribute-wise comparisons between options. To investigate the source of imprecision in such comparisons, we introduce a paradigm in which participants compare two sequences of numbers and decide which sequence has the larger sum. Across three conditions, which only differ in how numbers from the two sequences are paired, we observe systematic differences in accuracy: participants perform best when paired values are closer in magnitude. This finding indicates that judgments depend on framewise comparisons of values presented simultaneously, rather than on independent processing of each option. To account for these results, we fit several models of noisy judgment based on cumulative integration of framewise comparisons. We consider both models based on nonlinear integration of framewise comparisons and models in which comparison noise variance depends on size of the framewise differences, and find that these mechanisms are of differing importance for different subjects. Clustering analyses confirm this heterogeneity, identifying one subgroup best characterized by models with value-dependent noise and another for whom nonlinear transformation of the framewise-differences is more important. Finally, we introduce hybrid models integrating both mechanisms, and find that these best explain behavior across clusters, and predict participants&#39; performance more accurately than single-mechanism models. Our findings demonstrate that attribute-wise comparisons play a central role in multi-attribute decision-making, even in tasks that do not involve subjective preferences. They further highlight the need for models that combine distorted value encoding with value-dependent noise to explain heterogeneity in human choice behavior.</div>
+                </div>
+                
+                <div id="paper-10-1016-j-cognition-2026-106628" class="paper-item paper" data-field="psychology" data-group="psychology-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">8</span>Throwing good effort after bad: Evidence for a sunk-cost effect in cognitive effort-based decision-making</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-cognition-2026-106628">
+                      <input type="radio" id="star5-paper-10-1016-j-cognition-2026-106628" name="rating-paper-10-1016-j-cognition-2026-106628" value="5"><label for="star5-paper-10-1016-j-cognition-2026-106628">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-cognition-2026-106628" name="rating-paper-10-1016-j-cognition-2026-106628" value="4"><label for="star4-paper-10-1016-j-cognition-2026-106628">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-cognition-2026-106628" name="rating-paper-10-1016-j-cognition-2026-106628" value="3"><label for="star3-paper-10-1016-j-cognition-2026-106628">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-cognition-2026-106628" name="rating-paper-10-1016-j-cognition-2026-106628" value="2"><label for="star2-paper-10-1016-j-cognition-2026-106628">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-cognition-2026-106628" name="rating-paper-10-1016-j-cognition-2026-106628" value="1"><label for="star1-paper-10-1016-j-cognition-2026-106628">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Bogdanov, M., Devine, S., Fu, Z., Wang, E., Otto, A.</p>
+                  <p class='paper-summary'>Two experiments demonstrate that prior cognitive effort investments increase participants&#39; willingness to exert further effort (a sunk-cost effect), extending this well-known economic bias to non-monetary, effort-based decisions. The findings suggest that contemporary cost-benefit models of effort need to incorporate past effort exertion as a factor shaping current choices.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.49</span><span><a href='https://doi.org/10.1016/j.cognition.2026.106628' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.cognition.2026.106628</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>The sunk-cost effect, an influential decision-making bias elicited by the consideration of past, irrecoverable resource investments toward a choice option, is well-documented for economic decisions. Contrary, evidence for sunk-cost effects for non-monetary costs, such as cognitive effort, has been mixed. Here, we present findings from two experiments in self-reported healthy adults (Exp.1 in-person, n = 36; Exp.2 online, n = 89), in which participants performed an effort investment task designed to assess the impact of past effort exertion on current choices about continuing or abandoning a course of action. Across both experiments, we found that prior resource investment substantially increased participants&#39; willingness to invest further resources (i.e., to exert additional cognitive effort). Moreover, when current choices required higher additional effort exertion, participants were more likely to continue a course of action following larger versus smaller prior effort investments. These findings provide compelling evidence for the existence of an effort-based sunk-cost effect. Further, they highlight the importance of previous effort investments for influencing present choice behavior, indicating the need to refine contemporary cost-benefit models of effort to account for past effort exertion.</div>
+                </div>
+                <a id="journal-psychology-plos-computational-biology"></a><h3 class="journal-header" data-group="psychology-plos-computational-biology">PLOS Computational Biology</h3>
+                <div id="paper-10-1371-journal-pcbi-1014818" class="paper-item paper" data-field="psychology" data-group="psychology-plos-computational-biology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">9</span>How does explicit reliability guide choices? Effect of trustworthiness on choice and metacognition</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1371-journal-pcbi-1014818">
+                      <input type="radio" id="star5-paper-10-1371-journal-pcbi-1014818" name="rating-paper-10-1371-journal-pcbi-1014818" value="5"><label for="star5-paper-10-1371-journal-pcbi-1014818">★</label>
+                      <input type="radio" id="star4-paper-10-1371-journal-pcbi-1014818" name="rating-paper-10-1371-journal-pcbi-1014818" value="4"><label for="star4-paper-10-1371-journal-pcbi-1014818">★</label>
+                      <input type="radio" id="star3-paper-10-1371-journal-pcbi-1014818" name="rating-paper-10-1371-journal-pcbi-1014818" value="3"><label for="star3-paper-10-1371-journal-pcbi-1014818">★</label>
+                      <input type="radio" id="star2-paper-10-1371-journal-pcbi-1014818" name="rating-paper-10-1371-journal-pcbi-1014818" value="2"><label for="star2-paper-10-1371-journal-pcbi-1014818">★</label>
+                      <input type="radio" id="star1-paper-10-1371-journal-pcbi-1014818" name="rating-paper-10-1371-journal-pcbi-1014818" value="1"><label for="star1-paper-10-1371-journal-pcbi-1014818">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Ota, K., Ciston, A., Haggard, P., Preuss, T., Charles, L.</p>
+                  <p class='paper-summary'>Participants made choices guided by sources of varying stated reliability, and computational modeling revealed they distorted explicit probabilistic reliability information (e.g., treating unreliable sources as moderately reliable), while retaining some metacognitive insight into how sources influenced their decisions.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.54</span><span><a href='https://doi.org/10.1371/journal.pcbi.1014818' target='_blank' rel='noopener noreferrer'>doi.org/10.1371/journal.pcbi.1014818</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>A key challenge in today’s fast-paced digital world is to integrate information from various sources, which differ in their reliability. Yet, little is known about how explicit probabilistic information about the likelihood that a source provides correct information is used in decision-making. Here, we investigated how such explicit reliability markers are integrated into decisions and the extent to which individuals have metacognitive insight into this process. We developed a novel paradigm where participants viewed predictions from sources of varying explicit reliability to help them make a choice between two options. After each decision, they rated how much they felt a given source influenced their choice. Using computational modelling, we estimated the effective reliability that participants assigned to each source. Overall, we found that participants did not take source reliability at face value, inappropriately using the stated probabilities of source correctness to make a choice. Interestingly, even sources that were explicitly labelled as unreliable biased choices, as if these were treated as moderately reliable. Additionally, the presence of sources flagged as lying ones and known to be reliably predicting the incorrect answer impaired performance by increasing leakiness in evidence accumulation. Despite these biases, participants showed some metacognitive awareness of what influenced their choices: they were aware of the impact unreliable sources had on their decisions and could evaluate how much a given source had increased the likelihood of their response. These results suggest that people distort explicit source reliability but have some awareness of this process.</div>
+                </div>
+                <a id="journal-psychology-pnas"></a><h3 class="journal-header" data-group="psychology-pnas">PNAS</h3>
+                <div id="paper-10-1073-pnas-2616364123" class="paper-item paper" data-field="psychology" data-group="psychology-pnas">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">10</span>Changing contributions of emotion and reward information to learning through adolescence</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1073-pnas-2616364123">
+                      <input type="radio" id="star5-paper-10-1073-pnas-2616364123" name="rating-paper-10-1073-pnas-2616364123" value="5"><label for="star5-paper-10-1073-pnas-2616364123">★</label>
+                      <input type="radio" id="star4-paper-10-1073-pnas-2616364123" name="rating-paper-10-1073-pnas-2616364123" value="4"><label for="star4-paper-10-1073-pnas-2616364123">★</label>
+                      <input type="radio" id="star3-paper-10-1073-pnas-2616364123" name="rating-paper-10-1073-pnas-2616364123" value="3"><label for="star3-paper-10-1073-pnas-2616364123">★</label>
+                      <input type="radio" id="star2-paper-10-1073-pnas-2616364123" name="rating-paper-10-1073-pnas-2616364123" value="2"><label for="star2-paper-10-1073-pnas-2616364123">★</label>
+                      <input type="radio" id="star1-paper-10-1073-pnas-2616364123" name="rating-paper-10-1073-pnas-2616364123" value="1"><label for="star1-paper-10-1073-pnas-2616364123">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Phaneuf-Hadd, C., Phelps, E., Somerville, L.</p>
+                  <p class='paper-summary'>This study examines how emotional expressions and monetary rewards independently and jointly influence reinforcement learning and choice in participants aged 8–22, finding that incidental emotion cues bias value estimates and impede reward-maximizing choices, with this bias persisting longer in children than adolescents or adults. Computational RL models are used to characterize how these two value signals interact during learning.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.51</span><span><a href='https://doi.org/10.1073/pnas.2616364123' target='_blank' rel='noopener noreferrer'>doi.org/10.1073/pnas.2616364123</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>From childhood to adulthood, individuals’ learning and decision-making may be differentially impacted by two salient value signals for adolescents: emotions and rewards. This study superimposed these information sources to assess their independent and joint influences on learning and choice processes. Participants ages 8 to 22 y completed a reinforcement learning task, in which monetary rewards conveyed information integral to making reward-maximizing choices, while emotional expressions conveyed information incidental to this goal. In some conditions, emotion and reward invoked congruent approach-avoid tendencies; following either information source promoted making reward-maximizing (“correct”) choices. In other conditions, emotion and reward invoked incongruent approach-avoid tendencies; following the emotion cue impeded reward capture. Participants completed several measures indexing the persistence of emotion and reward information on choice and evaluations of these signals. Statistical and computational models revealed that emotion-reward incongruence hampered early learning through an incidental emotion bias on value estimates. The emotion bias decayed as reward learning progressed in adolescents and adults but endured in children. Moreover, reward-based choice increased with age across the additional measures. Although participants of all ages were initially hindered by incidental emotion cues, adults’ shift toward prioritizing integral reward outcomes indicates that goal-relevant information comes to dominate choice with age.</div>
+                </div>
+                <a id="journal-psychology-journal-of-economic-psychology"></a><h3 class="journal-header" data-group="psychology-journal-of-economic-psychology">Journal of Economic Psychology</h3>
+                <div id="paper-10-1016-j-joep-2026-102937" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-economic-psychology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">11</span>Replication: Beyond gains and losses by Mishra and Fiddick (2012)</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-joep-2026-102937">
+                      <input type="radio" id="star5-paper-10-1016-j-joep-2026-102937" name="rating-paper-10-1016-j-joep-2026-102937" value="5"><label for="star5-paper-10-1016-j-joep-2026-102937">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-joep-2026-102937" name="rating-paper-10-1016-j-joep-2026-102937" value="4"><label for="star4-paper-10-1016-j-joep-2026-102937">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-joep-2026-102937" name="rating-paper-10-1016-j-joep-2026-102937" value="3"><label for="star3-paper-10-1016-j-joep-2026-102937">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-joep-2026-102937" name="rating-paper-10-1016-j-joep-2026-102937" value="2"><label for="star2-paper-10-1016-j-joep-2026-102937">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-joep-2026-102937" name="rating-paper-10-1016-j-joep-2026-102937" value="1"><label for="star1-paper-10-1016-j-joep-2026-102937">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">van Leeuwen, F., Puklavec, Ž., Kogler, C.</p>
+                  <p class='paper-summary'>This preregistered replication tests whether framing effects in risky choice are better explained by prospect theory or risk-sensitivity theory (minimal needs thresholds), finding partial support: the framing effect persists for low-need but not high-need individuals. It contributes to understanding gain–loss asymmetries and risk preference at the individual level.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.49</span><span><a href='https://doi.org/10.1016/j.joep.2026.102937' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.joep.2026.102937</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>The standard framing effect demonstrates a deviation from expected utility theory (and rational choice theory) that is consistent with prospect theory. Findings by Mishra and Fiddick (2012) suggest that such framing effects may be better explained in terms of a sensitivity to minimal acceptable thresholds, or needs, as described in risk-sensitivity theory. To evaluate the reliability of the findings reported by Mishra and Fiddick (2012), we conducted a close preregistered replication of their Experiment 3 with a larger, well-powered sample ( N = 399) of UK students recruited via Prolific. Our results partly replicated the original findings: In line with the original study, we observed the standard framing effect and that individuals with higher need more often selected the risky option. Results for the crucial hypothesis were mixed: In the original study, the framing effect disappeared when the analysis stratified by need. In the replication, when we stratified by need, we observed a framing effect among participants with low need, but not among participants with high need. These findings contribute to the understanding of both prospect theory and risk-sensitivity theory in explaining the standard framing effect.</div>
+                </div>
+                <a id="journal-psychology-journal-of-experimental-psychology-learning-memory-and-cognition"></a><h3 class="journal-header" data-group="psychology-journal-of-experimental-psychology-learning-memory-and-cognition">Journal of Experimental Psychology: Learning, Memory, and Cognition</h3>
+                <div id="paper-10-1037-xlm0001566" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-experimental-psychology-learning-memory-and-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">12</span>Testing the convergent validity of the nondecision time parameter of the diffusion model.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-xlm0001566">
+                      <input type="radio" id="star5-paper-10-1037-xlm0001566" name="rating-paper-10-1037-xlm0001566" value="5"><label for="star5-paper-10-1037-xlm0001566">★</label>
+                      <input type="radio" id="star4-paper-10-1037-xlm0001566" name="rating-paper-10-1037-xlm0001566" value="4"><label for="star4-paper-10-1037-xlm0001566">★</label>
+                      <input type="radio" id="star3-paper-10-1037-xlm0001566" name="rating-paper-10-1037-xlm0001566" value="3"><label for="star3-paper-10-1037-xlm0001566">★</label>
+                      <input type="radio" id="star2-paper-10-1037-xlm0001566" name="rating-paper-10-1037-xlm0001566" value="2"><label for="star2-paper-10-1037-xlm0001566">★</label>
+                      <input type="radio" id="star1-paper-10-1037-xlm0001566" name="rating-paper-10-1037-xlm0001566" value="1"><label for="star1-paper-10-1037-xlm0001566">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Pollak, K., Lerche, V., Hartmann, R., Kiesel, A.</p>
+                  <p class='paper-summary'>The paper tests the convergent validity of the nondecision time parameter in the diffusion model, examining whether it selectively captures perceptual encoding processes as theorized.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.43</span><span><a href='https://doi.org/10.1037/xlm0001566' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/xlm0001566</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>, at least under the assumption that our manipulation affected encoding selectively. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+                </div>
+                <a id="journal-psychology-elife"></a><h3 class="journal-header" data-group="psychology-elife">eLife</h3>
+                <div id="paper-10-7554-elife-105146" class="paper-item paper" data-field="psychology" data-group="psychology-elife">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">13</span>Negative affect influences the computations underlying food choice in bulimia nervosa</h4>
+                    <div class="star-rating" data-paper-id="paper-10-7554-elife-105146">
+                      <input type="radio" id="star5-paper-10-7554-elife-105146" name="rating-paper-10-7554-elife-105146" value="5"><label for="star5-paper-10-7554-elife-105146">★</label>
+                      <input type="radio" id="star4-paper-10-7554-elife-105146" name="rating-paper-10-7554-elife-105146" value="4"><label for="star4-paper-10-7554-elife-105146">★</label>
+                      <input type="radio" id="star3-paper-10-7554-elife-105146" name="rating-paper-10-7554-elife-105146" value="3"><label for="star3-paper-10-7554-elife-105146">★</label>
+                      <input type="radio" id="star2-paper-10-7554-elife-105146" name="rating-paper-10-7554-elife-105146" value="2"><label for="star2-paper-10-7554-elife-105146">★</label>
+                      <input type="radio" id="star1-paper-10-7554-elife-105146" name="rating-paper-10-7554-elife-105146" value="1"><label for="star1-paper-10-7554-elife-105146">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Shevlin, B., Gianini, L., Steinglass, J., Foerde, K., Lloyd, E., Hagan, K., Berner, L.</p>
+                  <p class='paper-summary'>Using a drift-diffusion framework, this study shows that negative affect accelerates and amplifies tastiness-over-healthiness weighting during food choices in bulimia nervosa patients compared to healthy controls, with this bias predicting real-world binge episodes. It reveals how emotional state shapes the computational dynamics of value-based decision making.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.39</span><span><a href='https://doi.org/10.7554/elife.105146' target='_blank' rel='noopener noreferrer'>doi.org/10.7554/elife.105146</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Individuals often consume tasty, calorically dense foods in response to negative emotions, a phenomenon exemplified by notions of ‘stress eating’ and ‘comfort food’. While this link between food and mood can become pathological in binge eating, the decision-making processes underlying this link are poorly understood. Here, we investigated the impact of acute increases in negative affect on when and how strongly the perceived tastiness and healthiness of foods influence food choices in healthy adults and individuals with bulimia nervosa (BN), an eating disorder characterized by cycles of over- and under-consumption of food. In a randomized crossover design, 25 women with BN and 21 healthy controls completed two sessions where they received either a neutral or negative affect induction and then completed a food choice task. Using a time-varying diffusion decision model, we assessed how negative affect influences food choice dynamics for high- and low-fat foods. In the neutral affect condition, individuals with BN considered tastiness relative to healthiness of high-fat foods sooner than healthy controls but maintained a restrictive food choice policy by reducing the weight on tastiness. After a negative affect induction, both groups showed a stronger bias toward considering tastiness before healthiness, but this bias was exaggerated in individuals with BN. This affect-induced bias for high-fat foods predicted more frequent subjective binge episodes over 3 months. These results provide insights into how negative emotion influences food choices and may explain why binge eating in BN is more likely during high negative affect, while dietary restriction is more likely during low negative affect.</div>
+                </div>
+                <a id="field-neuroscience"></a><h2 class="field-header" data-field="neuroscience" style="color:#3d3a78"><span class="rn">III</span><span class="ft">Neuroscience</span><span class="fc">1 paper</span></h2><a id="journal-neuroscience-neuron"></a><h3 class="journal-header" data-group="neuroscience-neuron">Neuron</h3>
+                <div id="paper-10-1016-j-neuron-2026-04-044" class="paper-item paper" data-field="neuroscience" data-group="neuroscience-neuron">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">14</span>Slow breathing impacts inter-organ dynamics modulating brain function and risk behavior</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-neuron-2026-04-044">
+                      <input type="radio" id="star5-paper-10-1016-j-neuron-2026-04-044" name="rating-paper-10-1016-j-neuron-2026-04-044" value="5"><label for="star5-paper-10-1016-j-neuron-2026-04-044">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-neuron-2026-04-044" name="rating-paper-10-1016-j-neuron-2026-04-044" value="4"><label for="star4-paper-10-1016-j-neuron-2026-04-044">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-neuron-2026-04-044" name="rating-paper-10-1016-j-neuron-2026-04-044" value="3"><label for="star3-paper-10-1016-j-neuron-2026-04-044">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-neuron-2026-04-044" name="rating-paper-10-1016-j-neuron-2026-04-044" value="2"><label for="star2-paper-10-1016-j-neuron-2026-04-044">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-neuron-2026-04-044" name="rating-paper-10-1016-j-neuron-2026-04-044" value="1"><label for="star1-paper-10-1016-j-neuron-2026-04-044">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Huang, W., Schmidt, M., Rebollo, I., Molter, F., Pu, M., Keweloh, B., Lam, L., Mohr, P., Bellucci, G., Röttger, S., Park, S.</p>
+                  <p class='paper-summary'>This fMRI study shows that a slow-breathing technique (prolonged exhalation) increases risky choices by boosting parasympathetic activity and enhancing reward sensitivity in the ventromedial prefrontal cortex, revealing a neuro-cardiac pathway influencing value-based decision making.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.49</span><span><a href='https://doi.org/10.1016/j.neuron.2026.04.044' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.neuron.2026.04.044</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>ABSTRACT Successful decision-making requires that external information be interpreted in the context of the body’s state. Within the framework of body-brain interaction, deliberately modifying one’s autonomic state can shape how we evaluate the world, ultimately influencing choices. Yet, it remains unclear whether and how intentional autonomic regulation affects human decision-making. In this study, we tested instructed prolonged exhalation, a slow-breathing technique designed to boost parasympathetic activity during risky decision-making. Participants followed distinct breathing protocols while making risky choices, with neural and physiological activity measured using fMRI and multi-channel monitoring. Prolonged exhalation increased risky choices by enhancing reward sensitivity and elevating cardiac parasympathetic activity. Importantly, individuals with greater parasympathetic upregulation also showed stronger reward-related responses in the ventromedial prefrontal cortex and precuneus. Our work reveals a transformative role for breathing-based interventions, demonstrating that breathing-based autonomic regulation can shape value-based decision-making through neuro-cardiac pathways. GRAPHICAL ABSTRACT HIGHLIGHTS Prolonged exhalation increases risky decisions by increasing the reward sensitivity Prolonged exhalation enhances cardiac parasympathetic activity without dampening sympathetic activities Greater cardiac parasympathetic activity under prolonged exhalation amplifies neural reward sensitivity in the ventromedial prefrontal cortex and precuneus</div>
+                </div>
+                
+      </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+      <script>
+        let isFilterActive = false;
+
+        // Only show admin controls and allow editing if running locally (file://)
+        if (window.location.protocol === 'file:') {
+          document.getElementById('admin-ui').style.display = 'block';
+        } else {
+          // Disable all radio buttons if not local
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.disabled = true;
+          });
+          // Add a style to make the stars non-interactive
+          const style = document.createElement('style');
+          style.innerHTML = '.star-rating { pointer-events: none; }';
+          document.head.appendChild(style);
+        }
+
+        function toggleTopPicks() {
+          isFilterActive = !isFilterActive;
+          const btn = document.getElementById('filter-btn');
+          const papers = document.querySelectorAll('.paper-item');
+          const journalHeaders = document.querySelectorAll('.journal-header');
+          const fieldHeaders = document.querySelectorAll('.field-header');
+
+          if (isFilterActive) {
+            btn.style.background = '#0b4a6f';
+            btn.style.color = '#ffffff';
+            btn.style.borderColor = '#0b4a6f';
+            btn.innerHTML = '★ Showing top picks (4★+)';
+
+            // Show/hide papers by rating.
+            papers.forEach(paper => {
+              const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+              paper.style.display = parseInt(rating) >= 4 ? 'block' : 'none';
+            });
+
+            // Hide journal sub-headers whose papers are all filtered out.
+            journalHeaders.forEach(header => {
+              const group = header.getAttribute('data-group');
+              const groupPapers = document.querySelectorAll(`.paper-item[data-group="${group}"]`);
+              const anyVisible = Array.from(groupPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+
+            // Hide field headers whose whole section is filtered out.
+            fieldHeaders.forEach(header => {
+              const field = header.getAttribute('data-field');
+              const fieldPapers = document.querySelectorAll(`.paper-item[data-field="${field}"]`);
+              const anyVisible = Array.from(fieldPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+          } else {
+            btn.style.background = 'transparent';
+            btn.style.color = '#4c525a';
+            btn.style.borderColor = '#cfc8b9';
+            btn.innerHTML = '★ Show top picks (4★+)';
+
+            papers.forEach(p => p.style.display = 'block');
+            journalHeaders.forEach(h => h.style.display = 'block');
+            fieldHeaders.forEach(h => h.style.display = 'block');
+          }
+        }
+
+        function savePage() {
+          // Reset filter before saving so all papers are visible in the source
+          if (isFilterActive) toggleTopPicks();
+
+          // Remove the Save button and admin UI from the saved HTML
+          const adminUI = document.getElementById('admin-ui');
+          adminUI.style.display = 'none';
+          
+          // Update the checked attribute of radio buttons based on their current state
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            if (radio.checked) {
+              radio.setAttribute('checked', 'checked');
+            } else {
+              radio.removeAttribute('checked');
+            }
+          });
+
+          const htmlContent = document.documentElement.outerHTML;
+          const blob = new Blob([htmlContent], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = window.location.pathname.split('/').pop() || 'digest.html';
+          a.click();
+          
+          // Show admin UI again
+          adminUI.style.display = 'block';
+        }
+      </script>
+    </body>
+    </html>
+    
