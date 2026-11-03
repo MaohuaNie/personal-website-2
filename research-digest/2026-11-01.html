@@ -1,0 +1,386 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+      <link rel="stylesheet" href="../assets/site.css">
+      <style>
+        :root {
+          --paper:#fffdf9; --page:#efece5; --ink:#23272c; --ink-soft:#4c525a;
+          --muted:#8b9099; --rule:#e7e2d7; --rule-strong:#cfc8b9; --accent:#0b4a6f;
+        }
+        html, body { margin:0; }
+        body {
+          background:var(--page); color:var(--ink);
+          font-family:'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+          font-size:17px; line-height:1.6;
+          -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+          padding:28px 18px 90px;
+        }
+        .sans { font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif; }
+        .sheet {
+          max-width:800px; margin:0 auto; background:var(--paper);
+          padding:60px 68px 76px;
+          border:1px solid var(--rule);
+          box-shadow:0 1px 2px rgba(20,20,30,.04), 0 24px 60px rgba(30,30,45,.07);
+        }
+
+        /* ---- Masthead ---- */
+        .masthead { text-align:center; border-bottom:3px double var(--rule-strong); padding-bottom:24px; }
+        .masthead .eyebrow {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 12px;
+        }
+        .masthead h1 { margin:0; font-size:42px; font-weight:700; letter-spacing:.005em; line-height:1.08; color:#1a1d21; }
+        .masthead .meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; letter-spacing:.03em; color:var(--ink-soft); margin:14px 0 0;
+        }
+        .masthead .meta .dot { color:var(--rule-strong); margin:0 9px; }
+
+        /* ---- Toolbar ---- */
+        .toolbar { display:flex; justify-content:center; margin:18px 0 0; }
+        #filter-btn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          background:transparent; border:1px solid var(--rule-strong); color:var(--ink-soft);
+          padding:7px 15px; border-radius:2px; font-size:12px; letter-spacing:.05em;
+          cursor:pointer; transition:all .18s ease;
+        }
+        #filter-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+        /* ---- Contents (table of contents) ---- */
+        .contents { margin:34px 0 6px; }
+        .contents-title {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 20px;
+        }
+        .toc-field { margin:0 0 18px; }
+        .toc-fname { font-size:18px; font-weight:600; text-decoration:none; }
+        .toc-fname:hover { text-decoration:underline; }
+        .toc-fcount {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; color:var(--muted); margin-left:8px;
+        }
+        .toc-list { list-style:none; margin:7px 0 0; padding:0; }
+        .toc-row { display:flex; align-items:baseline; padding:2px 0; font-size:15.5px; }
+        .toc-row a { color:var(--ink-soft); text-decoration:none; white-space:nowrap; }
+        .toc-row a:hover { color:var(--accent); }
+        .toc-lead { flex:1; border-bottom:1px dotted var(--rule-strong); margin:0 9px; position:relative; top:-4px; }
+        .toc-row .n {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12.5px; color:var(--muted);
+        }
+
+        /* ---- Field section ---- */
+        .field-header {
+          display:flex; align-items:baseline; gap:15px;
+          margin:64px 0 6px; padding-bottom:10px; border-bottom:2px solid currentColor;
+        }
+        .field-header .rn { font-size:20px; font-weight:600; opacity:.5; }
+        .field-header .ft { font-size:31px; font-weight:700; letter-spacing:.005em; }
+        .field-header .fc {
+          margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.06em; opacity:.6; align-self:center;
+        }
+
+        /* ---- Journal sub-header ---- */
+        .journal-header {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; font-weight:600; letter-spacing:.19em; text-transform:uppercase;
+          color:var(--muted); margin:34px 0 2px;
+        }
+
+        /* ---- Paper entry ---- */
+        .paper { padding:22px 0 24px; border-bottom:1px solid var(--rule); }
+        .paper-head { display:flex; justify-content:space-between; align-items:flex-start; gap:22px; }
+        .paper-title { margin:0; font-size:20px; line-height:1.34; font-weight:600; color:#1c1f23; flex:1; }
+        .paper-title .pn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; font-weight:600; color:var(--muted); margin-right:9px;
+        }
+        .paper-authors { margin:8px 0 0; font-style:italic; font-size:15.5px; color:var(--ink-soft); }
+        .paper-summary { margin:11px 0 0; font-size:16px; line-height:1.58; color:var(--ink); }
+        .paper-meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.02em; color:var(--muted);
+          margin:12px 0 0; display:flex; flex-wrap:wrap; gap:8px 18px;
+        }
+        .paper-meta a { color:var(--accent); text-decoration:none; }
+        .paper-meta a:hover { text-decoration:underline; }
+        .paper-abstract {
+          margin:14px 0 0; padding:1px 0 1px 20px; border-left:2px solid var(--rule-strong);
+          font-size:14.5px; line-height:1.66; color:var(--ink-soft);
+          text-align:justify; hyphens:auto;
+        }
+        .paper-abstract .lbl {
+          display:block; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 6px;
+        }
+
+        /* ---- Star rating ---- */
+        .star-rating { display:inline-flex; flex-direction:row-reverse; gap:3px; flex-shrink:0; }
+        .star-rating input { display:none; }
+        .star-rating label { font-size:17px; color:#ded8ca; cursor:pointer; transition:color .1s; }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label { color:#c19a35; }
+
+        /* ---- Admin ---- */
+        .admin-controls { position:fixed; top:20px; right:20px; z-index:1000; display:none; }
+        .save-btn {
+          background:var(--accent); color:#fff; border:none; padding:10px 20px;
+          border-radius:4px; cursor:pointer; font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,.15);
+        }
+
+        @media print { .admin-controls, .star-rating, .toolbar { display:none !important; }
+          body { background:#fff; padding:0; } .sheet { box-shadow:none; border:none; } }
+        @media (max-width:640px) {
+          .sheet { padding:34px 22px 46px; }
+          .masthead h1 { font-size:31px; }
+          .field-header .ft { font-size:25px; }
+          .field-header .fc { display:none; }
+          .paper-head { flex-direction:column; gap:10px; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="admin-controls" id="admin-ui">
+        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
+      </div>
+      <a id="top"></a>
+      <div class="sheet">
+        <header class="masthead">
+          <p class="eyebrow">Maohua Nie · Research Digest</p>
+          <h1>Bi-weekly Research Digest</h1>
+          <p class="meta">16 Oct 2026 – 31 Oct 2026<span class="dot">◆</span>7 papers across 2 fields</p>
+        </header>
+
+        <div class="toolbar">
+          <button id="filter-btn" onclick="toggleTopPicks()">★ Show top picks (4★+)</button>
+        </div>
+
+        <nav class="contents">
+          <p class="contents-title">Contents</p>
+    <div class="toc-field"><a class="toc-fname" href="#field-economics" style="color:#1c5d54">I. Economics</a><span class="toc-fcount">5</span><ul class="toc-list"><li class="toc-row"><a href="#journal-economics-economic-journal">Economic Journal</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-economics-journal-of-risk-and-uncertainty">Journal of Risk and Uncertainty</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-economics-experimental-economics">Experimental Economics</a><span class="toc-lead"></span><span class="n">3</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-psychology" style="color:#8a2b3a">II. Psychology</a><span class="toc-fcount">2</span><ul class="toc-list"><li class="toc-row"><a href="#journal-psychology-journal-of-behavioral-decision-making">Journal of Behavioral Decision Making</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-plos-computational-biology">PLOS Computational Biology</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div></nav><a id="field-economics"></a><h2 class="field-header" data-field="economics" style="color:#1c5d54"><span class="rn">I</span><span class="ft">Economics</span><span class="fc">5 papers</span></h2><a id="journal-economics-economic-journal"></a><h3 class="journal-header" data-group="economics-economic-journal">Economic Journal</h3>
+                <div id="paper-10-1093-ej-ueag135" class="paper-item paper" data-field="economics" data-group="economics-economic-journal">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">1</span>Cognitive ability, risk preferences and errors</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1093-ej-ueag135">
+                      <input type="radio" id="star5-paper-10-1093-ej-ueag135" name="rating-paper-10-1093-ej-ueag135" value="5"><label for="star5-paper-10-1093-ej-ueag135">★</label>
+                      <input type="radio" id="star4-paper-10-1093-ej-ueag135" name="rating-paper-10-1093-ej-ueag135" value="4"><label for="star4-paper-10-1093-ej-ueag135">★</label>
+                      <input type="radio" id="star3-paper-10-1093-ej-ueag135" name="rating-paper-10-1093-ej-ueag135" value="3"><label for="star3-paper-10-1093-ej-ueag135">★</label>
+                      <input type="radio" id="star2-paper-10-1093-ej-ueag135" name="rating-paper-10-1093-ej-ueag135" value="2"><label for="star2-paper-10-1093-ej-ueag135">★</label>
+                      <input type="radio" id="star1-paper-10-1093-ej-ueag135" name="rating-paper-10-1093-ej-ueag135" value="1"><label for="star1-paper-10-1093-ej-ueag135">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Drouvelis, M., Pearce, G.</p>
+                  <p class='paper-summary'>Using ~260,000 risky decisions from ~13,000 individuals, the paper finds that cognitive ability does not affect risk preferences but robustly reduces decision errors, with implications for theories of how intelligence shapes risky decision making.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.59</span><span><a href='https://doi.org/10.1093/ej/ueag135' target='_blank' rel='noopener noreferrer'>doi.org/10.1093/ej/ueag135</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract In this paper we examine the link between cognitive ability, risk preferences and the errors that people make. We build a unique dataset that contains almost 260,000 decisions made under risk in a variety of tasks by approximately 13,000 individuals, with each person having completed a test designed explicitly to measure their cognitive ability. Our analysis suggests that intelligence has (1) no impact on risk preferences and (2) a robust link to errors. Our results have implications for the development of theories that seek to explain the impact of cognitive ability on decision making.</div>
+                </div>
+                <a id="journal-economics-journal-of-risk-and-uncertainty"></a><h3 class="journal-header" data-group="economics-journal-of-risk-and-uncertainty">Journal of Risk and Uncertainty</h3>
+                <div id="paper-10-1007-s11166-026-09514-9" class="paper-item paper" data-field="economics" data-group="economics-journal-of-risk-and-uncertainty">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">2</span>Less is more: Decision-making under increasingly complex ambiguity</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1007-s11166-026-09514-9">
+                      <input type="radio" id="star5-paper-10-1007-s11166-026-09514-9" name="rating-paper-10-1007-s11166-026-09514-9" value="5"><label for="star5-paper-10-1007-s11166-026-09514-9">★</label>
+                      <input type="radio" id="star4-paper-10-1007-s11166-026-09514-9" name="rating-paper-10-1007-s11166-026-09514-9" value="4"><label for="star4-paper-10-1007-s11166-026-09514-9">★</label>
+                      <input type="radio" id="star3-paper-10-1007-s11166-026-09514-9" name="rating-paper-10-1007-s11166-026-09514-9" value="3"><label for="star3-paper-10-1007-s11166-026-09514-9">★</label>
+                      <input type="radio" id="star2-paper-10-1007-s11166-026-09514-9" name="rating-paper-10-1007-s11166-026-09514-9" value="2"><label for="star2-paper-10-1007-s11166-026-09514-9">★</label>
+                      <input type="radio" id="star1-paper-10-1007-s11166-026-09514-9" name="rating-paper-10-1007-s11166-026-09514-9" value="1"><label for="star1-paper-10-1007-s11166-026-09514-9">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Yang, X.</p>
+                  <p class='paper-summary'>The paper investigates how increasing levels of ambiguity complexity affect decision making, likely examining behavioral patterns and potentially cognitive processes as complexity grows. It appears to explore whether simpler ambiguous situations lead to better or different choices than more complex ones.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.51</span><span><a href='https://doi.org/10.1007/s11166-026-09514-9' target='_blank' rel='noopener noreferrer'>doi.org/10.1007/s11166-026-09514-9</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="journal-economics-experimental-economics"></a><h3 class="journal-header" data-group="economics-experimental-economics">Experimental Economics</h3>
+                <div id="paper-10-1017-eec-2026-10062" class="paper-item paper" data-field="economics" data-group="economics-experimental-economics">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">3</span>The impact of LLM-based recommendations on decisions under uncertainty</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1017-eec-2026-10062">
+                      <input type="radio" id="star5-paper-10-1017-eec-2026-10062" name="rating-paper-10-1017-eec-2026-10062" value="5"><label for="star5-paper-10-1017-eec-2026-10062">★</label>
+                      <input type="radio" id="star4-paper-10-1017-eec-2026-10062" name="rating-paper-10-1017-eec-2026-10062" value="4"><label for="star4-paper-10-1017-eec-2026-10062">★</label>
+                      <input type="radio" id="star3-paper-10-1017-eec-2026-10062" name="rating-paper-10-1017-eec-2026-10062" value="3"><label for="star3-paper-10-1017-eec-2026-10062">★</label>
+                      <input type="radio" id="star2-paper-10-1017-eec-2026-10062" name="rating-paper-10-1017-eec-2026-10062" value="2"><label for="star2-paper-10-1017-eec-2026-10062">★</label>
+                      <input type="radio" id="star1-paper-10-1017-eec-2026-10062" name="rating-paper-10-1017-eec-2026-10062" value="1"><label for="star1-paper-10-1017-eec-2026-10062">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Chen, M., Filiz-Ozbay, E., Ozbay, E.</p>
+                  <p class='paper-summary'>This study examines how LLM-based recommendations influence valuations of lotteries varying in cognitive complexity and ambiguity, finding that such recommendations compress the distribution of certainty equivalents (reducing extreme valuations) without changing mean valuations, thereby attenuating risk, complexity, and ambiguity aversion. The work speaks directly to how cognitive demands and informational aids shape decisions under uncertainty.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.51</span><span><a href='https://doi.org/10.1017/eec.2026.10062' target='_blank' rel='noopener noreferrer'>doi.org/10.1017/eec.2026.10062</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract We study how large language model (LLM) based recommendations affect evaluations of uncertainty. We elicit certainty equivalents for (i) lotteries that share the same reduced-form winning probability but vary in cognitive demands because they are compound, and (ii) an Ellsberg-style ambiguous lottery. Across all lottery types, valuations from participants who receive LLM-based recommendations before each valuation exhibit second-order stochastic dominance relative to valuations from participants who do not. Hence, LLM-based recommendations leave mean valuations unchanged but compress the distribution, reducing the incidence of extreme valuations. Consistent with this pattern, LLM-based recommendations reduce the intensity of risk, complexity, and ambiguity aversion, while leaving the fraction of participants classified as averse unchanged.</div>
+                </div>
+                
+                <div id="paper-10-1017-eec-2026-10067" class="paper-item paper" data-field="economics" data-group="economics-experimental-economics">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">4</span>Failures of contingent reasoning in screening decisions</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1017-eec-2026-10067">
+                      <input type="radio" id="star5-paper-10-1017-eec-2026-10067" name="rating-paper-10-1017-eec-2026-10067" value="5"><label for="star5-paper-10-1017-eec-2026-10067">★</label>
+                      <input type="radio" id="star4-paper-10-1017-eec-2026-10067" name="rating-paper-10-1017-eec-2026-10067" value="4"><label for="star4-paper-10-1017-eec-2026-10067">★</label>
+                      <input type="radio" id="star3-paper-10-1017-eec-2026-10067" name="rating-paper-10-1017-eec-2026-10067" value="3"><label for="star3-paper-10-1017-eec-2026-10067">★</label>
+                      <input type="radio" id="star2-paper-10-1017-eec-2026-10067" name="rating-paper-10-1017-eec-2026-10067" value="2"><label for="star2-paper-10-1017-eec-2026-10067">★</label>
+                      <input type="radio" id="star1-paper-10-1017-eec-2026-10067" name="rating-paper-10-1017-eec-2026-10067" value="1"><label for="star1-paper-10-1017-eec-2026-10067">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Arrieta, G., Bakhtin, M.</p>
+                  <p class='paper-summary'>This paper examines why people fail to choose optimal information-acquisition (screening) strategies in a hiring task, finding that most participants avoid the dominated no-information option due to failures in anticipating inference and planning full decision strategies. It provides behavioral evidence on cognitive limitations in decisions involving costly information under uncertainty.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.49</span><span><a href='https://doi.org/10.1017/eec.2026.10067' target='_blank' rel='noopener noreferrer'>doi.org/10.1017/eec.2026.10067</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract Screening decisions—choosing a costly action that reveals information about an unknown quality—can be crucial in various situations, such as hiring workers or designing policies. Choosing whether to screen can be difficult because it requires recognizing and trading off the benefits of information with the costs of getting it. We investigate whether people recognize when the benefits of screening dominate its costs and what causes them to choose otherwise. Our online experiment simulates a hiring scenario with an initial trial task. Participants can first reveal candidates’ quality at a small cost and then choose which candidate to hire. Most participants choose the dominated task that does not reveal the candidates’ quality, and this mistake persists even with experience and feedback. We show that this insufficient screening is driven by failures to anticipate inference and plan the full strategy.</div>
+                </div>
+                
+                <div id="paper-10-1017-eec-2026-10065" class="paper-item paper" data-field="economics" data-group="economics-experimental-economics">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">5</span>Testing capacity-constrained learning</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1017-eec-2026-10065">
+                      <input type="radio" id="star5-paper-10-1017-eec-2026-10065" name="rating-paper-10-1017-eec-2026-10065" value="5"><label for="star5-paper-10-1017-eec-2026-10065">★</label>
+                      <input type="radio" id="star4-paper-10-1017-eec-2026-10065" name="rating-paper-10-1017-eec-2026-10065" value="4"><label for="star4-paper-10-1017-eec-2026-10065">★</label>
+                      <input type="radio" id="star3-paper-10-1017-eec-2026-10065" name="rating-paper-10-1017-eec-2026-10065" value="3"><label for="star3-paper-10-1017-eec-2026-10065">★</label>
+                      <input type="radio" id="star2-paper-10-1017-eec-2026-10065" name="rating-paper-10-1017-eec-2026-10065" value="2"><label for="star2-paper-10-1017-eec-2026-10065">★</label>
+                      <input type="radio" id="star1-paper-10-1017-eec-2026-10065" name="rating-paper-10-1017-eec-2026-10065" value="1"><label for="star1-paper-10-1017-eec-2026-10065">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Caplin, A., Martin, D., Marx, P., Morozova, A., Xu, L.</p>
+                  <p class='paper-summary'>This paper develops and tests a behavioral condition (No Improving Switches) to distinguish capacity-constrained attention models (rational inattention, efficient coding) from models where incentives can expand total attention, finding systematic violations in perceptual tasks that suggest incentives often increase attentional capacity rather than merely reallocating fixed capacity.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.46</span><span><a href='https://doi.org/10.1017/eec.2026.10065' target='_blank' rel='noopener noreferrer'>doi.org/10.1017/eec.2026.10065</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract We introduce a general test of capacity-constrained learning models. Learning has capacity constraints when the set of possible ways to learn is exogenously fixed, as in the widely used fixed-capacity versions of rational inattention (Sims, 2003) and efficient coding (Woodford, 2012). With such models, changes in incentives do not alter the extent of attention, only how individuals decide to allocate their scarce attention. We show that choice data are consistent with capacity-constrained learning if and only if they satisfy a No Improving (Action or Attention) Switches (NIS) condition. Based on existing experiments in which the incentives for being correct are varied, we find strong evidence that participants fail NIS for a wide range of standard perceptual tasks: identifying the proportion of ball colors, recognizing shapes, and counting the number of balls. We further show that violations of NIS occur systematically in response to higher incentives, suggesting that incentives often expand attention beyond what capacity-constrained models allow. However, we find that this is not true for all existing perceptual tasks in the literature, which offers insights into settings where we do or do not expect incentives to impact the extent of attention.</div>
+                </div>
+                <a id="field-psychology"></a><h2 class="field-header" data-field="psychology" style="color:#8a2b3a"><span class="rn">II</span><span class="ft">Psychology</span><span class="fc">2 papers</span></h2><a id="journal-psychology-journal-of-behavioral-decision-making"></a><h3 class="journal-header" data-group="psychology-journal-of-behavioral-decision-making">Journal of Behavioral Decision Making</h3>
+                <div id="paper-10-1002-bdm-70097" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-behavioral-decision-making">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">6</span>Should We Expect Expected Value?</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1002-bdm-70097">
+                      <input type="radio" id="star5-paper-10-1002-bdm-70097" name="rating-paper-10-1002-bdm-70097" value="5"><label for="star5-paper-10-1002-bdm-70097">★</label>
+                      <input type="radio" id="star4-paper-10-1002-bdm-70097" name="rating-paper-10-1002-bdm-70097" value="4"><label for="star4-paper-10-1002-bdm-70097">★</label>
+                      <input type="radio" id="star3-paper-10-1002-bdm-70097" name="rating-paper-10-1002-bdm-70097" value="3"><label for="star3-paper-10-1002-bdm-70097">★</label>
+                      <input type="radio" id="star2-paper-10-1002-bdm-70097" name="rating-paper-10-1002-bdm-70097" value="2"><label for="star2-paper-10-1002-bdm-70097">★</label>
+                      <input type="radio" id="star1-paper-10-1002-bdm-70097" name="rating-paper-10-1002-bdm-70097" value="1"><label for="star1-paper-10-1002-bdm-70097">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Smoleń, T., Kroczek, B., Kucwaj, H., Basoń, P., Sak, K.</p>
+                  <p class='paper-summary'>The study dissociates EV computation from subjective valuation by showing that participants can accurately estimate EV when instructed, yet their certainty-equivalent-based valuations are strongly influenced by skewness, suggesting deviations from EV arise in the evaluation stage rather than numerical processing.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.52</span><span><a href='https://doi.org/10.1002/bdm.70097' target='_blank' rel='noopener noreferrer'>doi.org/10.1002/bdm.70097</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>ABSTRACT Expected value (EV) is commonly treated as the central determinant of risky choice, either directly or as a reference point for higher‐order representations of risk. However, people&#39;s valuations of gambles often deviate from EV, and it is unclear whether this reflects biases in representing and integrating numerical information or preferences for other properties of the outcome distribution. We compared explicit EV estimation with certainty equivalent–based attractiveness evaluation across four instructional conditions in a sample of 137 participants. Participants evaluated two‐outcome gambles varying in EV, standard deviation, and skewness. Analyses showed that participants estimated EV accurately when instructed to do so, and these estimates were largely unaffected by variance or skewness. In contrast, subjective valuation was strongly influenced by skewness but not by standard deviation. Positively skewed gambles were valued above their EV, whereas negatively skewed gambles were valued below it. The findings indicate a dissociation between EV computation and subjective valuation: people can estimate EV directly, yet broader evaluations of risky options rely on additional psychologically salient features, particularly skewness. Thus, biases in processing the displayed numbers explain only a minor part of the deviations of valuations from EV; most of the deviation arises when gambles are valued.</div>
+                </div>
+                <a id="journal-psychology-plos-computational-biology"></a><h3 class="journal-header" data-group="psychology-plos-computational-biology">PLOS Computational Biology</h3>
+                <div id="paper-10-1371-journal-pcbi-1014310" class="paper-item paper" data-field="psychology" data-group="psychology-plos-computational-biology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">7</span>Environmental volatility is associated with adaptive caution in visual search</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1371-journal-pcbi-1014310">
+                      <input type="radio" id="star5-paper-10-1371-journal-pcbi-1014310" name="rating-paper-10-1371-journal-pcbi-1014310" value="5"><label for="star5-paper-10-1371-journal-pcbi-1014310">★</label>
+                      <input type="radio" id="star4-paper-10-1371-journal-pcbi-1014310" name="rating-paper-10-1371-journal-pcbi-1014310" value="4"><label for="star4-paper-10-1371-journal-pcbi-1014310">★</label>
+                      <input type="radio" id="star3-paper-10-1371-journal-pcbi-1014310" name="rating-paper-10-1371-journal-pcbi-1014310" value="3"><label for="star3-paper-10-1371-journal-pcbi-1014310">★</label>
+                      <input type="radio" id="star2-paper-10-1371-journal-pcbi-1014310" name="rating-paper-10-1371-journal-pcbi-1014310" value="2"><label for="star2-paper-10-1371-journal-pcbi-1014310">★</label>
+                      <input type="radio" id="star1-paper-10-1371-journal-pcbi-1014310" name="rating-paper-10-1371-journal-pcbi-1014310" value="1"><label for="star1-paper-10-1371-journal-pcbi-1014310">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Qiu, N., Allenmark, F., Chen, S., Müller, H., Shi, Z.</p>
+                  <p class='paper-summary'>This study examines how environmental volatility (fast vs. slow distractor state changes) affects oculomotor capture, response caution, and fixation behavior during visual search, finding that volatility increases response caution (via DDM boundary effects) rather than altering early attentional capture. A Kalman-filter model of uncertainty updating complements the DDM analysis, showing precision-weighted adjustment to environmental uncertainty.</p>
+                  <p class="paper-meta"><span>2026-10</span><span>Relevance 0.47</span><span><a href='https://doi.org/10.1371/journal.pcbi.1014310' target='_blank' rel='noopener noreferrer'>doi.org/10.1371/journal.pcbi.1014310</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Real-world distractors occur in environments whose states change at different rates. We asked whether such volatility alters initial overt oculomotor allocation, later target verification and response commitment, or both. Observers performed an additional-singleton search task with concurrent eye tracking while distractor presence followed high- or low-volatility sequences, with overall distractor prevalence held constant. Trial-pooled oculomotor capture was higher under high volatility, a pattern that appears to indicate altered filtering. Matching the same-location run position removed that difference, with no detectable difference in capture across volatility regimes at matched run position. The pooled capture effect was therefore consistent with a structural consequence of the volatility manipulation, which enriched high-volatility blocks with early-run positions where capture is intrinsically high. The volatility effect itself appeared on distractor-absent trials. Under high volatility, response times were longer, fixations more frequent, final-target dwell longer, and errors fewer, while target-acquisition latency itself was unchanged. Same-location repetition learning showed no detectable difference in slope across regimes. A hierarchical drift-diffusion model (DDM) and a complementary volatility Kalman-filter (VKF) comparison converged in showing that manual responses carried both boundary-related and drift-related structure. With distractor frequency held constant, the per-trial effect of volatility therefore emerged after the first saccade as an increase in response caution rather than in oculomotor capture. This pattern is consistent with precision-weighted adjustment to environmental uncertainty.</div>
+                </div>
+                
+      </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+      <script>
+        let isFilterActive = false;
+
+        // Only show admin controls and allow editing if running locally (file://)
+        if (window.location.protocol === 'file:') {
+          document.getElementById('admin-ui').style.display = 'block';
+        } else {
+          // Disable all radio buttons if not local
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.disabled = true;
+          });
+          // Add a style to make the stars non-interactive
+          const style = document.createElement('style');
+          style.innerHTML = '.star-rating { pointer-events: none; }';
+          document.head.appendChild(style);
+        }
+
+        function toggleTopPicks() {
+          isFilterActive = !isFilterActive;
+          const btn = document.getElementById('filter-btn');
+          const papers = document.querySelectorAll('.paper-item');
+          const journalHeaders = document.querySelectorAll('.journal-header');
+          const fieldHeaders = document.querySelectorAll('.field-header');
+
+          if (isFilterActive) {
+            btn.style.background = '#0b4a6f';
+            btn.style.color = '#ffffff';
+            btn.style.borderColor = '#0b4a6f';
+            btn.innerHTML = '★ Showing top picks (4★+)';
+
+            // Show/hide papers by rating.
+            papers.forEach(paper => {
+              const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+              paper.style.display = parseInt(rating) >= 4 ? 'block' : 'none';
+            });
+
+            // Hide journal sub-headers whose papers are all filtered out.
+            journalHeaders.forEach(header => {
+              const group = header.getAttribute('data-group');
+              const groupPapers = document.querySelectorAll(`.paper-item[data-group="${group}"]`);
+              const anyVisible = Array.from(groupPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+
+            // Hide field headers whose whole section is filtered out.
+            fieldHeaders.forEach(header => {
+              const field = header.getAttribute('data-field');
+              const fieldPapers = document.querySelectorAll(`.paper-item[data-field="${field}"]`);
+              const anyVisible = Array.from(fieldPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+          } else {
+            btn.style.background = 'transparent';
+            btn.style.color = '#4c525a';
+            btn.style.borderColor = '#cfc8b9';
+            btn.innerHTML = '★ Show top picks (4★+)';
+
+            papers.forEach(p => p.style.display = 'block');
+            journalHeaders.forEach(h => h.style.display = 'block');
+            fieldHeaders.forEach(h => h.style.display = 'block');
+          }
+        }
+
+        function savePage() {
+          // Reset filter before saving so all papers are visible in the source
+          if (isFilterActive) toggleTopPicks();
+
+          // Remove the Save button and admin UI from the saved HTML
+          const adminUI = document.getElementById('admin-ui');
+          adminUI.style.display = 'none';
+          
+          // Update the checked attribute of radio buttons based on their current state
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            if (radio.checked) {
+              radio.setAttribute('checked', 'checked');
+            } else {
+              radio.removeAttribute('checked');
+            }
+          });
+
+          const htmlContent = document.documentElement.outerHTML;
+          const blob = new Blob([htmlContent], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = window.location.pathname.split('/').pop() || 'digest.html';
+          a.click();
+          
+          // Show admin UI again
+          adminUI.style.display = 'block';
+        }
+      </script>
+    </body>
+    </html>
+    
