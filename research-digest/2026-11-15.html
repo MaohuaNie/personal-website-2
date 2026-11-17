@@ -1,0 +1,488 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+      <link rel="stylesheet" href="../assets/site.css">
+      <style>
+        :root {
+          --paper:#fffdf9; --page:#efece5; --ink:#23272c; --ink-soft:#4c525a;
+          --muted:#8b9099; --rule:#e7e2d7; --rule-strong:#cfc8b9; --accent:#0b4a6f;
+        }
+        html, body { margin:0; }
+        body {
+          background:var(--page); color:var(--ink);
+          font-family:'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+          font-size:17px; line-height:1.6;
+          -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+          padding:28px 18px 90px;
+        }
+        .sans { font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif; }
+        .sheet {
+          max-width:800px; margin:0 auto; background:var(--paper);
+          padding:60px 68px 76px;
+          border:1px solid var(--rule);
+          box-shadow:0 1px 2px rgba(20,20,30,.04), 0 24px 60px rgba(30,30,45,.07);
+        }
+
+        /* ---- Masthead ---- */
+        .masthead { text-align:center; border-bottom:3px double var(--rule-strong); padding-bottom:24px; }
+        .masthead .eyebrow {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 12px;
+        }
+        .masthead h1 { margin:0; font-size:42px; font-weight:700; letter-spacing:.005em; line-height:1.08; color:#1a1d21; }
+        .masthead .meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; letter-spacing:.03em; color:var(--ink-soft); margin:14px 0 0;
+        }
+        .masthead .meta .dot { color:var(--rule-strong); margin:0 9px; }
+
+        /* ---- Toolbar ---- */
+        .toolbar { display:flex; justify-content:center; margin:18px 0 0; }
+        #filter-btn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          background:transparent; border:1px solid var(--rule-strong); color:var(--ink-soft);
+          padding:7px 15px; border-radius:2px; font-size:12px; letter-spacing:.05em;
+          cursor:pointer; transition:all .18s ease;
+        }
+        #filter-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+        /* ---- Contents (table of contents) ---- */
+        .contents { margin:34px 0 6px; }
+        .contents-title {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 20px;
+        }
+        .toc-field { margin:0 0 18px; }
+        .toc-fname { font-size:18px; font-weight:600; text-decoration:none; }
+        .toc-fname:hover { text-decoration:underline; }
+        .toc-fcount {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; color:var(--muted); margin-left:8px;
+        }
+        .toc-list { list-style:none; margin:7px 0 0; padding:0; }
+        .toc-row { display:flex; align-items:baseline; padding:2px 0; font-size:15.5px; }
+        .toc-row a { color:var(--ink-soft); text-decoration:none; white-space:nowrap; }
+        .toc-row a:hover { color:var(--accent); }
+        .toc-lead { flex:1; border-bottom:1px dotted var(--rule-strong); margin:0 9px; position:relative; top:-4px; }
+        .toc-row .n {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12.5px; color:var(--muted);
+        }
+
+        /* ---- Field section ---- */
+        .field-header {
+          display:flex; align-items:baseline; gap:15px;
+          margin:64px 0 6px; padding-bottom:10px; border-bottom:2px solid currentColor;
+        }
+        .field-header .rn { font-size:20px; font-weight:600; opacity:.5; }
+        .field-header .ft { font-size:31px; font-weight:700; letter-spacing:.005em; }
+        .field-header .fc {
+          margin-left:auto; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.06em; opacity:.6; align-self:center;
+        }
+
+        /* ---- Journal sub-header ---- */
+        .journal-header {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; font-weight:600; letter-spacing:.19em; text-transform:uppercase;
+          color:var(--muted); margin:34px 0 2px;
+        }
+
+        /* ---- Paper entry ---- */
+        .paper { padding:22px 0 24px; border-bottom:1px solid var(--rule); }
+        .paper-head { display:flex; justify-content:space-between; align-items:flex-start; gap:22px; }
+        .paper-title { margin:0; font-size:20px; line-height:1.34; font-weight:600; color:#1c1f23; flex:1; }
+        .paper-title .pn {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:13px; font-weight:600; color:var(--muted); margin-right:9px;
+        }
+        .paper-authors { margin:8px 0 0; font-style:italic; font-size:15.5px; color:var(--ink-soft); }
+        .paper-summary { margin:11px 0 0; font-size:16px; line-height:1.58; color:var(--ink); }
+        .paper-meta {
+          font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:12px; letter-spacing:.02em; color:var(--muted);
+          margin:12px 0 0; display:flex; flex-wrap:wrap; gap:8px 18px;
+        }
+        .paper-meta a { color:var(--accent); text-decoration:none; }
+        .paper-meta a:hover { text-decoration:underline; }
+        .paper-abstract {
+          margin:14px 0 0; padding:1px 0 1px 20px; border-left:2px solid var(--rule-strong);
+          font-size:14.5px; line-height:1.66; color:var(--ink-soft);
+          text-align:justify; hyphens:auto;
+        }
+        .paper-abstract .lbl {
+          display:block; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+          font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--muted); margin:0 0 6px;
+        }
+
+        /* ---- Star rating ---- */
+        .star-rating { display:inline-flex; flex-direction:row-reverse; gap:3px; flex-shrink:0; }
+        .star-rating input { display:none; }
+        .star-rating label { font-size:17px; color:#ded8ca; cursor:pointer; transition:color .1s; }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label { color:#c19a35; }
+
+        /* ---- Admin ---- */
+        .admin-controls { position:fixed; top:20px; right:20px; z-index:1000; display:none; }
+        .save-btn {
+          background:var(--accent); color:#fff; border:none; padding:10px 20px;
+          border-radius:4px; cursor:pointer; font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,.15);
+        }
+
+        @media print { .admin-controls, .star-rating, .toolbar { display:none !important; }
+          body { background:#fff; padding:0; } .sheet { box-shadow:none; border:none; } }
+        @media (max-width:640px) {
+          .sheet { padding:34px 22px 46px; }
+          .masthead h1 { font-size:31px; }
+          .field-header .ft { font-size:25px; }
+          .field-header .fc { display:none; }
+          .paper-head { flex-direction:column; gap:10px; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="admin-controls" id="admin-ui">
+        <button class="save-btn" onclick="savePage()">💾 Save Ratings</button>
+      </div>
+      <a id="top"></a>
+      <div class="sheet">
+        <header class="masthead">
+          <p class="eyebrow">Maohua Nie · Research Digest</p>
+          <h1>Bi-weekly Research Digest</h1>
+          <p class="meta">01 Nov 2026 – 15 Nov 2026<span class="dot">◆</span>13 papers across 3 fields</p>
+        </header>
+
+        <div class="toolbar">
+          <button id="filter-btn" onclick="toggleTopPicks()">★ Show top picks (4★+)</button>
+        </div>
+
+        <nav class="contents">
+          <p class="contents-title">Contents</p>
+    <div class="toc-field"><a class="toc-fname" href="#field-economics" style="color:#1c5d54">I. Economics</a><span class="toc-fcount">5</span><ul class="toc-list"><li class="toc-row"><a href="#journal-economics-management-science">Management Science</a><span class="toc-lead"></span><span class="n">2</span></li><li class="toc-row"><a href="#journal-economics-journal-of-economic-behavior-organization">Journal of Economic Behavior &amp; Organization</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-economics-the-quarterly-journal-of-economics">The Quarterly Journal of Economics</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-economics-journal-of-political-economy">Journal of Political Economy</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-psychology" style="color:#8a2b3a">II. Psychology</a><span class="toc-fcount">6</span><ul class="toc-list"><li class="toc-row"><a href="#journal-psychology-journal-of-experimental-psychology-learning-memory-and-cognition">Journal of Experimental Psychology: Learning, Memory, and Cognition</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-jep-general">JEP: General</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-cognitive-psychology">Cognitive Psychology</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-psychonomic-bulletin-review">Psychonomic Bulletin &amp; Review</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-pnas">PNAS</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-psychology-psychological-science">Psychological Science</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div><div class="toc-field"><a class="toc-fname" href="#field-neuroscience" style="color:#3d3a78">III. Neuroscience</a><span class="toc-fcount">2</span><ul class="toc-list"><li class="toc-row"><a href="#journal-neuroscience-nature-communications">Nature Communications</a><span class="toc-lead"></span><span class="n">1</span></li><li class="toc-row"><a href="#journal-neuroscience-trends-in-cognitive-sciences">Trends in Cognitive Sciences</a><span class="toc-lead"></span><span class="n">1</span></li></ul></div></nav><a id="field-economics"></a><h2 class="field-header" data-field="economics" style="color:#1c5d54"><span class="rn">I</span><span class="ft">Economics</span><span class="fc">5 papers</span></h2><a id="journal-economics-management-science"></a><h3 class="journal-header" data-group="economics-management-science">Management Science</h3>
+                <div id="paper-10-1287-mnsc-2024-06232" class="paper-item paper" data-field="economics" data-group="economics-management-science">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">1</span>Uncertainty Attitudes, Subjective Beliefs, and Decisions Under Uncertainty</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2024-06232">
+                      <input type="radio" id="star5-paper-10-1287-mnsc-2024-06232" name="rating-paper-10-1287-mnsc-2024-06232" value="5"><label for="star5-paper-10-1287-mnsc-2024-06232">★</label>
+                      <input type="radio" id="star4-paper-10-1287-mnsc-2024-06232" name="rating-paper-10-1287-mnsc-2024-06232" value="4"><label for="star4-paper-10-1287-mnsc-2024-06232">★</label>
+                      <input type="radio" id="star3-paper-10-1287-mnsc-2024-06232" name="rating-paper-10-1287-mnsc-2024-06232" value="3"><label for="star3-paper-10-1287-mnsc-2024-06232">★</label>
+                      <input type="radio" id="star2-paper-10-1287-mnsc-2024-06232" name="rating-paper-10-1287-mnsc-2024-06232" value="2"><label for="star2-paper-10-1287-mnsc-2024-06232">★</label>
+                      <input type="radio" id="star1-paper-10-1287-mnsc-2024-06232" name="rating-paper-10-1287-mnsc-2024-06232" value="1"><label for="star1-paper-10-1287-mnsc-2024-06232">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Delavande, A., Ganguli, J., Mengel, F.</p>
+                  <p class='paper-summary'>This paper uses survey experiments to jointly elicit uncertainty attitudes (risk, ambiguity, probability weighting, loss aversion) and subjective beliefs in health and financial contexts, then estimates structural models to compare prospect theory with subjective expected utility across a general population sample. It finds high heterogeneity in both preferences and beliefs, and that prospect theory with source-dependent weighting outperforms SEU particularly when beliefs are concentrated at extreme values.</p>
+                  <p class="paper-meta"><span>2026-11</span><span>Relevance 0.66</span><span><a href='https://doi.org/10.1287/mnsc.2024.06232' target='_blank' rel='noopener noreferrer'>doi.org/10.1287/mnsc.2024.06232</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>We conducted survey experiments to gather new data on uncertainty attitudes and subjective beliefs. Our survey targets a general population, focusing on health and financial decisions. We collect data on (i) individual attitudes toward risk and ambiguity, including individual-specific probability weighting and loss aversion, and (ii) individual probabilistic beliefs about events related to the decisions we consider. The joint availability of individual preference parameters and subjective beliefs allows us to study heterogeneity and cross-correlations across these parameters in depth and to estimate structural models of decision making under uncertainty that go beyond subjective expected utility. We find that both preferences and beliefs are highly heterogeneous. Compared with subjective expected utility, prospect theory combined with source-dependent probability weighting fits the data strictly better in some contexts and equally well in others. Prospect theory performs particularly well when the belief distribution is concentrated toward extreme values. This paper was accepted by Marie Claire Villeval, behavioral economics and decision analysis. Funding: A. Delavande acknowledges funding from the Economic and Social Research Council Research Centre on Micro-Social Change [Grants ES/L009153/1 and ES/S012486/1] and the National Institute on Aging [Grant P01AG008291]. J. Ganguli acknowledges research support from the Economic and Social Research Council [Grant ES/K00168X/1]. F. Mengel acknowledges support from the European Research Council [Grant DYNNET-805017]. Ethical approval was obtained by the Ethics Social Sciences subcommittee at the University of Essex in August 2015. Supplemental Material: The online appendices and data files are available at https://doi.org/10.1287/mnsc.2024.06232 .</div>
+                </div>
+                
+                <div id="paper-10-1287-mnsc-2025-03690" class="paper-item paper" data-field="economics" data-group="economics-management-science">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">2</span>Asset Pricing in a World of Imperfect Foresight</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1287-mnsc-2025-03690">
+                      <input type="radio" id="star5-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="5"><label for="star5-paper-10-1287-mnsc-2025-03690">★</label>
+                      <input type="radio" id="star4-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="4"><label for="star4-paper-10-1287-mnsc-2025-03690">★</label>
+                      <input type="radio" id="star3-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="3"><label for="star3-paper-10-1287-mnsc-2025-03690">★</label>
+                      <input type="radio" id="star2-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="2"><label for="star2-paper-10-1287-mnsc-2025-03690">★</label>
+                      <input type="radio" id="star1-paper-10-1287-mnsc-2025-03690" name="rating-paper-10-1287-mnsc-2025-03690" value="1"><label for="star1-paper-10-1287-mnsc-2025-03690">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Bossaerts, P., Fattinger, F., van den Bogaerde, F., Yang, W.</p>
+                  <p class='paper-summary'>The paper proposes &#39;dynamic narrow framing&#39; as a behavioral explanation for why asset prices can still reflect perfect-foresight equilibria even when agents have imperfect foresight, verifying this with a controlled experiment that evaluates both prices and individual choices.</p>
+                  <p class="paper-meta"><span>2026-11</span><span>Relevance 0.51</span><span><a href='https://doi.org/10.1287/mnsc.2025.03690' target='_blank' rel='noopener noreferrer'>doi.org/10.1287/mnsc.2025.03690</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>A key assumption of dynamic asset pricing theory is that agents have perfect foresight: for all future contingencies, they correctly foresee the corresponding equilibrium prices. Is it possible for prices to still reflect perfect foresight even if agents have imperfect foresight? We answer affirmatively, provided agents exhibit a mild form of narrow framing, which we refer to as dynamic narrow framing: while accounting for future endowments, agents ignore retrading opportunities. This behavior vastly simplifies computation of optimal choices because it obviates the need to form beliefs about future prices. Obviously, choices will generally be different, and hence, suboptimal, compared with those that obtain if agents were to optimize dynamically using perfect foresight about future prices. With a controlled experiment, we verify that our behavioral assumption explains both prices and choices. Our findings allow us to reinterpret the successes (when evaluating prices only) and failures (when evaluating prices against choices) of traditional tests of asset pricing theory on historical data from the field. This paper was accepted by Lukas Schmid, finance. Funding: P. Bossaerts acknowledges funding from the Australian Research Council [Grant DP180102284], from a R@MAP Chair at the University of Melbourne, and from The Leverhulme Trust. Supplemental Material: The online appendix and data files are available at https://doi.org/10.1287/mnsc.2025.03690 .</div>
+                </div>
+                <a id="journal-economics-journal-of-economic-behavior-organization"></a><h3 class="journal-header" data-group="economics-journal-of-economic-behavior-organization">Journal of Economic Behavior &amp; Organization</h3>
+                <div id="paper-10-1016-j-jebo-2026-107776" class="paper-item paper" data-field="economics" data-group="economics-journal-of-economic-behavior-organization">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">3</span>Learning and probability matching in newsvendor decisions</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-jebo-2026-107776">
+                      <input type="radio" id="star5-paper-10-1016-j-jebo-2026-107776" name="rating-paper-10-1016-j-jebo-2026-107776" value="5"><label for="star5-paper-10-1016-j-jebo-2026-107776">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-jebo-2026-107776" name="rating-paper-10-1016-j-jebo-2026-107776" value="4"><label for="star4-paper-10-1016-j-jebo-2026-107776">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-jebo-2026-107776" name="rating-paper-10-1016-j-jebo-2026-107776" value="3"><label for="star3-paper-10-1016-j-jebo-2026-107776">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-jebo-2026-107776" name="rating-paper-10-1016-j-jebo-2026-107776" value="2"><label for="star2-paper-10-1016-j-jebo-2026-107776">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-jebo-2026-107776" name="rating-paper-10-1016-j-jebo-2026-107776" value="1"><label for="star1-paper-10-1016-j-jebo-2026-107776">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Han, W., Wang, X.</p>
+                  <p class='paper-summary'>This paper examines why human decisions in the newsvendor paradigm deviate from optimal profit maximization, finding via behavioral experiments and EEG that repeated feedback induces probability matching and asymmetric belief updating rather than utility distortion, and develops a formal learning model that better fits observed choices.</p>
+                  <p class="paper-meta"><span>2026-11</span><span>Relevance 0.61</span><span><a href='https://doi.org/10.1016/j.jebo.2026.107776' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.jebo.2026.107776</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Human decision making in the newsvendor paradigm systematically deviates from the predictions of expected profit maximization, yet the cognitive mechanisms underlying these deviations remain contested. We investigate whether these biases arise from distorted utility evaluation or from adaptive learning induced by repeated feedback. Across three laboratory experiments ( N = 214 ), we compare behavior under decision from description, decision from experience, and newsvendor environments while varying information availability. The first experiment combines behavioral and electroencephalographic (EEG) data, the second replicates the behavioral findings without EEG, and the third extends the analysis to a multi-alternative setting with continuous demand. We document two robust patterns in newsvendor environments: decision accuracy inferior to random guessing, and positive correlation between choice and realized demand. These patterns are absent in one-shot descriptive decisions and cannot be explained by standard utility-based models. Neural evidence shows that repeated environments engage parietal and frontal activity associated with choice deliberation and feedback-based learning, and that memory encoding differs systematically across demand outcomes. Motivated by these findings, we develop a model incorporating probability matching and asymmetric belief updating, which provides a substantially improved fit to observed choices. Our results demonstrate that repeated feedback fundamentally alters the mechanism of economic decision making, highlighting the central role of learning and belief dynamics in generating newsvendor biases.</div>
+                </div>
+                <a id="journal-economics-the-quarterly-journal-of-economics"></a><h3 class="journal-header" data-group="economics-the-quarterly-journal-of-economics">The Quarterly Journal of Economics</h3>
+                <div id="paper-10-1093-qje-qjag055" class="paper-item paper" data-field="economics" data-group="economics-the-quarterly-journal-of-economics">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">4</span>Channeled Attention and Stable Errors</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1093-qje-qjag055">
+                      <input type="radio" id="star5-paper-10-1093-qje-qjag055" name="rating-paper-10-1093-qje-qjag055" value="5"><label for="star5-paper-10-1093-qje-qjag055">★</label>
+                      <input type="radio" id="star4-paper-10-1093-qje-qjag055" name="rating-paper-10-1093-qje-qjag055" value="4"><label for="star4-paper-10-1093-qje-qjag055">★</label>
+                      <input type="radio" id="star3-paper-10-1093-qje-qjag055" name="rating-paper-10-1093-qje-qjag055" value="3"><label for="star3-paper-10-1093-qje-qjag055">★</label>
+                      <input type="radio" id="star2-paper-10-1093-qje-qjag055" name="rating-paper-10-1093-qje-qjag055" value="2"><label for="star2-paper-10-1093-qje-qjag055">★</label>
+                      <input type="radio" id="star1-paper-10-1093-qje-qjag055" name="rating-paper-10-1093-qje-qjag055" value="1"><label for="star1-paper-10-1093-qje-qjag055">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Gagnon-Bartsch, T., Rabin, M., Schwartzstein, J.</p>
+                  <p class='paper-summary'>The paper presents a theoretical model in which people filter incoming data through their existing (potentially misspecified) model, causing certain errors to be &#39;attentionally stable&#39; and persist indefinitely even with abundant feedback; it uses this framework to explain asymmetries in error detection, coarse categorization, and why outsiders spot mistakes that insiders miss.</p>
+                  <p class="paper-meta"><span>2026-11</span><span>Relevance 0.5</span><span><a href='https://doi.org/10.1093/qje/qjag055' target='_blank' rel='noopener noreferrer'>doi.org/10.1093/qje/qjag055</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract People persist in mistaken beliefs even in settings with high stakes, abundant data, and repeated opportunities to learn—settings where standard arguments imply they should correct their errors. We develop an attention-based framework for understanding why errors persist. When a person channels his attention through the lens of his potentially misspecified model, exposure to data is not the same as tracking the statistics necessary to tell him his model is wrong. A model is attentionally stable when the data the person deems relevant will, in the long run, fail to make the model look implausible. Models that erroneously rule things out—e.g., beliefs that a variable doesn’t matter or that a distinction doesn’t exist—tend to be attentionally stable because they divert attention away from data that would refute the models. Conversely, models that erroneously rule things in are less likely to be stable. Whether an error is discovered depends on the structure of the decision problem but is not tightly linked to its level of harm; arbitrarily costly errors can persist while trivially inexpensive ones may be detected. Nevertheless, no error is robust both to changes in the decision environment and to shocks that expand attention: every channeled-attention error is vulnerable to some perturbation that would reveal it. We use the framework to analyze the stability of psychological biases and empirical misconceptions, as well as to explain why fresh eyes catch mistakes, why people use overly coarse rather than overly fine categorizations, and why people recognize errors in others that they miss in themselves.</div>
+                </div>
+                <a id="journal-economics-journal-of-political-economy"></a><h3 class="journal-header" data-group="economics-journal-of-political-economy">Journal of Political Economy</h3>
+                <div id="paper-10-1086-743896" class="paper-item paper" data-field="economics" data-group="economics-journal-of-political-economy">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">5</span>Connecting Common Ratio and Common Consequence Preferences</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1086-743896">
+                      <input type="radio" id="star5-paper-10-1086-743896" name="rating-paper-10-1086-743896" value="5"><label for="star5-paper-10-1086-743896">★</label>
+                      <input type="radio" id="star4-paper-10-1086-743896" name="rating-paper-10-1086-743896" value="4"><label for="star4-paper-10-1086-743896">★</label>
+                      <input type="radio" id="star3-paper-10-1086-743896" name="rating-paper-10-1086-743896" value="3"><label for="star3-paper-10-1086-743896">★</label>
+                      <input type="radio" id="star2-paper-10-1086-743896" name="rating-paper-10-1086-743896" value="2"><label for="star2-paper-10-1086-743896">★</label>
+                      <input type="radio" id="star1-paper-10-1086-743896" name="rating-paper-10-1086-743896" value="1"><label for="star1-paper-10-1086-743896">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">McGranaghan, C., Nielsen, K., O’Donoghue, T., Somerville, J., Sprenger, C.</p>
+                  <p class='paper-summary'>This paper examines the relationship between two well-known violations of expected utility theory — the common ratio effect and the common consequence effect (Allais paradox variants) — likely exploring their structural connections and implications for decision-making models under risk.</p>
+                  <p class="paper-meta"><span>2026-11</span><span>Relevance 0.39</span><span><a href='https://doi.org/10.1086/743896' target='_blank' rel='noopener noreferrer'>doi.org/10.1086/743896</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="field-psychology"></a><h2 class="field-header" data-field="psychology" style="color:#8a2b3a"><span class="rn">II</span><span class="ft">Psychology</span><span class="fc">6 papers</span></h2><a id="journal-psychology-journal-of-experimental-psychology-learning-memory-and-cognition"></a><h3 class="journal-header" data-group="psychology-journal-of-experimental-psychology-learning-memory-and-cognition">Journal of Experimental Psychology: Learning, Memory, and Cognition</h3>
+                <div id="paper-10-1037-xlm0001671" class="paper-item paper" data-field="psychology" data-group="psychology-journal-of-experimental-psychology-learning-memory-and-cognition">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">6</span>Beyond introspection: Inferring decision weights from others’ multiattribute choices.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-xlm0001671">
+                      <input type="radio" id="star5-paper-10-1037-xlm0001671" name="rating-paper-10-1037-xlm0001671" value="5"><label for="star5-paper-10-1037-xlm0001671">★</label>
+                      <input type="radio" id="star4-paper-10-1037-xlm0001671" name="rating-paper-10-1037-xlm0001671" value="4"><label for="star4-paper-10-1037-xlm0001671">★</label>
+                      <input type="radio" id="star3-paper-10-1037-xlm0001671" name="rating-paper-10-1037-xlm0001671" value="3"><label for="star3-paper-10-1037-xlm0001671">★</label>
+                      <input type="radio" id="star2-paper-10-1037-xlm0001671" name="rating-paper-10-1037-xlm0001671" value="2"><label for="star2-paper-10-1037-xlm0001671">★</label>
+                      <input type="radio" id="star1-paper-10-1037-xlm0001671" name="rating-paper-10-1037-xlm0001671" value="1"><label for="star1-paper-10-1037-xlm0001671">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Cash, T., Oppenheimer, D.</p>
+                  <p class='paper-summary'>This paper examines whether decision makers have privileged metacognitive access to their own decision weights in multiattribute choices, and how accurately outside observers can infer those weights from observed choices. It finds that privileged metacognitive cues improve self-knowledge somewhat, but observers can also make reasonably accurate inferences by combining statistical regularity monitoring with domain-specific beliefs.</p>
+                  <p class="paper-meta"><span>2026-11</span><span>Relevance 0.54</span><span><a href='https://doi.org/10.1037/xlm0001671' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/xlm0001671</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>= 218) inferences decreases when the context of the decision is obscured, suggesting that domain-specific beliefs slightly improve metacognitive inferences above and beyond what can be inferred via statistical regularity monitoring alone. In Study 3, we replicate these findings and investigate differences in subjective experiences (e.g., motivation, effort) across conditions. Together, our findings suggest that privileged metacognitive cues do improve the accuracy of decision makers&#39; metacognitive knowledge, but that observers can make reasonably accurate inferences about decision makers&#39; choice behavior, particularly when they can combine statistical regularity monitoring with domain-specific beliefs. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+                </div>
+                <a id="journal-psychology-jep-general"></a><h3 class="journal-header" data-group="psychology-jep-general">JEP: General</h3>
+                <div id="paper-10-1037-xge0001997" class="paper-item paper" data-field="psychology" data-group="psychology-jep-general">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">7</span>Adaptive regulation of confidence following metacognitive conflict: Evidence from behavior and computational modeling.</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1037-xge0001997">
+                      <input type="radio" id="star5-paper-10-1037-xge0001997" name="rating-paper-10-1037-xge0001997" value="5"><label for="star5-paper-10-1037-xge0001997">★</label>
+                      <input type="radio" id="star4-paper-10-1037-xge0001997" name="rating-paper-10-1037-xge0001997" value="4"><label for="star4-paper-10-1037-xge0001997">★</label>
+                      <input type="radio" id="star3-paper-10-1037-xge0001997" name="rating-paper-10-1037-xge0001997" value="3"><label for="star3-paper-10-1037-xge0001997">★</label>
+                      <input type="radio" id="star2-paper-10-1037-xge0001997" name="rating-paper-10-1037-xge0001997" value="2"><label for="star2-paper-10-1037-xge0001997">★</label>
+                      <input type="radio" id="star1-paper-10-1037-xge0001997" name="rating-paper-10-1037-xge0001997" value="1"><label for="star1-paper-10-1037-xge0001997">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Xing, J., Herregods, S., Vermeylen, L., Desender, K.</p>
+                  <p class='paper-summary'>This study investigates how conflicts between internal confidence signals and external feedback (&#39;metacognitive conflict&#39;) affect subsequent confidence reporting in perceptual decision making, using behavioral experiments and an evidence accumulation model with post-decisional accumulation to explain the underlying mechanisms.</p>
+                  <p class="paper-meta"><span>2026-11</span><span>Relevance 0.51</span><span><a href='https://doi.org/10.1037/xge0001997' target='_blank' rel='noopener noreferrer'>doi.org/10.1037/xge0001997</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>It is well established that external feedback is effective not only for enhancing cognitive performance but also for regulating metacognitive monitoring. However, external feedback could be detrimental when it conflicts with one&#39;s internal feedback signal (i.e., the level of confidence we have in our decisions). Currently, however, it is unknown how discrepancies between internal and external feedback (&quot;metacognitive conflict&quot;) influence cognitive and metacognitive performance. Here, we examined this question in a series of perceptual decision-making experiments in which participants reported both their level of confidence and received performance feedback. Metacognitive conflict occurs if participants have high confidence in their decision, but external feedback indicates that the decision was erroneous, or vice versa. Results revealed that metacognitive conflict triggers next-trial behavioral adjustments: Participants exhibit significantly lower confidence following metacognitive conflict. Furthermore, this behavioral adjustment was smaller in blocks with a high versus low proportion of metacognitive conflict trials, and confidence was generally reduced in blocks with a high proportion of metacognitive conflict. To better characterize the computational mechanisms underlying this effect, we deployed an evidence accumulation model with additional postdecision accumulation to quantify confidence. Model fits revealed that participants become more conservative in reporting confidence after experiencing metacognitive conflict, as evidenced by biased postdecision starting points. Jointly, our findings provide much-needed insight into the metacognitive consequences of metacognitive conflict. (PsycInfo Database Record (c) 2026 APA, all rights reserved).</div>
+                </div>
+                <a id="journal-psychology-cognitive-psychology"></a><h3 class="journal-header" data-group="psychology-cognitive-psychology">Cognitive Psychology</h3>
+                <div id="paper-10-1016-j-cogpsych-2026-101836" class="paper-item paper" data-field="psychology" data-group="psychology-cognitive-psychology">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">8</span>Time to jump: Exploring the distribution of noise in evidence accumulation as a function of time pressure</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-cogpsych-2026-101836">
+                      <input type="radio" id="star5-paper-10-1016-j-cogpsych-2026-101836" name="rating-paper-10-1016-j-cogpsych-2026-101836" value="5"><label for="star5-paper-10-1016-j-cogpsych-2026-101836">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-cogpsych-2026-101836" name="rating-paper-10-1016-j-cogpsych-2026-101836" value="4"><label for="star4-paper-10-1016-j-cogpsych-2026-101836">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-cogpsych-2026-101836" name="rating-paper-10-1016-j-cogpsych-2026-101836" value="3"><label for="star3-paper-10-1016-j-cogpsych-2026-101836">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-cogpsych-2026-101836" name="rating-paper-10-1016-j-cogpsych-2026-101836" value="2"><label for="star2-paper-10-1016-j-cogpsych-2026-101836">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-cogpsych-2026-101836" name="rating-paper-10-1016-j-cogpsych-2026-101836" value="1"><label for="star1-paper-10-1016-j-cogpsych-2026-101836">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Liss, J., von Krause, M., Elsemüller, L., Hunsmann, E., Lerche, V.</p>
+                  <p class='paper-summary'>The paper extends the diffusion model of binary decision making by investigating a Lévy-flight model that allows heavy-tailed noise in evidence accumulation, testing how time pressure systematically shifts the stability parameter governing jump size across two discrimination tasks with ~500 participants. Using simulation-based Bayesian inference, it shows that stricter deadlines produce more heavy-tailed, near-symmetric RT distributions and that the Lévy-flight model outperforms standard diffusion models even without time pressure.</p>
+                  <p class="paper-meta"><span>2026-11</span><span>Relevance 0.5</span><span><a href='https://doi.org/10.1016/j.cogpsych.2026.101836' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.cogpsych.2026.101836</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>The diffusion model conceptualizes binary decisions as emerging from continuous evidence accumulation with Gaussian noise. The Lévy-flight model (LFM) extends this by allowing accumulation noise to follow a heavier-tailed distribution, enabling sudden, large jumps in evidence accumulation. The heavy-tailedness is governed by the stability parameter α, with smaller α-values indicating more frequent and larger jumps. We demonstrate through simulation that the LFM can generate near-symmetrical response time (RT) distributions typical under strict deadlines. In Study 1, we explored the influence of intense time pressure on α in a letter-number discrimination task, expecting higher time pressure to entail smaller α-values. Participants (N = 341) were assigned to an accuracy (unlimited RT), implicit deadline (feedback discouraging RTs over 500 ms), or explicit deadline condition (timeout at 500 ms). Given the LFM&#39;s intractable likelihood, we used BayesFlow, a framework for simulation-based inference with deep learning. Model comparisons consistently favored the LFM over diffusion model variants-even in the accuracy condition. Importantly, α-values decreased with increasing time pressure and were especially low in the explicit deadline condition, where RT distributions also approached symmetry. Estimating both the LFM and a structurally matched diffusion model, with and without timeout modeling, further showed that accounting for timeout-related RT truncation led to substantially lower diffusion model drift rates, whereas LFM drift rates changed only modestly. Study 2 (N = 160) replicated α&#39;s sensitivity to time pressure in a brightness discrimination task. Overall, α responded systematically to temporal constraints across both tasks and timeout modeling specifications.</div>
+                </div>
+                <a id="journal-psychology-psychonomic-bulletin-review"></a><h3 class="journal-header" data-group="psychology-psychonomic-bulletin-review">Psychonomic Bulletin &amp; Review</h3>
+                <div id="paper-10-3758-s13423-026-03032-0" class="paper-item paper" data-field="psychology" data-group="psychology-psychonomic-bulletin-review">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">9</span>Understanding verbal and numerical probability information and decision making among individuals with and without autism spectrum disorder</h4>
+                    <div class="star-rating" data-paper-id="paper-10-3758-s13423-026-03032-0">
+                      <input type="radio" id="star5-paper-10-3758-s13423-026-03032-0" name="rating-paper-10-3758-s13423-026-03032-0" value="5"><label for="star5-paper-10-3758-s13423-026-03032-0">★</label>
+                      <input type="radio" id="star4-paper-10-3758-s13423-026-03032-0" name="rating-paper-10-3758-s13423-026-03032-0" value="4"><label for="star4-paper-10-3758-s13423-026-03032-0">★</label>
+                      <input type="radio" id="star3-paper-10-3758-s13423-026-03032-0" name="rating-paper-10-3758-s13423-026-03032-0" value="3"><label for="star3-paper-10-3758-s13423-026-03032-0">★</label>
+                      <input type="radio" id="star2-paper-10-3758-s13423-026-03032-0" name="rating-paper-10-3758-s13423-026-03032-0" value="2"><label for="star2-paper-10-3758-s13423-026-03032-0">★</label>
+                      <input type="radio" id="star1-paper-10-3758-s13423-026-03032-0" name="rating-paper-10-3758-s13423-026-03032-0" value="1"><label for="star1-paper-10-3758-s13423-026-03032-0">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Honda, H., Kumazaki, H., Ueda, K.</p>
+                  <p class='paper-summary'>This paper investigates how people with and without autism spectrum disorder understand verbal and numerical probability expressions and how this understanding influences their decision making under uncertainty. It likely explores differences in cognitive representation of probabilities and their downstream effects on choices.</p>
+                  <p class="paper-meta"><span>2026-11</span><span>Relevance 0.46</span><span><a href='https://doi.org/10.3758/s13423-026-03032-0' target='_blank' rel='noopener noreferrer'>doi.org/10.3758/s13423-026-03032-0</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Not available.</div>
+                </div>
+                <a id="journal-psychology-pnas"></a><h3 class="journal-header" data-group="psychology-pnas">PNAS</h3>
+                <div id="paper-10-1073-pnas-2620933123" class="paper-item paper" data-field="psychology" data-group="psychology-pnas">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">10</span>The decision to stop “counting” explains numerical underproduction in primates</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1073-pnas-2620933123">
+                      <input type="radio" id="star5-paper-10-1073-pnas-2620933123" name="rating-paper-10-1073-pnas-2620933123" value="5"><label for="star5-paper-10-1073-pnas-2620933123">★</label>
+                      <input type="radio" id="star4-paper-10-1073-pnas-2620933123" name="rating-paper-10-1073-pnas-2620933123" value="4"><label for="star4-paper-10-1073-pnas-2620933123">★</label>
+                      <input type="radio" id="star3-paper-10-1073-pnas-2620933123" name="rating-paper-10-1073-pnas-2620933123" value="3"><label for="star3-paper-10-1073-pnas-2620933123">★</label>
+                      <input type="radio" id="star2-paper-10-1073-pnas-2620933123" name="rating-paper-10-1073-pnas-2620933123" value="2"><label for="star2-paper-10-1073-pnas-2620933123">★</label>
+                      <input type="radio" id="star1-paper-10-1073-pnas-2620933123" name="rating-paper-10-1073-pnas-2620933123" value="1"><label for="star1-paper-10-1073-pnas-2620933123">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Seidler, L., Jannasch, L., Westendorff, S., Nieder, A.</p>
+                  <p class='paper-summary'>Rhesus macaques trained to produce target numerosities show systematic underproduction and asymmetric reaction times; a stochastic accumulation-to-bound model accounts for both patterns, framing numerical stopping as a sequential decision process.</p>
+                  <p class="paper-meta"><span>2026-11</span><span>Relevance 0.38</span><span><a href='https://doi.org/10.1073/pnas.2620933123' target='_blank' rel='noopener noreferrer'>doi.org/10.1073/pnas.2620933123</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Sequential numerical production requires generating a target number of actions, but the mechanisms governing the termination of counting sequences are unclear. We trained two rhesus macaques to produce instructed numerosities by generating the corresponding number of actions in response to sign numerals or dot arrays. Although action sequences were controlled for temporal parameters, both monkeys performed accurately across both stimulus formats. However, their performance accuracy showed a systematic asymmetry: underproduction occurred more often than overproduction, contrary to predictions from perceptual numerosity judgments governed by Weber–Fechner scaling. This asymmetry was mirrored in reaction times, with longer latencies for underproduced sequences and shorter latencies for overproduced ones. A stochastic accumulation-to-bound model in which a decision variable evolves across counting steps and triggers termination when a threshold is reached can account for both accuracy and reaction-time patterns. These results provide evidence for a sequential stopping process that contributes to numerical production, relating counting behavior to general principles of decision formation.</div>
+                </div>
+                <a id="journal-psychology-psychological-science"></a><h3 class="journal-header" data-group="psychology-psychological-science">Psychological Science</h3>
+                <div id="paper-10-1177-09567976261490829" class="paper-item paper" data-field="psychology" data-group="psychology-psychological-science">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">11</span>The Gambler’s Fallacy Fallacy Fallacy (Commentary on Xiang et al., 2025)</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1177-09567976261490829">
+                      <input type="radio" id="star5-paper-10-1177-09567976261490829" name="rating-paper-10-1177-09567976261490829" value="5"><label for="star5-paper-10-1177-09567976261490829">★</label>
+                      <input type="radio" id="star4-paper-10-1177-09567976261490829" name="rating-paper-10-1177-09567976261490829" value="4"><label for="star4-paper-10-1177-09567976261490829">★</label>
+                      <input type="radio" id="star3-paper-10-1177-09567976261490829" name="rating-paper-10-1177-09567976261490829" value="3"><label for="star3-paper-10-1177-09567976261490829">★</label>
+                      <input type="radio" id="star2-paper-10-1177-09567976261490829" name="rating-paper-10-1177-09567976261490829" value="2"><label for="star2-paper-10-1177-09567976261490829">★</label>
+                      <input type="radio" id="star1-paper-10-1177-09567976261490829" name="rating-paper-10-1177-09567976261490829" value="1"><label for="star1-paper-10-1177-09567976261490829">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Banki, D., Simonsohn, U.</p>
+                  <p class='paper-summary'>This commentary reanalyzes data from Xiang et al. (2025) and argues, contrary to their conclusion, that the gambler&#39;s fallacy does originate in biased probability beliefs, presenting new evidence that at least 80% of gambler&#39;s-fallacy predictions stem from such biases.</p>
+                  <p class="paper-meta"><span>2026-11</span><span>Relevance 0.33</span><span><a href='https://doi.org/10.1177/09567976261490829' target='_blank' rel='noopener noreferrer'>doi.org/10.1177/09567976261490829</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Xiang et al. concluded that the gambler’s fallacy does not originate in biased beliefs. Reanalyzing their data, we arrived at the opposite conclusion. We show, more generally, that their main analysis—examining whether the median belief is biased—is not diagnostic of the presence of the gambler’s fallacy, whereas our test of the share of probability estimates for the streak ending above or below 50% is diagnostic. We also report results from a new study in which at least 80% of gambler’s-fallacy predictions originated in biased beliefs.</div>
+                </div>
+                <a id="field-neuroscience"></a><h2 class="field-header" data-field="neuroscience" style="color:#3d3a78"><span class="rn">III</span><span class="ft">Neuroscience</span><span class="fc">2 papers</span></h2><a id="journal-neuroscience-nature-communications"></a><h3 class="journal-header" data-group="neuroscience-nature-communications">Nature Communications</h3>
+                <div id="paper-10-1038-s41467-026-78945-4" class="paper-item paper" data-field="neuroscience" data-group="neuroscience-nature-communications">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">12</span>Anterior cingulate neurons perform parallel processing of fixated and peripheral information to guide information sampling and choice</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1038-s41467-026-78945-4">
+                      <input type="radio" id="star5-paper-10-1038-s41467-026-78945-4" name="rating-paper-10-1038-s41467-026-78945-4" value="5"><label for="star5-paper-10-1038-s41467-026-78945-4">★</label>
+                      <input type="radio" id="star4-paper-10-1038-s41467-026-78945-4" name="rating-paper-10-1038-s41467-026-78945-4" value="4"><label for="star4-paper-10-1038-s41467-026-78945-4">★</label>
+                      <input type="radio" id="star3-paper-10-1038-s41467-026-78945-4" name="rating-paper-10-1038-s41467-026-78945-4" value="3"><label for="star3-paper-10-1038-s41467-026-78945-4">★</label>
+                      <input type="radio" id="star2-paper-10-1038-s41467-026-78945-4" name="rating-paper-10-1038-s41467-026-78945-4" value="2"><label for="star2-paper-10-1038-s41467-026-78945-4">★</label>
+                      <input type="radio" id="star1-paper-10-1038-s41467-026-78945-4" name="rating-paper-10-1038-s41467-026-78945-4" value="1"><label for="star1-paper-10-1038-s41467-026-78945-4">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Butler, J., Muller, T., Veselic, S., Malalasekera, W., Behrens, T., Hunt, L., Kennerley, S.</p>
+                  <p class='paper-summary'>Using rhesus macaques in a multi-cue decision task, the study shows that ACC neurons encode the value of both fixated and peripherally presented (even never-fixated) cues, guiding where subjects look next and what they ultimately choose, revealing parallel processing of fixated and unfixated information during decision-making.</p>
+                  <p class="paper-meta"><span>2026-11</span><span>Relevance 0.54</span><span><a href='https://doi.org/10.1038/s41467-026-78945-4' target='_blank' rel='noopener noreferrer'>doi.org/10.1038/s41467-026-78945-4</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Abstract We use our eyes to evaluate objects around us. Models of economic choice emphasise the impact of sequential fixation on valuation and choice, with prefrontal and anterior cingulate cortex (ACC) encoding values of fixated items. Yet whether these regions also evaluate non-fixated peripheral information to guide choice remains unknown. Here we show that in a decision-making task involving four simultaneously presented cues, rhesus macaques use peripheral information to guide information sampling and choice, and that ACC neurons encode this peripheral information. This served two distinct purposes: subjects were more likely to fixate valuable peripheral cues, and more likely to choose valuable options whose cues were never even fixated. ACC, orbitofrontal cortex, dorsolateral prefrontal cortex, and ventromedial prefrontal cortex neurons all encoded cue value as they were fixated. ACC was unique, however, in also conducting parallel processing of peripheral cues, including cues never fixated, to guide information sampling and choice.</div>
+                </div>
+                <a id="journal-neuroscience-trends-in-cognitive-sciences"></a><h3 class="journal-header" data-group="neuroscience-trends-in-cognitive-sciences">Trends in Cognitive Sciences</h3>
+                <div id="paper-10-1016-j-tics-2026-10-005" class="paper-item paper" data-field="neuroscience" data-group="neuroscience-trends-in-cognitive-sciences">
+                  <div class="paper-head">
+                    <h4 class="paper-title"><span class="pn">13</span>Consumer neuroscience: the emerging science of everyday choices</h4>
+                    <div class="star-rating" data-paper-id="paper-10-1016-j-tics-2026-10-005">
+                      <input type="radio" id="star5-paper-10-1016-j-tics-2026-10-005" name="rating-paper-10-1016-j-tics-2026-10-005" value="5"><label for="star5-paper-10-1016-j-tics-2026-10-005">★</label>
+                      <input type="radio" id="star4-paper-10-1016-j-tics-2026-10-005" name="rating-paper-10-1016-j-tics-2026-10-005" value="4"><label for="star4-paper-10-1016-j-tics-2026-10-005">★</label>
+                      <input type="radio" id="star3-paper-10-1016-j-tics-2026-10-005" name="rating-paper-10-1016-j-tics-2026-10-005" value="3"><label for="star3-paper-10-1016-j-tics-2026-10-005">★</label>
+                      <input type="radio" id="star2-paper-10-1016-j-tics-2026-10-005" name="rating-paper-10-1016-j-tics-2026-10-005" value="2"><label for="star2-paper-10-1016-j-tics-2026-10-005">★</label>
+                      <input type="radio" id="star1-paper-10-1016-j-tics-2026-10-005" name="rating-paper-10-1016-j-tics-2026-10-005" value="1"><label for="star1-paper-10-1016-j-tics-2026-10-005">★</label>
+                    </div>
+                  </div>
+                  <p class="paper-authors">Plassmann, H., Karmarkar, U., Venkatraman, V.</p>
+                  <p class='paper-summary'>This review paper surveys the field of consumer neuroscience, covering methods, formal models, and multidataset approaches that link neural and physiological processes to consumer choice and decision-making behavior. It highlights trends in behavioral prediction, brain-body integration, and formal computational modeling relevant to everyday decisions.</p>
+                  <p class="paper-meta"><span>2026-11</span><span>Relevance 0.51</span><span><a href='https://doi.org/10.1016/j.tics.2026.10.005' target='_blank' rel='noopener noreferrer'>doi.org/10.1016/j.tics.2026.10.005</a></span></p>
+                  <div class="paper-abstract"><span class="lbl">Abstract</span>Consumer neuroscience is a developing field at the intersection of neuroscience, psychology, economics, and marketing that seeks to uncover the neural and physiological mechanisms underlying consumer behavior. Building on early psychophysiological studies, the field has expanded substantially since the mid-2000s through an increasing range of methods and models. We highlight that its strength lies in spanning multiple levels of analysis to address marketing-relevant questions. We highlight four major trends driving the field: improving behavioral prediction, synthesizing evidence through multidataset analyses, developing formal models linking neural processes to consumer decision-making, and integrating brain and body measures. Together, these advances position consumer neuroscience as an integrative science with implications for marketing, policy, and consumer welfare.</div>
+                </div>
+                
+      </div>
+      <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+      <script>
+        let isFilterActive = false;
+
+        // Only show admin controls and allow editing if running locally (file://)
+        if (window.location.protocol === 'file:') {
+          document.getElementById('admin-ui').style.display = 'block';
+        } else {
+          // Disable all radio buttons if not local
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.disabled = true;
+          });
+          // Add a style to make the stars non-interactive
+          const style = document.createElement('style');
+          style.innerHTML = '.star-rating { pointer-events: none; }';
+          document.head.appendChild(style);
+        }
+
+        function toggleTopPicks() {
+          isFilterActive = !isFilterActive;
+          const btn = document.getElementById('filter-btn');
+          const papers = document.querySelectorAll('.paper-item');
+          const journalHeaders = document.querySelectorAll('.journal-header');
+          const fieldHeaders = document.querySelectorAll('.field-header');
+
+          if (isFilterActive) {
+            btn.style.background = '#0b4a6f';
+            btn.style.color = '#ffffff';
+            btn.style.borderColor = '#0b4a6f';
+            btn.innerHTML = '★ Showing top picks (4★+)';
+
+            // Show/hide papers by rating.
+            papers.forEach(paper => {
+              const rating = paper.querySelector('input[type="radio"]:checked')?.value || 0;
+              paper.style.display = parseInt(rating) >= 4 ? 'block' : 'none';
+            });
+
+            // Hide journal sub-headers whose papers are all filtered out.
+            journalHeaders.forEach(header => {
+              const group = header.getAttribute('data-group');
+              const groupPapers = document.querySelectorAll(`.paper-item[data-group="${group}"]`);
+              const anyVisible = Array.from(groupPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+
+            // Hide field headers whose whole section is filtered out.
+            fieldHeaders.forEach(header => {
+              const field = header.getAttribute('data-field');
+              const fieldPapers = document.querySelectorAll(`.paper-item[data-field="${field}"]`);
+              const anyVisible = Array.from(fieldPapers).some(p => p.style.display !== 'none');
+              header.style.display = anyVisible ? 'block' : 'none';
+            });
+          } else {
+            btn.style.background = 'transparent';
+            btn.style.color = '#4c525a';
+            btn.style.borderColor = '#cfc8b9';
+            btn.innerHTML = '★ Show top picks (4★+)';
+
+            papers.forEach(p => p.style.display = 'block');
+            journalHeaders.forEach(h => h.style.display = 'block');
+            fieldHeaders.forEach(h => h.style.display = 'block');
+          }
+        }
+
+        function savePage() {
+          // Reset filter before saving so all papers are visible in the source
+          if (isFilterActive) toggleTopPicks();
+
+          // Remove the Save button and admin UI from the saved HTML
+          const adminUI = document.getElementById('admin-ui');
+          adminUI.style.display = 'none';
+          
+          // Update the checked attribute of radio buttons based on their current state
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            if (radio.checked) {
+              radio.setAttribute('checked', 'checked');
+            } else {
+              radio.removeAttribute('checked');
+            }
+          });
+
+          const htmlContent = document.documentElement.outerHTML;
+          const blob = new Blob([htmlContent], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = window.location.pathname.split('/').pop() || 'digest.html';
+          a.click();
+          
+          // Show admin UI again
+          adminUI.style.display = 'block';
+        }
+      </script>
+    </body>
+    </html>
+    
